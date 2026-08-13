@@ -23,7 +23,7 @@ import markdown  # available on this machine; used only for issues 1-3 (md sourc
 
 SRC = os.path.expanduser("~/Code/signal-noise/projects/newsletter")
 OUT = os.path.dirname(os.path.abspath(__file__))
-BASE_URL = "https://scipher888.github.io/signal-noise-web"  # flip to https://www.signalandnoise.email at CNAME cutover
+BASE_URL = "https://www.signalandnoise.email"  # flipped at CNAME cutover 2026-08-12
 AUDIT_BASE = "https://scipher888.github.io/signal-noise-audit-snapshot/issues"
 
 # slug -> (issue_no|None for companions, source path relative to SRC, date, date_precision)
