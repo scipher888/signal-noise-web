@@ -1,0 +1,87 @@
+/* Signal & Noise — essay site (Night family). Reader-first: one column,
+   book serif, generous measure. No badges, no seals. */
+:root {
+  --paper: #f7f4eb;
+  --paper-bright: #fffdf8;
+  --ink: #10283a;
+  --ink-soft: #294455;
+  --muted: #66757b;
+  --line: rgba(16, 40, 58, 0.14);
+  --navy: #0e2738;
+  --sun: #f3ca79;
+  --serif: "Iowan Old Style", Palatino, Georgia, serif;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+}
+* { box-sizing: border-box; }
+html { background: var(--paper); }
+body {
+  margin: 0 auto;
+  max-width: 680px;
+  padding: 0 1.25rem;
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 1.125rem;
+  line-height: 1.65;
+}
+a { color: var(--ink); text-decoration-color: rgba(16, 40, 58, 0.4); }
+a:hover { text-decoration-color: var(--sun); }
+
+.site-head {
+  display: flex; justify-content: space-between; align-items: baseline;
+  gap: 1rem; flex-wrap: wrap;
+  padding: 1.5rem 0 1.1rem; border-bottom: 1px solid var(--line);
+  margin-bottom: 2.2rem;
+}
+.masthead { font-weight: 700; font-size: 1.15rem; text-decoration: none; letter-spacing: 0.01em; }
+.site-head nav a { font-family: var(--sans); font-size: 0.88rem; color: var(--muted); text-decoration: none; margin-left: 1.1rem; }
+.site-head nav a:hover { color: var(--ink); }
+
+h1 { font-size: 2rem; line-height: 1.2; margin: 0.2rem 0 0.9rem; }
+h2 { font-size: 1.35rem; line-height: 1.3; margin: 2rem 0 0.7rem; }
+.kicker {
+  font-family: var(--sans); font-size: 0.8rem; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--muted); margin: 0 0 0.4rem;
+}
+.dek, .dek em { color: var(--ink-soft); }
+.dek { font-size: 1.15rem; margin: 0 0 1.4rem; }
+
+article img { max-width: 100%; height: auto; }
+article hr { border: none; border-top: 1px solid var(--line); margin: 2rem 0; }
+article blockquote {
+  margin: 1.4rem 0; padding: 0.1rem 1.2rem;
+  border-left: 3px solid var(--sun); color: var(--ink-soft);
+  background: var(--paper-bright);
+}
+article table { border-collapse: collapse; width: 100%; font-size: 0.95em; }
+article th, article td { border: 1px solid var(--line); padding: 0.5rem 0.65rem; text-align: left; vertical-align: top; }
+article pre { overflow-x: auto; background: var(--paper-bright); padding: 0.8rem 1rem; border: 1px solid var(--line); border-radius: 8px; font-size: 0.85em; }
+
+.audit-link {
+  margin: 2.4rem 0 0; padding: 1rem 1.2rem;
+  border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+  font-family: var(--sans); font-size: 0.92rem; color: var(--ink-soft);
+}
+.audit-link p { margin: 0; }
+
+.hero { margin-bottom: 2.4rem; }
+.hero h1 { font-size: 2.4rem; }
+.tagline { font-style: italic; color: var(--ink-soft); font-size: 1.2rem; margin: 0 0 1rem; }
+.latest { border: 1px solid var(--line); border-radius: 12px; background: var(--paper-bright); padding: 1.4rem 1.5rem; margin-bottom: 2rem; }
+.latest h2 { margin: 0.2rem 0 0.6rem; font-size: 1.5rem; }
+.latest h2 a { text-decoration: none; }
+.latest h2 a:hover { text-decoration: underline; }
+.recent h2 { font-size: 1.1rem; color: var(--muted); font-family: var(--sans); text-transform: uppercase; letter-spacing: 0.06em; }
+
+.row { margin: 0 0 1.05rem; }
+.row a { font-weight: 600; text-decoration: none; }
+.row a:hover { text-decoration: underline; }
+.row .meta { font-family: var(--sans); font-size: 0.8rem; color: var(--muted); margin-left: 0.5rem; white-space: nowrap; }
+.row .line { display: block; color: var(--ink-soft); font-size: 0.98rem; }
+.intro { color: var(--ink-soft); margin-bottom: 1.8rem; }
+
+.site-foot {
+  margin-top: 3rem; padding: 1.4rem 0 3rem; border-top: 1px solid var(--line);
+  font-family: var(--sans); font-size: 0.85rem; color: var(--muted);
+}
+.site-foot a { color: var(--muted); }
+.site-foot a:hover { color: var(--ink); }

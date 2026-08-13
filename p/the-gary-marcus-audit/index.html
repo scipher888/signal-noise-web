@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Gary Marcus Audit — Signal &amp; Noise</title>
+  <meta name="description" content="An adversarial test of the critic I want to dismiss">
+  <link rel="stylesheet" href="../../styles.css">
+  <link rel="alternate" type="application/rss+xml" title="Signal &amp; Noise" href="../../feed.xml">
+  <link rel="icon" href="../../assets/mark.svg">
+</head>
+<body>
+<header class="site-head">
+  <a class="masthead" href="../../">Signal &amp; Noise</a>
+  <nav><a href="../../archive/">Archive</a> <a href="../../about/">About</a></nav>
+</header>
+<main>
+<article>
+<p class="kicker">Issue 16 · June 2026</p>
+<h1>The Gary Marcus Audit</h1>
+<p class="dek"><em>An adversarial test of the critic I want to dismiss</em></p>
+<p>I want Gary Marcus to be wrong.</p>
+<p>That is not the same as knowing that he is.</p>
+<p>The easy dismissal fails quickly. Marcus is not simply anti-AI. He grants practical usefulness in some contexts while disputing the conversion of usefulness into reliability, understanding, or AGI. He argues for different AI, not no AI, and often for more machinery around current AI rather than for pure abstinence.</p>
+<p>His objection is specific enough to survive my irritation: current LLM-centered systems can be genuinely useful while remaining unreliable in ways that matter. Companies and commentators can start acting as if "capable and helpful" means "trustworthy enough for authority, access, and institutional dependence."</p>
+<p>The question here is which claims survive after I subtract irritation, tribe, and politics.</p>
+<p>The provocation is not imaginary. Marcus has used the headline <a href="https://garymarcus.substack.com/p/turns-out-generative-ai-was-a-scam">"Generative AI was a scam"</a>, then qualified the literal fraud claim in the body. On X, he called Meta's AI direction a <a href="https://x.com/i/status/2067375496346894404">"data-labeling sweatshop"</a> (<a href="https://digg.com/tech/8q0cdf6t">mirror/context</a>). In a post about Yann LeCun and AI-bubble warnings, he used "sociopathic" and later added that "the only constant is his ego" (<a href="https://x.com/i/status/2067592852587401567">direct X lead</a>; <a href="https://digg.com/tech/asb9i8no">mirror/context</a>).</p>
+<p>Those examples matter because they explain why this reader sometimes experiences his style as jarring. Depending on your politics and where you stand in the AI debate, they might sound bracing and vindicating, or petty, unfair, and exhausting.</p>
+<p>They do not settle the technical claims.</p>
+<p>They also do not measure his overall influence.</p>
+<p>That is the point.</p>
+<p>The more serious hypothesis is not that Marcus is wrong because he is irritating. It is that he may be technically right about important failure modes, yet still fail to change the minds of readers already committed to the technology. Builders, adopters, investors, product leaders, and AI-adjacent readers have often moved from "Should we use this?" to "How far can this go?"</p>
+<p>That is a reception hypothesis, not a measured cultural fact.</p>
+<p>One part of the current context is adoption.</p>
+<p>These tools are plainly useful in many contexts. People and organizations use them to draft, code, summarize, translate, search, plan, explain, automate, and avoid blank pages. The question of use moved faster than the question of trust.</p>
+<p>Before adoption became routine, warnings about those failure modes could sound to some readers like: do not use these tools because they are too flawed.</p>
+<p>Now that many people and organizations already use them every day, the same warning lands differently.</p>
+<p>Not: do not use this.</p>
+<p>But: do not confuse this with trust.</p>
+<p>The second warning can remain live after the first decision has been made.</p>
+<p>This is where the design of the system starts to matter.</p>
+<p>Marcus often argues that expecting today's large language models to turn into AGI is a basic mistake. He says current systems are broad but shallow. They sound smooth and confident, yet they remain unreliable at sticking to the truth, applying what they know to new situations, and catching their own errors.</p>
+<p>But "LLMs will become AGI" blends together several different claims.</p>
+<p>One claim is about improving the language models themselves. Make the model bigger. Train it on better data, including data made by other AI systems. Use reinforcement learning. Let the model spend more compute while answering. The model may get more capable, but the story still centers on the core model: how it is trained, how it answers, and how it is tested.</p>
+<p>A second claim is about adding things around the model. Give it search, code execution, calculators, databases, fact-checkers, outside memory, safety layers, and loops where the model decides what to do next. The overall system can now do things a plain chatbot cannot. But much of the added ability may come from the extra parts doing real work, not from the model becoming deeply intelligent on its own. If the system needs accurate math, it may call a calculator. If it needs to run code, it may call a code interpreter. An "agent" is often this kind of setup: a model repeatedly choosing and using tools. It is a deployment pattern, not a new theory of intelligence.</p>
+<p>A third claim is about building AI with a genuinely different structure. This is closer to what Marcus usually has in mind. These approaches combine neural networks, which are good at pattern recognition, with more explicit forms of reasoning: rules, logical steps, planning, search, verification, or ordinary computer programs. Some try to build world models, internal representations of how reality changes, so the system can predict consequences and plan accordingly. These are not just bigger, smoother chatbots. They try to make reasoning less dependent on fluent text generation alone.</p>
+<p>Once those ideas are separated, the argument shifts.</p>
+<p>Marcus's target gets narrower. Major labs do not publicly describe their strategy as bare pretraining scale alone. They combine LLM-centered training and inference improvements with tools, verification, multimodality, robotics, orchestration, and safety work, even as some leaders retain strong confidence in scaling-driven gains.</p>
+<p>From public descriptions, OpenAI's reasoning work remains largely LLM-centered. DeepMind's robotics combines foundation models with embodied action. LeCun's world-model program is a clearer architectural departure. Those are outside classifications, not accounts of proprietary internals.</p>
+<p>The sharper Marcus claim is not that labs have done nothing beyond scaling. It is that confidence in LLM-centered systems may still outrun demonstrated reliability, grounding, security, and governance.</p>
+<p>The distinction matters because labels like "agent," "reasoning," "tools," and "multimodal" can sound more explanatory than they are. An agent can simply be an LLM in a loop. A tool-using system can still be unreliable at deciding when to use the tool. A reasoning model can spend more compute and still produce confident falsehoods. A multimodal model can process images and text without developing a stable understanding of cause, consequence, and truth.</p>
+<p>The real question is not whether AI labs have moved past simple 2022-style chatbots. They have.</p>
+<p>The real question is whether we can safely work around the problems that still exist. In some areas, a workaround can be good enough if it is stable, easy to check, and limited in scope. The hard part is figuring out which domains actually give us those limits.</p>
+<p>Coding is one of the easier cases. An AI can write code, and the normal software environment can compile it, run tests, check it with a linter, and show stack traces when something breaks. Those are fast, concrete signals that something went wrong. They do not guarantee the code is correct or secure, but they catch a lot of mistakes quickly and clearly.</p>
+<p>Most fields do not have feedback that clean.</p>
+<p>Medicine, law, education, management, security, government work, and personal advice are different. Many of their biggest mistakes show up late, depend heavily on context, involve other people, or stay hidden. The world also keeps changing. A policy shifts. A patient develops new symptoms. A legal precedent changes. Yesterday's facts become stale. A model can still sound fluent and confident while the situation it was describing has already moved.</p>
+<p>In those areas, strong benchmark performance is related to real capability, but it is not the same thing as dependable judgment. A model can perform impressively across many tests and still fail in exactly the kind of situation where a person or institution might be tempted to trust it.</p>
+<p>This tension shows up in the recent dispute between Anthropic and the U.S. government over Fable 5 and Mythos 5.</p>
+<p>Anthropic described those models as especially strong at long-term planning, coding, science, visual tasks, and memory. On June 12, Anthropic said a U.S. export-control directive forced the company to disable access to both models. Anthropic pushed back, saying the government had not given a clear technical reason and that the issue was narrow enough to be handled with ordinary defense-in-depth safety practices. Axios reported a government-side account involving a jailbreak report and subsequent testing. The complete technical record is not public, so outsiders cannot fully judge who is right.</p>
+<p>That creates two pressures at once.</p>
+<p>On the capability side, the models' public capability claims and the government's response put pressure on blanket claims that frontier systems are trivial or strategically unimportant. Neither validates the strongest claims or reveals how much performance came from the core model rather than tools, memory, specialized environments, or human oversight.</p>
+<p>On the governance side, the dispute shows how quickly strong capability claims can run into disagreements about safeguards, access, evidence, and acceptable residual risk.</p>
+<p>Anthropic did not argue that the models were perfectly reliable. It argued that no current AI is fully immune to jailbreaks, that multiple layers of protection are the realistic standard, and that the specific behavior identified was not unique to its models. Its position was essentially: this risk exists across many systems, our safeguards are relatively strong, and the government's response was too broad.</p>
+<p>That is the core tension.</p>
+<p>A system can be treated as consequential enough to raise national-security concern while still not being secure, governed, or dependable enough for high-trust institutional use. In cybersecurity, even an inconsistent system can be dangerous because attackers can keep trying, ignore failures, and chain partial successes. In medicine, law, finance, government, or education, the tolerance for hidden error is much lower.</p>
+<p>So the reliability concern has not gone away. It has changed.</p>
+<p>A blanket "the models are too dumb to matter" dismissal now looks less adequate. The sharper concern is that a system can create real leverage while remaining too unreliable or insecure for the authority people want to give it.</p>
+<p>That is a stronger version of Marcus than the one I wanted to dismiss.</p>
+<p>It is also harder for Marcus's own position to carry.</p>
+<p>Marcus has supplied meaningful AGI criteria: flexibility, generality, resourcefulness, depth, reliability, and the ability to generalize and check answers. If "LLMs are not the path to AGI" means "scaling alone will not solve reliability, grounding, and generalization," the claim is serious and increasingly specific.</p>
+<p>If it means "no system built around current LLM-style approaches can ever reach transformative general capability," a hard low ceiling, it needs clearer update conditions.</p>
+<p>By update conditions, I mean something simple: tell me what the world would have to look like in two to five years for you to change your mind. If you cannot or will not specify that, your position becomes less useful as a guide to reality.</p>
+<p>What sustained real-world performance would count against that ceiling? What kind of reliability outside benchmarks would matter? When does a successful system that combines models, tools, verification, and human oversight count as support for the current path, and when does it count as the hybrid approach critics expected all along?</p>
+<p>Those are not trick questions. They are the questions a useful critique has to keep answering as the technology changes.</p>
+<p>So where does the audit land?</p>
+<p>Not with endorsement.</p>
+<p>I still do not want Marcus as my oracle for AI. His rhetoric often makes this reader do avoidable cleanup.</p>
+<p>Part of that is the "confirms what he already knew" problem. New failures can arrive in Marcus's writing less like fresh evidence to be examined and more like vindication of a story already in place. The tone can carry an implicit "I told you so." The analysis can feel like scorekeeping rather than inquiry. That does not make the underlying critique wrong, but it gives opponents an easy way to dismiss it as preloaded.</p>
+<p>There is another complication. Provocation may also be part of the strategy. On X, sharper language may travel farther than careful, constrained technical criticism. It can engage supporters, irritate opponents, and turn even people who want Marcus to be wrong into distributors of his claims. What lands to me as a persuasion defect may also function as a distribution engine.</p>
+<p>That leaves an awkward split verdict.</p>
+<p>Some of Marcus's claims are substantive. Current AI can be useful and still unreliable; agents make those failures more consequential; serious AI risk does not require AGI; and Marcus has a longstanding hybrid-AI alternative behind his criticism.</p>
+<p>But some of his position remains on shakier ground.</p>
+<p>His public criteria do not yet give me a clear rule for how he would update if future mixed systems succeed. That leaves room, fairly or unfairly, for the goalposts to keep moving. His rhetorical style can make new evidence sound like confirmation of what he already knew. And his ability to change the minds of readers already committed to the technology remains an unmeasured reception question.</p>
+<p>My own conclusion is narrower than endorsement.</p>
+<p>Usefulness has been overconverted into reliability in some public and product rhetoric. In other words: people are acting as if "this AI is capable and helpful" means "this AI is trustworthy enough to receive real authority and access." That conversion is not justified by usefulness alone.</p>
+<p>Agents make reliability failures matter more because the system can act. Serious AI risk does not require superintelligence. Powerful but unreliable AI with access can create institutional harm before anything like settled AGI arrives.</p>
+<p>Marcus is on shakier ground when the claim becomes that hard low ceiling. The public capability claims and the dispute make it harder to state casually, even though they do not validate the claims, reveal the architecture, or settle the question.</p>
+<p>But that does not collapse the governance critique. It clarifies it.</p>
+<p>A warning can be live even if its messenger is jarring. A technology can be useful, powerful, and institutionally consequential before its reliability and governance are mature. A culture can accept a tool before it understands the risk it is accepting.</p>
+<p>The difficulty is holding the full tension without letting one part collapse into the other. Preventing that collapse requires actively stress-testing our own conclusions. Self-critique sounds simple:</p>
+<p>Write the sentence you want to be true, then name what would embarrass your view if it were real. In practice, motivated reasoning feels like discernment while it is happening.</p>
+<p>An AI-assisted adversarial critique can help because it can be made to work against preference. Its objections are not evidence; the model can invent, flatten, and misread, and its output still has to be checked against the record. The value is narrower: it can expose a missing distinction or convenient certainty and make avoidance harder.</p>
+<p>I began with a wish: I want Gary Marcus to be wrong.</p>
+<p>The audit gives me something less convenient.</p>
+<p>Marcus may fail to change the minds of readers already committed to the technology.</p>
+<p>His claims may be weakest where his public criteria do not clearly say what would count against him.</p>
+<p>His rhetoric can be hard to distinguish from confirming what he already knew.</p>
+<p>And he may still be right about enough that dismissing him says more about my filters than his claims.</p>
+<p>There is an inescapable irony here. While part of me would love to watch his ideas fade into irrelevance, the very act of writing this piece helps spread them. If provocation is Marcus's strategy, it appears more effective than I would like to admit.</p>
+<hr />
+<p><em>What this is: Field Notes testing an irritating but potentially useful AI critic against primary-source claims, public architecture descriptions, and a dated governance dispute. It is not a Gary Marcus profile, a proprietary architecture analysis, policy advice, investment advice, or proof that an editorial process makes the conclusions true.</em></p>
+<p><em>Review date: June 20, 2026. The Fable/Mythos access dispute and company descriptions are time-sensitive.</em></p>
+<p><em>Confidence: Medium on the Marcus claim map; medium on the public-source architecture taxonomy; low on proprietary internals and the government's complete technical rationale; medium-low on Marcus's ability to change minds among adoption-entangled readers, which remains an unmeasured reception hypothesis.</em></p>
+<p><em>What would change this view over the next 12-24 months: sustained, inspectable evidence that LLM-centered systems operate reliably in changing high-trust contexts; clearer evidence about how Marcus would update his low-ceiling claim when mixed systems succeed; or measured evidence that his warnings materially alter, or fail to alter, deployment and governance decisions.</em></p>
+<p><em>Process transparency: AI tools assisted with drafting and adversarial critique. The human author selected the frame, checked the sources, made the judgments, and owns the published claims and errors. Process review is not evidence that the claims are true.</em></p>
+<hr />
+<p><strong>Sources and anchors</strong></p>
+<p><strong>Marcus's positions</strong></p>
+<ul>
+<li>Gary Marcus, <a href="https://garymarcus.substack.com/p/agi-versus-broad-shallow-intelligence">"AGI versus 'broad, shallow intelligence'"</a>: AGI criteria, broad/shallow capability, reliability, generalization.</li>
+<li>Gary Marcus, <a href="https://garymarcus.substack.com/p/why-do-large-language-models-hallucinate">"Why DO large language models hallucinate?"</a>: hallucination, factuality, statistical learning, world-model criticism.</li>
+<li>Gary Marcus, <a href="https://garymarcus.substack.com/p/ai-agents-have-so-far-mostly-been">"AI Agents have, so far, mostly been a dud"</a>: agent reliability concerns.</li>
+<li>Gary Marcus, <a href="https://garymarcus.substack.com/p/ai-risk-agi-risk">"AI risk != AGI risk"</a>: near-term AI risk distinguished from AGI and superintelligence.</li>
+<li>Marcus, Davis et al., <a href="https://arxiv.org/abs/2002.06177">"The Next Decade in AI"</a>: hybrid, knowledge- and reasoning-based alternatives.</li>
+<li>Gary Marcus, <a href="https://garymarcus.substack.com/p/turns-out-generative-ai-was-a-scam">"Turns out Generative AI was a scam"</a>: useful-context concession plus overhype/reliability critique.</li>
+</ul>
+<p><strong>Current public architecture framing</strong></p>
+<ul>
+<li>OpenAI, <a href="https://openai.com/index/learning-to-reason-with-llms/">"Learning to reason with LLMs"</a>: reinforcement learning and train/test-time compute as LLM-centered reasoning work.</li>
+<li>OpenAI, <a href="https://openai.com/index/introducing-gpt-5-5/">"Introducing GPT-5.5"</a>: current tool use, agentic execution, multimodality, and test-time-computation framing.</li>
+<li>Anthropic, <a href="https://www.anthropic.com/research/measuring-agent-autonomy">"Measuring agent autonomy"</a>: agents as tool-using loops and autonomy as a deployment property.</li>
+<li>Google DeepMind, <a href="https://deepmind.google/blog/gemini-robotics-15-brings-ai-agents-into-the-physical-world/">"Gemini Robotics 1.5 brings AI agents into the physical world"</a>: embodied vision-language and vision-language-action systems built on a Gemini core.</li>
+<li>Meta, <a href="https://ai.meta.com/blog/v-jepa-2-world-model-benchmarks/">"V-JEPA 2"</a> and Reuters on <a href="https://www.reuters.com/business/ex-meta-ai-chief-yann-lecuns-ami-raises-103-billion-alternative-ai-approach-2026-03-10/">LeCun / AMI</a>: the distinct world-model bet and its current institutional home.</li>
+<li>Meta, <a href="https://about.fb.com/news/2026/04/introducing-muse-spark-meta-superintelligence-labs-first-model-built-to-prioritize-people/">"Muse Spark"</a>: Meta's current LLM-scaling and subagent framing.</li>
+<li>Dario Amodei, <a href="https://darioamodei.com/post/policy-on-the-ai-exponential">"Policy on the AI Exponential"</a>: continuing strong scaling-law confidence.</li>
+</ul>
+<p><strong>Fable/Mythos</strong></p>
+<ul>
+<li>Anthropic, <a href="https://www.anthropic.com/news/claude-fable-5-mythos-5?lang=us">"Claude Fable 5 and Claude Mythos 5"</a>: Anthropic's own capability and safeguard claims.</li>
+<li>Anthropic, <a href="https://www.anthropic.com/news/fable-mythos-access">"Statement on the US government directive to suspend access to Fable 5 and Mythos 5"</a>: Anthropic's account of the directive and defense-in-depth argument.</li>
+<li>Axios, <a href="https://www.axios.com/2026/06/12/anthropic-trump-mythos-fable-national-security">June 12</a> and <a href="https://www.axios.com/2026/06/19/trump-anthropic-national-security-the-axios-show">June 19</a>: government-side context and the continuing dispute.</li>
+</ul>
+<p><strong>Rhetoric examples</strong></p>
+<ul>
+<li>Marcus's <a href="https://garymarcus.substack.com/p/turns-out-generative-ai-was-a-scam">"Generative AI was a scam"</a> headline/body contrast.</li>
+<li>Meta "data-labeling sweatshop" direct X lead (<code>https://x.com/i/status/2067375496346894404</code>) plus <a href="https://digg.com/tech/8q0cdf6t">mirror/context</a>.</li>
+<li>LeCun "sociopathic" / "ego" direct X lead (<code>https://x.com/i/status/2067592852587401567</code>) plus <a href="https://digg.com/tech/asb9i8no">mirror/context</a>.</li>
+</ul>
+<p><strong>Source limitations</strong></p>
+<ul>
+<li>Public material does not reveal complete proprietary architecture. The taxonomy is an editorial synthesis of disclosed system features.</li>
+<li>Anthropic and government-side accounts do not provide a complete public technical record.</li>
+<li>X is unstable as a reference surface. Mirrors are included for inspectability, not as stronger evidence than original posts.</li>
+<li>Marcus's ability to change minds among adoption-entangled readers remains a reception hypothesis, not an empirical measurement.</li>
+</ul>
+
+<aside class="audit-link"><p>The published record of what checking found for this piece — objections, changes, and what could not be checked — is in <a href="https://scipher888.github.io/signal-noise-audit-snapshot/issues/issue-016/">The World Behind the Words</a>.</p></aside>
+</article>
+</main>
+<footer class="site-foot">
+  <p>Signal &amp; Noise is written under the pen name Synthia Cipher. AI tools draft and critique; the human author owns the editorial judgment, final wording, published claims, and errors.</p>
+  <p><a href="../../">Home</a> · <a href="../../archive/">Archive</a> · <a href="../../about/">About</a> · <a href="../../feed.xml">RSS</a> · <a href="https://scipher888.github.io/signal-noise-audit-snapshot/world/">The World Behind the Words</a></p>
+</footer>
+</body>
+</html>

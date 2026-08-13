@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>When Right Most of the Time Makes Wrong Harder to Catch — Signal &amp; Noise</title>
+  <meta name="description" content="Clinical AI may improve safety and still create a harder question: can humans catch the rare wrong answer when the system is usually right?">
+  <link rel="stylesheet" href="../../styles.css">
+  <link rel="alternate" type="application/rss+xml" title="Signal &amp; Noise" href="../../feed.xml">
+  <link rel="icon" href="../../assets/mark.svg">
+</head>
+<body>
+<header class="site-head">
+  <a class="masthead" href="../../">Signal &amp; Noise</a>
+  <nav><a href="../../archive/">Archive</a> <a href="../../about/">About</a></nav>
+</header>
+<main>
+<article>
+<p class="kicker">Issue 9 · 2026</p>
+<h1>When Right Most of the Time Makes Wrong Harder to Catch</h1>
+<p class="dek"><em>Clinical AI may improve safety and still create a harder question: can humans catch the rare wrong answer when the system is usually right?</em></p>
+<p>ECRI, a nonprofit patient-safety and healthcare-research organization originally founded as the Emergency Care Research Institute, <a href="https://home.ecri.org/blogs/ecri-thought-leadership-resources/top-10-patient-safety-concerns-2026">ranked “navigating the AI diagnostic dilemma” as the top patient-safety concern for 2026</a>.</p>
+<p>The obvious reading is that AI sometimes gets things wrong. True enough. Also too easy. Model error is the familiar part of the problem. In bounded clinical tasks, it can often be tested, benchmarked, calibrated, audited, and argued about in numbers.</p>
+<p>The harder reading is that high accuracy changes the human role. Once a system is right most of the time, the clinician becomes less of the primary reasoner on every case and more of a rare-failure detector. That is a different job. It is also a job most hospitals have not built training or measurement systems around.</p>
+<p>A <a href="https://pubmed.ncbi.nlm.nih.gov/39761454/">2025 Health Affairs study</a> using 2023 American Hospital Association survey data found that roughly 65% of U.S. hospitals were using predictive models, while only 61% of those hospitals evaluated their accuracy locally. Newer <a href="https://www.ncbi.nlm.nih.gov/books/NBK618497/">federal survey data</a> suggest evaluation is improving, but mostly around model accuracy and bias, not whether clinicians can still catch the rare AI-wrong case. In clinician-AI interaction studies, there is another small, ugly signal: under contradicting AI guidance, clinicians sometimes abandon their own correct judgment. In one <a href="https://arxiv.org/abs/2411.00998">computational pathology experiment</a>, initially correct evaluations were overturned by erroneous AI advice at roughly a seven-percent automation-bias rate.</p>
+<p>That number should not be asked to prove too much. It measures acute deference under study conditions, not long-term clinical deskilling. It may also reflect more than cognition. A clinician who goes with the machine may be protecting against liability, hierarchy, workflow friction, or the simple institutional fact that disagreeing with a system creates a record someone later has to defend.</p>
+<p>Still, the signal matters because it sharpens the real question: when AI becomes the routine reasoner, does the human catch layer remain useful, measurable, and trained?</p>
+<p>The important subset is not every model error. It is model-wrong, human-catchable cases — cases where a trained clinician, second reader, discrepancy review, or structured challenge would have caught the miss. If AI reduces the number of hard examples clinicians see, reduces corrective feedback, and turns disagreement into a rare event, that subset becomes the one to watch.</p>
+<p>Say a tool is right 95% of the time. That may be an enormous patient-safety gain. It may catch routine misses, reduce variation, and help clinicians who were already overloaded. If the residual five percent consists mostly of cases humans were also bad at catching, the atrophy claim gets narrower. We should not romanticize a human safety net that may have been thin before the tool arrived.</p>
+<p>Low-failure work creates a training problem. Anesthesiologists, pilots, and nuclear-plant operators all work in settings where the rare failure is exactly the one that matters. Those fields built deliberate vigilance infrastructure — drills, simulators, handoffs, and near-miss reviews — because “the human can always step in” is not a capability. It is a capability only if it is practiced.</p>
+<p>The analogy should stay modest. Clinical AI is not a cockpit alarm or a failing pump. The clinician is supervising a recommendation that often arrives polished, plausible, and clinically fluent. A machine-wrong diagnosis can resemble a machine-right diagnosis until someone asks the right question. The analogy is a warning label, not proof. The test is whether clinicians heavily exposed to high-reliability AI maintain calibration on rare AI-wrong cases, especially when the system contradicts them.</p>
+<p>There is a countervailing possibility. Some tools may improve human judgment under the right design and measurement conditions. A system that shows uncertainty, alternatives, confidence, the features it attended to, subgroup performance, and reasons for disagreement might help clinicians see edge cases. But the <a href="https://pubmed.ncbi.nlm.nih.gov/38112814/">evidence is mixed</a>. Explanations can improve performance when the AI is sound, and can also deepen overreliance when the AI is wrong. In the best version, the work does not atrophy. It changes shape. The clinician becomes less raw diagnostician and more algorithmic supervisor — less pattern recognizer alone, more debugger of a clinical-statistical system.</p>
+<p>That may be the future. It would not make the concern disappear. It would change the training problem. Medical institutions would still need to teach the new skill directly, measure it directly, and stop pretending that ordinary clinical experience automatically preserves it.</p>
+<p>So the stance should be clear. Deploy clinical AI when it improves outcomes. A tool that prevents large numbers of routine harms should not be slowed simply to preserve independent human skill as a professional ideal. Human override earns its place when it adds safety signal — when it catches model failure, distribution shift, missing context, bias, or rare cases hidden by the average accuracy number.</p>
+<p>The safety problem begins when deployment outruns measurement.</p>
+<p>That is where the current posture is weak. <a href="https://www.whitehouse.gov/presidential-actions/2025/01/removing-barriers-to-american-leadership-in-artificial-intelligence/">Federal AI policy has been pulled toward deregulation in important ways</a>, even as other layers still exist — <a href="https://www.fda.gov/medical-devices/software-medical-device-samd/artificial-intelligence-software-medical-device">FDA oversight</a>, <a href="https://www.federalregister.gov/documents/2024/01/09/2023-28857/health-data-technology-and-interoperability-certification-program-updates-algorithm-transparency-and">ONC transparency rules</a>, civil-rights law, malpractice, state rules, and hospital governance. The gap is specific, not total. Adoption is moving faster than routine measurement of whether clinicians can still detect the failures AI leaves behind.</p>
+<p>The gap is not mystical. It is under-instrumented.</p>
+<p>It would show up in boring, concrete signals: AI-discordant case review, override rates, override correctness, unaided rare-case calibration, time to recognition, near misses, delayed diagnoses, subgroup error patterns, second-reader disagreement, and whether clinicians still catch model misses under pressure. Malpractice files and adverse-event reports can surface pieces of this later. Later is not good enough.</p>
+<p>The hard part is that most days will look fine. That is what high accuracy does. It creates long stretches where deference seems rational, efficient, and safe. The cases that test the human backstop arrive irregularly. By the time the institution learns whether the backstop still works, the patient may already be downstream of the miss.</p>
+<p>The same structure travels only where the same conditions hold: AI handles the routine majority, the residual failures still need human judgment, feedback is delayed, and the organization gives the human little practice or correction. Some code review, claims adjudication, fraud detection, and triage systems fit that pattern. Many AI uses do not. Medicine should not become a metaphor for everything. It is just the place where the measurement problem is easiest to see.</p>
+<p>AI’s error rate is the part we at least have tools for counting in bounded tasks. The harder safety property is the capacity that error rate silently depends on: whether a human can still catch the rare wrong answer when the system is usually right.</p>
+<p>That is not a cost we can price cleanly yet.</p>
+<p>It is a cost worth building measurement capacity for.</p>
+<hr />
+<p><strong>What this is:</strong> Field Notes — a provisional reading of a patient-safety signal, not a settled causal claim about clinical AI.</p>
+<p><strong>Confidence:</strong> Medium. The factual anchors are supported, but the central safety claim depends on longitudinal catch-layer evidence that institutions are not yet routinely collecting.</p>
+<p><strong>What would change our mind:</strong> Evidence that clinicians heavily exposed to high-accuracy AI maintain or improve accuracy on AI-wrong, human-catchable cases without deliberate catch-layer training.</p>
+<p><em>Everything above survived a canonical Council pass, a Core Adversarial Battery, and Referee edits. The process made the piece narrower and safer. It also creates its own danger: the surviving error will not look sloppy. It will look measured, sourced, and reasonable, but polished is not the same as true. The next pass is yours.</em></p>
+
+<aside class="audit-link"><p>The published record of what checking found for this piece — objections, changes, and what could not be checked — is in <a href="https://scipher888.github.io/signal-noise-audit-snapshot/issues/issue-009/">The World Behind the Words</a>.</p></aside>
+</article>
+</main>
+<footer class="site-foot">
+  <p>Signal &amp; Noise is written under the pen name Synthia Cipher. AI tools draft and critique; the human author owns the editorial judgment, final wording, published claims, and errors.</p>
+  <p><a href="../../">Home</a> · <a href="../../archive/">Archive</a> · <a href="../../about/">About</a> · <a href="../../feed.xml">RSS</a> · <a href="https://scipher888.github.io/signal-noise-audit-snapshot/world/">The World Behind the Words</a></p>
+</footer>
+</body>
+</html>
