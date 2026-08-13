@@ -27,28 +27,30 @@ BASE_URL = "https://www.signalandnoise.email"  # flipped at CNAME cutover 2026-0
 AUDIT_BASE = "https://scipher888.github.io/signal-noise-audit-snapshot/issues"
 
 # slug -> (issue_no|None for companions, source path relative to SRC, date, date_precision)
-# date_precision: "day" (as-published byline or publication record), "month" (origin page), "year"
+# date_precision: "day" (as-published byline, publication record, or the 2026-08-13 beehiiv
+# posts export: created_at converted to US-Pacific — validated against the record dates of
+# issues 19/21/22/23; where an explicit byline or record disagrees (issues 1, 20), the record wins)
 MANIFEST = {
     "is-it-possible-to-be-a-good-person-on-x-d0fc": (1, "past-issues/issue-001-final.md", "2026-03-07", "day"),
-    "can-you-fake-it": (2, "past-issues/issue-002-final.md", "2026", "year"),
-    "the-accessibility-illusion": (3, "past-issues/issue-003-final.md", "2026", "year"),
-    "the-coherence-illusion": (4, "past-issues/issue-004-paste.html", "2026", "year"),
-    "what-we-changed-after-issue-4": (None, "past-issues/issue-004-companion-paste.html", "2026", "year"),
-    "the-ai-that-tells-you-what-you-want-to-hear": (5, "past-issues/issue-005-paste.html", "2026", "year"),
-    "the-homer-car-problem": (6, "past-issues/issue-006-paste.html", "2026", "year"),
-    "when-help-becomes-harm": (7, "past-issues/issue-007-paste.html", "2026", "year"),
-    "regret-as-raw-material": (8, "past-issues/issue-008-paste.html", "2026", "year"),
-    "what-changed-after-issue-8": (None, "process-notes/what-changed-after-issue-8-paste.html", "2026", "year"),
-    "when-right-most-of-the-time-makes-wrong-harder-to-catch": (9, "past-issues/issue-009-paste.html", "2026", "year"),
+    "can-you-fake-it": (2, "past-issues/issue-002-final.md", "2026-03-14", "day"),
+    "the-accessibility-illusion": (3, "past-issues/issue-003-final.md", "2026-03-21", "day"),
+    "the-coherence-illusion": (4, "past-issues/issue-004-paste.html", "2026-03-28", "day"),
+    "what-we-changed-after-issue-4": (None, "past-issues/issue-004-companion-paste.html", "2026-03-28", "day"),
+    "the-ai-that-tells-you-what-you-want-to-hear": (5, "past-issues/issue-005-paste.html", "2026-04-04", "day"),
+    "the-homer-car-problem": (6, "past-issues/issue-006-paste.html", "2026-04-11", "day"),
+    "when-help-becomes-harm": (7, "past-issues/issue-007-paste.html", "2026-04-17", "day"),
+    "regret-as-raw-material": (8, "past-issues/issue-008-paste.html", "2026-04-25", "day"),
+    "what-changed-after-issue-8": (None, "process-notes/what-changed-after-issue-8-as-published-2026-08-13.html", "2026-05-06", "day"),
+    "when-right-most-of-the-time-makes-wrong-harder-to-catch": (9, "past-issues/issue-009-paste.html", "2026-05-02", "day"),
     "when-everything-sounds-insightful-nothing-sounds-trustworthy": (10, "past-issues/issue-010-paste.html", "2026-05-10", "day"),
-    "when-words-arrive-without-a-world": (11, "past-issues/issue-011-paste.html", "2026", "year"),
-    "the-world-behind-the-words": (12, "past-issues/issue-012-paste.html", "2026", "year"),
-    "when-conscience-has-a-payroll": (13, "past-issues/issue-013-paste.html", "2026", "year"),
-    "am-i-building": (14, "past-issues/issue-014-paste.html", "2026-06", "month"),
-    "the-appeal-button": (15, "past-issues/issue-015-paste.html", "2026-06", "month"),
-    "the-gary-marcus-audit": (16, "drafts/issue-016-paste.html", "2026-06", "month"),
-    "when-the-accusation-becomes-the-agenda": (17, "drafts/issue-017-paste.html", "2026-06", "month"),
-    "principle-and-process": (18, "drafts/issue-018-beehiiv-web-update-v0.10.html", "2026-07-04", "day"),
+    "when-words-arrive-without-a-world": (11, "past-issues/issue-011-paste.html", "2026-05-15", "day"),
+    "the-world-behind-the-words": (12, "past-issues/issue-012-paste.html", "2026-05-21", "day"),
+    "when-conscience-has-a-payroll": (13, "past-issues/issue-013-paste.html", "2026-05-29", "day"),
+    "am-i-building": (14, "past-issues/issue-014-paste.html", "2026-06-07", "day"),
+    "the-appeal-button": (15, "past-issues/issue-015-paste.html", "2026-06-13", "day"),
+    "the-gary-marcus-audit": (16, "drafts/issue-016-paste.html", "2026-06-20", "day"),
+    "when-the-accusation-becomes-the-agenda": (17, "drafts/issue-017-paste.html", "2026-06-27", "day"),
+    "principle-and-process": (18, "drafts/issue-018-beehiiv-web-update-v0.10.html", "2026-07-05", "day"),
     "unseen-and-unenforced": (19, "drafts/issue-019-beehiiv-paste-2026-07-11.html", "2026-07-11", "day"),
     "who-has-to-check-the-ai-in-your-medical-record": (20, "drafts/issue-020-beehiiv-paste-2026-07-19-rev.html", "2026-07-19", "day"),
     "delivered-then-invisible": (21, "drafts/issue-021-beehiiv-paste-2026-07-25.html", "2026-07-25", "day"),
@@ -59,6 +61,7 @@ MANIFEST = {
 # Sources whose title/dek live outside the body (beehiiv field lines / build comments).
 FIELD_OVERRIDES = {
     "principle-and-process": ("Principle and Process", "Two levels of the birthright citizenship debate"),
+    "what-changed-after-issue-8": ("What Changed After Issue 8", "Why Signal & Noise retired Synthia-as-author framing and moved to named-process language."),
 }
 
 MONTHS = {"01": "January", "02": "February", "03": "March", "04": "April", "05": "May",
@@ -119,7 +122,8 @@ def load_source(path, slug=None):
     if slug in FIELD_OVERRIDES:
         title, dek = FIELD_OVERRIDES[slug]
         dek_html = f"<p class=\"dek\"><em>{html.escape(dek)}</em></p>"
-        return title, dek_html, raw.strip()
+        body = re.sub(r"^\s*<!--.*?-->\s*", "", raw, flags=re.S)
+        return title, dek_html, body.strip()
 
     if raw.lstrip().startswith("<!--"):
         # postW pastes: title/dek live in the build comment (beehiiv field values)
