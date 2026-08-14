@@ -51,6 +51,16 @@ AUDIO = {
 # conversation) at AUDIT_BASE/issue-0NN/development/ — verified on disk 2026-08-14.
 EDR_ISSUES = {14, 15, 16, 17, 18, 19, 20, 21, 22}
 
+# In-body audit-status blocks retired per J's 2026-08-14 ruling: the companions
+# line is now the piece's audit-status link, so the beehiiv-era "<hr> The audit:
+# ... Audit complete." block is page chrome made redundant, stripped at wrap time
+# (the fidelity check runs on the post-strip body; the paste sources stay
+# untouched as the as-published record). Regex must match EXACTLY once per slug.
+CHROME_STRIPS = {
+    "the-price-of-being-read": r"<hr />\s*<p><strong>The audit:</strong>.*?</p>\n?",
+    "ai-can-hallucinate-a-jury": r"<hr />\s*<p><strong>The audit:</strong>.*?</p>\n?",
+}
+
 # slug -> (issue_no|None for companions, source path relative to SRC, date, date_precision)
 # date_precision: "day" (as-published byline, publication record, or the 2026-08-13 beehiiv
 # posts export: created_at converted to US-Pacific — validated against the record dates of
@@ -266,6 +276,10 @@ def build():
     for slug, (issue, rel, date, precision) in MANIFEST.items():
         path = os.path.join(SRC, rel)
         title, dek_html, body = load_source(path, slug)
+        if slug in CHROME_STRIPS:
+            matches = re.findall(CHROME_STRIPS[slug], body, re.S)
+            assert len(matches) == 1, f"chrome strip must match exactly once in {slug}, got {len(matches)}"
+            body = re.sub(CHROME_STRIPS[slug], "", body, flags=re.S).strip()
         entries.append(dict(slug=slug, issue=issue, title=title, dek=re.sub(r"<[^>]+>", "", dek_html).strip(),
                             dek_html=dek_html, body=body, date=date, precision=precision, src=rel))
         d = os.path.join(OUT, "p", slug)
@@ -320,6 +334,7 @@ def build():
 <h2>Who Writes This</h2>
 <p>I'm Synthia Cipher. I use a pen name because of strict professional privacy obligations.</p>
 <p>I use AI to draft and pressure-test — surfacing counterarguments and exposing weak reasoning. But the editorial judgment, final wording, and published claims are mine. If something here is wrong, the fault is mine, not the algorithm's.</p>
+<p>I'm a novice — at AI, at computers, at creating things, at writing. More than anything else, Signal &amp; Noise is a transparent public record of my trying to learn to create things with AI. Any value may reside in that record more than in the content of the essays.</p>
 <h2>Every Piece Comes in Two Layers</h2>
 <p><strong>The essay</strong> is the argument I wanted to make, the way I wanted to make it.</p>
 <p><strong>The audit</strong> is what the machine found when it checked: which objections were raised, what was verified against sources, what changed because of it — and what couldn't be checked at all.</p>
