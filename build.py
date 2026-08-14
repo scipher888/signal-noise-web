@@ -26,6 +26,31 @@ OUT = os.path.dirname(os.path.abspath(__file__))
 BASE_URL = "https://www.signalandnoise.email"  # flipped at CNAME cutover 2026-08-12
 AUDIT_BASE = "https://scipher888.github.io/signal-noise-audit-snapshot/issues"
 
+# Audio companions (Spotify episode pages; issue -> URL). Sources: the canonical
+# Anchor RSS feed's per-episode links (issues 10-22, verified 2026-08-14) and the
+# episode URL J supplied for issue 23 (share ?si= tracker stripped, house style).
+_EP = "https://podcasters.spotify.com/pod/show/editorial-process-synthia/episodes/"
+AUDIO = {
+    10: _EP + "When-Everything-Sounds-Insightful--Nothing-Sounds-Trustworthy-e3j610l",
+    11: _EP + "When-Words-Arrive-Without-a-World-e3jfavv",
+    12: _EP + "The-World-Behind-the-Words-e3jnicp",
+    13: _EP + "When-Conscience-Has-a-Payroll-e3k3f18",
+    14: _EP + "Am-I-Building-e3kejja",
+    15: _EP + "The-Appeal-Button-e3kom81",
+    16: _EP + "The-Gary-Marcus-Audit-e3l2l9j",
+    17: _EP + "When-The-Accusation-Becomes-The-Agenda-e3lc8t2",
+    18: _EP + "Principle-and-Process-e3lmd0k",
+    19: _EP + "Unseen-and-Unenforced-e3lvc4e",
+    20: _EP + "Who-Checks-the-AI-in-Your-Medical-Record-e3m8pib",
+    21: _EP + "Delivered--Then-Invisible-e3mi62e",
+    22: _EP + "The-Price-of-Being-Read-e3msuek",
+    23: "https://open.spotify.com/episode/4k8AoL3DxcAJekX82fgdlj",
+}
+
+# Issues with a published Extended Development Record (verbatim author + AI
+# conversation) at AUDIT_BASE/issue-0NN/development/ — verified on disk 2026-08-14.
+EDR_ISSUES = {14, 15, 16, 17, 18, 19, 20, 21, 22}
+
 # slug -> (issue_no|None for companions, source path relative to SRC, date, date_precision)
 # date_precision: "day" (as-published byline, publication record, or the 2026-08-13 beehiiv
 # posts export: created_at converted to US-Pacific — validated against the record dates of
@@ -221,9 +246,16 @@ def essay_page(slug, issue, title, dek_html, body, date, precision):
     dateline = display_date(date, precision)
     audit = ""
     if issue:
+        extras = ""
+        if issue in EDR_ISSUES:
+            extras += (f"\n<p>The conversation behind this — the actual author + AI conversation that produced "
+                       f"this issue, who brought what: <a href=\"{AUDIT_BASE}/issue-{issue:03d}/development/\">read it</a>.</p>")
+        if issue in AUDIO:
+            extras += (f"\n<p>Audio companion: <a href=\"{AUDIO[issue]}\">listen on Spotify</a>. "
+                       f"The written issue remains the canonical version.</p>")
         audit = (f"\n<aside class=\"audit-link\"><p>The published record of what checking found for this piece — "
                  f"objections, changes, and what could not be checked — is in "
-                 f"<a href=\"{AUDIT_BASE}/issue-{issue:03d}/\">The World Behind the Words</a>.</p></aside>")
+                 f"<a href=\"{AUDIT_BASE}/issue-{issue:03d}/\">The World Behind the Words</a>.</p>{extras}</aside>")
     main = (f"<article>\n<p class=\"kicker\">{kicker} · {dateline}</p>\n"
             f"<h1>{html.escape(title)}</h1>\n{dek_html}\n{body}\n{audit}\n</article>")
     desc = re.sub(r"<[^>]+>", "", dek_html).strip() or f"Signal & Noise — {title}"
