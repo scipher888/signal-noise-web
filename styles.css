@@ -56,13 +56,12 @@ article table { border-collapse: collapse; width: 100%; font-size: 0.95em; }
 article th, article td { border: 1px solid var(--line); padding: 0.5rem 0.65rem; text-align: left; vertical-align: top; }
 article pre { overflow-x: auto; background: var(--paper-bright); padding: 0.8rem 1rem; border: 1px solid var(--line); border-radius: 8px; font-size: 0.85em; }
 
-.audit-link {
-  margin: 2.4rem 0 0; padding: 1rem 1.2rem;
-  border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
-  font-family: var(--sans); font-size: 0.92rem; color: var(--ink-soft);
+.companions {
+  font-family: var(--sans); font-size: 0.85rem; color: var(--muted);
+  margin: 0.1rem 0 1.7rem; padding-bottom: 0.9rem; border-bottom: 1px solid var(--line);
 }
-.audit-link p { margin: 0; }
-.audit-link p + p { margin-top: 0.55rem; }
+.companions a { color: var(--ink-soft); text-decoration-color: var(--line); }
+.companions a:hover { text-decoration-color: var(--sun); }
 
 .hero { margin-bottom: 2.4rem; }
 .hero h1 { font-size: 2.4rem; }

@@ -244,20 +244,19 @@ OBSERVATORY = """<svg class="observatory" viewBox="0 0 640 470" xmlns="http://ww
 def essay_page(slug, issue, title, dek_html, body, date, precision):
     kicker = f"Issue {issue}" if issue else "Process note"
     dateline = display_date(date, precision)
-    audit = ""
+    # Companion line near the top (J, 2026-08-14). The per-issue audit link stays
+    # (floor row 5: the piece links its own audit status — the footer's WBW link
+    # is the hub, not this issue's record); the old explanatory aside is retired.
+    companions = ""
     if issue:
-        extras = ""
+        links = [f"<a href=\"{AUDIT_BASE}/issue-{issue:03d}/\">The audit</a>"]
         if issue in EDR_ISSUES:
-            extras += (f"\n<p>The conversation behind this — the actual author + AI conversation that produced "
-                       f"this issue, who brought what: <a href=\"{AUDIT_BASE}/issue-{issue:03d}/development/\">read it</a>.</p>")
+            links.append(f"<a href=\"{AUDIT_BASE}/issue-{issue:03d}/development/\">The conversation behind this</a>")
         if issue in AUDIO:
-            extras += (f"\n<p>Audio companion: <a href=\"{AUDIO[issue]}\">listen on Spotify</a>. "
-                       f"The written issue remains the canonical version.</p>")
-        audit = (f"\n<aside class=\"audit-link\"><p>The published record of what checking found for this piece — "
-                 f"objections, changes, and what could not be checked — is in "
-                 f"<a href=\"{AUDIT_BASE}/issue-{issue:03d}/\">The World Behind the Words</a>.</p>{extras}</aside>")
+            links.append(f"<a href=\"{AUDIO[issue]}\">Audio companion</a>")
+        companions = "\n<p class=\"companions\">" + " · ".join(links) + "</p>"
     main = (f"<article>\n<p class=\"kicker\">{kicker} · {dateline}</p>\n"
-            f"<h1>{html.escape(title)}</h1>\n{dek_html}\n{body}\n{audit}\n</article>")
+            f"<h1>{html.escape(title)}</h1>\n{dek_html}{companions}\n{body}\n</article>")
     desc = re.sub(r"<[^>]+>", "", dek_html).strip() or f"Signal & Noise — {title}"
     return render(title, desc, "../../", main, f"/p/{slug}/", ogtype="article")
 
