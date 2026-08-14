@@ -49,7 +49,7 @@ AUDIO = {
 
 # Issues with a published Extended Development Record (verbatim author + AI
 # conversation) at AUDIT_BASE/issue-0NN/development/ — verified on disk 2026-08-14.
-EDR_ISSUES = {14, 15, 16, 17, 18, 19, 20, 21, 22}
+EDR_ISSUES = {14, 15, 16, 17, 18, 19, 20, 21, 22, 23}
 
 # In-body audit-status blocks retired per J's 2026-08-14 ruling: the companions
 # line is now the piece's audit-status link, so the beehiiv-era "<hr> The audit:
