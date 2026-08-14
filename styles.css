@@ -85,3 +85,15 @@ article pre { overflow-x: auto; background: var(--paper-bright); padding: 0.8rem
 }
 .site-foot a { color: var(--muted); }
 .site-foot a:hover { color: var(--ink); }
+
+/* Night Observatory elements (2026-08-13): masthead eclipse, homepage hero, follow page */
+.masthead .mark { width: 20px; height: 20px; vertical-align: -0.28em; margin-right: 0.4rem; }
+.hero-centered { text-align: center; }
+.hero-centered .observatory { display: block; width: min(300px, 72vw); height: auto; margin: 0.6rem auto 0.4rem; }
+.hero-centered .hero-intro { text-align: left; }
+.gold-rule { width: 52px; height: 4px; background: var(--sun); border: none; margin: 1rem auto 1.1rem; }
+main code {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 0.82em;
+  background: var(--paper-bright); border: 1px solid var(--line);
+  border-radius: 6px; padding: 0.14rem 0.42rem; white-space: nowrap;
+}

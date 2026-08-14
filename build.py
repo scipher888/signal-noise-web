@@ -160,25 +160,60 @@ PAGE = """<!doctype html>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{title} — Signal &amp; Noise</title>
   <meta name="description" content="{desc}">
+  <link rel="canonical" href="{url}">
   <link rel="stylesheet" href="{root}styles.css">
   <link rel="alternate" type="application/rss+xml" title="Signal &amp; Noise" href="{root}feed.xml">
   <link rel="icon" href="{root}assets/mark.svg">
+  <meta property="og:site_name" content="Signal &amp; Noise">
+  <meta property="og:type" content="{ogtype}">
+  <meta property="og:title" content="{title}">
+  <meta property="og:description" content="{desc}">
+  <meta property="og:url" content="{url}">
+  <meta property="og:image" content="{base}/assets/preview.png">
+  <meta name="twitter:card" content="summary_large_image">
 </head>
 <body>
 <header class="site-head">
-  <a class="masthead" href="{root}">Signal &amp; Noise</a>
-  <nav><a href="{root}archive/">Archive</a> <a href="{root}about/">About</a></nav>
+  <a class="masthead" href="{root}"><svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="17.5" r="11.5" fill="none" stroke="#10283a" stroke-width="2.4"/><circle cx="16" cy="17.5" r="6.8" fill="#0e2738"/><circle cx="16" cy="6" r="3.1" fill="#f3ca79"/></svg>Signal &amp; Noise</a>
+  <nav><a href="{root}archive/">Archive</a> <a href="{root}about/">About</a> <a href="{root}subscribe/">Follow</a></nav>
 </header>
 <main>
 {main}
 </main>
 <footer class="site-foot">
   <p>Signal &amp; Noise is written under the pen name Synthia Cipher. AI tools draft and critique; the human author owns the editorial judgment, final wording, published claims, and errors.</p>
-  <p><a href="{root}">Home</a> · <a href="{root}archive/">Archive</a> · <a href="{root}about/">About</a> · <a href="{root}feed.xml">RSS</a> · <a href="https://scipher888.github.io/signal-noise-audit-snapshot/world/">The World Behind the Words</a></p>
+  <p><a href="{root}">Home</a> · <a href="{root}archive/">Archive</a> · <a href="{root}about/">About</a> · <a href="{root}subscribe/">Follow</a> · <a href="{root}feed.xml">RSS</a> · <a href="https://scipher888.github.io/signal-noise-audit-snapshot/world/">The World Behind the Words</a></p>
 </footer>
 </body>
 </html>
 """
+
+
+def render(title, desc, root, main, path, ogtype="website"):
+    """Wrap page content in the site template. `path` is the site-absolute path
+    (e.g. "/about/") — it feeds the canonical link and the og:url."""
+    return PAGE.format(title=html.escape(title), desc=html.escape(desc, quote=True),
+                       root=root, main=main, url=BASE_URL + path, ogtype=ogtype, base=BASE_URL)
+
+
+# Night Observatory hero — rebuilt from the original brand sources
+# (~/Code/sn-brand-assets/{hero,hero-centered,cover}.html, June 2026): dashed orbit
+# rings, the eclipse, three haloed satellites (gold/signal-blue/sage), faint stars.
+# Same geometry relationships and hexes as cover.html; decorative (H1 carries the name).
+OBSERVATORY = """<svg class="observatory" viewBox="0 0 640 470" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <circle cx="320" cy="235" r="225" fill="none" stroke="#10283a" stroke-opacity="0.20" stroke-width="2" stroke-dasharray="3 13" stroke-linecap="round"/>
+  <circle cx="320" cy="235" r="157" fill="none" stroke="#10283a" stroke-opacity="0.30" stroke-width="2"/>
+  <circle cx="320" cy="235" r="105" fill="none" stroke="#10283a" stroke-opacity="0.16" stroke-width="2" stroke-dasharray="2 12" stroke-linecap="round"/>
+  <circle cx="456" cy="126" r="20" fill="#fffdf8"/><circle cx="456" cy="126" r="11.5" fill="#f3ca79"/>
+  <circle cx="175" cy="262" r="20" fill="#fffdf8"/><circle cx="175" cy="262" r="11.5" fill="#6fb5be"/>
+  <circle cx="384" cy="390" r="20" fill="#fffdf8"/><circle cx="384" cy="390" r="11.5" fill="#6fa184"/>
+  <circle cx="320" cy="18" r="6" fill="#0e2738" fill-opacity="0.45"/>
+  <circle cx="573" cy="301" r="5" fill="#0e2738" fill-opacity="0.40"/>
+  <circle cx="93" cy="165" r="5" fill="#0e2738" fill-opacity="0.36"/>
+  <circle cx="320" cy="235" r="87" fill="#fffdf8"/>
+  <circle cx="320" cy="235" r="78" fill="#0e2738"/>
+  <text x="320" y="235" text-anchor="middle" dominant-baseline="central" font-family="'Iowan Old Style', Palatino, Georgia, serif" font-size="54" font-weight="500" fill="#f4efe6">S&amp;N</text>
+</svg>"""
 
 
 def essay_page(slug, issue, title, dek_html, body, date, precision):
@@ -192,7 +227,7 @@ def essay_page(slug, issue, title, dek_html, body, date, precision):
     main = (f"<article>\n<p class=\"kicker\">{kicker} · {dateline}</p>\n"
             f"<h1>{html.escape(title)}</h1>\n{dek_html}\n{body}\n{audit}\n</article>")
     desc = re.sub(r"<[^>]+>", "", dek_html).strip() or f"Signal & Noise — {title}"
-    return PAGE.format(title=html.escape(title), desc=html.escape(desc, quote=True), root="../../", main=main)
+    return render(title, desc, "../../", main, f"/p/{slug}/", ogtype="article")
 
 
 def build():
@@ -223,14 +258,16 @@ def build():
                     + "\n<h2>Process notes</h2>\n" + "\n".join(comp_rows))
     os.makedirs(os.path.join(OUT, "archive"), exist_ok=True)
     open(os.path.join(OUT, "archive", "index.html"), "w", encoding="utf-8").write(
-        PAGE.format(title="Archive", desc="Every Signal & Noise issue, newest first.", root="../", main=archive_main))
+        render("Archive", "Every Signal & Noise issue, newest first.", "../", archive_main, "/archive/"))
 
     # home
     latest = essays[0]
-    home_main = f"""<section class="hero">
+    home_main = f"""<section class="hero hero-centered">
+{OBSERVATORY}
 <h1>Signal &amp; Noise</h1>
+<div class="gold-rule"></div>
 <p class="tagline">One idea at a time, taken seriously.</p>
-<p>Essays about AI, judgment, and human consequences. Every piece comes in two layers: <strong>the essay</strong> — the argument I wanted to make — and <strong>the audit</strong> — what the machine found when it checked, published in <a href="https://scipher888.github.io/signal-noise-audit-snapshot/world/">The World Behind the Words</a>.</p>
+<p class="hero-intro">Essays about AI, judgment, and human consequences. Every piece comes in two layers: <strong>the essay</strong> — the argument I wanted to make — and <strong>the audit</strong> — what the machine found when it checked, published in <a href="https://scipher888.github.io/signal-noise-audit-snapshot/world/">The World Behind the Words</a>.</p>
 </section>
 <section class="latest">
 <p class="kicker">Latest — Issue {latest['issue']} · {display_date(latest['date'], latest['precision'])}</p>
@@ -243,7 +280,7 @@ def build():
 <p><a href="archive/">Full archive →</a></p>
 </section>"""
     open(os.path.join(OUT, "index.html"), "w", encoding="utf-8").write(
-        PAGE.format(title="Signal & Noise", desc="Essays about AI, judgment, and human consequences — every piece an essay plus a published audit.", root="", main=home_main).replace("<title>Signal &amp; Noise — Signal &amp; Noise</title>", "<title>Signal &amp; Noise</title>"))
+        render("Signal & Noise", "Essays about AI, judgment, and human consequences — every piece an essay plus a published audit.", "", home_main, "/").replace("<title>Signal &amp; Noise — Signal &amp; Noise</title>", "<title>Signal &amp; Noise</title>"))
 
     # about (from the live About v3 copy)
     about_main = """<h1>About</h1>
@@ -262,14 +299,32 @@ def build():
 <h2>Process Transparency</h2>
 <p>Public audit trail: <a href="https://github.com/scipher888/signal-noise-audit-snapshot">Editorial Audit Snapshot</a>.</p>
 <h2>Subscribe</h2>
-<p>Free. New issues by <a href="../feed.xml">RSS</a>.</p>
+<p>Free. New issues by <a href="../subscribe/">RSS or email</a>.</p>
 <p>One idea at a time, taken seriously.</p>"""
     os.makedirs(os.path.join(OUT, "about"), exist_ok=True)
     open(os.path.join(OUT, "about", "index.html"), "w", encoding="utf-8").write(
-        PAGE.format(title="About", desc="Signal & Noise is for people who want to think clearly about AI, judgment, and human consequences.", root="../", main=about_main))
+        render("About", "Signal & Noise is for people who want to think clearly about AI, judgment, and human consequences.", "../", about_main, "/about/"))
+
+    # follow page — /subscribe/ keeps the legacy path but is a real page now (nav label: Follow).
+    # The email option's address is PENDING J's ruling; the paragraph ships only once it is set.
+    follow_main = """<h1>Follow</h1>
+<p class="intro">Signal &amp; Noise is free, and there's no algorithm between you and it — just two quiet ways to know when a new issue is up.</p>
+<h2>By RSS</h2>
+<p>RSS is the old, calm way to follow things on the web: a reader app checks this site for you and shows new issues as they appear. No account here, no ranking, no inbox required.</p>
+<p>Never used one? Either of these is free and takes about a minute to set up:</p>
+<ul>
+<li><a href="https://netnewswire.com/">NetNewsWire</a> — iPhone, iPad, and Mac. Free and open source; no account needed.</li>
+<li><a href="https://feedly.com/news-reader">Feedly</a> — works in any browser, with apps for Android and iPhone. Asks you to create a free account first.</li>
+</ul>
+<p>Then add this site: paste <code>www.signalandnoise.email</code> into the reader's search or "add feed" box, and tap Add (or Follow) when it finds Signal &amp; Noise. If it asks for a feed address instead, give it <code>https://www.signalandnoise.email/feed.xml</code>.</p>
+<h2>By email</h2>
+<p>Prefer a note in your inbox? Write "keep me posted" to <a href="mailto:synthia@signalandnoise.email">synthia@signalandnoise.email</a> and each new issue will arrive as a short note with a link.</p>"""
+    os.makedirs(os.path.join(OUT, "subscribe"), exist_ok=True)
+    open(os.path.join(OUT, "subscribe", "index.html"), "w", encoding="utf-8").write(
+        render("Follow", "How to follow Signal & Noise — by RSS or by email.", "../", follow_main, "/subscribe/"))
 
     # redirects for legacy beehiiv paths
-    for old, target in [("bio", "../about/"), ("subscribe", "../about/"), ("archive-legacy", None)]:
+    for old, target in [("bio", "../about/"), ("archive-legacy", None)]:
         if target is None:
             continue
         d = os.path.join(OUT, old)
@@ -285,8 +340,9 @@ def build():
     from urllib.parse import urlparse
     root404 = (urlparse(BASE_URL).path.rstrip("/") or "") + "/"
     open(os.path.join(OUT, "404.html"), "w", encoding="utf-8").write(
-        PAGE.format(title="Not found", desc="Page not found.", root=root404,
-                    main=f"<h1>Not found</h1><p>That page isn't here. The <a href=\"{root404}archive/\">archive</a> lists every issue.</p>"))
+        render("Not found", "Page not found.", root404,
+               f"<h1>Not found</h1><p>That page isn't here. The <a href=\"{root404}archive/\">archive</a> lists every issue.</p>",
+               "/404.html"))
 
     # RSS — pubDate only where the date is exact
     items = []
