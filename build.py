@@ -209,7 +209,7 @@ PAGE = """<!doctype html>
 </head>
 <body>
 <header class="site-head">
-  <a class="masthead" href="{root}"><svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="17.5" r="11.5" fill="none" stroke="#10283a" stroke-width="2.4"/><circle cx="16" cy="17.5" r="6.8" fill="#0e2738"/><circle cx="16" cy="6" r="3.1" fill="#f3ca79"/></svg>Signal &amp; Noise</a>
+  <a class="masthead" href="{home}"><svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="17.5" r="11.5" fill="none" stroke="#10283a" stroke-width="2.4"/><circle cx="16" cy="17.5" r="6.8" fill="#0e2738"/><circle cx="16" cy="6" r="3.1" fill="#f3ca79"/></svg>Signal &amp; Noise</a>
   <nav><a href="{root}archive/">Archive</a> <a href="{root}about/">About</a> <a href="{root}subscribe/">Follow</a></nav>
 </header>
 <main>
@@ -217,7 +217,7 @@ PAGE = """<!doctype html>
 </main>
 <footer class="site-foot">
   <p>Signal &amp; Noise is written under the pen name Synthia Cipher. AI tools draft and critique; the human author owns the editorial judgment, final wording, published claims, and errors.</p>
-  <p><a href="{root}">Home</a> · <a href="{root}archive/">Archive</a> · <a href="{root}about/">About</a> · <a href="{root}subscribe/">Follow</a> · <a href="{root}feed.xml">RSS</a> · <a href="https://scipher888.github.io/signal-noise-audit-snapshot/world/">The World Behind the Words</a></p>
+  <p><a href="{home}">Home</a> · <a href="{root}archive/">Archive</a> · <a href="{root}about/">About</a> · <a href="{root}subscribe/">Follow</a> · <a href="{root}feed.xml">RSS</a> · <a href="https://scipher888.github.io/signal-noise-audit-snapshot/world/">The World Behind the Words</a></p>
 </footer>
 </body>
 </html>
@@ -226,9 +226,11 @@ PAGE = """<!doctype html>
 
 def render(title, desc, root, main, path, ogtype="website"):
     """Wrap page content in the site template. `path` is the site-absolute path
-    (e.g. "/about/") — it feeds the canonical link and the og:url."""
+    (e.g. "/about/") — it feeds the canonical link and the og:url.
+    Homepage `root` is empty, so Home links use "/" instead of an empty href."""
+    home = root or "/"
     return PAGE.format(title=html.escape(title), desc=html.escape(desc, quote=True),
-                       root=root, main=main, url=BASE_URL + path, ogtype=ogtype, base=BASE_URL)
+                       root=root, home=home, main=main, url=BASE_URL + path, ogtype=ogtype, base=BASE_URL)
 
 
 # Night Observatory hero — rebuilt from the original brand sources
