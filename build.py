@@ -91,7 +91,7 @@ MANIFEST = {
     "delivered-then-invisible": (21, "drafts/issue-021-beehiiv-paste-2026-07-25.html", "2026-07-25", "day"),
     "the-price-of-being-read": (22, "drafts/issue-022-postW-web-paste-2026-08-01.html", "2026-08-01", "day"),
     "ai-can-hallucinate-a-jury": (23, "drafts/issue-023-postW-web-paste-2026-08-09.html", "2026-08-09", "day"),
-    "the-gift-is-not-the-product": (24, "drafts/issue-024-web-paste-2026-08-14.html", "2026-08-14", "day"),
+    "the-gift-is-not-the-product": (24, "drafts/issue-024-web-paste-2026-08-14.html", "2026-08-16", "day"),
 }
 
 # Sources whose title/dek live outside the body (beehiiv field lines / build comments).
