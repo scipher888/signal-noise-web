@@ -367,7 +367,7 @@ def build():
 </ul>
 <p>Then add this site: paste <code>www.signalandnoise.email</code> into the reader's search or "add feed" box, and tap Add (or Follow) when it finds Signal &amp; Noise. If it asks for a feed address instead, give it <code>https://www.signalandnoise.email/feed.xml</code>.</p>
 <h2>By email</h2>
-<p>Prefer a note in your inbox? Write "keep me posted" to <a href="mailto:synthia@signalandnoise.email">synthia@signalandnoise.email</a> and each new issue will arrive as a short note with a link.</p>"""
+<p>Prefer a note in your inbox? Write "keep me posted" to <a href="mailto:synthia@signalandnoise.email">synthia@signalandnoise.email</a> and each new issue will arrive as a short note with a link. To stop, send a blank mail to the same address with the subject <code>unsubscribe</code> — or use Unsubscribe in Gmail if you see it. You do not need to write a request.</p>"""
     os.makedirs(os.path.join(OUT, "subscribe"), exist_ok=True)
     open(os.path.join(OUT, "subscribe", "index.html"), "w", encoding="utf-8").write(
         render("Follow", "How to follow Signal & Noise — by RSS or by email.", "../", follow_main, "/subscribe/"))
