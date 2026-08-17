@@ -45,11 +45,12 @@ AUDIO = {
     21: _EP + "Delivered--Then-Invisible-e3mi62e",
     22: _EP + "The-Price-of-Being-Read-e3msuek",
     23: "https://open.spotify.com/episode/4k8AoL3DxcAJekX82fgdlj",
+    24: "https://open.spotify.com/episode/2jInS7rz9AszmaTLJbFSbR",
 }
 
 # Issues with a published Extended Development Record (verbatim author + AI
 # conversation) at AUDIT_BASE/issue-0NN/development/ — verified on disk 2026-08-14.
-EDR_ISSUES = {14, 15, 16, 17, 18, 19, 20, 21, 22, 23}
+EDR_ISSUES = {14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24}
 
 # In-body audit-status blocks retired per J's 2026-08-14 ruling: the companions
 # line is now the piece's audit-status link, so the beehiiv-era "<hr> The audit:
