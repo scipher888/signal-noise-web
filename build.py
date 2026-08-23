@@ -93,6 +93,7 @@ MANIFEST = {
     "the-price-of-being-read": (22, "drafts/issue-022-postW-web-paste-2026-08-01.html", "2026-08-01", "day"),
     "ai-can-hallucinate-a-jury": (23, "drafts/issue-023-postW-web-paste-2026-08-09.html", "2026-08-09", "day"),
     "the-gift-is-not-the-product": (24, "drafts/issue-024-web-paste-2026-08-14.html", "2026-08-16", "day"),
+    "perfect-ai-alignment-is-not-alignment": (25, "drafts/issue-025-web-paste-2026-08-22.html", "2026-08-22", "day"),
 }
 
 # Sources whose title/dek live outside the body (beehiiv field lines / build comments).
