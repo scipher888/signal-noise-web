@@ -53,6 +53,11 @@ AUDIO = {
 # conversation) at AUDIT_BASE/issue-0NN/development/ — verified on disk 2026-08-14.
 EDR_ISSUES = {14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25}
 
+# Issues carrying the machine's-version experiment (an AI-written companion essay
+# published inside the audit record; J's rulings 2026-08-23) at
+# AUDIT_BASE/issue-0NN/machine-version/.
+MACHINE_VERSION_ISSUES = {25}
+
 # In-body audit-status blocks retired per J's 2026-08-14 ruling: the companions
 # line is now the piece's audit-status link, so the beehiiv-era "<hr> The audit:
 # ... Audit complete." block is page chrome made redundant, stripped at wrap time
@@ -270,6 +275,8 @@ def essay_page(slug, issue, title, dek_html, body, date, precision):
             links.append(f"<a href=\"{AUDIT_BASE}/issue-{issue:03d}/development/\">The conversation behind this</a>")
         if issue in AUDIO:
             links.append(f"<a href=\"{AUDIO[issue]}\">Audio companion</a>")
+        if issue in MACHINE_VERSION_ISSUES:
+            links.append(f"<a href=\"{AUDIT_BASE}/issue-{issue:03d}/machine-version/\">The machine's version</a>")
         companions = "\n<p class=\"companions\">" + " · ".join(links) + "</p>"
     main = (f"<article>\n<p class=\"kicker\">{kicker} · {dateline}</p>\n"
             f"<h1>{html.escape(title)}</h1>\n{dek_html}{companions}\n{body}\n</article>")
