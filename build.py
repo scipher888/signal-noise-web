@@ -265,21 +265,38 @@ OBSERVATORY = """<svg class="observatory" viewBox="0 0 640 470" xmlns="http://ww
 def essay_page(slug, issue, title, dek_html, body, date, precision):
     kicker = f"Issue {issue}" if issue else "Process note"
     dateline = display_date(date, precision)
-    # Companion line near the top (J, 2026-08-14). The per-issue audit link stays
-    # (floor row 5: the piece links its own audit status — the footer's WBW link
-    # is the hub, not this issue's record); the old explanatory aside is retired.
+    # Companion map (J, 2026-08-23). Grouped by who wrote it, because that split is
+    # the publication's own thesis and the reader's actual question at a link. Three
+    # standing rules, all of which fix a live defect found on 2026-08-23:
+    #   1. ONE ABSOLUTE NAME PER DESTINATION, identical on every page that links it.
+    #      Relative names ("The audit", "Its audit", "The essay") renamed the same
+    #      page four different ways depending on where you stood, and two audits one
+    #      hop apart both answered to a bare possessive.
+    #   2. The current page is PINNED (.here, aria-current) rather than omitted, so
+    #      the same map appears everywhere with the reader's position marked.
+    #   3. The block sits at the FOOT: the top stays clean so the reader can start
+    #      reading. Floor row 5 (the piece links its own audit status) is satisfied
+    #      here — placement was never what that row required.
+    # The audit-snapshot pages carry this same block; keep the names in sync.
     companions = ""
     if issue:
-        links = [f"<a href=\"{AUDIT_BASE}/issue-{issue:03d}/\">The audit</a>"]
-        if issue in EDR_ISSUES:
-            links.append(f"<a href=\"{AUDIT_BASE}/issue-{issue:03d}/development/\">The conversation behind this</a>")
+        base = f"{AUDIT_BASE}/issue-{issue:03d}"
+        author = ['<span class="here" aria-current="page">The essay</span>']
         if issue in AUDIO:
-            links.append(f"<a href=\"{AUDIO[issue]}\">Audio companion</a>")
+            author.append(f'<a href="{AUDIO[issue]}">Audio companion</a>')
+        machine = [f'<a href="{base}/">The issue audit</a>']
         if issue in MACHINE_VERSION_ISSUES:
-            links.append(f"<a href=\"{AUDIT_BASE}/issue-{issue:03d}/machine-version/\">The machine's version</a>")
-        companions = "\n<p class=\"companions\">" + " · ".join(links) + "</p>"
+            machine += [f'<a href="{base}/machine-version/">The machine&rsquo;s essay</a>',
+                        f'<a href="{base}/machine-version/plain/">In plain words</a>',
+                        f'<a href="{base}/machine-version/audit/">Audit of the machine&rsquo;s essay</a>']
+        rows = [("The author&rsquo;s", author), ("The machine&rsquo;s", machine)]
+        if issue in EDR_ISSUES:
+            rows.append(("The record", [f'<a href="{base}/development/">The conversation behind this</a>']))
+        items = "".join(f"<dt>{lbl}</dt><dd>{' · '.join(ls)}</dd>" for lbl, ls in rows)
+        companions = (f'\n<nav class="cnav" aria-label="Issue {issue} companions">'
+                      f"<dl>{items}</dl></nav>")
     main = (f"<article>\n<p class=\"kicker\">{kicker} · {dateline}</p>\n"
-            f"<h1>{html.escape(title)}</h1>\n{dek_html}{companions}\n{body}\n</article>")
+            f"<h1>{html.escape(title)}</h1>\n{dek_html}\n{body}\n{companions}\n</article>")
     desc = re.sub(r"<[^>]+>", "", dek_html).strip() or f"Signal & Noise — {title}"
     return render(title, desc, "../../", main, f"/p/{slug}/", ogtype="article")
 

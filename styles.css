@@ -56,12 +56,34 @@ article table { border-collapse: collapse; width: 100%; font-size: 0.95em; }
 article th, article td { border: 1px solid var(--line); padding: 0.5rem 0.65rem; text-align: left; vertical-align: top; }
 article pre { overflow-x: auto; background: var(--paper-bright); padding: 0.8rem 1rem; border: 1px solid var(--line); border-radius: 8px; font-size: 0.85em; }
 
-.companions {
-  font-family: var(--sans); font-size: 0.85rem; color: var(--muted);
-  margin: 0.1rem 0 1.7rem; padding-bottom: 0.9rem; border-bottom: 1px solid var(--line);
+/* Companion map — foot of the essay, grouped by who wrote it, current page pinned.
+   Label and links share a baseline on wide screens; under 640px the label stacks
+   above its own row so neither column squeezes the other. */
+.cnav {
+  font-family: var(--sans); font-size: 0.84rem; color: var(--muted);
+  margin: 2.6rem 0 0; padding-top: 1.1rem; border-top: 1px solid var(--line);
 }
-.companions a { color: var(--ink-soft); text-decoration-color: var(--line); }
-.companions a:hover { text-decoration-color: var(--sun); }
+.cnav dl {
+  display: grid; grid-template-columns: max-content 1fr;
+  gap: 0.4rem 1rem; margin: 0; align-items: baseline;
+}
+.cnav dt {
+  font-size: 0.7rem; letter-spacing: 0.075em; text-transform: uppercase;
+  font-weight: 600; white-space: nowrap; opacity: 0.85;
+}
+.cnav dd { margin: 0; }
+.cnav a { color: var(--ink-soft); text-decoration-color: var(--line); }
+.cnav a:hover { text-decoration-color: var(--sun); }
+.cnav .here { color: var(--ink); font-weight: 600; }
+.cnav .here::after {
+  content: " \25B8 you are here"; font-weight: 400; font-size: 0.72rem;
+  letter-spacing: 0.02em; color: var(--muted); text-transform: none;
+}
+@media (max-width: 640px) {
+  .cnav dl { grid-template-columns: 1fr; gap: 0.1rem; }
+  .cnav dt { margin-top: 0.7rem; }
+  .cnav dt:first-of-type { margin-top: 0; }
+}
 
 .hero { margin-bottom: 2.4rem; }
 .hero h1 { font-size: 2.4rem; }
