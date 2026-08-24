@@ -74,11 +74,10 @@ article pre { overflow-x: auto; background: var(--paper-bright); padding: 0.8rem
 .cnav dd { margin: 0; }
 .cnav a { color: var(--ink-soft); text-decoration-color: var(--line); }
 .cnav a:hover { text-decoration-color: var(--sun); }
+/* The pin is weight and colour only. A "you are here" label beside the bolded
+   entry restated what the bolding already showed. aria-current still carries it
+   to a screen reader, which never saw the bolding. */
 .cnav .here { color: var(--ink); font-weight: 600; }
-.cnav .here::after {
-  content: " \25B8 you are here"; font-weight: 400; font-size: 0.72rem;
-  letter-spacing: 0.02em; color: var(--muted); text-transform: none;
-}
 @media (max-width: 640px) {
   .cnav dl { grid-template-columns: 1fr; gap: 0.1rem; }
   .cnav dt { margin-top: 0.7rem; }
