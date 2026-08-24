@@ -291,7 +291,7 @@ def essay_page(slug, issue, title, dek_html, body, date, precision):
                         f'<a href="{base}/machine-version/audit/">Audit of the machine&rsquo;s essay</a>']
         rows = [("The author&rsquo;s", author), ("The machine&rsquo;s", machine)]
         if issue in EDR_ISSUES:
-            rows.append(("The record", [f'<a href="{base}/development/">The conversation behind this</a>']))
+            rows.append(("Both, verbatim", [f'<a href="{base}/development/">The conversation behind this</a>']))
         items = "".join(f"<dt>{lbl}</dt><dd>{' · '.join(ls)}</dd>" for lbl, ls in rows)
         companions = (f'\n<nav class="cnav" aria-label="Issue {issue} companions">'
                       f"<dl>{items}</dl></nav>")
