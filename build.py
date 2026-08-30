@@ -19,8 +19,6 @@ import os
 import re
 import sys
 
-import markdown  # available on this machine; used only for issues 1-3 (md sources)
-
 SRC = os.path.expanduser("~/Code/signal-noise/projects/newsletter")
 OUT = os.path.dirname(os.path.abspath(__file__))
 BASE_URL = "https://www.signalandnoise.email"  # flipped at CNAME cutover 2026-08-12
@@ -51,12 +49,14 @@ AUDIO = {
 
 # Issues with a published Extended Development Record (verbatim author + AI
 # conversation) at AUDIT_BASE/issue-0NN/development/ — verified on disk 2026-08-14.
+# The EDR is no longer a top-level essay-chrome leaf (J, 2026-08-29); it stays
+# reachable from the audit pages.
 EDR_ISSUES = {14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25}
 
 # Issues carrying the machine's-version experiment (an AI-written companion essay
 # published inside the audit record; J's rulings 2026-08-23) at
-# AUDIT_BASE/issue-0NN/machine-version/.
-MACHINE_VERSION_ISSUES = {25}
+# AUDIT_BASE/issue-0NN/machine-version/. The machine row appears only for these.
+MACHINE_VERSION_ISSUES = {25, 26}
 
 # In-body audit-status blocks retired per J's 2026-08-14 ruling: the companions
 # line is now the piece's audit-status link, so the beehiiv-era "<hr> The audit:
@@ -100,6 +100,7 @@ MANIFEST = {
     "ai-can-hallucinate-a-jury": (23, "drafts/issue-023-postW-web-paste-2026-08-09.html", "2026-08-09", "day"),
     "the-gift-is-not-the-product": (24, "drafts/issue-024-web-paste-2026-08-14.html", "2026-08-16", "day"),
     "perfect-ai-alignment-is-not-alignment": (25, "drafts/issue-025-web-paste-2026-08-22.html", "2026-08-22", "day"),
+    "civilization-at-machine-speed": (26, "drafts/issue-026-web-paste-2026-08-29.html", "2026-08-29", "day"),
 }
 
 # Sources whose title/dek live outside the body (beehiiv field lines / build comments).
@@ -136,6 +137,7 @@ def load_source(path, slug=None):
     """
     raw = open(path, encoding="utf-8").read()
     if path.endswith(".md"):
+        import markdown  # issues 1-3 only; not required when recovering built HTML
         title = None
         dek = None
         lines = raw.split("\n")
@@ -195,6 +197,44 @@ def load_source(path, slug=None):
     if dm:
         body = body[dm.end():].strip()
     return title, dek_html, body
+
+
+def resolve_source(rel):
+    """Editorial repo first (canonical pastes), then this repo's drafts/."""
+    for root in (SRC, OUT):
+        path = os.path.join(root, rel)
+        if os.path.isfile(path):
+            return path
+    return None
+
+
+def recover_from_built(slug):
+    """Rebuild chrome from an already-published page when the paste is absent.
+
+    This web repo ships built HTML; the as-published pastes live in a private
+    editorial repo. Recovering title/dek/body lets `python3 build.py` refresh
+    companions (and wrap a new local draft) without that tree.
+    """
+    path = os.path.join(OUT, "p", slug, "index.html")
+    if not os.path.isfile(path):
+        raise SystemExit(f"missing source and no built page for {slug}")
+    text = open(path, encoding="utf-8").read()
+    art = re.search(r"<article>(.*?)</article>", text, re.S)
+    if not art:
+        raise SystemExit(f"no article in built page {slug}")
+    inner = art.group(1)
+    inner = re.sub(r"\s*<p class=\"kicker\">.*?</p>", "", inner, count=1)
+    hm = re.search(r"<h1>(.*?)</h1>", inner, re.S)
+    if not hm:
+        raise SystemExit(f"no title heading in built page {slug}")
+    title = html.unescape(re.sub(r"<[^>]+>", "", hm.group(1)).strip())
+    rest = inner[hm.end():]
+    dm = re.match(r"\s*(<p class=\"dek\">.*?</p>)", rest, re.S)
+    dek_html = dm.group(1) if dm else ""
+    if dm:
+        rest = rest[dm.end():]
+    rest = re.sub(r"\s*<nav class=\"cnav\".*?</nav>\s*$", "", rest, flags=re.S)
+    return title, dek_html, rest.strip()
 
 
 PAGE = """<!doctype html>
@@ -265,33 +305,30 @@ OBSERVATORY = """<svg class="observatory" viewBox="0 0 640 470" xmlns="http://ww
 def essay_page(slug, issue, title, dek_html, body, date, precision):
     kicker = f"Issue {issue}" if issue else "Process note"
     dateline = display_date(date, precision)
-    # Companion map (J, 2026-08-23). Grouped by who wrote it, because that split is
-    # the publication's own thesis and the reader's actual question at a link. Three
-    # standing rules, all of which fix a live defect found on 2026-08-23:
-    #   1. ONE ABSOLUTE NAME PER DESTINATION, identical on every page that links it.
-    #      Relative names ("The audit", "Its audit", "The essay") renamed the same
-    #      page four different ways depending on where you stood, and two audits one
-    #      hop apart both answered to a bare possessive.
-    #   2. The current page is PINNED (.here, aria-current) rather than omitted, so
-    #      the same map appears everywhere with the reader's position marked.
-    #   3. The block sits at the FOOT: the top stays clean so the reader can start
-    #      reading. Floor row 5 (the piece links its own audit status) is satisfied
-    #      here — placement was never what that row required.
-    # The audit-snapshot pages carry this same block; keep the names in sync.
+    # Companion map (J, 2026-08-29). Two parallel rows, same three leaf names:
+    #   The author's  — The essay · Audio companion · The audit
+    #   The machine's — The essay · Audio companion · The audit
+    # Audio appears on a row only when that companion exists. The machine row
+    # appears only when a machine companion exists (MACHINE_VERSION_ISSUES).
+    # Richer leaves (plain words, conversation/EDR, separately named machine
+    # audit) live inside the audit-snapshot pages, not essay chrome.
+    # Standing rules from 2026-08-23 still hold:
+    #   1. ONE ABSOLUTE NAME PER DESTINATION, identical on every page that shows it.
+    #   2. The current page is PINNED (.here, aria-current) rather than omitted.
+    #   3. The block sits at the FOOT.
     companions = ""
     if issue:
         base = f"{AUDIT_BASE}/issue-{issue:03d}"
         author = ['<span class="here" aria-current="page">The essay</span>']
         if issue in AUDIO:
             author.append(f'<a href="{AUDIO[issue]}">Audio companion</a>')
-        machine = [f'<a href="{base}/">The issue audit</a>']
+        author.append(f'<a href="{base}/">The audit</a>')
+        rows = [("The author&rsquo;s", author)]
         if issue in MACHINE_VERSION_ISSUES:
-            machine += [f'<a href="{base}/machine-version/">The machine&rsquo;s essay</a>',
-                        f'<a href="{base}/machine-version/plain/">In plain words</a>',
-                        f'<a href="{base}/machine-version/audit/">Audit of the machine&rsquo;s essay</a>']
-        rows = [("The author&rsquo;s", author), ("The machine&rsquo;s", machine)]
-        if issue in EDR_ISSUES:
-            rows.append(("Both, verbatim", [f'<a href="{base}/development/">The conversation behind this</a>']))
+            machine = [f'<a href="{base}/machine-version/">The essay</a>']
+            # No machine-row audio yet; add here only when that companion exists.
+            machine.append(f'<a href="{base}/machine-version/audit/">The audit</a>')
+            rows.append(("The machine&rsquo;s", machine))
         items = "".join(f"<dt>{lbl}</dt><dd>{' · '.join(ls)}</dd>" for lbl, ls in rows)
         companions = (f'\n<nav class="cnav" aria-label="Issue {issue} companions">'
                       f"<dl>{items}</dl></nav>")
@@ -304,12 +341,15 @@ def essay_page(slug, issue, title, dek_html, body, date, precision):
 def build():
     entries = []
     for slug, (issue, rel, date, precision) in MANIFEST.items():
-        path = os.path.join(SRC, rel)
-        title, dek_html, body = load_source(path, slug)
-        if slug in CHROME_STRIPS:
-            matches = re.findall(CHROME_STRIPS[slug], body, re.S)
-            assert len(matches) == 1, f"chrome strip must match exactly once in {slug}, got {len(matches)}"
-            body = re.sub(CHROME_STRIPS[slug], "", body, flags=re.S).strip()
+        path = resolve_source(rel)
+        if path:
+            title, dek_html, body = load_source(path, slug)
+            if slug in CHROME_STRIPS:
+                matches = re.findall(CHROME_STRIPS[slug], body, re.S)
+                assert len(matches) == 1, f"chrome strip must match exactly once in {slug}, got {len(matches)}"
+                body = re.sub(CHROME_STRIPS[slug], "", body, flags=re.S).strip()
+        else:
+            title, dek_html, body = recover_from_built(slug)
         entries.append(dict(slug=slug, issue=issue, title=title, dek=re.sub(r"<[^>]+>", "", dek_html).strip(),
                             dek_html=dek_html, body=body, date=date, precision=precision, src=rel))
         d = os.path.join(OUT, "p", slug)
