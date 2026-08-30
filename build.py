@@ -47,6 +47,12 @@ AUDIO = {
     25: "https://open.spotify.com/episode/6pElPtOkGUskt05bYx612u",
 }
 
+# Machine-row audio companions (Spotify episode pages; issue -> URL). Distinct
+# from AUDIO: author and machine are separate episodes.
+MACHINE_AUDIO = {
+    26: "https://open.spotify.com/episode/0nTfvwBxKgbCXXoDETTPDr",
+}
+
 # Issues with a published Extended Development Record (verbatim author + AI
 # conversation) at AUDIT_BASE/issue-0NN/development/ — verified on disk 2026-08-14.
 # The EDR is no longer a top-level essay-chrome leaf (J, 2026-08-29); it stays
@@ -326,7 +332,8 @@ def essay_page(slug, issue, title, dek_html, body, date, precision):
         rows = [("The author&rsquo;s", author)]
         if issue in MACHINE_VERSION_ISSUES:
             machine = [f'<a href="{base}/machine-version/">The essay</a>']
-            # No machine-row audio yet; add here only when that companion exists.
+            if issue in MACHINE_AUDIO:
+                machine.append(f'<a href="{MACHINE_AUDIO[issue]}">Audio companion</a>')
             machine.append(f'<a href="{base}/machine-version/audit/">The audit</a>')
             rows.append(("The machine&rsquo;s", machine))
         items = "".join(f"<dt>{lbl}</dt><dd>{' · '.join(ls)}</dd>" for lbl, ls in rows)
