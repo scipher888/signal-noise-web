@@ -272,7 +272,7 @@ PAGE = """<!doctype html>
 {main}
 </main>
 <footer class="site-foot">
-  <p>Signal &amp; Noise is written under the pen name Synthia Cipher. AI tools draft and critique; the human author owns the editorial judgment, final wording, published claims, and errors.</p>
+  <p>Signal &amp; Noise is written under the pen name Synthia Cipher. Each edition is a human essay and an AI essay, then audits in The World Behind the Words. The human author owns the wording, published claims, and errors of the human essay.</p>
   <p><a href="{home}">Home</a> · <a href="{root}archive/">Archive</a> · <a href="{root}about/">About</a> · <a href="{root}subscribe/">Follow</a> · <a href="{root}feed.xml">RSS</a> · <a href="https://scipher888.github.io/signal-noise-audit-snapshot/world/">The World Behind the Words</a></p>
 </footer>
 </body>
@@ -390,7 +390,7 @@ def build():
 <h1>Signal &amp; Noise</h1>
 <div class="gold-rule"></div>
 <p class="tagline">One idea at a time, taken seriously.</p>
-<p class="hero-intro">Essays about AI, judgment, and human consequences. Every piece comes in two layers: <strong>the essay</strong> — the argument I wanted to make — and <strong>the audit</strong> — what the machine found when it checked, published in <a href="https://scipher888.github.io/signal-noise-audit-snapshot/world/">The World Behind the Words</a>.</p>
+<p class="hero-intro">Essays about AI, judgment, and human consequences. Every edition is one topic, two essays: <strong>the human essay</strong> — the argument I wanted to make — and <strong>the AI's essay</strong> — a machine companion on the same subject. Each is checked; the audits live in <a href="https://scipher888.github.io/signal-noise-audit-snapshot/world/">The World Behind the Words</a>.</p>
 </section>
 <section class="latest">
 <p class="kicker">Latest — Issue {latest['issue']} · {display_date(latest['date'], latest['precision'])}</p>
@@ -403,7 +403,7 @@ def build():
 <p><a href="archive/">Full archive →</a></p>
 </section>"""
     open(os.path.join(OUT, "index.html"), "w", encoding="utf-8").write(
-        render("Signal & Noise", "Essays about AI, judgment, and human consequences — every piece an essay plus a published audit.", "", home_main, "/").replace("<title>Signal &amp; Noise — Signal &amp; Noise</title>", "<title>Signal &amp; Noise</title>"))
+        render("Signal & Noise", "Essays about AI, judgment, and human consequences — a human essay and an AI essay on the same subject, then published audits.", "", home_main, "/").replace("<title>Signal &amp; Noise — Signal &amp; Noise</title>", "<title>Signal &amp; Noise</title>"))
 
     # about (from the live About v3 copy)
     about_main = """<h1>About</h1>
@@ -411,15 +411,16 @@ def build():
 <p>One idea at a time, taken seriously.</p>
 <h2>Who Writes This</h2>
 <p>I'm Synthia Cipher. I use a pen name because of strict professional privacy obligations.</p>
-<p>I use AI to draft and pressure-test — surfacing counterarguments and exposing weak reasoning. But the editorial judgment, final wording, and published claims are mine. If something here is wrong, the fault is mine, not the algorithm's.</p>
+<p>I use AI to draft and pressure-test — surfacing counterarguments and exposing weak reasoning. For the human essay, editorial judgment, final wording, and published claims are mine. If the human essay is wrong, the fault is mine, not the algorithm's. The AI essay is not silently my wording.</p>
 <p>I'm a novice — at AI, at computers, at creating things, at writing. More than anything else, Signal &amp; Noise is a transparent public record of my trying to learn to create things with AI. Any value may reside in that record more than in the content of the essays.</p>
-<h2>Every Piece Comes in Two Layers</h2>
-<p><strong>The essay</strong> is the argument I wanted to make, the way I wanted to make it.</p>
-<p><strong>The audit</strong> is what the machine found when it checked: which objections were raised, what was verified against sources, what changed because of it — and what couldn't be checked at all.</p>
-<p>The essay goes through an accuracy-and-fairness check before it publishes. Then the audit digs into everything else — and we publish it, including what it weakens, in The World Behind the Words.</p>
-<p>The audit isn't there to prove the essay right. It's there to show you where it might not be. The audits are run and published by AI, and each one states exactly which models ran it.</p>
+<h2>One Topic, Two Essays</h2>
+<p>Every edition is one topic, two essays.</p>
+<p><strong>The human essay</strong> is the argument I wanted to make.</p>
+<p><strong>The AI's essay</strong> is a machine companion on the same subject, written separately. It is not a correction, and it is not a second edition.</p>
+<p>Same subject. Two kinds of intelligence.</p>
+<p>Each essay is checked. What the check found — including what it weakens — is published in The World Behind the Words. The audits are run and published by AI, and each one states which models ran it. The audit is not there to prove either essay right.</p>
 <h2>Where Intuition Went</h2>
-<p>I used to publish less disciplined takes in a companion publication called <a href="https://scipher888.github.io/intuition/">Intuition</a> — the version of an idea I wanted to be true, set down before the checking. Those issues stay up, unchanged. But the gap Intuition existed to display — between what I want to be true and what survives scrutiny — now lives inside every issue: the essay shows my hand, the audit shows the work.</p>
+<p>I used to publish less disciplined takes in a companion publication called <a href="https://scipher888.github.io/intuition/">Intuition</a> — the version of an idea I wanted to be true, set down before the checking. Those issues stay up, unchanged. But the gap Intuition existed to display — between what I want to be true and what survives scrutiny — now lives inside every issue as two essays plus the audits, not only the essay against the audit.</p>
 <h2>Process Transparency</h2>
 <p>Public audit trail: <a href="https://github.com/scipher888/signal-noise-audit-snapshot">Editorial Audit Snapshot</a>.</p>
 <h2>Subscribe</h2>
@@ -489,7 +490,7 @@ def build():
   <channel>
     <title>Signal &amp; Noise</title>
     <link>{BASE_URL}/</link>
-    <description>Essays about AI, judgment, and human consequences — every piece an essay plus a published audit.</description>
+    <description>Essays about AI, judgment, and human consequences — a human essay and an AI essay on the same subject, then published audits.</description>
     <language>en</language>
 {chr(10).join(items)}
   </channel>
