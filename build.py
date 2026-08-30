@@ -45,7 +45,7 @@ AUDIO = {
     23: "https://open.spotify.com/episode/4k8AoL3DxcAJekX82fgdlj",
     24: "https://open.spotify.com/episode/2jInS7rz9AszmaTLJbFSbR",
     25: "https://open.spotify.com/episode/6pElPtOkGUskt05bYx612u",
-    26: _EP + "Civilization-at-Machine-Speed-e3o2oo7",
+    26: "https://open.spotify.com/episode/64mbkMHYJz7YLzkfWD8w2b",
 }
 
 # Machine-row audio companions (Spotify episode pages; issue -> URL). Distinct
