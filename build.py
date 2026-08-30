@@ -45,6 +45,7 @@ AUDIO = {
     23: "https://open.spotify.com/episode/4k8AoL3DxcAJekX82fgdlj",
     24: "https://open.spotify.com/episode/2jInS7rz9AszmaTLJbFSbR",
     25: "https://open.spotify.com/episode/6pElPtOkGUskt05bYx612u",
+    26: "https://open.spotify.com/episode/1NBkcWT8CHNJiArQCYFca1",
 }
 
 # Issues with a published Extended Development Record (verbatim author + AI
