@@ -1,0 +1,4 @@
+# Allow all crawlers, including social preview bots
+# (Twitterbot, facebookexternalhit, LinkedInBot, Slackbot, and others).
+User-agent: *
+Allow: /
