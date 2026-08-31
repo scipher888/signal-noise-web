@@ -14,6 +14,7 @@ Run:    python3 build.py            # writes the site into ./ (docs at repo root
         python3 build.py --check    # fidelity verification, exit 1 on any drift
 """
 
+import hashlib
 import html
 import os
 import re
@@ -260,8 +261,11 @@ PAGE = """<!doctype html>
   <meta property="og:title" content="{title}">
   <meta property="og:description" content="{desc}">
   <meta property="og:url" content="{url}">
-  <meta property="og:image" content="{base}/assets/preview.png">
+  <meta property="og:image" content="{ogimage}">
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{title}">
+  <meta name="twitter:description" content="{desc}">
+  <meta name="twitter:image" content="{ogimage}">
 </head>
 <body>
 <header class="site-head">
@@ -280,13 +284,28 @@ PAGE = """<!doctype html>
 """
 
 
+def preview_image_url():
+    """Absolute OG/Twitter image URL, cache-busted from the PNG contents.
+
+    GitHub Pages serves assets with max-age=600. A short hash query string lets
+    crawlers that cached a miss pick up a new preview.png without a rename.
+    """
+    path = os.path.join(OUT, "assets", "preview.png")
+    url = f"{BASE_URL}/assets/preview.png"
+    if os.path.isfile(path):
+        digest = hashlib.md5(open(path, "rb").read()).hexdigest()[:8]
+        url += f"?v={digest}"
+    return url
+
+
 def render(title, desc, root, main, path, ogtype="website"):
     """Wrap page content in the site template. `path` is the site-absolute path
     (e.g. "/about/") — it feeds the canonical link and the og:url.
     Homepage `root` is empty, so Home links use "/" instead of an empty href."""
     home = root or "/"
     return PAGE.format(title=html.escape(title), desc=html.escape(desc, quote=True),
-                       root=root, home=home, main=main, url=BASE_URL + path, ogtype=ogtype, base=BASE_URL)
+                       root=root, home=home, main=main, url=BASE_URL + path,
+                       ogtype=ogtype, ogimage=preview_image_url())
 
 
 # Night Observatory hero — rebuilt from the original brand sources
