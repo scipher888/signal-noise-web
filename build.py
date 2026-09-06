@@ -47,12 +47,14 @@ AUDIO = {
     24: "https://open.spotify.com/episode/2jInS7rz9AszmaTLJbFSbR",
     25: "https://open.spotify.com/episode/6pElPtOkGUskt05bYx612u",
     26: "https://open.spotify.com/episode/64mbkMHYJz7YLzkfWD8w2b",
+    27: "https://open.spotify.com/episode/3Cp6oA7Ng3e4VjlLlKxOod",
 }
 
 # Machine-row audio companions (Spotify episode pages; issue -> URL). Distinct
 # from AUDIO: author and machine are separate episodes.
 MACHINE_AUDIO = {
     26: "https://open.spotify.com/episode/0nTfvwBxKgbCXXoDETTPDr",
+    27: "https://open.spotify.com/episode/1QGNaNWgB4DEcwd6lbmbbd",
 }
 
 # Issues with a published Extended Development Record (verbatim author + AI
