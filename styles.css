@@ -56,12 +56,17 @@ article table { border-collapse: collapse; width: 100%; font-size: 0.95em; }
 article th, article td { border: 1px solid var(--line); padding: 0.5rem 0.65rem; text-align: left; vertical-align: top; }
 article pre { overflow-x: auto; background: var(--paper-bright); padding: 0.8rem 1rem; border: 1px solid var(--line); border-radius: 8px; font-size: 0.85em; }
 
-/* Companion map — foot of the essay, grouped by who wrote it, current page pinned.
-   Label and links share a baseline on wide screens; under 640px the label stacks
-   above its own row so neither column squeezes the other. */
+/* Companion map — top of the essay (after title/dek) plus a light foot copy.
+   Grouped by who wrote it, current page pinned. Label and links share a
+   baseline on wide screens; under 640px the label stacks above its own row.
+   .cnav.top: bottom border, no top border (audit-snapshot reference). */
 .cnav {
   font-family: var(--sans); font-size: 0.84rem; color: var(--muted);
   margin: 2.6rem 0 0; padding-top: 1.1rem; border-top: 1px solid var(--line);
+}
+.cnav.top {
+  margin: 0 0 1.6rem; padding: 0 0 1.1rem;
+  border-top: 0; border-bottom: 1px solid var(--line);
 }
 .cnav dl {
   display: grid; grid-template-columns: max-content 1fr;
@@ -91,6 +96,12 @@ article pre { overflow-x: auto; background: var(--paper-bright); padding: 0.8rem
 .latest h2 { margin: 0.2rem 0 0.6rem; font-size: 1.5rem; }
 .latest h2 a { text-decoration: none; }
 .latest h2 a:hover { text-decoration: underline; }
+.latest .pair {
+  font-family: var(--sans); font-size: 0.84rem; color: var(--muted);
+  margin: -0.15rem 0 0.75rem;
+}
+.latest .pair a { color: var(--ink-soft); text-decoration-color: var(--line); }
+.latest .pair a:hover { text-decoration-color: var(--sun); }
 .recent h2 { font-size: 1.1rem; color: var(--muted); font-family: var(--sans); text-transform: uppercase; letter-spacing: 0.06em; }
 
 .row { margin: 0 0 1.05rem; }

@@ -244,7 +244,7 @@ def recover_from_built(slug):
     dek_html = dm.group(1) if dm else ""
     if dm:
         rest = rest[dm.end():]
-    rest = re.sub(r"\s*<nav class=\"cnav\".*?</nav>\s*$", "", rest, flags=re.S)
+    rest = re.sub(r"\s*<nav class=\"cnav(?: top)?\".*?</nav>", "", rest, flags=re.S)
     return title, dek_html, rest.strip()
 
 
@@ -344,8 +344,12 @@ def essay_page(slug, issue, title, dek_html, body, date, precision):
     # Standing rules from 2026-08-23 still hold:
     #   1. ONE ABSOLUTE NAME PER DESTINATION, identical on every page that shows it.
     #   2. The current page is PINNED (.here, aria-current) rather than omitted.
-    #   3. The block sits at the FOOT.
-    companions = ""
+    #   3. The block sits at the TOP (after kicker/title/dek, before the body)
+    #      so the machine companion is visible without scrolling past the essay.
+    #      A light foot copy repeats the same destinations; .here still pins
+    #      the current page on both.
+    companions_top = ""
+    companions_foot = ""
     if issue:
         base = f"{AUDIT_BASE}/issue-{issue:03d}"
         author = ['<span class="here" aria-current="page">The essay</span>']
@@ -360,10 +364,13 @@ def essay_page(slug, issue, title, dek_html, body, date, precision):
             machine.append(f'<a href="{base}/machine-version/audit/">The audit</a>')
             rows.append(("The machine&rsquo;s", machine))
         items = "".join(f"<dt>{lbl}</dt><dd>{' · '.join(ls)}</dd>" for lbl, ls in rows)
-        companions = (f'\n<nav class="cnav" aria-label="Issue {issue} companions">'
-                      f"<dl>{items}</dl></nav>")
+        companions_top = (f'\n<nav class="cnav top" aria-label="Issue {issue} companions">'
+                          f"<dl>{items}</dl></nav>")
+        companions_foot = (f'\n<nav class="cnav" aria-label="Issue {issue} companions">'
+                           f"<dl>{items}</dl></nav>")
     main = (f"<article>\n<p class=\"kicker\">{kicker} · {dateline}</p>\n"
-            f"<h1>{html.escape(title)}</h1>\n{dek_html}\n{body}\n{companions}\n</article>")
+            f"<h1>{html.escape(title)}</h1>\n{dek_html}{companions_top}\n"
+            f"{body}\n{companions_foot}\n</article>")
     desc = re.sub(r"<[^>]+>", "", dek_html).strip() or f"Signal & Noise — {title}"
     return render(title, desc, "../../", main, f"/p/{slug}/", ogtype="article")
 
@@ -407,6 +414,13 @@ def build():
 
     # home
     latest = essays[0]
+    # Pair line under the latest title: Human · Machine when a machine companion
+    # exists. Omit the Machine link (and the pair) when it would 404.
+    pair = ""
+    if latest["issue"] in MACHINE_VERSION_ISSUES:
+        machine_href = f"{AUDIT_BASE}/issue-{latest['issue']:03d}/machine-version/"
+        pair = (f'<p class="pair"><a href="p/{latest["slug"]}/">Human</a>'
+                f' · <a href="{machine_href}">Machine</a></p>\n')
     home_main = f"""<section class="hero hero-centered">
 {OBSERVATORY}
 <h1>Signal &amp; Noise</h1>
@@ -417,7 +431,7 @@ def build():
 <section class="latest">
 <p class="kicker">Latest — Issue {latest['issue']} · {display_date(latest['date'], latest['precision'])}</p>
 <h2><a href="p/{latest['slug']}/">{html.escape(latest['title'])}</a></h2>
-{latest['dek_html']}
+{pair}{latest['dek_html']}
 </section>
 <section class="recent">
 <h2>Recent</h2>
