@@ -63,12 +63,12 @@ MACHINE_AUDIO = {
 # conversation) at AUDIT_BASE/issue-0NN/development/ — verified on disk 2026-08-14.
 # The EDR is no longer a top-level essay-chrome leaf (J, 2026-08-29); it stays
 # reachable from the audit pages.
-EDR_ISSUES = {14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 27, 28}
+EDR_ISSUES = {14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 27, 28, 29}
 
 # Issues carrying the machine's-version experiment (an AI-written companion essay
 # published inside the audit record; J's rulings 2026-08-23) at
 # AUDIT_BASE/issue-0NN/machine-version/. The machine row appears only for these.
-MACHINE_VERSION_ISSUES = {25, 26, 27, 28}
+MACHINE_VERSION_ISSUES = {25, 26, 27, 28, 29}
 
 # In-body audit-status blocks retired per J's 2026-08-14 ruling: the companions
 # line is now the piece's audit-status link, so the beehiiv-era "<hr> The audit:
@@ -115,6 +115,7 @@ MANIFEST = {
     "civilization-at-machine-speed": (26, "drafts/issue-026-web-paste-2026-08-29.html", "2026-08-29", "day"),
     "ai-can-advance-philosophy-now": (27, "drafts/issue-027-web-paste-2026-09-06.html", "2026-09-06", "day"),
     "equal-intelligence-does-not-mean-adequate-security": (28, "drafts/issue-028-web-paste-2026-09-13.html", "2026-09-13", "day"),
+    "the-answer-we-least-want-to-hear": (29, "drafts/issue-029-web-paste-2026-09-18.html", "2026-09-18", "day"),
 }
 
 # Sources whose title/dek live outside the body (beehiiv field lines / build comments).
