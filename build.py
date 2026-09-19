@@ -61,6 +61,16 @@ MACHINE_AUDIO = {
     29: "https://open.spotify.com/episode/4epydrmVPOQqPqPr7pkbTj",
 }
 
+# Intuition sister essays (issue -> URL). Reciprocal companions for the four
+# Intuition pieces that already link to these S&N essays. Only these issues
+# carry an Intuition sister; do not invent pairings for other issues.
+INTUITION_SISTER = {
+    14: "https://scipher888.github.io/intuition/the-reality-compiler/",
+    16: "https://scipher888.github.io/intuition/do-i-have-to-take-gary-marcus-seriously/",
+    19: "https://scipher888.github.io/intuition/the-black-box-next-door/",
+    21: "https://scipher888.github.io/intuition/ai-wont-end-scarcity/",
+}
+
 # Issues with a published Extended Development Record (verbatim author + AI
 # conversation) at AUDIT_BASE/issue-0NN/development/ — verified on disk 2026-08-14.
 # The EDR is no longer a top-level essay-chrome leaf (J, 2026-08-29); it stays
@@ -345,6 +355,8 @@ def essay_page(slug, issue, title, dek_html, body, date, precision):
     #   The machine's — The essay · Audio companion · The audit
     # Audio appears on a row only when that companion exists. The machine row
     # appears only when a machine companion exists (MACHINE_VERSION_ISSUES).
+    # An Intuition sister essay appears on the author's row only for issues
+    # in INTUITION_SISTER, after The audit.
     # Richer leaves (plain words, conversation/EDR, separately named machine
     # audit) live inside the audit-snapshot pages, not essay chrome.
     # Standing rules from 2026-08-23 still hold:
@@ -362,6 +374,8 @@ def essay_page(slug, issue, title, dek_html, body, date, precision):
         if issue in AUDIO:
             author.append(f'<a href="{AUDIO[issue]}">Audio companion</a>')
         author.append(f'<a href="{base}/">The audit</a>')
+        if issue in INTUITION_SISTER:
+            author.append(f'<a href="{INTUITION_SISTER[issue]}">Intuition sister essay</a>')
         rows = [("The author&rsquo;s", author)]
         if issue in MACHINE_VERSION_ISSUES:
             machine = [f'<a href="{base}/machine-version/">The essay</a>']
