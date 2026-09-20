@@ -127,7 +127,7 @@ MANIFEST = {
     "civilization-at-machine-speed": (26, "drafts/issue-026-web-paste-2026-08-29.html", "2026-08-29", "day"),
     "ai-can-advance-philosophy-now": (27, "drafts/issue-027-web-paste-2026-09-06.html", "2026-09-06", "day"),
     "equal-intelligence-does-not-mean-adequate-security": (28, "drafts/issue-028-web-paste-2026-09-13.html", "2026-09-13", "day"),
-    "the-answer-we-least-want-to-hear": (29, "drafts/issue-029-web-paste-2026-09-18.html", "2026-09-18", "day"),
+    "the-answer-we-least-want-to-hear": (29, "drafts/issue-029-web-paste-2026-09-20-v1.1.html", "2026-09-18", "day"),
 }
 
 # Sources whose title/dek live outside the body (beehiiv field lines / build comments).
