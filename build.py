@@ -50,6 +50,7 @@ AUDIO = {
     27: "https://open.spotify.com/episode/3Cp6oA7Ng3e4VjlLlKxOod",
     28: "https://open.spotify.com/episode/7mRTvjE8jYzMHriHoLbhkK",
     29: "https://open.spotify.com/episode/1fe2L6JTwqRZ81UacHUmFv",
+    30: "https://open.spotify.com/episode/3Pqn5UDpiCG8TxMIBqL2Dh",
 }
 
 # Machine-row audio companions (Spotify episode pages; issue -> URL). Distinct
@@ -59,6 +60,7 @@ MACHINE_AUDIO = {
     27: "https://open.spotify.com/episode/1QGNaNWgB4DEcwd6lbmbbd",
     28: "https://open.spotify.com/episode/4OrZFhWrHowK64cmjiITNP",
     29: "https://open.spotify.com/episode/4epydrmVPOQqPqPr7pkbTj",
+    30: "https://open.spotify.com/episode/5nBiOmQGpTqkOuFIhJfAs5",
 }
 
 # Intuition sister essays (issue -> URL). Reciprocal companions for the four
