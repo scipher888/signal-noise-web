@@ -84,6 +84,24 @@ EDR_ISSUES = {14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 27, 28, 29, 30}
 # AUDIT_BASE/issue-0NN/machine-version/. The machine row appears only for these.
 MACHINE_VERSION_ISSUES = {25, 26, 27, 28, 29, 30}
 
+# Machine companions published on this site (issue -> slug). The machine row
+# still sits where it does for MACHINE_VERSION_ISSUES; the essay link points
+# here instead of the audit snapshot. Issue 31 has no snapshot record.
+LOCAL_MACHINE = {
+    31: "george-saunders-drew-the-line-in-the-wrong-place",
+}
+
+# A separate page, written without AI, linked on the author's row beside
+# The essay (issue -> slug). Not a second issue and not part of the essay body.
+UNAIDED = {
+    31: "george-saunders-has-a-point",
+}
+UNAIDED_LEAF = "Written without AI"
+
+# Snapshot audit records that 404. Omit the audit leaf the same way audio is
+# omitted when there is no episode. Checked 2026-10-04: issue-031 is absent.
+NO_AUDIT = {31}
+
 # In-body audit-status blocks retired per J's 2026-08-14 ruling: the companions
 # line is now the piece's audit-status link, so the beehiiv-era "<hr> The audit:
 # ... Audit complete." block is page chrome made redundant, stripped at wrap time
@@ -131,6 +149,17 @@ MANIFEST = {
     "equal-intelligence-does-not-mean-adequate-security": (28, "drafts/issue-028-web-paste-2026-09-13.html", "2026-09-13", "day"),
     "the-answer-we-least-want-to-hear": (29, "drafts/issue-029-web-paste-2026-09-20-v1.1.html", "2026-09-18", "day"),
     "a-curious-machine-is-not-a-kind-one": (30, "drafts/issue-030-web-paste-2026-09-26.html", "2026-09-26", "day"),
+    "george-saunders-is-right-about-writing": (31, "drafts/issue-031-web-paste-2026-10-04.html", "2026-10-04", "day"),
+}
+
+# Pages that belong to an issue but are not its archive row or feed item.
+# role is "machine" or "unaided" — which companion leaf this page pins.
+# slug -> (issue_no, role, source path relative to this repo, date, date_precision)
+SIDE_PAGES = {
+    "george-saunders-drew-the-line-in-the-wrong-place": (
+        31, "machine", "drafts/issue-031-machine-web-paste-2026-10-04.html", "2026-10-04", "day"),
+    "george-saunders-has-a-point": (
+        31, "unaided", "drafts/issue-031-unaided-web-paste-2026-10-04.html", "2026-10-04", "day"),
 }
 
 # Sources whose title/dek live outside the body (beehiiv field lines / build comments).
@@ -350,51 +379,95 @@ OBSERVATORY = """<svg class="observatory" viewBox="0 0 640 470" xmlns="http://ww
 </svg>"""
 
 
-def essay_page(slug, issue, title, dek_html, body, date, precision):
+def author_slug_for(issue):
+    for slug, (n, *_rest) in MANIFEST.items():
+        if n == issue:
+            return slug
+    raise SystemExit(f"no author slug for issue {issue}")
+
+
+def nav_leaf(label, href, current):
+    if current:
+        return f'<span class="here" aria-current="page">{label}</span>'
+    return f'<a href="{href}">{label}</a>'
+
+
+def companion_navs(issue, here="author"):
+    """Companion map (J, 2026-08-29). Two parallel rows, same leaf names:
+
+      The author's  — The essay · Audio companion · The audit
+      The machine's — The essay · Audio companion · The audit
+
+    Audio appears on a row only when that companion exists. The audit leaf
+    is omitted when the snapshot has no record (NO_AUDIT). The machine row
+    appears when a machine companion exists (MACHINE_VERSION_ISSUES or
+    LOCAL_MACHINE). A page written without AI (UNAIDED) sits on the author's
+    row immediately after The essay, under one name on every page.
+    An Intuition sister essay appears on the author's row only for issues
+    in INTUITION_SISTER, after The audit.
+    `here` is "author", "machine", or "unaided": that leaf is pinned.
+    Standing rules from 2026-08-23 still hold:
+      1. ONE ABSOLUTE NAME PER DESTINATION, identical on every page that shows it.
+      2. The current page is PINNED (.here, aria-current) rather than omitted.
+      3. The block sits at the TOP (after kicker/title/dek, before the body)
+         so the machine companion is visible without scrolling past the essay.
+         A light foot copy repeats the same destinations; .here still pins
+         the current page on both.
+    """
+    base = f"{AUDIT_BASE}/issue-{issue:03d}"
+    author_href = f"{BASE_URL}/p/{author_slug_for(issue)}/"
+    author = [nav_leaf("The essay", author_href, here == "author")]
+    if issue in UNAIDED:
+        author.append(nav_leaf(
+            UNAIDED_LEAF,
+            f"{BASE_URL}/p/{UNAIDED[issue]}/",
+            here == "unaided",
+        ))
+    if issue in AUDIO:
+        author.append(f'<a href="{AUDIO[issue]}">Audio companion</a>')
+    if issue not in NO_AUDIT:
+        author.append(f'<a href="{base}/">The audit</a>')
+    if issue in INTUITION_SISTER:
+        author.append(f'<a href="{INTUITION_SISTER[issue]}">Intuition sister essay</a>')
+    rows = [("The author&rsquo;s", author)]
+    if issue in MACHINE_VERSION_ISSUES or issue in LOCAL_MACHINE:
+        if issue in LOCAL_MACHINE:
+            machine_href = f"{BASE_URL}/p/{LOCAL_MACHINE[issue]}/"
+        else:
+            machine_href = f"{base}/machine-version/"
+        machine = [nav_leaf("The essay", machine_href, here == "machine")]
+        if issue in MACHINE_AUDIO:
+            machine.append(f'<a href="{MACHINE_AUDIO[issue]}">Audio companion</a>')
+        if issue not in NO_AUDIT:
+            machine.append(f'<a href="{base}/machine-version/audit/">The audit</a>')
+        rows.append(("The machine&rsquo;s", machine))
+    items = "".join(f"<dt>{lbl}</dt><dd>{' · '.join(ls)}</dd>" for lbl, ls in rows)
+    top = (f'\n<nav class="cnav top" aria-label="Issue {issue} companions">'
+           f"<dl>{items}</dl></nav>")
+    foot = (f'\n<nav class="cnav" aria-label="Issue {issue} companions">'
+            f"<dl>{items}</dl></nav>")
+    return top, foot
+
+
+def essay_page(slug, issue, title, dek_html, body, date, precision, here="author"):
     kicker = f"Issue {issue}" if issue else "Process note"
     dateline = display_date(date, precision)
-    # Companion map (J, 2026-08-29). Two parallel rows, same three leaf names:
-    #   The author's  — The essay · Audio companion · The audit
-    #   The machine's — The essay · Audio companion · The audit
-    # Audio appears on a row only when that companion exists. The machine row
-    # appears only when a machine companion exists (MACHINE_VERSION_ISSUES).
-    # An Intuition sister essay appears on the author's row only for issues
-    # in INTUITION_SISTER, after The audit.
-    # Richer leaves (plain words, conversation/EDR, separately named machine
-    # audit) live inside the audit-snapshot pages, not essay chrome.
-    # Standing rules from 2026-08-23 still hold:
-    #   1. ONE ABSOLUTE NAME PER DESTINATION, identical on every page that shows it.
-    #   2. The current page is PINNED (.here, aria-current) rather than omitted.
-    #   3. The block sits at the TOP (after kicker/title/dek, before the body)
-    #      so the machine companion is visible without scrolling past the essay.
-    #      A light foot copy repeats the same destinations; .here still pins
-    #      the current page on both.
     companions_top = ""
     companions_foot = ""
     if issue:
-        base = f"{AUDIT_BASE}/issue-{issue:03d}"
-        author = ['<span class="here" aria-current="page">The essay</span>']
-        if issue in AUDIO:
-            author.append(f'<a href="{AUDIO[issue]}">Audio companion</a>')
-        author.append(f'<a href="{base}/">The audit</a>')
-        if issue in INTUITION_SISTER:
-            author.append(f'<a href="{INTUITION_SISTER[issue]}">Intuition sister essay</a>')
-        rows = [("The author&rsquo;s", author)]
-        if issue in MACHINE_VERSION_ISSUES:
-            machine = [f'<a href="{base}/machine-version/">The essay</a>']
-            if issue in MACHINE_AUDIO:
-                machine.append(f'<a href="{MACHINE_AUDIO[issue]}">Audio companion</a>')
-            machine.append(f'<a href="{base}/machine-version/audit/">The audit</a>')
-            rows.append(("The machine&rsquo;s", machine))
-        items = "".join(f"<dt>{lbl}</dt><dd>{' · '.join(ls)}</dd>" for lbl, ls in rows)
-        companions_top = (f'\n<nav class="cnav top" aria-label="Issue {issue} companions">'
-                          f"<dl>{items}</dl></nav>")
-        companions_foot = (f'\n<nav class="cnav" aria-label="Issue {issue} companions">'
-                           f"<dl>{items}</dl></nav>")
+        companions_top, companions_foot = companion_navs(issue, here)
+    # companions_top already begins with a newline. With no dek, drop that
+    # extra newline so the nav follows the title the way a dek-less page should.
+    nav_top = companions_top[1:] if (not dek_html and companions_top.startswith("\n")) else companions_top
     main = (f"<article>\n<p class=\"kicker\">{kicker} · {dateline}</p>\n"
-            f"<h1>{html.escape(title)}</h1>\n{dek_html}{companions_top}\n"
+            f"<h1>{html.escape(title)}</h1>\n{dek_html}{nav_top}\n"
             f"{body}\n{companions_foot}\n</article>")
-    desc = re.sub(r"<[^>]+>", "", dek_html).strip() or f"Signal & Noise — {title}"
+    desc = re.sub(r"<[^>]+>", "", dek_html).strip()
+    if not desc:
+        plain = re.sub(r"<[^>]+>", "", body).strip()
+        desc = re.split(r"(?<=[.!?])\s", plain, maxsplit=1)[0]
+    if not desc:
+        desc = f"Signal & Noise — {title}"
     return render(title, desc, "../../", main, f"/p/{slug}/", ogtype="article")
 
 
@@ -416,6 +489,21 @@ def build():
         os.makedirs(d, exist_ok=True)
         open(os.path.join(d, "index.html"), "w", encoding="utf-8").write(
             essay_page(slug, issue, title, dek_html, body, date, precision))
+
+    side_entries = []
+    for slug, (issue, role, rel, date, precision) in SIDE_PAGES.items():
+        path = resolve_source(rel)
+        if not path:
+            raise SystemExit(f"missing source for {slug}: {rel}")
+        title, dek_html, body = load_source(path, slug)
+        side_entries.append(dict(slug=slug, issue=issue, title=title,
+                                 dek=re.sub(r"<[^>]+>", "", dek_html).strip(),
+                                 dek_html=dek_html, body=body, date=date,
+                                 precision=precision, src=rel, role=role))
+        d = os.path.join(OUT, "p", slug)
+        os.makedirs(d, exist_ok=True)
+        open(os.path.join(d, "index.html"), "w", encoding="utf-8").write(
+            essay_page(slug, issue, title, dek_html, body, date, precision, here=role))
 
     essays = sorted([e for e in entries if e["issue"]], key=lambda e: e["issue"], reverse=True)
     companions = [e for e in entries if not e["issue"]]
@@ -440,8 +528,13 @@ def build():
     # Pair line under the latest title: Human · Machine when a machine companion
     # exists. Omit the Machine link (and the pair) when it would 404.
     pair = ""
-    if latest["issue"] in MACHINE_VERSION_ISSUES:
+    if latest["issue"] in LOCAL_MACHINE:
+        machine_href = f"p/{LOCAL_MACHINE[latest['issue']]}/"
+    elif latest["issue"] in MACHINE_VERSION_ISSUES:
         machine_href = f"{AUDIT_BASE}/issue-{latest['issue']:03d}/machine-version/"
+    else:
+        machine_href = None
+    if machine_href:
         pair = (f'<p class="pair"><a href="p/{latest["slug"]}/">Human</a>'
                 f' · <a href="{machine_href}">Machine</a></p>\n')
     home_main = f"""<section class="hero hero-centered">
@@ -557,10 +650,10 @@ def build():
 """
     open(os.path.join(OUT, "feed.xml"), "w", encoding="utf-8").write(feed)
 
-    print(f"built: {len(essays)} essays + {len(companions)} process notes + home/archive/about/redirects/404/feed")
+    print(f"built: {len(essays)} essays + {len(companions)} process notes + {len(side_entries)} companion pages + home/archive/about/redirects/404/feed")
     for e in essays:
         print(f"  issue {e['issue']:>2}  {e['slug']:<55} {e['title'][:48]}")
-    return entries
+    return entries + side_entries
 
 
 def check(entries):
