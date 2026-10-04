@@ -86,7 +86,7 @@ MACHINE_VERSION_ISSUES = {25, 26, 27, 28, 29, 30}
 
 # Machine companions published on this site (issue -> slug). The machine row
 # still sits where it does for MACHINE_VERSION_ISSUES; the essay link points
-# here instead of the audit snapshot. Issue 31 has no snapshot record.
+# here instead of the audit snapshot. The audit leaf still uses AUDIT_BASE.
 LOCAL_MACHINE = {
     31: "george-saunders-drew-the-line-in-the-wrong-place",
 }
@@ -99,8 +99,8 @@ UNAIDED = {
 UNAIDED_LEAF = "Written without AI"
 
 # Snapshot audit records that 404. Omit the audit leaf the same way audio is
-# omitted when there is no episode. Checked 2026-10-04: issue-031 is absent.
-NO_AUDIT = {31}
+# omitted when there is no episode. Issue 31's record is published.
+NO_AUDIT = set()
 
 # In-body audit-status blocks retired per J's 2026-08-14 ruling: the companions
 # line is now the piece's audit-status link, so the beehiiv-era "<hr> The audit:
@@ -399,7 +399,8 @@ def companion_navs(issue, here="author"):
       The machine's — The essay · Audio companion · The audit
 
     Audio appears on a row only when that companion exists. The audit leaf
-    is omitted when the snapshot has no record (NO_AUDIT). The machine row
+    is omitted when the snapshot has no record (NO_AUDIT), and on the unaided
+    page, which keeps the map it already published. The machine row
     appears when a machine companion exists (MACHINE_VERSION_ISSUES or
     LOCAL_MACHINE). A page written without AI (UNAIDED) sits on the author's
     row immediately after The essay, under one name on every page.
@@ -425,7 +426,10 @@ def companion_navs(issue, here="author"):
         ))
     if issue in AUDIO:
         author.append(f'<a href="{AUDIO[issue]}">Audio companion</a>')
-    if issue not in NO_AUDIT:
+    # Audit leaves go on the author and machine essays. The unaided page
+    # keeps the companion map it already published.
+    show_audit = issue not in NO_AUDIT and here != "unaided"
+    if show_audit:
         author.append(f'<a href="{base}/">The audit</a>')
     if issue in INTUITION_SISTER:
         author.append(f'<a href="{INTUITION_SISTER[issue]}">Intuition sister essay</a>')
@@ -438,7 +442,7 @@ def companion_navs(issue, here="author"):
         machine = [nav_leaf("The essay", machine_href, here == "machine")]
         if issue in MACHINE_AUDIO:
             machine.append(f'<a href="{MACHINE_AUDIO[issue]}">Audio companion</a>')
-        if issue not in NO_AUDIT:
+        if show_audit:
             machine.append(f'<a href="{base}/machine-version/audit/">The audit</a>')
         rows.append(("The machine&rsquo;s", machine))
     items = "".join(f"<dt>{lbl}</dt><dd>{' · '.join(ls)}</dd>" for lbl, ls in rows)
