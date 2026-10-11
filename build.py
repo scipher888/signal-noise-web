@@ -91,12 +91,14 @@ MACHINE_VERSION_ISSUES = {25, 26, 27, 28, 29, 30}
 # here instead of the audit snapshot. The audit leaf still uses AUDIT_BASE.
 LOCAL_MACHINE = {
     31: "george-saunders-drew-the-line-in-the-wrong-place",
+    32: "the-hair-began-to-grow-again",
 }
 
 # A separate page, written without AI, linked on the author's row beside
 # The essay (issue -> slug). Not a second issue and not part of the essay body.
 UNAIDED = {
     31: "george-saunders-has-a-point",
+    32: "what-i-want-my-kids-to-know-about-making-mistakes",
 }
 UNAIDED_LEAF = "Written without AI"
 
@@ -152,6 +154,7 @@ MANIFEST = {
     "the-answer-we-least-want-to-hear": (29, "drafts/issue-029-web-paste-2026-09-20-v1.1.html", "2026-09-18", "day"),
     "a-curious-machine-is-not-a-kind-one": (30, "drafts/issue-030-web-paste-2026-09-26.html", "2026-09-26", "day"),
     "george-saunders-is-right-about-writing": (31, "drafts/issue-031-web-paste-2026-10-04.html", "2026-10-04", "day"),
+    "your-hair-grows-back-your-eyes-dont": (32, "drafts/issue-032-web-paste-2026-10-11.html", "2026-10-11", "day"),
 }
 
 # Pages that belong to an issue but are not its archive row or feed item.
@@ -162,6 +165,10 @@ SIDE_PAGES = {
         31, "machine", "drafts/issue-031-machine-web-paste-2026-10-04.html", "2026-10-04", "day"),
     "george-saunders-has-a-point": (
         31, "unaided", "drafts/issue-031-unaided-web-paste-2026-10-04.html", "2026-10-04", "day"),
+    "the-hair-began-to-grow-again": (
+        32, "machine", "drafts/issue-032-machine-web-paste-2026-10-11.html", "2026-10-11", "day"),
+    "what-i-want-my-kids-to-know-about-making-mistakes": (
+        32, "unaided", "drafts/issue-032-unaided-web-paste-2026-10-11.html", "2026-10-11", "day"),
 }
 
 # Sources whose title/dek live outside the body (beehiiv field lines / build comments).
