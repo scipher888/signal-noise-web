@@ -94,6 +94,7 @@ MACHINE_VERSION_ISSUES = {25, 26, 27, 28, 29, 30}
 LOCAL_MACHINE = {
     31: "george-saunders-drew-the-line-in-the-wrong-place",
     32: "the-hair-began-to-grow-again",
+    33: "the-quiet-majority-of-makers",
 }
 
 # A separate page, written without AI, linked on the author's row beside
@@ -101,6 +102,7 @@ LOCAL_MACHINE = {
 UNAIDED = {
     31: "george-saunders-has-a-point",
     32: "what-i-want-my-kids-to-know-about-making-mistakes",
+    33: "the-future-is-build-and-share",
 }
 UNAIDED_LEAF = "Written without AI"
 
@@ -157,6 +159,7 @@ MANIFEST = {
     "a-curious-machine-is-not-a-kind-one": (30, "drafts/issue-030-web-paste-2026-09-26.html", "2026-09-26", "day"),
     "george-saunders-is-right-about-writing": (31, "drafts/issue-031-web-paste-2026-10-04.html", "2026-10-04", "day"),
     "your-hair-grows-back-your-eyes-dont": (32, "drafts/issue-032-web-paste-2026-10-11.html", "2026-10-11", "day"),
+    "nobody-will-buy-your-app": (33, "drafts/issue-033-web-paste-2026-10-16.html", "2026-10-16", "day"),
 }
 
 # Pages that belong to an issue but are not its archive row or feed item.
@@ -171,6 +174,10 @@ SIDE_PAGES = {
         32, "machine", "drafts/issue-032-machine-web-paste-2026-10-11.html", "2026-10-11", "day"),
     "what-i-want-my-kids-to-know-about-making-mistakes": (
         32, "unaided", "drafts/issue-032-unaided-web-paste-2026-10-11.html", "2026-10-11", "day"),
+    "the-quiet-majority-of-makers": (
+        33, "machine", "drafts/issue-033-machine-web-paste-2026-10-16.html", "2026-10-16", "day"),
+    "the-future-is-build-and-share": (
+        33, "unaided", "drafts/issue-033-unaided-web-paste-2026-10-16.html", "2026-10-16", "day"),
 }
 
 # Sources whose title/dek live outside the body (beehiiv field lines / build comments).

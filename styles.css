@@ -129,3 +129,10 @@ main code {
   background: var(--paper-bright); border: 1px solid var(--line);
   border-radius: 6px; padding: 0.14rem 0.42rem; white-space: nowrap;
 }
+/* End-of-essay notes, smaller than the body. */
+p.note {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--muted);
+  margin: 2.2rem 0 0;
+}
