@@ -53,6 +53,7 @@ AUDIO = {
     30: "https://open.spotify.com/episode/3Pqn5UDpiCG8TxMIBqL2Dh",
     31: "https://open.spotify.com/episode/2HH5MLBk5gXykU6I8ek1Mw",
     32: "https://open.spotify.com/episode/5XxFMBKeqnxYlO23QjVzY8",
+    33: "https://open.spotify.com/episode/2B72tl2v0g87wPGQ2msJgS",
 }
 
 # Machine-row audio companions (Spotify episode pages; issue -> URL). Distinct
@@ -65,6 +66,7 @@ MACHINE_AUDIO = {
     30: "https://open.spotify.com/episode/5nBiOmQGpTqkOuFIhJfAs5",
     31: "https://open.spotify.com/episode/5D5c3A8z0ct7C0483pm6sV",
     32: "https://open.spotify.com/episode/2i7ayYndEgGOblrkeejIxA",
+    33: "https://open.spotify.com/episode/1Rghgf9fxoebE6kazZ9PO9",
 }
 
 # Intuition sister essays (issue -> URL). Reciprocal companions for the four
@@ -442,8 +444,8 @@ def companion_navs(issue, here="author"):
             f"{BASE_URL}/p/{UNAIDED[issue]}/",
             here == "unaided",
         ))
-    # Issue 32's unaided page keeps the map it already published.
-    show_audio = not (issue == 32 and here == "unaided")
+    # Issues 32 and 33: the unaided page keeps the map it already published.
+    show_audio = not (issue in (32, 33) and here == "unaided")
     if issue in AUDIO and show_audio:
         author.append(f'<a href="{AUDIO[issue]}">Audio companion</a>')
     # Audit leaves go on the author and machine essays. The unaided page
