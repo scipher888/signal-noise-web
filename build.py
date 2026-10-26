@@ -73,13 +73,15 @@ MACHINE_AUDIO = {
     34: "https://open.spotify.com/episode/18McRSakyuaImhBMzceFQj",
 }
 
-# Video companions (slop core music videos; issue -> public URL). Author row only:
-# the video is for the author's essay, so there is no machine-row video yet.
-# MACHINE_VIDEO is empty, so no machine-row leaf is emitted (leaf omitted when no entry).
+# Video companions (slop core music videos; issue -> public URL). VIDEO is the
+# author's essay video; MACHINE_VIDEO is the machine version's own video.
+# A leaf is emitted on a row only when that row has an entry.
 VIDEO = {
     34: "https://x.com/signalnoisepub/status/2114514311205040211/video/1?s=46",
 }
-MACHINE_VIDEO = {}
+MACHINE_VIDEO = {
+    34: "https://x.com/signalnoisepub/status/2114709181550973029",
+}
 
 # Intuition sister essays (issue -> URL). Reciprocal companions for the four
 # Intuition pieces that already link to these S&N essays. Only these issues
@@ -439,7 +441,7 @@ def companion_navs(issue, here="author"):
 
     Audio appears on a row only when that companion exists. Video appears after
     Audio, on the author's row for issues in VIDEO and on the machine's row for
-    issues in MACHINE_VIDEO (currently empty). The audit leaf
+    issues in MACHINE_VIDEO. The audit leaf
     is omitted when the snapshot has no record (NO_AUDIT), and on the unaided
     page, which keeps the map it already published. The machine row
     appears when a machine companion exists (MACHINE_VERSION_ISSUES or
