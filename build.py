@@ -23,6 +23,8 @@ import sys
 SRC = os.path.expanduser("~/Code/signal-noise/projects/newsletter")
 OUT = os.path.dirname(os.path.abspath(__file__))
 BASE_URL = "https://www.signalandnoise.email"  # flipped at CNAME cutover 2026-08-12
+# Issue 34 X post linked the essay without the /p/ segment; stub it to the real page.
+SHORT_LINK_SLUGS = ["we-are-arguing-about-the-speed-of-ai-we-have-no-plan-for-the-crash"]
 AUDIT_BASE = "https://scipher888.github.io/signal-noise-audit-snapshot/issues"
 
 # Audio companions (Spotify episode pages; issue -> URL). Sources: the canonical
@@ -660,6 +662,22 @@ def build():
             f"<meta http-equiv=\"refresh\" content=\"0; url={target}\">"
             f"<link rel=\"canonical\" href=\"{BASE_URL}/about/\"></head>"
             f"<body><p><a href=\"{target}\">Continue to Signal &amp; Noise</a></p></body></html>")
+
+    # Short-link stubs: shared links that dropped the beehiiv "/p/" segment.
+    # GitHub Pages has no server redirects, so each is a meta-refresh stub at
+    # /<slug>/index.html (serves both /<slug> and /<slug>/), canonical to the
+    # real /p/ page, noindex so the stub itself never competes in search.
+    for slug in SHORT_LINK_SLUGS:
+        target = f"{BASE_URL}/p/{slug}/"
+        d = os.path.join(OUT, slug)
+        os.makedirs(d, exist_ok=True)
+        open(os.path.join(d, "index.html"), "w", encoding="utf-8").write(
+            "<!doctype html><html lang=\"en\"><head><meta charset=\"utf-8\">"
+            "<title>Signal &amp; Noise</title>"
+            "<meta name=\"robots\" content=\"noindex\">"
+            f"<meta http-equiv=\"refresh\" content=\"0; url={target}\">"
+            f"<link rel=\"canonical\" href=\"{target}\"></head>"
+            f"<body><p><a href=\"{target}\">Continue to the essay on Signal &amp; Noise</a></p></body></html>")
 
     # 404 — served at arbitrary depth, so it needs absolute paths; derive the
     # prefix from BASE_URL so the CNAME-cutover rebuild fixes it automatically.
