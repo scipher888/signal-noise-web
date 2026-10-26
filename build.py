@@ -71,6 +71,14 @@ MACHINE_AUDIO = {
     34: "https://open.spotify.com/episode/18McRSakyuaImhBMzceFQj",
 }
 
+# Video companions (slop core music videos; issue -> public URL). Author row only:
+# the video is for the author's essay, so there is no machine-row video yet.
+# MACHINE_VIDEO is empty, so no machine-row leaf is emitted (leaf omitted when no entry).
+VIDEO = {
+    34: "https://x.com/signalnoisepub/status/2114514311205040211/video/1?s=46",
+}
+MACHINE_VIDEO = {}
+
 # Intuition sister essays (issue -> URL). Reciprocal companions for the four
 # Intuition pieces that already link to these S&N essays. Only these issues
 # carry an Intuition sister; do not invent pairings for other issues.
@@ -424,10 +432,12 @@ def nav_leaf(label, href, current):
 def companion_navs(issue, here="author"):
     """Companion map (J, 2026-08-29). Two parallel rows, same leaf names:
 
-      The author's  — The essay · Audio companion · The audit
+      The author's  — The essay · Audio companion · Video companion · The audit
       The machine's — The essay · Audio companion · The audit
 
-    Audio appears on a row only when that companion exists. The audit leaf
+    Audio appears on a row only when that companion exists. Video appears after
+    Audio, on the author's row for issues in VIDEO and on the machine's row for
+    issues in MACHINE_VIDEO (currently empty). The audit leaf
     is omitted when the snapshot has no record (NO_AUDIT), and on the unaided
     page, which keeps the map it already published. The machine row
     appears when a machine companion exists (MACHINE_VERSION_ISSUES or
@@ -457,6 +467,8 @@ def companion_navs(issue, here="author"):
     show_audio = not (issue in (32, 33, 34) and here == "unaided")
     if issue in AUDIO and show_audio:
         author.append(f'<a href="{AUDIO[issue]}">Audio companion</a>')
+    if issue in VIDEO and show_audio:
+        author.append(f'<a href="{VIDEO[issue]}">Video companion</a>')
     # Audit leaves go on the author and machine essays. The unaided page
     # keeps the companion map it already published.
     show_audit = issue not in NO_AUDIT and here != "unaided"
@@ -473,6 +485,8 @@ def companion_navs(issue, here="author"):
         machine = [nav_leaf("The essay", machine_href, here == "machine")]
         if issue in MACHINE_AUDIO and show_audio:
             machine.append(f'<a href="{MACHINE_AUDIO[issue]}">Audio companion</a>')
+        if issue in MACHINE_VIDEO and show_audio:
+            machine.append(f'<a href="{MACHINE_VIDEO[issue]}">Video companion</a>')
         if show_audit:
             machine.append(f'<a href="{base}/machine-version/audit/">The audit</a>')
         rows.append(("The machine&rsquo;s", machine))
