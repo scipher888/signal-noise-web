@@ -57,6 +57,7 @@ AUDIO = {
     32: "https://open.spotify.com/episode/5XxFMBKeqnxYlO23QjVzY8",
     33: "https://open.spotify.com/episode/2B72tl2v0g87wPGQ2msJgS",
     34: "https://open.spotify.com/episode/36UgDvyFMHKJYc0ElXYmy8",
+    35: "https://open.spotify.com/episode/0rgzUKtUhCBWipXHC61tbx",
 }
 
 # Machine-row audio companions (Spotify episode pages; issue -> URL). Distinct
@@ -71,6 +72,7 @@ MACHINE_AUDIO = {
     32: "https://open.spotify.com/episode/2i7ayYndEgGOblrkeejIxA",
     33: "https://open.spotify.com/episode/1Rghgf9fxoebE6kazZ9PO9",
     34: "https://open.spotify.com/episode/18McRSakyuaImhBMzceFQj",
+    35: "https://open.spotify.com/episode/6FxG91h6ghevzXUCAj1ae8",
 }
 
 # Video companions (slop core music videos; issue -> public URL). VIDEO is the
@@ -474,8 +476,8 @@ def companion_navs(issue, here="author"):
             f"{BASE_URL}/p/{UNAIDED[issue]}/",
             here == "unaided",
         ))
-    # Issues 32, 33, and 34: the unaided page keeps the map it already published.
-    show_audio = not (issue in (32, 33, 34) and here == "unaided")
+    # Issues 32 through 35: the unaided page keeps the map it already published.
+    show_audio = not (issue in (32, 33, 34, 35) and here == "unaided")
     if issue in AUDIO and show_audio:
         author.append(f'<a href="{AUDIO[issue]}">Audio companion</a>')
     if issue in VIDEO and show_audio:
