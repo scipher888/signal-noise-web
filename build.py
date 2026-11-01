@@ -112,6 +112,7 @@ LOCAL_MACHINE = {
     32: "the-hair-began-to-grow-again",
     33: "the-quiet-majority-of-makers",
     34: "the-machinery-of-being-wrong",
+    35: "the-long-game-of-not-gaining",
 }
 
 # A separate page, written without AI, linked on the author's row beside
@@ -121,6 +122,7 @@ UNAIDED = {
     32: "what-i-want-my-kids-to-know-about-making-mistakes",
     33: "the-future-is-build-and-share",
     34: "nothing-matters-more-than-civilization",
+    35: "what-is-the-best-strategy-to-optimize-weight-prevent-weight-gain-without-medications",
 }
 UNAIDED_LEAF = "Written without AI"
 
@@ -179,6 +181,7 @@ MANIFEST = {
     "your-hair-grows-back-your-eyes-dont": (32, "drafts/issue-032-web-paste-2026-10-11.html", "2026-10-11", "day"),
     "nobody-will-buy-your-app": (33, "drafts/issue-033-web-paste-2026-10-16.html", "2026-10-16", "day"),
     "we-are-arguing-about-the-speed-of-ai-we-have-no-plan-for-the-crash": (34, "drafts/issue-034-web-paste-2026-10-24.html", "2026-10-24", "day"),
+    "stop-trying-to-out-willpower-your-appetite-stuff-it-into-submission-instead": (35, "drafts/issue-035-web-paste-2026-10-31.html", "2026-10-31", "day"),
 }
 
 # Pages that belong to an issue but are not its archive row or feed item.
@@ -201,6 +204,10 @@ SIDE_PAGES = {
         34, "machine", "drafts/issue-034-machine-web-paste-2026-10-24.html", "2026-10-24", "day"),
     "nothing-matters-more-than-civilization": (
         34, "unaided", "drafts/issue-034-unaided-web-paste-2026-10-24.html", "2026-10-24", "day"),
+    "the-long-game-of-not-gaining": (
+        35, "machine", "drafts/issue-035-machine-web-paste-2026-10-31.html", "2026-10-31", "day"),
+    "what-is-the-best-strategy-to-optimize-weight-prevent-weight-gain-without-medications": (
+        35, "unaided", "drafts/issue-035-unaided-web-paste-2026-10-31.html", "2026-10-31", "day"),
 }
 
 # Sources whose title/dek live outside the body (beehiiv field lines / build comments).
