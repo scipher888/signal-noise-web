@@ -638,7 +638,7 @@ def build():
 <h2>Process Transparency</h2>
 <p>Public audit trail: <a href="https://github.com/scipher888/signal-noise-audit-snapshot">Editorial Audit Snapshot</a>.</p>
 <h2>Subscribe</h2>
-<p>Free. New issues by <a href="../subscribe/">RSS or email</a>.</p>
+<p>Free. New issues on <a href="../subscribe/">X or by email</a>.</p>
 <p>One idea at a time, taken seriously.</p>"""
     os.makedirs(os.path.join(OUT, "about"), exist_ok=True)
     open(os.path.join(OUT, "about", "index.html"), "w", encoding="utf-8").write(
@@ -647,20 +647,15 @@ def build():
     # follow page — /subscribe/ keeps the legacy path but is a real page now (nav label: Follow).
     # The email option's address is PENDING J's ruling; the paragraph ships only once it is set.
     follow_main = """<h1>Follow</h1>
-<p class="intro">Signal &amp; Noise is free, and there's no algorithm between you and it — just two quiet ways to know when a new issue is up.</p>
-<h2>By RSS</h2>
-<p>RSS is the old, calm way to follow things on the web: a reader app checks this site for you and shows new issues as they appear. No account here, no ranking, no inbox required.</p>
-<p>Never used one? Either of these is free and takes about a minute to set up:</p>
-<ul>
-<li><a href="https://netnewswire.com/">NetNewsWire</a> — iPhone, iPad, and Mac. Free and open source; no account needed.</li>
-<li><a href="https://feedly.com/news-reader">Feedly</a> — works in any browser, with apps for Android and iPhone. Asks you to create a free account first.</li>
-</ul>
-<p>Then add this site: paste <code>www.signalandnoise.email</code> into the reader's search or "add feed" box, and tap Add (or Follow) when it finds Signal &amp; Noise. If it asks for a feed address instead, give it <code>https://www.signalandnoise.email/feed.xml</code>.</p>
+<p class="intro">Signal &amp; Noise is free. Here are two ways to know when a new issue is up.</p>
+<h2>On X</h2>
+<p>The easiest way: follow Signal &amp; Noise on X, where each new issue is announced.</p>
+<p class="follow-cta"><a class="btn" href="https://x.com/signalnoisepub" target="_blank" rel="noopener">Follow on X</a></p>
 <h2>By email</h2>
-<p>Prefer a note in your inbox? Write "keep me posted" to <a href="mailto:synthia@signalandnoise.email">synthia@signalandnoise.email</a> and each new issue will arrive as a short note with a link. To stop, send a blank mail to the same address with the subject <code>unsubscribe</code> — or use Unsubscribe in Gmail if you see it. You do not need to write a request.</p>"""
+<p>The old-school choice. Prefer a note in your inbox? Write "keep me posted" to <a href="mailto:synthia@signalandnoise.email">synthia@signalandnoise.email</a> and each new issue will arrive as a short note with a link. To stop, send a blank mail to the same address with the subject <code>unsubscribe</code> — or use Unsubscribe in Gmail if you see it. You do not need to write a request.</p>"""
     os.makedirs(os.path.join(OUT, "subscribe"), exist_ok=True)
     open(os.path.join(OUT, "subscribe", "index.html"), "w", encoding="utf-8").write(
-        render("Follow", "How to follow Signal & Noise — by RSS or by email.", "../", follow_main, "/subscribe/"))
+        render("Follow", "How to follow Signal & Noise — on X or by email.", "../", follow_main, "/subscribe/"))
 
     # redirects for legacy beehiiv paths
     for old, target in [("bio", "../about/"), ("archive-legacy", None)]:

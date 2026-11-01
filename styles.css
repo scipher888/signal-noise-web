@@ -136,3 +136,6 @@ p.note {
   color: var(--muted);
   margin: 2.2rem 0 0;
 }
+.follow-cta { margin: 1.1rem 0 1.6rem; }
+.btn { display: inline-block; font-family: var(--sans); font-size: 0.98rem; font-weight: 600; color: var(--paper-bright); background: var(--navy); padding: 0.62rem 1.35rem; border-radius: 999px; text-decoration: none; border: 1px solid var(--navy); }
+.btn:hover, .btn:focus-visible { background: var(--ink-soft); color: var(--paper-bright); box-shadow: 0 0 0 3px var(--sun); outline: none; }
