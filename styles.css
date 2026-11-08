@@ -129,6 +129,24 @@ main code {
   background: var(--paper-bright); border: 1px solid var(--line);
   border-radius: 6px; padding: 0.14rem 0.42rem; white-space: nowrap;
 }
+/* Machine-essay origin. The question sits under the dek; the explanation is smaller. */
+.mq {
+  margin: 0 0 1.35rem;
+  padding: 0.05rem 0 0.05rem 0.95rem;
+  border-left: 3px solid var(--sun);
+}
+.mq-label {
+  font-family: var(--sans); font-size: 0.72rem; letter-spacing: 0.08em;
+  text-transform: uppercase; font-weight: 600; color: var(--muted);
+  margin: 0 0 0.35rem;
+}
+.mq-question { margin: 0 0 0.55rem; font-size: 1.05rem; line-height: 1.45; }
+.mq-meta {
+  margin: 0; font-family: var(--sans); font-size: 0.82rem; line-height: 1.45;
+  color: var(--muted);
+}
+.mq-meta a { color: var(--ink-soft); }
+
 /* End-of-essay notes, smaller than the body. */
 p.note {
   font-size: 0.9rem;
