@@ -521,6 +521,55 @@ def companion_navs(issue, here="author"):
     return top, foot
 
 
+# Origin note on the machine essay only, outside the frozen body. The question
+# is verbatim. Formatting instructions stay out of that quote; the full prompt
+# is the linked page. Links are documents that already resolve on the published
+# audit snapshot, not anchors added on an unmerged audit branch.
+MACHINE_QUESTIONS = {
+    34: (
+        "What single element is most vital to protecting humanity's long-term quality of life? What primary action should we take to safeguard it?",
+        "Those two questions are the substantive prompt. The same message also gave "
+        "formatting instructions, which are not the question. "
+        f'<a href="{AUDIT_BASE}/issue-034/development/">Full prompt</a>. '
+        "Both runs received only that seed and did not receive the author&rsquo;s draft. "
+        "The published text is the second Opus run plus one paragraph from the first, "
+        "not one unchanged generation.",
+    ),
+    35: (
+        "What is the best strategy to optimize weight (prevent weight gain) without medications?",
+        "That sentence is the substantive prompt. The same message also gave "
+        "formatting instructions, which are not the question. "
+        f'<a href="{AUDIT_BASE}/issue-035/development/">Full prompt</a>. '
+        "The run received only that seed and did not receive the author&rsquo;s brain dump, "
+        "editorial prompt, or human/AI drafts. The returned Opus essay was not edited.",
+    ),
+    36: (
+        "What core alignment failures do everyday users currently encounter when interacting with agentic AI systems, and what implications do these practical misalignments have for future alignment frameworks\u2014specifically regarding the balance between user intent, safety guardrails, and broader moral frameworks?",
+        "That sentence is the substantive prompt. The same message also gave "
+        "formatting instructions, which are not the question. "
+        f'<a href="{AUDIT_BASE}/issue-036/development/#machine-question">Full prompt</a>. '
+        "Four identical requests contained no author essay "
+        f'(<a href="{AUDIT_BASE}/issue-036/source/metadata/isolation.json">isolation record</a>). '
+        "Grok Bot selected the Astra essay unchanged.",
+    ),
+}
+
+
+def machine_question_html(issue):
+    """Editorial origin block. Empty unless this issue has an approved question."""
+    spec = MACHINE_QUESTIONS.get(issue)
+    if not spec:
+        return ""
+    question, meta = spec
+    return (
+        '<aside class="mq" aria-label="Origin of this machine essay">'
+        '<p class="mq-label">The question given to the AI:</p>'
+        f'<p class="mq-question">{html.escape(question)}</p>'
+        f'<p class="mq-meta">{meta}</p>'
+        "</aside>"
+    )
+
+
 def essay_page(slug, issue, title, dek_html, body, date, precision, here="author"):
     kicker = f"Issue {issue}" if issue else "Process note"
     dateline = display_date(date, precision)
@@ -531,8 +580,15 @@ def essay_page(slug, issue, title, dek_html, body, date, precision, here="author
     # companions_top already begins with a newline. With no dek, drop that
     # extra newline so the nav follows the title the way a dek-less page should.
     nav_top = companions_top[1:] if (not dek_html and companions_top.startswith("\n")) else companions_top
+    origin = ""
+    if here == "machine":
+        block = machine_question_html(issue)
+        if block:
+            origin = "\n" + block
+            if not nav_top.startswith("\n"):
+                origin += "\n"
     main = (f"<article>\n<p class=\"kicker\">{kicker} · {dateline}</p>\n"
-            f"<h1>{html.escape(title)}</h1>\n{dek_html}{nav_top}\n"
+            f"<h1>{html.escape(title)}</h1>\n{dek_html}{origin}{nav_top}\n"
             f"{body}\n{companions_foot}\n</article>")
     desc = re.sub(r"<[^>]+>", "", dek_html).strip()
     if not desc:
