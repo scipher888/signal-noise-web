@@ -58,6 +58,7 @@ AUDIO = {
     33: "https://open.spotify.com/episode/2B72tl2v0g87wPGQ2msJgS",
     34: "https://open.spotify.com/episode/36UgDvyFMHKJYc0ElXYmy8",
     35: "https://open.spotify.com/episode/0rgzUKtUhCBWipXHC61tbx",
+    36: "https://open.spotify.com/episode/01j4XyZqy3Qe9sLEdIhyzX",
 }
 
 # Machine-row audio companions (Spotify episode pages; issue -> URL). Distinct
@@ -73,6 +74,7 @@ MACHINE_AUDIO = {
     33: "https://open.spotify.com/episode/1Rghgf9fxoebE6kazZ9PO9",
     34: "https://open.spotify.com/episode/18McRSakyuaImhBMzceFQj",
     35: "https://open.spotify.com/episode/6FxG91h6ghevzXUCAj1ae8",
+    36: "https://open.spotify.com/episode/6p3025WSILzb9WC31hA88e",
 }
 
 # Video companions (slop core music videos; issue -> public URL). VIDEO is the
