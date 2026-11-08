@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Daily State of AI - 2026-11-08 — Signal &amp; Noise</title>
+  <meta name="description" content="How close is a downloadable model to a restricted cyber agent?">
+  <link rel="canonical" href="https://www.signalandnoise.email/daily-state/2026-11-08/">
+  <link rel="stylesheet" href="../../styles.css">
+  <link rel="alternate" type="application/rss+xml" title="Signal &amp; Noise" href="../../feed.xml">
+  <link rel="icon" href="../../assets/mark.svg">
+  <meta property="og:site_name" content="Signal &amp; Noise">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Daily State of AI - 2026-11-08">
+  <meta property="og:description" content="How close is a downloadable model to a restricted cyber agent?">
+  <meta property="og:url" content="https://www.signalandnoise.email/daily-state/2026-11-08/">
+  <meta property="og:image" content="https://www.signalandnoise.email/assets/preview.png?v=09b48f76">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Daily State of AI - 2026-11-08">
+  <meta name="twitter:description" content="How close is a downloadable model to a restricted cyber agent?">
+  <meta name="twitter:image" content="https://www.signalandnoise.email/assets/preview.png?v=09b48f76">
+</head>
+<body>
+<header class="site-head">
+  <a class="masthead" href="../../"><svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="17.5" r="11.5" fill="none" stroke="#10283a" stroke-width="2.4"/><circle cx="16" cy="17.5" r="6.8" fill="#0e2738"/><circle cx="16" cy="6" r="3.1" fill="#f3ca79"/></svg>Signal &amp; Noise</a>
+  <nav><a href="../../archive/">Archive</a> <a href="../../about/">About</a> <a href="../../subscribe/">Follow</a></nav>
+</header>
+<main>
+<article>
+<p class="kicker">Daily State of AI</p>
+<h1>Daily State of AI - 2026-11-08</h1>
+<p><time datetime="2026-11-08">November 8, 2026</time></p>
+<p><a href="https://open.spotify.com/episode/4BrflfgytoeU5dAro96ig7">Audio on Spotify</a></p>
+<div class="script">
+<p>How close is a downloadable model to a restricted cyber agent? And when a terminal agent learns from its own successful work, is that recursive self-improvement, or a carefully engineered training pipeline? Today’s debates turn on what the tests actually measure, and how much of the result belongs to the surrounding system.</p>
+<p>Start with offensive cybersecurity. International Cyber Digest frames a Vals AI evaluation as evidence that an open-weight DeepSeek model nearly matches OpenAI’s gated cyber offering at much lower cost. That interpretation has support, but only within a narrow, author-reported evaluation.</p>
+<p>Vals tested agents on two simulated network environments using one agent harness. Its best overall result came from GPT-6 Sol, available through OpenAI’s restricted Daybreak cyber program. Vals describes the downloadable DeepSeek V4.1 Flash as close behind.</p>
+<p>On the first network, Vals reports that DeepSeek matched Daybreak’s result for under three dollars per run, compared with about twenty-two dollars for Daybreak. That supports a cost-and-capability comparison in this particular setup. It does not establish that the models are interchangeable across offensive security work.</p>
+<p>On the harder network, Vals reports that GPT-6 Sol compromised the first company, gained administrator control, stole passwords, and used those credentials to reach a second company. It completed twenty-seven of thirty-one objectives in under three hours.</p>
+<p>The resource story matters too. Vals says Sol completed no objectives during its first twenty-five million tokens and made most of its progress after one hundred million. A final score therefore hides a substantial amount of unsuccessful exploration before progress arrived. The evaluation is measuring a model operating with an agent harness and a large inference budget, not simply answering a hacking question.</p>
+<p>These are agent-executed tasks in controlled ranges, not evidence of equivalent success against live organizations. The evaluation has not been independently replicated. International Cyber Digest is amplifying it, not independently confirming it.</p>
+<p>The account also argues that public weights mean anyone can run the model without safeguards. Downloadability does change the access question. But this benchmark does not establish every possible deployment’s safeguards, or show that unrestricted real-world attacks would achieve the same results. The supported conclusion is narrower: in Vals’s setup, an open-weight model approached a restricted model’s performance, with a striking cost comparison on one network.</p>
+<p>The second debate concerns Terminal-RSI, a terminal agent trained through alternating stages of learning from verified trajectories and reinforcement learning.</p>
+<p>The commentator Superman describes the work as having cracked recursive self-improvement, with no human in the loop. The preliminary paper supports a more specific claim: its authors designed a pipeline that reuses successful agent trajectories, then refines the policy through reinforcement learning.</p>
+<p>The self-rewrite stage trains on verified, rewritten trajectories. The policy-refinement stage uses a critic inherited from the preceding stage. A reward scheme distinguishes strict task success from bounded credit for partial progress. That distinction targets an important evaluation problem: making progress, or claiming completion, is not the same as passing the environment’s final check.</p>
+<p>Starting from a twenty-seven-billion-parameter Qwen model, the authors report a final score of about eighty-seven percent on Terminal-Bench 2.1, but about twenty percent on Terminal-Bench 4.0. Those results are not interchangeable measures of general terminal competence. The benchmark version and task distribution remain essential context.</p>
+<p>The work is an author-reported preprint, without peer review or independent reproduction. It offers preliminary evidence for a training recipe, not a demonstration that an agent independently chooses its research agenda, redesigns its training system, and improves without human engineering. Automated steps inside a human-designed loop are different from autonomous control of the whole improvement process.</p>
+<p>Together, these stories make the surrounding system hard to ignore. Cyber capability depends on the harness, environment, and computation budget. Terminal-agent improvement depends on verification, rewards, and training design. The practical questions are what transfers to new tasks, what survives independent testing, and how much assistance or infrastructure each result requires.</p>
+<p>AI-generated; may contain errors.</p>
+</div>
+<p class="disclaimer">AI-generated · may contain errors</p>
+<section class="sources">
+<h2>Sources</h2>
+<section class="story">
+<h3>Is an open-weight model now close to OpenAI&#x27;s restricted cyber model?</h3>
+<p>Vals AI</p>
+<ul>
+<li><a href="https://www.vals.ai/benchmarks/cyber_offense">https://www.vals.ai/benchmarks/cyber_offense</a></li>
+<li><a href="https://x.com/IntCyberDigest/status/2119380660238303715">https://x.com/IntCyberDigest/status/2119380660238303715</a></li>
+</ul>
+</section>
+<section class="story">
+<h3>Terminal-RSI: a 27B terminal agent trained on its own verified trajectories</h3>
+<p>arXiv</p>
+<ul>
+<li><a href="https://arxiv.org/abs/2610.22192">https://arxiv.org/abs/2610.22192</a></li>
+<li><a href="https://x.com/thesupermannx/status/2119341077975249222">https://x.com/thesupermannx/status/2119341077975249222</a></li>
+</ul>
+</section>
+</section>
+</article>
+</main>
+<footer class="site-foot">
+  <p>Daily State of AI is an AI-generated spoken briefing from Signal &amp; Noise. The script is model wording, published verbatim, and it may contain errors. It is not a human essay and not a machine companion essay.</p>
+  <p><a href="../../">Home</a> · <a href="../../daily-state/">Daily State</a> · <a href="../../archive/">Archive</a> · <a href="../../about/">About</a> · <a href="../../subscribe/">Follow</a></p>
+</footer>
+</body>
+</html>
