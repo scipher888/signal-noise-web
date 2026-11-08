@@ -115,6 +115,7 @@ LOCAL_MACHINE = {
     33: "the-quiet-majority-of-makers",
     34: "the-machinery-of-being-wrong",
     35: "the-long-game-of-not-gaining",
+    36: "alignment-at-human-scale",
 }
 
 # A separate page, written without AI, linked on the author's row beside
@@ -125,6 +126,7 @@ UNAIDED = {
     33: "the-future-is-build-and-share",
     34: "nothing-matters-more-than-civilization",
     35: "what-is-the-best-strategy-to-optimize-weight-prevent-weight-gain-without-medications",
+    36: "issue-036-written-without-ai",
 }
 UNAIDED_LEAF = "Written without AI"
 
@@ -184,6 +186,7 @@ MANIFEST = {
     "nobody-will-buy-your-app": (33, "drafts/issue-033-web-paste-2026-10-16.html", "2026-10-16", "day"),
     "we-are-arguing-about-the-speed-of-ai-we-have-no-plan-for-the-crash": (34, "drafts/issue-034-web-paste-2026-10-24.html", "2026-10-24", "day"),
     "stop-trying-to-out-willpower-your-appetite-stuff-it-into-submission-instead": (35, "drafts/issue-035-web-paste-2026-10-31.html", "2026-10-31", "day"),
+    "my-son-his-calorie-tracker-and-the-tyranny-of-the-nanny-bot": (36, "drafts/issue-036-web-paste-2026-11-08.html", "2026-11-08", "day"),
 }
 
 # Pages that belong to an issue but are not its archive row or feed item.
@@ -210,6 +213,10 @@ SIDE_PAGES = {
         35, "machine", "drafts/issue-035-machine-web-paste-2026-10-31.html", "2026-10-31", "day"),
     "what-is-the-best-strategy-to-optimize-weight-prevent-weight-gain-without-medications": (
         35, "unaided", "drafts/issue-035-unaided-web-paste-2026-10-31.html", "2026-10-31", "day"),
+    "alignment-at-human-scale": (
+        36, "machine", "drafts/issue-036-machine-web-paste-2026-11-08.html", "2026-11-08", "day"),
+    "issue-036-written-without-ai": (
+        36, "unaided", "drafts/issue-036-unaided-web-paste-2026-11-08.html", "2026-11-08", "day"),
 }
 
 # Sources whose title/dek live outside the body (beehiiv field lines / build comments).
@@ -476,8 +483,9 @@ def companion_navs(issue, here="author"):
             f"{BASE_URL}/p/{UNAIDED[issue]}/",
             here == "unaided",
         ))
-    # Issues 32 through 35: the unaided page keeps the map it already published.
-    show_audio = not (issue in (32, 33, 34, 35) and here == "unaided")
+    # Issues 32 through 36: the unaided page keeps the map it already published
+    # (no audio leaf, even after an episode exists).
+    show_audio = not (issue in (32, 33, 34, 35, 36) and here == "unaided")
     if issue in AUDIO and show_audio:
         author.append(f'<a href="{AUDIO[issue]}">Audio companion</a>')
     if issue in VIDEO and show_audio:
