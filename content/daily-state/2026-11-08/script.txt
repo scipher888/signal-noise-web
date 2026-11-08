@@ -1,0 +1,29 @@
+How close is a downloadable model to a restricted cyber agent? And when a terminal agent learns from its own successful work, is that recursive self-improvement, or a carefully engineered training pipeline? Today’s debates turn on what the tests actually measure, and how much of the result belongs to the surrounding system.
+
+Start with offensive cybersecurity. International Cyber Digest frames a Vals AI evaluation as evidence that an open-weight DeepSeek model nearly matches OpenAI’s gated cyber offering at much lower cost. That interpretation has support, but only within a narrow, author-reported evaluation.
+
+Vals tested agents on two simulated network environments using one agent harness. Its best overall result came from GPT-6 Sol, available through OpenAI’s restricted Daybreak cyber program. Vals describes the downloadable DeepSeek V4.1 Flash as close behind.
+
+On the first network, Vals reports that DeepSeek matched Daybreak’s result for under three dollars per run, compared with about twenty-two dollars for Daybreak. That supports a cost-and-capability comparison in this particular setup. It does not establish that the models are interchangeable across offensive security work.
+
+On the harder network, Vals reports that GPT-6 Sol compromised the first company, gained administrator control, stole passwords, and used those credentials to reach a second company. It completed twenty-seven of thirty-one objectives in under three hours.
+
+The resource story matters too. Vals says Sol completed no objectives during its first twenty-five million tokens and made most of its progress after one hundred million. A final score therefore hides a substantial amount of unsuccessful exploration before progress arrived. The evaluation is measuring a model operating with an agent harness and a large inference budget, not simply answering a hacking question.
+
+These are agent-executed tasks in controlled ranges, not evidence of equivalent success against live organizations. The evaluation has not been independently replicated. International Cyber Digest is amplifying it, not independently confirming it.
+
+The account also argues that public weights mean anyone can run the model without safeguards. Downloadability does change the access question. But this benchmark does not establish every possible deployment’s safeguards, or show that unrestricted real-world attacks would achieve the same results. The supported conclusion is narrower: in Vals’s setup, an open-weight model approached a restricted model’s performance, with a striking cost comparison on one network.
+
+The second debate concerns Terminal-RSI, a terminal agent trained through alternating stages of learning from verified trajectories and reinforcement learning.
+
+The commentator Superman describes the work as having cracked recursive self-improvement, with no human in the loop. The preliminary paper supports a more specific claim: its authors designed a pipeline that reuses successful agent trajectories, then refines the policy through reinforcement learning.
+
+The self-rewrite stage trains on verified, rewritten trajectories. The policy-refinement stage uses a critic inherited from the preceding stage. A reward scheme distinguishes strict task success from bounded credit for partial progress. That distinction targets an important evaluation problem: making progress, or claiming completion, is not the same as passing the environment’s final check.
+
+Starting from a twenty-seven-billion-parameter Qwen model, the authors report a final score of about eighty-seven percent on Terminal-Bench 2.1, but about twenty percent on Terminal-Bench 4.0. Those results are not interchangeable measures of general terminal competence. The benchmark version and task distribution remain essential context.
+
+The work is an author-reported preprint, without peer review or independent reproduction. It offers preliminary evidence for a training recipe, not a demonstration that an agent independently chooses its research agenda, redesigns its training system, and improves without human engineering. Automated steps inside a human-designed loop are different from autonomous control of the whole improvement process.
+
+Together, these stories make the surrounding system hard to ignore. Cyber capability depends on the harness, environment, and computation budget. Terminal-agent improvement depends on verification, rewards, and training design. The practical questions are what transfers to new tasks, what survives independent testing, and how much assistance or infrastructure each result requires.
+
+AI-generated; may contain errors.

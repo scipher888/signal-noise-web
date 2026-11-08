@@ -742,6 +742,10 @@ def check(entries):
 
 
 if __name__ == "__main__":
+    # Opt-in only. Essay build and --check stay on the path below.
+    if "--daily-state-only" in sys.argv or "--daily-state-check" in sys.argv:
+        import daily_state
+        sys.exit(daily_state.main(sys.argv[1:]))
     entries = build()
     if "--check" in sys.argv:
         sys.exit(1 if check(entries) else 0)
