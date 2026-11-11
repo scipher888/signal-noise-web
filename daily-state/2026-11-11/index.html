@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Daily State of AI - 2026-11-11 — Signal &amp; Noise</title>
+  <meta name="description" content="What does it mean to prove messaging software secure?">
+  <link rel="canonical" href="https://www.signalandnoise.email/daily-state/2026-11-11/">
+  <link rel="stylesheet" href="../../styles.css">
+  <link rel="alternate" type="application/rss+xml" title="Signal &amp; Noise" href="../../feed.xml">
+  <link rel="icon" href="../../assets/mark.svg">
+  <meta property="og:site_name" content="Signal &amp; Noise">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Daily State of AI - 2026-11-11">
+  <meta property="og:description" content="What does it mean to prove messaging software secure?">
+  <meta property="og:url" content="https://www.signalandnoise.email/daily-state/2026-11-11/">
+  <meta property="og:image" content="https://www.signalandnoise.email/assets/preview.png?v=09b48f76">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Daily State of AI - 2026-11-11">
+  <meta name="twitter:description" content="What does it mean to prove messaging software secure?">
+  <meta name="twitter:image" content="https://www.signalandnoise.email/assets/preview.png?v=09b48f76">
+</head>
+<body>
+<header class="site-head">
+  <a class="masthead" href="../../"><svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="17.5" r="11.5" fill="none" stroke="#10283a" stroke-width="2.4"/><circle cx="16" cy="17.5" r="6.8" fill="#0e2738"/><circle cx="16" cy="6" r="3.1" fill="#f3ca79"/></svg>Signal &amp; Noise</a>
+  <nav><a href="../../archive/">Archive</a> <a href="../../about/">About</a> <a href="../../subscribe/">Follow</a></nav>
+</header>
+<main>
+<article>
+<p class="kicker">Daily State of AI</p>
+<h1>Daily State of AI - 2026-11-11</h1>
+<p><time datetime="2026-11-11">November 11, 2026</time></p>
+<p><a href="https://open.spotify.com/episode/5PBkQerlscSQez06uGsJ74">Audio on Spotify</a></p>
+<div class="script">
+<p>What does it mean to prove messaging software secure? How much should an informal coding test influence a model purchase? And when a robotics model is called open, what can researchers actually download? Those are the questions behind today’s announcements, where the scope of the evidence matters as much as the headline.</p>
+<p>Google DeepMind says its AlphaProof Code system has formally verified Signal protocol implementation code at the machine-code level. That is a company-reported result, with a technical paper and published Lean proofs, but no independent re-check reported in the supplied material.</p>
+<p>The important distinction is between verifying a defined part of an implementation and proving that an entire messaging service is secure under every condition. DeepMind’s technical paper covers one-to-one sessions in libsignal. Key generation is not verified. So this should not be heard as a blanket guarantee covering every part of Signal.</p>
+<p>How much did the AI do? The authors report that their agents generated about six and a half million lines of machine-checked Lean proof code. Those proofs rest on about twenty-six thousand lines of trusted specifications and semantics describing the AArch64 machine architecture.</p>
+<p>That separates two things often blurred in AI verification claims: generating a proof and checking it. The agents produced proof code; the formal checking establishes whether that code satisfies the specified logical requirements. The trusted specifications still define what is being proved.</p>
+<p>DeepMind presents this as a first for verifying the implementation of a widely deployed protocol. That priority claim remains the company’s claim. The published development gives outside researchers something concrete to inspect. For now, the defensible takeaway is narrower than “AI proved Signal secure”: DeepMind reports machine-checked proofs for a specified implementation scope, with explicit exclusions and a substantial trusted foundation. It is not evidence that AI independently handled every part of the security work.</p>
+<p>The next question is more immediate for developers: does Gemini 4 Carbon offer a better capability-and-cost tradeoff?</p>
+<p>Google says Carbon is now available to developers, enterprises, scientists, and consumers. Simon Willison’s independent release notes also confirm broader availability following an earlier restricted release.</p>
+<p>Paweł Huryn argues that Carbon is a cost-effective alternative to Fable based on his own bug-fixing exercise. That is a useful practitioner judgment, not an independently reviewed ranking. The supplied primary-source excerpts do not establish his numerical results or a current pricing schedule, so they do not support quoting a precise savings figure here.</p>
+<p>Nor does a bug-fixing exercise automatically tell us how a model will perform unattended in production. The assistance allowed, the repositories chosen, and the scoring process all matter.</p>
+<p>Willison’s qualitative reaction is positive, but he adds an important interpretation: some of the visual-generation skills being celebrated were already strengths of Gemini. Ethan Mollick, who had early access from Google, also calls Carbon an improvement and values having a capable model that approaches tasks differently from Claude and GPT. His impressions are not a controlled evaluation.</p>
+<p>So availability is established. The stronger claim—that Carbon delivers a particular performance ranking at a particular discount—still needs a reproducible comparison and verified pricing.</p>
+<p>Finally, NVIDIA’s GR00T 2 raises a familiar robotics question: how far does success in an evaluation carry over to an unfamiliar physical setting?</p>
+<p>NVIDIA reports average success of seventy-one percent across fifty tasks with one demonstration per task, rising to ninety-five percent with five demonstrations. Those are company-reported results, not independent replication. They describe adaptation with demonstrations, not a robot learning every task autonomously from scratch.</p>
+<p>Jim Fan, NVIDIA’s robotics director, pitches GR00T 2 as an onboard, untethered model and emphasizes learning from accessible data sources such as human video and simulation. He is announcing his own lab’s work, not independently corroborating it.</p>
+<p>What is open now is clearer than the broader promise. NVIDIA’s project page says one hundred thousand hours of egocentric human video are openly available. The model weights are not yet released. Researchers can inspect the data offering, but cannot yet treat the promised weights as a downloadable, independently testable model.</p>
+<p>Across these stories, the practical question is the same: what exactly was demonstrated, under which assumptions, and what remains outside the test? Those boundaries determine what practitioners can safely rely on.</p>
+<p>AI-generated; may contain errors.</p>
+</div>
+<p class="disclaimer">AI-generated · may contain errors</p>
+<section class="sources">
+<h2>Sources</h2>
+<section class="story">
+<h3>NVIDIA&#x27;s GR00T 2 robot model learns from human video, with weights promised for December</h3>
+<p>NVIDIA Blog, NVIDIA Research (GEAR lab)</p>
+<ul>
+<li><a href="https://blogs.nvidia.com/blog/robotics-simulation-advancements-corl/">https://blogs.nvidia.com/blog/robotics-simulation-advancements-corl/</a></li>
+<li><a href="https://research.nvidia.com/labs/gear/gr00t-2/">https://research.nvidia.com/labs/gear/gr00t-2/</a></li>
+<li><a href="https://x.com/DrJimFan/status/2120186651741655428">https://x.com/DrJimFan/status/2120186651741655428</a></li>
+</ul>
+</section>
+<section class="story">
+<h3>Gemini 4 Carbon opens to developers, and early hands-on tests land just behind Fable 5.2</h3>
+<p>Google, Simon Willison&#x27;s Weblog</p>
+<ul>
+<li><a href="https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-4-carbon-now-available/">https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-4-carbon-now-available/</a></li>
+<li><a href="https://simonwillison.net/2026/Nov/10/llm-gemini/">https://simonwillison.net/2026/Nov/10/llm-gemini/</a></li>
+<li><a href="https://x.com/PawelHuryn/status/2120283296550547618">https://x.com/PawelHuryn/status/2120283296550547618</a></li>
+<li><a href="https://x.com/simonw/status/2120258951594037732">https://x.com/simonw/status/2120258951594037732</a></li>
+<li><a href="https://x.com/emollick/status/2120198832202125322">https://x.com/emollick/status/2120198832202125322</a></li>
+</ul>
+</section>
+<section class="story">
+<h3>DeepMind&#x27;s AlphaProof Code formally verifies Signal&#x27;s protocol code at the machine-code level</h3>
+<p>Google DeepMind, Google DeepMind (technical paper)</p>
+<ul>
+<li><a href="https://deepmind.google/blog/introducing-alphaproof-code/">https://deepmind.google/blog/introducing-alphaproof-code/</a></li>
+<li><a href="https://google-deepmind.github.io/code-verification/">https://google-deepmind.github.io/code-verification/</a></li>
+<li><a href="https://x.com/GoogleDeepMind/status/2120484246401777737">https://x.com/GoogleDeepMind/status/2120484246401777737</a></li>
+</ul>
+</section>
+</section>
+</article>
+</main>
+<footer class="site-foot">
+  <p>Daily State of AI is an AI-generated spoken briefing from Signal &amp; Noise. The script is model wording, published verbatim, and it may contain errors. It is not a human essay and not a machine companion essay.</p>
+  <p><a href="../../">Home</a> · <a href="../../daily-state/">Daily State</a> · <a href="../../archive/">Archive</a> · <a href="../../about/">About</a> · <a href="../../subscribe/">Follow</a></p>
+</footer>
+</body>
+</html>
