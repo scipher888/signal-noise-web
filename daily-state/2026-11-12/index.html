@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Daily State of AI - 2026-11-12 — Signal &amp; Noise</title>
+  <meta name="description" content="How much better can a DNA model predict the effects of a variant in a particular cell?">
+  <link rel="canonical" href="https://www.signalandnoise.email/daily-state/2026-11-12/">
+  <link rel="stylesheet" href="../../styles.css">
+  <link rel="alternate" type="application/rss+xml" title="Signal &amp; Noise" href="../../feed.xml">
+  <link rel="icon" href="../../assets/mark.svg">
+  <meta property="og:site_name" content="Signal &amp; Noise">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Daily State of AI - 2026-11-12">
+  <meta property="og:description" content="How much better can a DNA model predict the effects of a variant in a particular cell?">
+  <meta property="og:url" content="https://www.signalandnoise.email/daily-state/2026-11-12/">
+  <meta property="og:image" content="https://www.signalandnoise.email/assets/preview.png?v=09b48f76">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Daily State of AI - 2026-11-12">
+  <meta name="twitter:description" content="How much better can a DNA model predict the effects of a variant in a particular cell?">
+  <meta name="twitter:image" content="https://www.signalandnoise.email/assets/preview.png?v=09b48f76">
+</head>
+<body>
+<header class="site-head">
+  <a class="masthead" href="../../"><svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="17.5" r="11.5" fill="none" stroke="#10283a" stroke-width="2.4"/><circle cx="16" cy="17.5" r="6.8" fill="#0e2738"/><circle cx="16" cy="6" r="3.1" fill="#f3ca79"/></svg>Signal &amp; Noise</a>
+  <nav><a href="../../archive/">Archive</a> <a href="../../about/">About</a> <a href="../../subscribe/">Follow</a></nav>
+</header>
+<main>
+<article>
+<p class="kicker">Daily State of AI</p>
+<h1>Daily State of AI - 2026-11-12</h1>
+<p><time datetime="2026-11-12">November 12, 2026</time></p>
+<p><a href="https://open.spotify.com/episode/0wwrZFCs6gq07al6x7fFqg">Audio on Spotify</a></p>
+<div class="script">
+<p>How much better can a DNA model predict the effects of a variant in a particular cell? What does a robot-control leaderboard tell us about performance outside the test? And does greater control over a model’s reasoning trace mean it can evade monitoring? Today’s evidence offers useful results on all three questions, but each comes from the company behind the work, and each has limits. Google DeepMind’s AlphaGenome 2 targets a specific problem in genetics: the same DNA change can affect gene activity differently in different cell types. Demis Hassabis presents the model as a tool for predicting those differences and helping researchers understand complex disease. That is the developer’s interpretation of its potential, not independent validation. The clearest comparison with the earlier model comes from DeepMind’s evaluation on TenK10K, a single-cell dataset covering twenty-eight primary immune cell types. DeepMind reports that AlphaGenome 2 identified thirty percent of causal variants, against sixteen percent for the comparison methods, including the original AlphaGenome fine-tuned on single-cell data and specialized tools. For identifying the direction of effects on gene activity, the reported figures were forty-three percent versus twenty-three percent. Those company-reported results support a substantial gain on this test. They do not establish that the model can explain most disease-associated variants, or that a predicted effect has been confirmed in a laboratory. DeepMind says the model was trained on more than one hundred million individual cell profiles across sixty-eight tissues. That gives the prediction system broad training coverage, but coverage is not experimental confirmation of a disease mechanism. The model is available through an API, free for non-commercial use, with commercial research in private preview. The immediate role is assistance: helping scientists choose and investigate hypotheses, rather than autonomously establishing biological causes. Runway’s Praxis-1 raises a different question: what exactly is open, and what exactly has been demonstrated? The release includes model weights, inference code, and fine-tuning code under Apache 2.0, including commercial use. Praxis-1 is a twenty-seven-billion-parameter mixture-of-experts diffusion transformer that predicts video and actions together. Teams can run and adapt it on their own hardware, with support for full fine-tuning and LoRA. Runway calls it state of the art. Its reported leaderboard results give that claim a specific basis: on NVIDIA’s RoboLab-120, Praxis-1 achieved forty-six point two percent success across twelve hundred episodes. The listed comparisons were forty-two point nine percent for FLUX 3 Action, thirty-six point eight percent for Cosmos3 Nano, and twenty-eight percent for pi-zero-point-five. These are company-reported numbers, not independent replication. They support a lead in the reported evaluation, not a blanket conclusion about reliable autonomous robot work. The physical-robot comparisons are more tentative. Runway’s technical report explicitly says the differences were not statistically significant at thirty rollouts per arm. That matters: a leaderboard advantage and an inconclusive small-sample robot comparison are different kinds of evidence. Open code and weights make outside testing possible, but do not themselves establish performance in everyday operating conditions. OpenAI’s monitoring study asks whether a model’s written reasoning remains a useful window into its behavior as training changes. In company-reported internal experiments, OpenAI found that chain-of-thought controllability increased during reinforcement learning, even without process supervision beyond length constraints and final-answer grading. Adding tool access and tool supervision increased controllability slightly. The concern is that greater control over the reasoning text could make that text less useful for monitoring. OpenAI says its measurements are imperfect proxies, while interpreting them together as a warning that more capable systems may become harder to monitor through their chains of thought. The distinction is important. These controlled experiments do not, on their own, demonstrate deliberate evasion of an operational safety monitor. Nor should the tool-access result be read as evidence of successful autonomous evasion in deployment. Ramez Naam calls the finding interesting and unsurprising. His view is that lessons about how reinforcement learning can make models safer or less safe are valuable. That is a substantive interpretation of the work, not an independent replication. Across these releases, the practical task is to keep the claim tied to the evidence: use biological predictions to guide experiments, test robot policies beyond reported benchmarks, and check whether monitoring proxies capture the failures that matter in use. AI-generated; may contain errors.</p>
+</div>
+<p class="disclaimer">AI-generated · may contain errors</p>
+<section class="sources">
+<h2>Sources</h2>
+<section class="story">
+<h3>Runway opens Praxis-1, a 27B video-pretrained robot control model, under Apache 2.0</h3>
+<p>Runway, Runway Research</p>
+<ul>
+<li><a href="https://runway.com/news/company-news/praxis-1-is-now-available">https://runway.com/news/company-news/praxis-1-is-now-available</a></li>
+<li><a href="https://runway.com/research/praxis-1-video-pretraining-to-robot-control">https://runway.com/research/praxis-1-video-pretraining-to-robot-control</a></li>
+<li><a href="https://x.com/runwayml/status/2120533081182577116">https://x.com/runwayml/status/2120533081182577116</a></li>
+</ul>
+</section>
+<section class="story">
+<h3>DeepMind&#x27;s AlphaGenome 2 predicts how DNA variants act in specific cell types</h3>
+<p>Google DeepMind, AlphaGenome documentation (Google)</p>
+<ul>
+<li><a href="https://deepmind.google/blog/alphagenome-2-deciphering-how-cells-read-dna-to-better-understand-disease/">https://deepmind.google/blog/alphagenome-2-deciphering-how-cells-read-dna-to-better-understand-disease/</a></li>
+<li><a href="https://www.alphagenomedocs.com/">https://www.alphagenomedocs.com/</a></li>
+<li><a href="https://x.com/GoogleDeepMind/status/2120532824465805749">https://x.com/GoogleDeepMind/status/2120532824465805749</a></li>
+<li><a href="https://x.com/demishassabis/status/2120565316619284734">https://x.com/demishassabis/status/2120565316619284734</a></li>
+</ul>
+</section>
+<section class="story">
+<h3>OpenAI researchers find reasoning traces get harder to monitor as training scales</h3>
+<p>OpenAI Alignment Research Blog</p>
+<ul>
+<li><a href="https://alignment.openai.com/cot-monitorability-model-lifecycle/">https://alignment.openai.com/cot-monitorability-model-lifecycle/</a></li>
+<li><a href="https://x.com/ramez/status/2120613265181221033">https://x.com/ramez/status/2120613265181221033</a></li>
+</ul>
+</section>
+</section>
+</article>
+</main>
+<footer class="site-foot">
+  <p>Daily State of AI is an AI-generated spoken briefing from Signal &amp; Noise. The script is model wording, published verbatim, and it may contain errors. It is not a human essay and not a machine companion essay.</p>
+  <p><a href="../../">Home</a> · <a href="../../daily-state/">Daily State</a> · <a href="../../archive/">Archive</a> · <a href="../../about/">About</a> · <a href="../../subscribe/">Follow</a></p>
+</footer>
+</body>
+</html>
