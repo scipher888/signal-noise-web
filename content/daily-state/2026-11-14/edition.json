@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-14",
+  "title": "Daily State of AI - 2026-11-14",
+  "canonical_url": "https://www.signalandnoise.email/daily-state/2026-11-14/",
+  "episode_id": "6VCxIjmqRcPW2NlsX7Qh0M",
+  "episode_url": "https://open.spotify.com/episode/6VCxIjmqRcPW2NlsX7Qh0M",
+  "verified_at": "2026-11-14T15:35Z",
+  "verification": {
+    "method": "public_episode_and_show",
+    "checked_at": "2026-11-14T15:35Z",
+    "episode": {
+      "title": "Daily State of AI - 2026-11-14",
+      "canonical_url": "https://open.spotify.com/episode/6VCxIjmqRcPW2NlsX7Qh0M",
+      "id": "6VCxIjmqRcPW2NlsX7Qh0M"
+    },
+    "show": {
+      "id": "1AC7qV1tyVIICLtJVwBapp",
+      "episodes": [
+        {
+          "id": "6VCxIjmqRcPW2NlsX7Qh0M",
+          "title": "Daily State of AI - 2026-11-14",
+          "uri": "spotify:episode:6VCxIjmqRcPW2NlsX7Qh0M"
+        }
+      ]
+    }
+  },
+  "hashes": {
+    "script_sha256": "965182dbba7fe737da62eef3c09e74338940d1a566f95e27522b506184f5104c",
+    "sources_sha256": "5d941984425dffbff53fd3520aada9afdd59e62870e38afccae50d96a2c647a6",
+    "qa_sha256": "79ffbc7ac92833e25dc914bbc2ae83795686bc3a16ddd61e8217182d26737a3e",
+    "run_sha256": "eabaf3334ecb348213c0123997868efc4f9f5c9b44a5780a78a35e3f6973769e"
+  }
+}

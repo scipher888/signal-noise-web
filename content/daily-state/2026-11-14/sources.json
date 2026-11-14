@@ -1,0 +1,46 @@
+{
+  "date": "2026-11-14",
+  "urls": [
+    "https://mit-han-lab.github.io/pear-blog/",
+    "https://www.anthropic.com/research/building-strong-safety-evaluations",
+    "https://matharena.ai/",
+    "https://x.com/jmtang42/status/2121303649976455502",
+    "https://x.com/AnthropicAI/status/2121317227618340990",
+    "https://x.com/j_dekoninck/status/2121263753006374997"
+  ],
+  "stories": [
+    {
+      "index": 1,
+      "title": "An open 27B reasoning model learns to drive real robot arms from simulation-only RL",
+      "outlets": [
+        "MIT HAN Lab"
+      ],
+      "urls": [
+        "https://mit-han-lab.github.io/pear-blog/",
+        "https://x.com/jmtang42/status/2121303649976455502"
+      ]
+    },
+    {
+      "index": 2,
+      "title": "Anthropic publishes 10 recommendations for building safety evaluations",
+      "outlets": [
+        "Anthropic"
+      ],
+      "urls": [
+        "https://www.anthropic.com/research/building-strong-safety-evaluations",
+        "https://x.com/AnthropicAI/status/2121317227618340990"
+      ]
+    },
+    {
+      "index": 3,
+      "title": "MathArena: Gemini 4 Carbon takes #1, ending a long OpenAI run at the top",
+      "outlets": [
+        "MathArena (ETH Zurich SRI Lab and INSAIT)"
+      ],
+      "urls": [
+        "https://matharena.ai/",
+        "https://x.com/j_dekoninck/status/2121263753006374997"
+      ]
+    }
+  ]
+}
