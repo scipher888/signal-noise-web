@@ -118,6 +118,7 @@ LOCAL_MACHINE = {
     34: "the-machinery-of-being-wrong",
     35: "the-long-game-of-not-gaining",
     36: "alignment-at-human-scale",
+    37: "where-the-starship-catch-ranks-and-what-it-could-change",
 }
 
 # A separate page, written without AI, linked on the author's row beside
@@ -129,8 +130,12 @@ UNAIDED = {
     34: "nothing-matters-more-than-civilization",
     35: "what-is-the-best-strategy-to-optimize-weight-prevent-weight-gain-without-medications",
     36: "issue-036-written-without-ai",
+    37: "issue-037-source-material",
 }
 UNAIDED_LEAF = "Written without AI"
+# Issue 37's source mixes the author's own words with Grok Heavy research, so
+# "Written without AI" would be false there. One name per destination still holds.
+UNAIDED_LEAF_BY_ISSUE = {37: "Source material"}
 
 # Snapshot audit records that 404. Omit the audit leaf the same way audio is
 # omitted when there is no episode. Issue 31's record is published.
@@ -189,6 +194,7 @@ MANIFEST = {
     "we-are-arguing-about-the-speed-of-ai-we-have-no-plan-for-the-crash": (34, "drafts/issue-034-web-paste-2026-10-24.html", "2026-10-24", "day"),
     "stop-trying-to-out-willpower-your-appetite-stuff-it-into-submission-instead": (35, "drafts/issue-035-web-paste-2026-10-31.html", "2026-10-31", "day"),
     "my-son-his-calorie-tracker-and-the-tyranny-of-the-nanny-bot": (36, "drafts/issue-036-web-paste-2026-11-08.html", "2026-11-08", "day"),
+    "what-spacex-caught-in-those-mechanical-arms-is-bigger-than-a-rocket": (37, "drafts/issue-037-web-paste-2026-11-14.html", "2026-11-14", "day"),
 }
 
 # Pages that belong to an issue but are not its archive row or feed item.
@@ -219,6 +225,10 @@ SIDE_PAGES = {
         36, "machine", "drafts/issue-036-machine-web-paste-2026-11-08.html", "2026-11-08", "day"),
     "issue-036-written-without-ai": (
         36, "unaided", "drafts/issue-036-unaided-web-paste-2026-11-08.html", "2026-11-08", "day"),
+    "where-the-starship-catch-ranks-and-what-it-could-change": (
+        37, "machine", "drafts/issue-037-machine-web-paste-2026-11-14.html", "2026-11-14", "day"),
+    "issue-037-source-material": (
+        37, "unaided", "drafts/issue-037-source-web-paste-2026-11-14.html", "2026-11-14", "day"),
 }
 
 # Sources whose title/dek live outside the body (beehiiv field lines / build comments).
@@ -481,13 +491,13 @@ def companion_navs(issue, here="author"):
     author = [nav_leaf("The essay", author_href, here == "author")]
     if issue in UNAIDED:
         author.append(nav_leaf(
-            UNAIDED_LEAF,
+            UNAIDED_LEAF_BY_ISSUE.get(issue, UNAIDED_LEAF),
             f"{BASE_URL}/p/{UNAIDED[issue]}/",
             here == "unaided",
         ))
-    # Issues 32 through 36: the unaided page keeps the map it already published
-    # (no audio leaf, even after an episode exists).
-    show_audio = not (issue in (32, 33, 34, 35, 36) and here == "unaided")
+    # Issues 32 through 37: the unaided (or source) page keeps the map it already
+    # published (no audio leaf, even after an episode exists).
+    show_audio = not (issue in (32, 33, 34, 35, 36, 37) and here == "unaided")
     if issue in AUDIO and show_audio:
         author.append(f'<a href="{AUDIO[issue]}">Audio companion</a>')
     if issue in VIDEO and show_audio:
@@ -552,6 +562,24 @@ MACHINE_QUESTIONS = {
         f'(<a href="{AUDIT_BASE}/issue-036/source/metadata/isolation.json">isolation record</a>). '
         "Grok Bot selected the Astra essay unchanged.",
     ),
+    37: (
+        (
+            "1. Please rank in order the greatest engineering achievements of all time based solely on the magnitude of the engineering/technological challenge and assuming modern (2026-era) technology, materials, computing, simulation, and manufacturing could be applied to al of them - and keep ranking them until you can place the successful capture of Starship Fight 15 (happened today - on 11/14/2026) somewhere in this list.",
+            "2. Taking on optimistic but realistic/possible view, what does this proof of concept of fully reusable large payload spaceships imply about the future for ordinary people over the next 10, 25, 50, and 100 years?",
+        ),
+        "These two questions, in the author&rsquo;s own words with typos kept, are the substantive prompt. "
+        "The same message also gave formatting instructions and asked for only the top five, "
+        "with Flight 15&rsquo;s place stated if it fell outside them. "
+        f'<a href="{AUDIT_BASE}/issue-037/development/#machine-question">Full prompt</a>. '
+        "Four identical requests contained none of the author&rsquo;s source or drafts "
+        f'(<a href="{AUDIT_BASE}/issue-037/source/metadata/isolation.json">isolation record</a>). '
+        "Grok Bot selected the Claude Fable 5.2 essay unchanged.",
+        "Editor&rsquo;s note: the essay says it cannot independently confirm the flight. "
+        "It happened. On November 14, 2026, SpaceX caught Ship 42, Starship&rsquo;s upper stage, "
+        "in the Starbase tower&rsquo;s arms after it returned from orbit; the booster&rsquo;s catch "
+        "on the same flight was aborted. "
+        '<a href="https://www.space.com/space-exploration/launches-spacecraft/spacex-chopsticks-catch-starship-upper-stage-flight-14">Space.com report</a>.',
+    ),
 }
 
 
@@ -560,12 +588,18 @@ def machine_question_html(issue):
     spec = MACHINE_QUESTIONS.get(issue)
     if not spec:
         return ""
-    question, meta = spec
+    question, meta, *editor = spec
+    # A tuple of questions (Issue 37) renders one paragraph per question, verbatim.
+    questions = question if isinstance(question, tuple) else (question,)
+    label = "The questions given to the AI:" if len(questions) > 1 else "The question given to the AI:"
+    qs = "".join(f'<p class="mq-question">{html.escape(q)}</p>' for q in questions)
+    note = "".join(f'<p class="mq-meta mq-editor">{e}</p>' for e in editor)
     return (
         '<aside class="mq" aria-label="Origin of this machine essay">'
-        '<p class="mq-label">The question given to the AI:</p>'
-        f'<p class="mq-question">{html.escape(question)}</p>'
+        f'<p class="mq-label">{label}</p>'
+        f'{qs}'
         f'<p class="mq-meta">{meta}</p>'
+        f'{note}'
         "</aside>"
     )
 
