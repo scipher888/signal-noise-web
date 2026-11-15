@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-15",
+  "status": "ok",
+  "semantic_qa": "pass",
+  "sources": "ok",
+  "source_count": 7,
+  "gate": [
+    {
+      "name": "length",
+      "ok": true
+    },
+    {
+      "name": "clean",
+      "ok": true
+    },
+    {
+      "name": "coverage",
+      "ok": true
+    },
+    {
+      "name": "grounded",
+      "ok": true
+    },
+    {
+      "name": "fresh",
+      "ok": true
+    },
+    {
+      "name": "coherent",
+      "ok": true
+    }
+  ],
+  "run_sha256": "3267047a3430b3a3316ad6d33d15fba0bb2a7b2c504a6533567d23081af4cd7b"
+}

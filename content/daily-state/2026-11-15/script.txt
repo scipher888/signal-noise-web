@@ -1,0 +1,33 @@
+Are AI systems outgrowing their benchmarks, or are benchmark headlines outrunning independent measurement? And if models keep improving on tasks with clear answers, how much does that tell us about their ability to automate AI research itself?
+
+Those questions connect today’s debates, but the evidence is different in each case: an author-reported benchmark analysis on one side, and a speculative forecast alongside an unverified chart on the other.
+
+Ethan Mollick argues that AI capability is advancing faster than the field’s measurements can keep up. His SatBench project, built on Brian Zhou’s Benchmark Almanac, tracks how quickly benchmarks reach what it calls saturation.
+
+The definition matters. SatBench uses a threshold of eighty-five percent for the best reported AI score. That is an operational definition of “solved,” not a demonstration that a system can handle every relevant task, or perform reliably outside the evaluation.
+
+The headline says sixty-three percent are saturated. But Mollick’s own documentation supplies the most important qualification: counting only independent runs, the figure is twenty-four percent. Much of the headline therefore depends on labs’ self-reported launch results.
+
+That does not make those results false. It does mean the broader number and the independent-only number answer different questions. One includes company-reported performance; the other restricts the evidence to independent runs. Neither should be presented without that distinction.
+
+The author-reported analysis also says the median time to reach eighty-five percent fell from about twenty months to about fourteen. That supports Mollick’s argument that benchmarks in this collection are being overtaken more quickly. But this is a selected collection of benchmarks, not a direct measure of every capability practitioners care about, and the analysis has not been independently replicated. Its documentation also cautions that its extrapolation is not a forecast.
+
+Mollick separately describes using an AI model to produce the analysis. That is a personal account of an assisted workflow, not an accuracy check on the resulting work, and not evidence that the model independently designed and validated the research.
+
+The second debate asks whether that kind of assistance could become autonomous research capability.
+
+In a new essay, Dwarkesh Patel forecasts that automated researchers could become as good as the very best human AI researchers. His median guess is twenty twenty-eight, assuming labs do not intentionally slow down. He also assigns a twenty-five percent chance that this does not happen until after twenty thirty-two.
+
+Those are Patel’s forecasts, not measured outcomes. His essay’s supporting references to research activity at frontier labs are second-hand in the material available here. They do not independently establish that an autonomous system can carry a research project from choosing a worthwhile problem through testing and validating a useful result.
+
+A separate compute-efficiency chart has added energy to the discussion, but its purported Anthropic provenance remains unverified. It should not be treated as an authenticated company disclosure.
+
+Ramez Naam retracts his earlier dismissal of that chart. He argues that, if it shows what proponents say it shows, it could be important evidence for acceleration. But he also asks what the underlying quantities are, whether the apparent acceleration is meaningful, and whether the chart covers pre-training while leaving out reinforcement learning, inference, or test-time reasoning costs. Those questions limit what anyone can infer from it.
+
+Rohit Krishnan identifies a different crux: whether improvements on clean, verifiable tasks transfer far enough to messy real-world work. Patel himself acknowledges that some AI research is less verifiable than mathematics.
+
+Steve Hou calls Patel’s proposed mechanism highly stylized and declines either to endorse or reject it. That is a skeptical-neutral interpretation, not a refutation or corroboration.
+
+The practical distinction across both stories is the same: a high controlled-test score, an effective human-assisted workflow, and autonomous research are different claims. Evidence for one can motivate investigation of the next. It does not establish the next by itself.
+
+AI-generated; may contain errors.
