@@ -146,6 +146,37 @@ main code {
   color: var(--muted);
 }
 .mq-meta a { color: var(--ink-soft); }
+.mq-editor { margin-top: 0.5rem; }
+
+/* Mixed source page (Issue 37): the author's own words vs Grok Heavy research. */
+.src-legend {
+  display: flex; flex-wrap: wrap; gap: 0.4rem 1.4rem; margin: 0 0 1.4rem;
+  padding: 0.7rem 0.9rem; border: 1px solid var(--line); border-radius: 8px;
+  background: var(--paper-bright); font-family: var(--sans); font-size: 0.86rem; color: var(--ink-soft);
+}
+.src-legend p { margin: 0; }
+.src-key {
+  display: inline-block; margin-right: 0.35rem; padding: 0.08rem 0.45rem; border-radius: 3px;
+  font-weight: 700; font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase;
+}
+.src-key-h { background: #fbe9d0; color: #7a1f1f; border-left: 3px solid #7a1f1f; }
+.src-key-g { background: #e6ecf3; color: #3d4a5c; }
+.src-mix { white-space: pre-wrap; overflow-wrap: anywhere; margin: 0 0 1.4rem; }
+.src-h {
+  background: #fbe9d0; color: #7a1f1f; font-weight: 600;
+  border-left: 3px solid #7a1f1f; padding: 0.05rem 0.25rem;
+  -webkit-box-decoration-break: clone; box-decoration-break: clone;
+}
+.src-h::before {
+  content: "Synthia"; font: 700 0.6rem/1 var(--sans); letter-spacing: 0.06em; text-transform: uppercase;
+  color: #fff; background: #7a1f1f; padding: 0.12rem 0.3rem; border-radius: 2px;
+  margin-right: 0.3rem; vertical-align: 0.15em;
+}
+.src-g {
+  background: #e6ecf3; color: #3d4a5c; font-family: var(--sans); font-size: 0.93rem;
+  -webkit-box-decoration-break: clone; box-decoration-break: clone;
+}
+@media print { .src-h, .src-g, .src-key { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }
 
 /* End-of-essay notes, smaller than the body. */
 p.note {
