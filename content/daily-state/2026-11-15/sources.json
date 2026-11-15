@@ -1,0 +1,39 @@
+{
+  "date": "2026-11-15",
+  "urls": [
+    "https://raw.githubusercontent.com/emollick/satbench/main/README.md",
+    "https://www.dwarkesh.com/p/rsi",
+    "https://x.com/emollick/status/2121751565845360769",
+    "https://x.com/emollick/status/2121822367575945454",
+    "https://x.com/ramez/status/2121683068532744388",
+    "https://x.com/krishnanrohit/status/2121635261591519250",
+    "https://x.com/stevehou/status/2121850677144019165"
+  ],
+  "stories": [
+    {
+      "index": 1,
+      "title": "SatBench: are AI benchmarks being used up faster than labs can build them?",
+      "outlets": [
+        "GitHub (emollick/satbench)"
+      ],
+      "urls": [
+        "https://raw.githubusercontent.com/emollick/satbench/main/README.md",
+        "https://x.com/emollick/status/2121751565845360769",
+        "https://x.com/emollick/status/2121822367575945454"
+      ]
+    },
+    {
+      "index": 2,
+      "title": "Dwarkesh's 'spark' essay and a purported Anthropic efficiency chart reopen the AI-automating-AI-research debate",
+      "outlets": [
+        "Dwarkesh Podcast (Substack)"
+      ],
+      "urls": [
+        "https://www.dwarkesh.com/p/rsi",
+        "https://x.com/ramez/status/2121683068532744388",
+        "https://x.com/krishnanrohit/status/2121635261591519250",
+        "https://x.com/stevehou/status/2121850677144019165"
+      ]
+    }
+  ]
+}
