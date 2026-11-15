@@ -41,6 +41,14 @@ SCHEMA_VERSION = 1
 CONTENT_FILES = ("script.txt", "sources.json", "qa.json", "edition.json")
 LISTING_REL = "daily-state/index.html"
 DESC_MAX = 200
+# The page template prints this once. Upstream scripts sometimes repeat it,
+# as its own paragraph or as the final sentence of the body. Separators,
+# a trailing period, and case all vary; a sentence that merely mentions AI
+# does not match.
+_AI_LABEL = r"ai-generated\s*[;\u00b7\-]\s*may\s+contain\s+errors\.?"
+AI_LABEL_RE = re.compile(r"(?i)" + _AI_LABEL)
+_AI_LABEL_LINE_RE = re.compile(r"(?i)^" + _AI_LABEL + r"$")
+_TRAILING_AI_LABEL_RE = re.compile(r"(?i)(?<=[.!?])\s+" + _AI_LABEL + r"\s*$")
 
 QA_KEYS = {
     "schema_version", "date", "status", "semantic_qa", "sources",
@@ -222,6 +230,32 @@ def script_paragraphs(text):
     if not parts or any(part.strip() == "" for part in parts):
         raise Hold("script contains an empty paragraph")
     return parts
+
+
+def is_ai_label(text):
+    """True when text is only the AI-generated / may-contain-errors label."""
+    return _AI_LABEL_LINE_RE.fullmatch(" ".join(text.split())) is not None
+
+
+def count_ai_labels(text):
+    return len(AI_LABEL_RE.findall(text))
+
+
+def body_paragraphs(paragraphs):
+    """Script paragraphs for the page body, without a duplicate AI label.
+
+    Drops a paragraph that is only the label, and a final sentence that is
+    only the label. Any other sentence stays, including ones that mention AI.
+    """
+    visible = []
+    for paragraph in paragraphs:
+        if is_ai_label(paragraph):
+            continue
+        stripped = _TRAILING_AI_LABEL_RE.sub("", paragraph)
+        if stripped.strip() == "":
+            continue
+        visible.append(stripped)
+    return visible
 
 
 def validate_gates(gate, *, allow_detail):
@@ -587,7 +621,12 @@ def render_page(title, description, root, main, path, ogtype):
 
 
 def render_edition_html(edition, paragraphs, sources):
-    body = "\n".join(f"<p>{html.escape(paragraph, quote=True)}</p>" for paragraph in paragraphs)
+    # The description stays on the frozen script. The body omits a duplicate
+    # AI label; p.disclaimer below is the one copy on the page.
+    body = "\n".join(
+        f"<p>{html.escape(paragraph, quote=True)}</p>"
+        for paragraph in body_paragraphs(paragraphs)
+    )
     shown = build.display_date(edition["date"], "day")
     main = (
         "<article>\n"

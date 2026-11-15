@@ -297,10 +297,17 @@ class DailyStateTests(unittest.TestCase):
 
         page = parse_page(html)
         self.assertEqual(page.h1, "Daily State of AI - 2026-11-08")
-        self.assertEqual(page.script_paragraphs, daily_state.script_paragraphs(script.decode("utf-8")))
-        self.assertEqual(len(" ".join(page.script_paragraphs).split()), 645)
-        self.assertEqual(page.script_paragraphs[-1], SCRIPT_DISCLAIMER)
+        source_paragraphs = daily_state.script_paragraphs(script.decode("utf-8"))
+        self.assertEqual(source_paragraphs[-1], SCRIPT_DISCLAIMER)
+        self.assertEqual(page.script_paragraphs, source_paragraphs[:-1])
+        self.assertEqual(len(" ".join(source_paragraphs).split()), 645)
+        self.assertEqual(
+            len(" ".join(page.script_paragraphs).split()),
+            645 - len(SCRIPT_DISCLAIMER.split()),
+        )
         self.assertEqual(page.disclaimer, HOUSE)
+        self.assertEqual(daily_state.count_ai_labels(html), 1)
+        self.assertNotIn(SCRIPT_DISCLAIMER, page.script_paragraphs)
         self.assertNotIn(HOUSE, page.script_paragraphs)
         self.assertEqual(page.times[0]["datetime"], DATE)
         self.assertEqual(page.times[0]["text"], "November 8, 2026")
@@ -699,9 +706,10 @@ class DailyStateTests(unittest.TestCase):
         self.assertIn("&lt;script&gt;", html)
         self.assertIn("&quot;", html)
         page = parse_page(html)
-        self.assertEqual(page.script_paragraphs, paragraphs)
-        self.assertEqual(page.script_paragraphs[-1], SCRIPT_DISCLAIMER)
+        self.assertEqual(page.script_paragraphs, paragraphs[:-1])
+        self.assertNotIn(SCRIPT_DISCLAIMER, page.script_paragraphs)
         self.assertEqual(page.disclaimer, HOUSE)
+        self.assertEqual(daily_state.count_ai_labels(html), 1)
         self.assertEqual(page.story_titles, ['A & B <script>alert("t")</script>'])
         hrefs = [item["attrs"].get("href") for item in page.anchors]
         self.assertIn("https://example.com/a?b=1&c=2", hrefs)
@@ -899,6 +907,58 @@ class DailyStateTests(unittest.TestCase):
         self.assertEqual(code, 1)
         self.assertIn("Audio elsewhere", target.read_text(encoding="utf-8"))
         self.assertNotIn("Audio on Spotify", target.read_text(encoding="utf-8"))
+
+    def test_script_ending_with_label_line_renders_once(self):
+        mentions = (
+            "Researchers said the AI-generated summary may contain errors in names."
+        )
+        glued = "Evidence stops at the test. AI-generated; may contain errors."
+        endings = [
+            "AI-generated; may contain errors.",
+            "AI-generated \u00b7 may contain errors",
+            "ai-generated - may contain errors.",
+            "AI-GENERATED; MAY CONTAIN ERRORS.",
+            "  AI-generated ;  may contain errors.  ",
+        ]
+        for ending in endings:
+            with self.subTest(ending=ending):
+                shutil.rmtree(self.root / "content", ignore_errors=True)
+                shutil.rmtree(self.generated(), ignore_errors=True)
+                self.copy_edition()
+                directory = self.root / "content" / "daily-state" / DATE
+                paragraphs = [
+                    "Models improved on clean tasks.",
+                    mentions,
+                    glued,
+                    ending,
+                ]
+                (directory / "script.txt").write_text(
+                    "\n\n".join(paragraphs) + "\n", encoding="utf-8"
+                )
+                reseal(directory)
+                daily_state.publish(str(self.root), write=True)
+                html = (self.generated() / DATE / "index.html").read_text(encoding="utf-8")
+                page = parse_page(html)
+                self.assertEqual(page.script_paragraphs, [
+                    "Models improved on clean tasks.",
+                    mentions,
+                    "Evidence stops at the test.",
+                ])
+                self.assertEqual(page.disclaimer, HOUSE)
+                self.assertEqual(daily_state.count_ai_labels(html), 1)
+                self.assertEqual(daily_state.count_ai_labels(mentions), 0)
+                self.assertIn('<p class="disclaimer">%s</p>' % HOUSE, html)
+
+    def test_published_editions_show_the_ai_label_once(self):
+        for iso_date in daily_state.list_edition_dates(str(ROOT)):
+            with self.subTest(iso_date=iso_date):
+                html = (ROOT / "daily-state" / iso_date / "index.html").read_text(encoding="utf-8")
+                loaded = daily_state.load_edition(str(ROOT), iso_date)
+                self.assertEqual(html, loaded["html"])
+                page = parse_page(html)
+                self.assertEqual(page.disclaimer, HOUSE)
+                self.assertEqual(daily_state.count_ai_labels(html), 1)
+                self.assertTrue(all(not daily_state.is_ai_label(item) for item in page.script_paragraphs))
 
     def test_description_is_a_bounded_prefix(self):
         sentence = ("Alpha " * 80).strip() + "."
