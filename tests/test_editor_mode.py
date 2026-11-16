@@ -69,6 +69,12 @@ def sample_notes():
                 "reason": "One clause was tightened and the rest was left.",
                 "status": "accepted_partial",
             },
+            {
+                "artifact": "episode",
+                "summary": "The episode leaves one claim open.",
+                "reason": "The line stayed in the read.",
+                "status": "accepted_unresolved",
+            },
         ],
         "generated_by": {"model": "meta/muse-ember"},
     }
@@ -324,6 +330,60 @@ class EditorModeTests(unittest.TestCase):
         )
         daily_state.validate_run(nested, DATE, 4)
 
+        canonical = editor_run()
+        canonical["editor"] = {
+            "model": "meta/muse-ember",
+            "reasoning_effort": "max",
+            "completed": True,
+            "outstanding": 2,
+            "decisions": {
+                "overruled": 1,
+                "accepted_resolved": 3,
+                "accepted_unresolved": 1,
+                "accepted_partial": 1,
+                "total": 6,
+            },
+        }
+        receipt = daily_state.normalize_editor(canonical["editor"])
+        self.assertEqual(receipt["overruled"], 1)
+        self.assertEqual(receipt["accepted_resolved"], 3)
+        self.assertEqual(receipt["accepted_unresolved"], 1)
+        self.assertEqual(receipt["accepted_partial"], 1)
+        self.assertEqual(receipt["outstanding"], 2)
+        daily_state.validate_run(canonical, DATE, 4)
+        canonical["editor"]["completed"] = False
+        with self.assertRaises(daily_state.Hold) as caught:
+            daily_state.validate_run(canonical, DATE, 4)
+        self.assertIn("not complete", str(caught.exception))
+        canonical["editor"]["completed"] = True
+        canonical["editor"]["outstanding"] = 9
+        with self.assertRaises(daily_state.Hold) as caught:
+            daily_state.validate_run(canonical, DATE, 4)
+        self.assertIn("outstanding", str(caught.exception))
+
+        package = self.make_package()
+        packaged = load_json(package / "run.json")
+        packaged["editor"] = {
+            "model": "meta/muse-ember",
+            "reasoning_effort": "max",
+            "completed": True,
+            "outstanding": 0,
+            "decisions": {
+                "overruled": 1,
+                "accepted_resolved": 2,
+                "accepted_unresolved": 0,
+                "accepted_partial": 0,
+                "total": 3,
+            },
+        }
+        dump_json(package / "run.json", packaged)
+        self.assertTrue(daily_state.validate_package(str(package))["editor_mode"])
+        packaged["editor"]["completed"] = False
+        dump_json(package / "run.json", packaged)
+        with self.assertRaises(daily_state.Hold) as caught:
+            daily_state.validate_package(str(package))
+        self.assertIn("not complete", str(caught.exception))
+
         directory = self.seal_editor(
             self.copy_edition(),
             empty_notes(),
@@ -339,13 +399,19 @@ class EditorModeTests(unittest.TestCase):
         daily_state.publish(str(self.root), write=True)
         page = (self.root / "daily-state" / DATE / "editors-notes" / "index.html").read_text(encoding="utf-8")
         edition = (self.root / "daily-state" / DATE / "index.html").read_text(encoding="utf-8")
-        self.assertIn("written", page)
-        self.assertIn("short", page)
         self.assertIn(notes["outstanding"][0]["summary"], page)
         self.assertIn(notes["outstanding"][0]["reason"], page)
-        self.assertIn("accepted_unresolved", page)
         self.assertIn(notes["outstanding"][1]["summary"], page)
-        self.assertIn("accepted_partial", page)
+        self.assertIn("<h2>Episode</h2>", page)
+        self.assertIn("<h2>Short</h2>", page)
+        self.assertIn("<h2>Written edition</h2>", page)
+        self.assertLess(page.index("<h2>Episode</h2>"), page.index("<h2>Short</h2>"))
+        self.assertLess(page.index("<h2>Short</h2>"), page.index("<h2>Written edition</h2>"))
+        self.assertIn("Unresolved", page)
+        self.assertIn("Partly resolved", page)
+        self.assertNotIn("accepted_unresolved", page)
+        self.assertNotIn("accepted_partial", page)
+        self.assertNotIn("<h2>written</h2>", page)
         self.assertNotIn(OVERRULED, page)
         self.assertNotIn(OVERRULED, edition)
         self.assertNotIn("overruled", page.lower())
@@ -367,15 +433,43 @@ class EditorModeTests(unittest.TestCase):
             }],
             "generated_by": {"model": "meta/muse-ember"},
         })
-        self.assertIn("accepted_unresolved", rendered)
+        self.assertIn("Unresolved", rendered)
+        self.assertIn("Partly resolved", rendered)
+        self.assertNotIn("accepted_unresolved", rendered)
+        self.assertNotIn("accepted_partial", rendered)
         self.assertNotIn(OVERRULED, rendered)
         self.assertNotIn("overruled", rendered.lower())
+        doubled = daily_state.render_editors_notes_html(DATE, {
+            "date": DATE,
+            "outstanding": [
+                {
+                    "artifact": "episode",
+                    "summary": "First open claim.",
+                    "reason": "Left as spoken.",
+                    "status": "accepted_unresolved",
+                },
+                {
+                    "artifact": "episode",
+                    "summary": "Second open claim.",
+                    "reason": "Tightened one clause.",
+                    "status": "accepted_partial",
+                },
+            ],
+            "generated_by": {"model": "meta/muse-ember"},
+        })
+        self.assertEqual(doubled.count("<h2>Episode</h2>"), 1)
+        self.assertNotIn("<h2>Short</h2>", doubled)
+        self.assertNotIn("<h2>Written edition</h2>", doubled)
+        self.assertLess(doubled.index("First open claim."), doubled.index("Second open claim."))
 
     def test_empty_notes_page_says_there_are_none(self):
         self.seal_editor(self.copy_edition(), empty_notes())
         daily_state.publish(str(self.root), write=True)
         page = (self.root / "daily-state" / DATE / "editors-notes" / "index.html").read_text(encoding="utf-8")
         self.assertIn("<p>No outstanding issues</p>", page)
+        self.assertNotIn("<h2>", page)
+        self.assertNotIn("Unresolved", page)
+        self.assertNotIn("Partly resolved", page)
         self.assertNotIn("accepted_unresolved", page)
         self.assertNotIn(OVERRULED, page)
         edition = (self.root / "daily-state" / DATE / "index.html").read_text(encoding="utf-8")
@@ -523,8 +617,11 @@ class EditorModeTests(unittest.TestCase):
         edition = (out / "daily-state" / DATE / "index.html").read_text(encoding="utf-8")
         notes = (out / "daily-state" / DATE / "editors-notes" / "index.html").read_text(encoding="utf-8")
         self.assertIn(sample_notes()["outstanding"][0]["summary"], notes)
-        self.assertIn("written", notes)
-        self.assertIn("short", notes)
+        self.assertIn("<h2>Written edition</h2>", notes)
+        self.assertIn("<h2>Short</h2>", notes)
+        self.assertIn("<h2>Episode</h2>", notes)
+        self.assertIn("Partly resolved", notes)
+        self.assertNotIn("accepted_partial", notes)
         self.assertNotIn(OVERRULED, edition)
         self.assertNotIn(OVERRULED, notes)
         self.assertNotIn("decision_log", edition)

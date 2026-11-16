@@ -54,11 +54,25 @@ EDITOR_EDITION_KEYS = frozenset({"pipeline", "editor", "hard_stops"})
 HARD_STOP_KINDS = frozenset({"audio", "video", "dead_link", "label"})
 EDITOR_NOTE_ARTIFACTS = frozenset({"episode", "short", "written"})
 EDITOR_NOTE_STATUSES = frozenset({"accepted_unresolved", "accepted_partial"})
+# Notes page wording. Raw status tokens stay in the JSON.
+EDITOR_NOTE_STATUS_LABELS = {
+    "accepted_unresolved": "Unresolved",
+    "accepted_partial": "Partly resolved",
+}
+# Group order on the notes page.
+EDITOR_NOTE_GROUPS = (
+    ("episode", "Episode"),
+    ("short", "Short"),
+    ("written", "Written edition"),
+)
 _EDITOR_ALLOWED = frozenset({
     "model", "accepted", "overruled", "partially", "completed", "outstanding",
     "reasoning_effort", "decisions", "word_min", "word_max", "within_word_target",
 })
-_DECISION_ALLOWED = frozenset({"accepted", "overruled", "partially", "total"})
+# Canonical decisions from the editor pipeline, plus the older three-count form.
+_DECISION_CANONICAL = ("overruled", "accepted_resolved", "accepted_unresolved", "accepted_partial")
+_DECISION_LEGACY = ("accepted", "overruled", "partially")
+_DECISION_ALLOWED = frozenset(set(_DECISION_CANONICAL) | set(_DECISION_LEGACY) | {"total"})
 LISTING_REL = "daily-state/index.html"
 DESC_MAX = 200
 # A browser user agent. 403 from a script is not evidence a source is gone.
@@ -342,8 +356,54 @@ def editor_mode_of(run, editor_mode):
     return run.get("pipeline") == "editor" or type(run.get("editor")) is dict
 
 
+def _legacy_decision_counts(accepted, overruled, partially):
+    return {
+        "overruled": overruled,
+        "accepted_resolved": accepted,
+        "accepted_unresolved": 0,
+        "accepted_partial": partially,
+        "total": accepted + overruled + partially,
+        "canonical": False,
+    }
+
+
+def _decision_counts(decisions):
+    """Canonical counts, or the older accepted/overruled/partially object."""
+    if type(decisions) is not dict or set(decisions) - _DECISION_ALLOWED:
+        raise Hold("unknown editor schema")
+    canonical = all(key in decisions for key in _DECISION_CANONICAL)
+    legacy = all(key in decisions for key in _DECISION_LEGACY)
+    if canonical:
+        counts = {key: _editor_count(decisions[key], key) for key in _DECISION_CANONICAL}
+        if legacy and (
+            counts["accepted_resolved"] != _editor_count(decisions["accepted"], "accepted")
+            or counts["accepted_partial"] != _editor_count(decisions["partially"], "partially")
+        ):
+            raise Hold("editor decisions do not match")
+        expected = sum(counts[key] for key in _DECISION_CANONICAL)
+        counts["canonical"] = True
+    elif legacy:
+        counts = _legacy_decision_counts(
+            _editor_count(decisions["accepted"], "accepted"),
+            _editor_count(decisions["overruled"], "overruled"),
+            _editor_count(decisions["partially"], "partially"),
+        )
+        expected = counts["total"]
+    else:
+        raise Hold("unknown editor schema")
+    if "total" in decisions and _editor_count(decisions["total"], "total") != expected:
+        raise Hold("editor decisions do not match")
+    counts["total"] = expected
+    return counts
+
+
 def normalize_editor(editor):
-    """Public editor receipt. Counts may be flat or under decisions."""
+    """Public editor receipt.
+
+    The canonical decisions object is overruled, accepted_resolved,
+    accepted_unresolved, accepted_partial, and total. The older
+    accepted/overruled/partially counts, flat or nested, still pass.
+    """
     if type(editor) is not dict or set(editor) - _EDITOR_ALLOWED or "model" not in editor:
         raise Hold("unknown editor schema")
     model = editor["model"]
@@ -352,32 +412,28 @@ def normalize_editor(editor):
     decisions = editor.get("decisions")
     if "decisions" in editor and type(decisions) is not dict:
         raise Hold("unknown editor schema")
-    if type(decisions) is dict and set(decisions) - _DECISION_ALLOWED:
-        raise Hold("unknown editor schema")
-    flat = all(key in editor for key in ("accepted", "overruled", "partially"))
-    nested = type(decisions) is dict and all(
-        key in decisions for key in ("accepted", "overruled", "partially")
-    )
-    if not flat and not nested:
-        raise Hold("unknown editor schema")
-    if flat:
-        accepted = _editor_count(editor["accepted"], "accepted")
-        overruled = _editor_count(editor["overruled"], "overruled")
-        partially = _editor_count(editor["partially"], "partially")
+    flat = all(key in editor for key in _DECISION_LEGACY)
+    if type(decisions) is dict:
+        counts = _decision_counts(decisions)
+    elif flat:
+        counts = _legacy_decision_counts(
+            _editor_count(editor["accepted"], "accepted"),
+            _editor_count(editor["overruled"], "overruled"),
+            _editor_count(editor["partially"], "partially"),
+        )
     else:
-        accepted = _editor_count(decisions["accepted"], "accepted")
-        overruled = _editor_count(decisions["overruled"], "overruled")
-        partially = _editor_count(decisions["partially"], "partially")
-    if flat and nested:
+        raise Hold("unknown editor schema")
+    if flat and type(decisions) is dict:
+        flat_counts = _legacy_decision_counts(
+            _editor_count(editor["accepted"], "accepted"),
+            _editor_count(editor["overruled"], "overruled"),
+            _editor_count(editor["partially"], "partially"),
+        )
         if (
-            accepted != _editor_count(decisions["accepted"], "accepted")
-            or overruled != _editor_count(decisions["overruled"], "overruled")
-            or partially != _editor_count(decisions["partially"], "partially")
+            flat_counts["overruled"] != counts["overruled"]
+            or flat_counts["accepted_resolved"] != counts["accepted_resolved"]
+            or flat_counts["accepted_partial"] != counts["accepted_partial"]
         ):
-            raise Hold("editor decisions do not match")
-    if type(decisions) is dict and "total" in decisions:
-        total = _editor_count(decisions["total"], "total")
-        if total != accepted + overruled + partially:
             raise Hold("editor decisions do not match")
     for key in ("word_min", "word_max"):
         if key in editor and (type(editor[key]) is not int or editor[key] < 0):
@@ -393,11 +449,17 @@ def normalize_editor(editor):
     if "outstanding" not in editor:
         raise Hold("editor outstanding count is missing")
     outstanding = _editor_count(editor["outstanding"], "outstanding")
+    if counts["canonical"] and outstanding != counts["accepted_unresolved"] + counts["accepted_partial"]:
+        raise Hold("editor outstanding count does not match decisions")
     return {
         "model": model,
-        "accepted": accepted,
-        "overruled": overruled,
-        "partially": partially,
+        "overruled": counts["overruled"],
+        "accepted_resolved": counts["accepted_resolved"],
+        "accepted_unresolved": counts["accepted_unresolved"],
+        "accepted_partial": counts["accepted_partial"],
+        "accepted": counts["accepted_resolved"],
+        "partially": counts["accepted_partial"],
+        "total": counts["total"],
         "completed": editor["completed"],
         "outstanding": outstanding,
     }
@@ -1096,25 +1158,34 @@ def render_edition_html(edition, paragraphs, sources, *, editor_mode=False):
 
 
 def render_editors_notes_html(iso_date, notes):
-    """Outstanding items only. Overruled objections are never listed."""
+    """Outstanding items only, grouped by artifact. Overruled objections stay off."""
     title = f"Editor's notes — {iso_date}"
     shown = build.display_date(iso_date, "day")
-    rows = []
+    grouped = {key: [] for key, _label in EDITOR_NOTE_GROUPS}
     for item in notes["outstanding"]:
-        if item.get("status") not in EDITOR_NOTE_STATUSES:
+        status = item.get("status")
+        artifact = item.get("artifact")
+        if status not in EDITOR_NOTE_STATUS_LABELS or artifact not in grouped:
             continue
-        if item.get("artifact") not in EDITOR_NOTE_ARTIFACTS:
+        grouped[artifact].append(item)
+    sections = []
+    for key, label in EDITOR_NOTE_GROUPS:
+        items = grouped[key]
+        if not items:
             continue
-        rows.append(
-            "<section class=\"story\">\n"
-            f"<h2>{html.escape(item['artifact'], quote=True)}</h2>\n"
-            f"<p>{html.escape(item['summary'], quote=True)}</p>\n"
-            f"<p class=\"note\">{html.escape(item['reason'], quote=True)}</p>\n"
-            f"<p class=\"row\"><span class=\"meta\">{html.escape(item['status'], quote=True)}</span></p>\n"
-            "</section>"
-        )
-    if rows:
-        listing = "\n".join(rows)
+        blocks = []
+        for item in items:
+            blocks.append(
+                "<section class=\"story\">\n"
+                f"<p>{html.escape(item['summary'], quote=True)}</p>\n"
+                f"<p class=\"note\">{html.escape(item['reason'], quote=True)}</p>\n"
+                f"<p class=\"row\"><span class=\"meta\">"
+                f"{html.escape(EDITOR_NOTE_STATUS_LABELS[item['status']], quote=True)}</span></p>\n"
+                "</section>"
+            )
+        sections.append("<h2>%s</h2>\n%s" % (html.escape(label, quote=True), "\n".join(blocks)))
+    if sections:
+        listing = "\n".join(sections)
     else:
         listing = "<p>No outstanding issues</p>"
     main = (

@@ -56,9 +56,14 @@ Hash, file scope, `h1`, `og:url`, and the Spotify episode href still hold.
   "pipeline": "editor",
   "editor": {
     "model": "meta/muse-ember",
-    "accepted": 1,
-    "overruled": 2,
-    "partially": 0,
+    "reasoning_effort": "max",
+    "decisions": {
+      "overruled": 1,
+      "accepted_resolved": 2,
+      "accepted_unresolved": 1,
+      "accepted_partial": 0,
+      "total": 4
+    },
     "completed": true,
     "outstanding": 1
   },
@@ -66,7 +71,7 @@ Hash, file scope, `h1`, `og:url`, and the Spotify episode href still hold.
 }
 ```
 
-`hard_stops` items are `{"kind": "audio"|"video"|"dead_link"|"label", "detail": "..."}`. Counts may also arrive under `editor.decisions` (`accepted`, `overruled`, `partially`, `total`). `completed` and `outstanding` are required either way. A non-empty `hard_stops` list holds even when `completed` is true.
+That decisions object is the canonical receipt. `outstanding` counts `accepted_unresolved` plus `accepted_partial`. `completed: false` holds. The older counts `accepted`, `overruled`, and `partially` — flat on `editor`, or under `editor.decisions` with `total` — still pass. `hard_stops` items are `{"kind": "audio"|"video"|"dead_link"|"label", "detail": "..."}`. A non-empty list holds even when `completed` is true.
 
 `editor_notes.json` sits next to `script.txt`, `sources.json`, and `run.json` in a pipeline package. Only the outstanding items are public:
 
@@ -106,7 +111,7 @@ Generated files. The shared listing stays `daily-state/index.html`.
 - live: `daily-state/YYYY-MM-DD/index.html`
 - editor: that page, plus `daily-state/YYYY-MM-DD/editors-notes/index.html`
 
-The edition page links `Editor's notes` in the same line as the AI-generated label. The notes page lists each outstanding item (artifact, summary, one-line reason, status). An empty list says `No outstanding issues`.
+The edition page links `Editor's notes` in the same line as the AI-generated label. The notes page groups outstanding items under `Episode`, `Short`, and `Written edition`. Each item shows its summary, one-line reason, and status in plain words: `Unresolved` or `Partly resolved`. An empty list says `No outstanding issues`. Overruled objections are not listed.
 
 ### Offline package command
 
