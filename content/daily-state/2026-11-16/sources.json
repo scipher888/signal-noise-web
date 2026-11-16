@@ -1,0 +1,37 @@
+{
+  "date": "2026-11-16",
+  "urls": [
+    "https://www.alibabacloud.com/blog/alibaba-unveils-qwen4-max-new-ai-teammate-for-work-creativity-and-discovery_603783",
+    "https://openai.com/index/step-toward-defining-the-standard-model",
+    "https://x.com/Alibaba_Qwen/status/2122148127520289151",
+    "https://x.com/AlexFinn/status/2122189163403583723",
+    "https://x.com/emollick/status/2122308260325720127",
+    "https://x.com/OpenAI/status/2122123437141553630"
+  ],
+  "stories": [
+    {
+      "index": 1,
+      "title": "Qwen4-Max lands: a cheaper frontier-adjacent model, but not the open-weights Fable rival some claimed",
+      "outlets": [
+        "Alibaba Cloud Community"
+      ],
+      "urls": [
+        "https://www.alibabacloud.com/blog/alibaba-unveils-qwen4-max-new-ai-teammate-for-work-creativity-and-discovery_603783",
+        "https://x.com/Alibaba_Qwen/status/2122148127520289151",
+        "https://x.com/AlexFinn/status/2122189163403583723",
+        "https://x.com/emollick/status/2122308260325720127"
+      ]
+    },
+    {
+      "index": 2,
+      "title": "OpenAI's new science blog: GPT-6 Astra helps a physicist propose a lattice definition of the Standard Model",
+      "outlets": [
+        "OpenAI"
+      ],
+      "urls": [
+        "https://openai.com/index/step-toward-defining-the-standard-model",
+        "https://x.com/OpenAI/status/2122123437141553630"
+      ]
+    }
+  ]
+}
