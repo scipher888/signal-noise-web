@@ -29,6 +29,96 @@ python3 -m unittest discover -s tests -p 'test_*.py' -v
 
 `python3 build.py` and `python3 build.py --check` do not build Daily State. Essay pages, the archive, and the RSS feed keep their existing behavior.
 
+## Experimental editor mode
+
+This path is off unless an edition opts in. Existing editions and the live daily flow use the checks above. Opt in with any one of:
+
+- `run.json` `"pipeline": "editor"`
+- `run.json` editor object
+- `edition.json` `"pipeline": "editor"` (with the editor receipt and `hard_stops`)
+- `--pipeline editor` on the package command
+
+`--pipeline live` forces the current rules. Omit the flag and the file is what decides.
+
+Editor mode passes when `editor.completed` is true and `hard_stops` is empty. Advisory QA gates (`ok: true`, `advisory: true`, `findings`) do not hold. These do:
+
+- a recorded hard stop, or one found while checking the package
+- a missing or broken audio reference, or a missing or broken video reference when a video is named
+- a source link that is actually dead: DNS or connection failure, 404, 410, or a 5xx that is still a 5xx after one retry. 401, 403, 405, 429, and bot-block pages are not dead. `https://openai.com/index/step-toward-defining-the-standard-model` returns 403 to scripts and still passes
+- the label `AI-generated · may contain errors` appearing any number of times other than once on the edition page
+
+Hash, file scope, `h1`, `og:url`, and the Spotify episode href still hold.
+
+`run.json` in editor mode keeps `semantic_qa: "pass"` and adds:
+
+```json
+{
+  "pipeline": "editor",
+  "editor": {
+    "model": "meta/muse-ember",
+    "accepted": 1,
+    "overruled": 2,
+    "partially": 0,
+    "completed": true,
+    "outstanding": 1
+  },
+  "hard_stops": []
+}
+```
+
+`hard_stops` items are `{"kind": "audio"|"video"|"dead_link"|"label", "detail": "..."}`. Counts may also arrive under `editor.decisions` (`accepted`, `overruled`, `partially`, `total`). `completed` and `outstanding` are required either way. A non-empty `hard_stops` list holds even when `completed` is true.
+
+`editor_notes.json` sits next to `script.txt`, `sources.json`, and `run.json` in a pipeline package. Only the outstanding items are public:
+
+```json
+{
+  "date": "YYYY-MM-DD",
+  "outstanding": [
+    {
+      "artifact": "episode",
+      "summary": "One sentence.",
+      "reason": "One line.",
+      "status": "accepted_unresolved"
+    }
+  ],
+  "generated_by": {"model": "meta/muse-ember"}
+}
+```
+
+`artifact` is `episode`, `short`, or `written`. `status` is `accepted_unresolved` or `accepted_partial`. Overruled objections are not a status and are not rendered.
+
+### File scope
+
+Live edition directory, unchanged:
+
+- `content/daily-state/YYYY-MM-DD/script.txt`
+- `content/daily-state/YYYY-MM-DD/sources.json`
+- `content/daily-state/YYYY-MM-DD/qa.json`
+- `content/daily-state/YYYY-MM-DD/edition.json`
+
+Editor edition directory. `run.json` is still not committed. `edition.json` adds `pipeline`, `editor`, `hard_stops`, and `hashes.editor_notes_sha256`:
+
+- the four files above
+- `content/daily-state/YYYY-MM-DD/editor_notes.json`
+
+Generated files. The shared listing stays `daily-state/index.html`.
+
+- live: `daily-state/YYYY-MM-DD/index.html`
+- editor: that page, plus `daily-state/YYYY-MM-DD/editors-notes/index.html`
+
+The edition page links `Editor's notes` in the same line as the AI-generated label. The notes page lists each outstanding item (artifact, summary, one-line reason, status). An empty list says `No outstanding issues`.
+
+### Offline package command
+
+No network. `--check-links` is the only form that fetches source URLs (HEAD, then GET, browser user agent, one retry on 5xx).
+
+```bash
+python3 daily_state.py --package DIR --check
+python3 daily_state.py --package DIR --out OUT
+```
+
+`DIR` is either a frozen edition directory or a pipeline directory containing `script.txt`, `sources.json`, `run.json`, and `editor_notes.json`. Other pipeline files are ignored and are not copied into the page. `OUT` receives `daily-state/YYYY-MM-DD/index.html` and, in editor mode, `daily-state/YYYY-MM-DD/editors-notes/index.html`.
+
 ## Fail closed
 
 The writer validates every edition and stages output before it replaces any generated file. It writes nothing when any of these fail:

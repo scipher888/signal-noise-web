@@ -11,7 +11,14 @@ an already built page.
     python3 build.py --daily-state-only
     python3 build.py --daily-state-check
 
+    # Opt-in editor mode, offline, from a package directory:
+    python3 daily_state.py --package DIR --check
+    python3 daily_state.py --package DIR --out OUT
+
 Essay pages, the archive, and the RSS feed are not inputs or outputs.
+The editor path is not the default. It runs only when a package or edition
+opts in (run.json pipeline "editor" or an editor object, edition.json
+pipeline "editor", or --pipeline editor).
 """
 
 import hashlib
@@ -22,6 +29,8 @@ import os
 import re
 import sys
 import tempfile
+import urllib.error
+import urllib.request
 from datetime import date as date_cls
 from urllib.parse import urlsplit
 
@@ -39,8 +48,32 @@ SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 NAMED_GATES = ("length", "clean", "coverage", "grounded", "fresh", "coherent")
 SCHEMA_VERSION = 1
 CONTENT_FILES = ("script.txt", "sources.json", "qa.json", "edition.json")
+# Editor mode adds one public file. run.json stays out of the edition directory.
+EDITOR_CONTENT_FILES = CONTENT_FILES + ("editor_notes.json",)
+EDITOR_EDITION_KEYS = frozenset({"pipeline", "editor", "hard_stops"})
+HARD_STOP_KINDS = frozenset({"audio", "video", "dead_link", "label"})
+EDITOR_NOTE_ARTIFACTS = frozenset({"episode", "short", "written"})
+EDITOR_NOTE_STATUSES = frozenset({"accepted_unresolved", "accepted_partial"})
+_EDITOR_ALLOWED = frozenset({
+    "model", "accepted", "overruled", "partially", "completed", "outstanding",
+    "reasoning_effort", "decisions", "word_min", "word_max", "within_word_target",
+})
+_DECISION_ALLOWED = frozenset({"accepted", "overruled", "partially", "total"})
 LISTING_REL = "daily-state/index.html"
 DESC_MAX = 200
+# A browser user agent. 403 from a script is not evidence a source is gone.
+BROWSER_UA = (
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+    "(KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
+)
+_BOT_MARKERS = (
+    "just a moment",
+    "verify you are human",
+    "cf-browser-verification",
+    "attention required",
+    "captcha",
+    "enable javascript",
+)
 # The page template prints this once. Upstream scripts sometimes repeat it,
 # as its own paragraph or as the final sentence of the body. Separators,
 # a trailing period, and case all vary; a sentence that merely mentions AI
@@ -49,6 +82,7 @@ _AI_LABEL = r"ai-generated\s*[;\u00b7\-]\s*may\s+contain\s+errors\.?"
 AI_LABEL_RE = re.compile(r"(?i)" + _AI_LABEL)
 _AI_LABEL_LINE_RE = re.compile(r"(?i)^" + _AI_LABEL + r"$")
 _TRAILING_AI_LABEL_RE = re.compile(r"(?i)(?<=[.!?])\s+" + _AI_LABEL + r"\s*$")
+AI_LABEL_EXACT = "AI-generated \u00b7 may contain errors"
 
 QA_KEYS = {
     "schema_version", "date", "status", "semantic_qa", "sources",
@@ -58,7 +92,7 @@ EDITION_KEYS = {
     "schema_version", "date", "title", "canonical_url", "episode_id",
     "episode_url", "verified_at", "verification", "hashes",
 }
-EDITION_OPTIONAL = {"spotify_episode_fallback"}
+EDITION_OPTIONAL = {"spotify_episode_fallback", "pipeline", "editor", "hard_stops", "video_url"}
 HASH_KEYS = {"script_sha256", "sources_sha256", "qa_sha256", "run_sha256"}
 VERIFICATION_KEYS = {"method", "checked_at", "episode", "show"}
 EPISODE_EVIDENCE_KEYS = {"title", "canonical_url", "id"}
@@ -258,11 +292,15 @@ def body_paragraphs(paragraphs):
     return visible
 
 
-def validate_gates(gate, *, allow_detail):
+def validate_gates(gate, *, allow_detail, advisory=False):
     if type(gate) is not list or len(gate) != len(NAMED_GATES):
         raise Hold("named gates are missing or incomplete")
     seen = []
-    allowed = {"name", "ok", "detail"} if allow_detail else {"name", "ok"}
+    allowed = {"name", "ok"}
+    if allow_detail:
+        allowed = allowed | {"detail"}
+    if advisory:
+        allowed = allowed | {"advisory", "findings"}
     for item in gate:
         if type(item) is not dict or set(item) - allowed or "name" not in item or "ok" not in item:
             raise Hold("unknown gate schema")
@@ -271,15 +309,147 @@ def validate_gates(gate, *, allow_detail):
         # Identity, not truthiness: the string "false" and the string "true" both hold.
         if item["ok"] is not True:
             raise Hold("named gate is not ok")
+        if advisory:
+            if item.get("advisory") is not True:
+                raise Hold("advisory gate is not marked advisory")
+            findings = item.get("findings")
+            if type(findings) is not int or findings < 0:
+                raise Hold("advisory gate findings are invalid")
         seen.append(item["name"])
     if len(set(seen)) != len(NAMED_GATES):
         raise Hold("named gates are duplicated or missing")
     return [{"name": name, "ok": True} for name in NAMED_GATES]
 
 
-def validate_run(run, iso_date, source_count):
-    """Current run.json shape. Extra producer fields are ignored, not copied."""
+def _editor_count(value, label):
+    if type(value) is not int or value < 0:
+        raise Hold(f"editor {label} is invalid")
+    return value
+
+
+def editor_mode_of(run, editor_mode):
+    """True when this receipt takes the experimental editor path.
+
+    The default is the live path. Opt in with pipeline "editor", an editor
+    object, or editor_mode=True. editor_mode=False keeps the live rules.
+    """
+    if editor_mode is True:
+        return True
+    if editor_mode is False:
+        return False
+    if type(run) is not dict:
+        return False
+    return run.get("pipeline") == "editor" or type(run.get("editor")) is dict
+
+
+def normalize_editor(editor):
+    """Public editor receipt. Counts may be flat or under decisions."""
+    if type(editor) is not dict or set(editor) - _EDITOR_ALLOWED or "model" not in editor:
+        raise Hold("unknown editor schema")
+    model = editor["model"]
+    if type(model) is not str or model.strip() == "" or any(ch in model for ch in "\r\n"):
+        raise Hold("unknown editor schema")
+    decisions = editor.get("decisions")
+    if "decisions" in editor and type(decisions) is not dict:
+        raise Hold("unknown editor schema")
+    if type(decisions) is dict and set(decisions) - _DECISION_ALLOWED:
+        raise Hold("unknown editor schema")
+    flat = all(key in editor for key in ("accepted", "overruled", "partially"))
+    nested = type(decisions) is dict and all(
+        key in decisions for key in ("accepted", "overruled", "partially")
+    )
+    if not flat and not nested:
+        raise Hold("unknown editor schema")
+    if flat:
+        accepted = _editor_count(editor["accepted"], "accepted")
+        overruled = _editor_count(editor["overruled"], "overruled")
+        partially = _editor_count(editor["partially"], "partially")
+    else:
+        accepted = _editor_count(decisions["accepted"], "accepted")
+        overruled = _editor_count(decisions["overruled"], "overruled")
+        partially = _editor_count(decisions["partially"], "partially")
+    if flat and nested:
+        if (
+            accepted != _editor_count(decisions["accepted"], "accepted")
+            or overruled != _editor_count(decisions["overruled"], "overruled")
+            or partially != _editor_count(decisions["partially"], "partially")
+        ):
+            raise Hold("editor decisions do not match")
+    if type(decisions) is dict and "total" in decisions:
+        total = _editor_count(decisions["total"], "total")
+        if total != accepted + overruled + partially:
+            raise Hold("editor decisions do not match")
+    for key in ("word_min", "word_max"):
+        if key in editor and (type(editor[key]) is not int or editor[key] < 0):
+            raise Hold("unknown editor schema")
+    if "within_word_target" in editor and type(editor["within_word_target"]) is not bool:
+        raise Hold("unknown editor schema")
+    if "reasoning_effort" in editor and (
+        type(editor["reasoning_effort"]) is not str or editor["reasoning_effort"].strip() == ""
+    ):
+        raise Hold("unknown editor schema")
+    if "completed" not in editor or type(editor["completed"]) is not bool:
+        raise Hold("editor completed flag is missing")
+    if "outstanding" not in editor:
+        raise Hold("editor outstanding count is missing")
+    outstanding = _editor_count(editor["outstanding"], "outstanding")
+    return {
+        "model": model,
+        "accepted": accepted,
+        "overruled": overruled,
+        "partially": partially,
+        "completed": editor["completed"],
+        "outstanding": outstanding,
+    }
+
+
+def validate_hard_stops(stops):
+    """Schema-check hard_stops. An empty list is a pass. Callers hold on items."""
+    if type(stops) is not list:
+        raise Hold("hard_stops must be a list")
+    cleaned = []
+    for item in stops:
+        if type(item) is not dict or set(item) != {"kind", "detail"}:
+            raise Hold("unknown hard stop schema")
+        if item["kind"] not in HARD_STOP_KINDS:
+            raise Hold("unknown hard stop kind")
+        detail = item["detail"]
+        if type(detail) is not str or detail.strip() == "" or any(ch in detail for ch in "\r\n"):
+            raise Hold("hard stop detail is blank")
+        cleaned.append({"kind": item["kind"], "detail": detail})
+    return cleaned
+
+
+def format_hard_stops(stops):
+    rendered = "; ".join(f"{item['kind']}: {item['detail']}" for item in stops)
+    return f"hard stop: {rendered}"
+
+
+def raise_hard_stops(stops):
+    if stops:
+        raise Hold(format_hard_stops(stops))
+
+
+def edition_declares_editor(edition):
+    present = EDITOR_EDITION_KEYS & set(edition)
+    if not present:
+        return False
+    if present != EDITOR_EDITION_KEYS or edition.get("pipeline") != "editor":
+        raise Hold("unknown schema: edition.json")
+    return True
+
+
+def validate_run(run, iso_date, source_count, *, editor_mode=None):
+    """Current run.json shape. Extra producer fields are ignored, not copied.
+
+    Editor mode passes when editor.completed is true, hard_stops is empty,
+    and the six gates are advisory ok. QA findings do not hold. A recorded
+    hard stop does. The live path ignores this and still requires plain gates.
+    """
+    selected = editor_mode_of(run, editor_mode)
     required = {"date", "status", "semantic_qa", "sources", "source_count", "gate", "attempts"}
+    if selected:
+        required = set(required) | {"editor", "hard_stops"}
     if type(run) is not dict or required - set(run):
         raise Hold("unknown run schema")
     if not is_real_date(run["date"]) or run["date"] != iso_date:
@@ -294,7 +464,7 @@ def validate_run(run, iso_date, source_count):
         raise Hold("run source_count does not match sources")
     if type(source_count) is not int or source_count < 1:
         raise Hold("run source_count does not match sources")
-    gates = validate_gates(run["gate"], allow_detail=True)
+    gates = validate_gates(run["gate"], allow_detail=True, advisory=selected)
     attempts = run["attempts"]
     if type(attempts) is not list or not attempts or any(type(item) is not dict for item in attempts):
         raise Hold("unknown run schema")
@@ -307,15 +477,30 @@ def validate_run(run, iso_date, source_count):
         raise Hold("accepted attempt conflicts with semantic_qa")
     if "gate" not in attempt:
         raise Hold("accepted attempt conflicts with semantic_qa")
-    validate_gates(attempt["gate"], allow_detail=True)
+    validate_gates(attempt["gate"], allow_detail=True, advisory=selected)
+    if not selected:
+        return gates
+    if run.get("pipeline") not in (None, "editor"):
+        raise Hold("unknown run schema")
+    if type(run.get("hard_stop")) is str and run["hard_stop"].strip() != "":
+        detail = run["error"] if type(run.get("error")) is str and run["error"].strip() else run["hard_stop"]
+        raise Hold(f"hard stop: {run['hard_stop']}: {detail}")
+    receipt = normalize_editor(run["editor"])
+    stops = validate_hard_stops(run["hard_stops"])
+    if receipt["completed"] is not True:
+        raise Hold("editor pass is not complete")
+    raise_hard_stops(stops)
     return gates
 
 
-def project_qa(run, run_sha256, iso_date, source_count):
-    """Public snapshot. Model names, delivery logs, and paths stay out."""
+def project_qa(run, run_sha256, iso_date, source_count, *, editor_mode=None):
+    """Public snapshot. Model names, delivery logs, and paths stay out.
+
+    Advisory findings are not copied. The public gate list stays name and ok.
+    """
     if type(run_sha256) is not str or not SHA256_RE.fullmatch(run_sha256):
         raise Hold("run hash is missing")
-    gates = validate_run(run, iso_date, source_count)
+    gates = validate_run(run, iso_date, source_count, editor_mode=editor_mode)
     return {
         "schema_version": SCHEMA_VERSION,
         "date": iso_date,
@@ -449,6 +634,7 @@ def validate_recorded_verification(edition, iso_date, episode_url, episode_id):
 
 def validate_edition(edition, iso_date):
     require_keys(edition, EDITION_KEYS, "edition.json", optional=EDITION_OPTIONAL)
+    editor_mode = edition_declares_editor(edition)
     if type(edition["schema_version"]) is not int or edition["schema_version"] != SCHEMA_VERSION:
         raise Hold("unknown edition schema")
     if "spotify_episode_fallback" in edition:
@@ -471,10 +657,25 @@ def validate_edition(edition, iso_date):
         raise Hold("episode id does not match the episode url")
     validate_recorded_verification(edition, iso_date, episode_url, episode_id)
     hashes = edition["hashes"]
-    require_keys(hashes, HASH_KEYS, "hashes")
-    for key in HASH_KEYS:
+    hash_optional = {"editor_notes_sha256"} if editor_mode else frozenset()
+    require_keys(hashes, HASH_KEYS, "hashes", optional=hash_optional)
+    if editor_mode and "editor_notes_sha256" not in hashes:
+        raise Hold("editor_notes_sha256 is missing")
+    for key in HASH_KEYS | hash_optional:
+        if key not in hashes:
+            continue
         if type(hashes[key]) is not str or not SHA256_RE.fullmatch(hashes[key]):
             raise Hold(f"{key} is malformed")
+    if "video_url" in edition:
+        problem = video_reference_problem(edition["video_url"])
+        if problem:
+            raise Hold(f"hard stop: video: {problem}")
+    if editor_mode:
+        receipt = normalize_editor(edition["editor"])
+        stops = validate_hard_stops(edition["hard_stops"])
+        if receipt["completed"] is not True:
+            raise Hold("editor pass is not complete")
+        raise_hard_stops(stops)
     return edition
 
 
@@ -535,16 +736,241 @@ def verify_public_episode(fetcher, iso_date, episode_url, show_url):
     return chosen
 
 
-def check_hashes(edition, script_bytes, sources_bytes, qa_bytes):
+def check_hashes(edition, script_bytes, sources_bytes, qa_bytes, notes_bytes=None):
     hashes = edition["hashes"]
     actual = {
         "script_sha256": sha256_bytes(script_bytes),
         "sources_sha256": sha256_bytes(sources_bytes),
         "qa_sha256": sha256_bytes(qa_bytes),
     }
+    if notes_bytes is not None:
+        actual["editor_notes_sha256"] = sha256_bytes(notes_bytes)
     for key, value in actual.items():
         if hashes[key] != value:
             raise Hold(f"{key} does not match the frozen bytes")
+
+
+def _is_bot_block(body):
+    if type(body) is bytes:
+        text = body.decode("utf-8", "replace")
+    else:
+        text = str(body or "")
+    lowered = text.lower()
+    return any(marker in lowered for marker in _BOT_MARKERS)
+
+
+def link_verdict(status, body=b""):
+    """Classify one HTTP response: ok, dead, or retry.
+
+    401, 403, 405, 429, and bot-block pages are reachable. 404 and 410 are
+    dead. A 5xx is retried once by the caller; a bot-block page is not a 5xx
+    failure.
+    """
+    if type(status) is not int:
+        return "dead"
+    if status in (401, 403, 405, 429):
+        return "ok"
+    if status in (404, 410):
+        return "dead"
+    if 500 <= status <= 599:
+        if _is_bot_block(body):
+            return "ok"
+        return "retry"
+    return "ok"
+
+
+def _call_link_opener(opener, method, url):
+    try:
+        result = opener(method, url)
+    except urllib.error.HTTPError as exc:
+        body = b""
+        if exc.fp is not None:
+            try:
+                body = exc.fp.read(8192)
+            except Exception:
+                body = b""
+        return exc.code, body
+    except (urllib.error.URLError, TimeoutError, OSError):
+        return None, b""
+    if type(result) is not tuple or len(result) != 2:
+        raise Hold("link probe returned an unexpected result")
+    status, body = result
+    if type(body) is str:
+        body = body.encode("utf-8", "replace")
+    if body is None:
+        body = b""
+    if type(body) is not bytes:
+        raise Hold("link probe returned an unexpected result")
+    return status, body
+
+
+def url_is_dead(url, opener):
+    """True when a source URL is actually dead.
+
+    Sends HEAD, then GET, with one extra GET when the first GET is a 5xx.
+    DNS and connection failures are dead. opener(method, url) returns
+    (status, body) or raises HTTPError / URLError.
+    """
+    validate_public_https_url(url)
+    head_status, _head_body = _call_link_opener(opener, "HEAD", url)
+    if head_status is None:
+        return True
+    status, body = _call_link_opener(opener, "GET", url)
+    if status is None:
+        return True
+    verdict = link_verdict(status, body)
+    if verdict == "retry":
+        status, body = _call_link_opener(opener, "GET", url)
+        if status is None:
+            return True
+        verdict = link_verdict(status, body)
+        if verdict == "retry":
+            return True
+    return verdict == "dead"
+
+
+def source_link_hard_stops(urls, opener):
+    stops = []
+    for url in urls:
+        if url_is_dead(url, opener):
+            stops.append({"kind": "dead_link", "detail": url})
+    return stops
+
+
+def build_link_request(url, method):
+    return urllib.request.Request(
+        url,
+        method=method,
+        headers={"User-Agent": BROWSER_UA},
+    )
+
+
+def live_link_opener(method, url):
+    """Network probe for --check-links. Tests pass their own opener."""
+    request = build_link_request(url, method)
+    try:
+        with urllib.request.urlopen(request, timeout=20) as response:
+            return response.status, response.read(8192)
+    except urllib.error.HTTPError:
+        raise
+    except (urllib.error.URLError, TimeoutError, OSError):
+        raise
+
+
+def _within_directory(directory, ref):
+    if type(ref) is not str or ref.strip() == "" or ref != ref.strip():
+        return None
+    if "\\" in ref or ref.startswith("/") or "://" in ref:
+        return None
+    parts = ref.split("/")
+    if any(part in ("", ".", "..") for part in parts):
+        return None
+    root = os.path.abspath(directory)
+    path = os.path.abspath(os.path.join(root, ref))
+    try:
+        if os.path.commonpath([root, path]) != root:
+            return None
+    except ValueError:
+        return None
+    return path
+
+
+def _local_media_problem(kind, ref, directory):
+    path = _within_directory(directory, ref) if directory is not None else None
+    if path is None or os.path.islink(path) or not os.path.isfile(path):
+        return f"missing {kind} reference"
+    try:
+        with open(path, "rb") as handle:
+            header = handle.read(128)
+    except OSError:
+        return f"missing {kind} reference"
+    if len(header) < 16:
+        return f"broken {kind} reference"
+    if kind == "video" and b"ftyp" not in header:
+        return "broken video reference"
+    if kind == "audio":
+        frame = len(header) > 1 and header[0] == 0xFF and (header[1] & 0xE0) == 0xE0
+        if not (header.startswith(b"ID3") or frame):
+            return "broken audio reference"
+    return None
+
+
+def audio_reference_problem(ref, directory=None):
+    """Missing or broken audio. A Spotify episode URL is a sound reference."""
+    if type(ref) is not str or ref.strip() == "":
+        return "missing audio reference"
+    if ref.startswith("https://"):
+        try:
+            episode_id_from_url(ref)
+        except Hold:
+            return "broken audio reference"
+        return None
+    if directory is None:
+        return "broken audio reference"
+    return _local_media_problem("audio", ref, directory)
+
+
+def video_reference_problem(ref, directory=None):
+    """Missing or broken video. Absent is not an error; the caller decides."""
+    if type(ref) is not str or ref.strip() == "":
+        return "missing video reference"
+    if ref.startswith("https://"):
+        try:
+            validate_public_https_url(ref)
+        except Hold:
+            return "broken video reference"
+        return None
+    if directory is None:
+        return "broken video reference"
+    return _local_media_problem("video", ref, directory)
+
+
+def validate_editor_notes(notes, iso_date):
+    require_keys(notes, {"date", "outstanding", "generated_by"}, "editor_notes.json")
+    if not is_real_date(notes["date"]) or notes["date"] != iso_date:
+        raise Hold("editor notes date does not match the edition")
+    outstanding = notes["outstanding"]
+    if type(outstanding) is not list:
+        raise Hold("editor notes outstanding is invalid")
+    for item in outstanding:
+        require_keys(item, {"artifact", "summary", "reason", "status"}, "editor note")
+        if item["artifact"] not in EDITOR_NOTE_ARTIFACTS:
+            raise Hold("editor note artifact is invalid")
+        if item["status"] not in EDITOR_NOTE_STATUSES:
+            raise Hold("editor note status is invalid")
+        for key in ("summary", "reason"):
+            value = item[key]
+            if type(value) is not str or value.strip() == "" or any(ch in value for ch in "\r\n"):
+                raise Hold(f"editor note {key} is blank")
+    generated_by = notes["generated_by"]
+    require_keys(generated_by, {"model"}, "generated_by")
+    model = generated_by["model"]
+    if type(model) is not str or model.strip() == "" or any(ch in model for ch in "\r\n"):
+        raise Hold("unknown editor notes schema")
+    return notes
+
+
+def assert_edition_page(html_text, edition):
+    """h1, og:url, canonical, Spotify href, and the AI label, once each."""
+    title = edition["title"]
+    h1 = f"<h1>{html.escape(title, quote=True)}</h1>"
+    if h1 not in html_text:
+        raise Hold("edition h1 does not match")
+    canonical = edition["canonical_url"]
+    escaped = html.escape(canonical, quote=True)
+    og = f'<meta property="og:url" content="{escaped}">'
+    if html_text.count(og) != 1:
+        raise Hold("og:url does not match the edition")
+    canonical_link = f'<link rel="canonical" href="{escaped}">'
+    if canonical_link not in html_text:
+        raise Hold("canonical url does not match the edition")
+    spotify = (
+        f'<a href="{html.escape(edition["episode_url"], quote=True)}">Audio on Spotify</a>'
+    )
+    if html_text.count(spotify) != 1:
+        raise Hold("hard stop: audio: missing or broken audio reference")
+    if html_text.count(AI_LABEL_EXACT) != 1 or count_ai_labels(html_text) != 1:
+        raise Hold("hard stop: label: AI-generated label must appear exactly once")
 
 
 def description_from_paragraphs(paragraphs):
@@ -620,7 +1046,7 @@ def render_page(title, description, root, main, path, ogtype):
     return apply_daily_footer(page, root)
 
 
-def render_edition_html(edition, paragraphs, sources):
+def render_edition_html(edition, paragraphs, sources, *, editor_mode=False):
     # The description stays on the frozen script. The body omits a duplicate
     # AI label; p.disclaimer below is the one copy on the page.
     body = "\n".join(
@@ -628,16 +1054,31 @@ def render_edition_html(edition, paragraphs, sources):
         for paragraph in body_paragraphs(paragraphs)
     )
     shown = build.display_date(edition["date"], "day")
+    audio = (
+        f"<a href=\"{html.escape(edition['episode_url'], quote=True)}\">Audio on Spotify</a>"
+    )
+    if editor_mode and edition.get("video_url"):
+        audio += (
+            " · "
+            f"<a href=\"{html.escape(edition['video_url'], quote=True)}\">Video</a>"
+        )
+    if editor_mode:
+        disclaimer = (
+            f"<p class=\"disclaimer\">{AI_LABEL_EXACT}"
+            " · <a href=\"editors-notes/\">Editor's notes</a></p>"
+        )
+    else:
+        disclaimer = f"<p class=\"disclaimer\">{AI_LABEL_EXACT}</p>"
     main = (
         "<article>\n"
         "<p class=\"kicker\">Daily State of AI</p>\n"
         f"<h1>{html.escape(edition['title'], quote=True)}</h1>\n"
         f"<p><time datetime=\"{edition['date']}\">{html.escape(shown)}</time></p>\n"
-        f"<p><a href=\"{html.escape(edition['episode_url'], quote=True)}\">Audio on Spotify</a></p>\n"
+        f"<p>{audio}</p>\n"
         "<div class=\"script\">\n"
         f"{body}\n"
         "</div>\n"
-        "<p class=\"disclaimer\">AI-generated \u00b7 may contain errors</p>\n"
+        f"{disclaimer}\n"
         "<section class=\"sources\">\n"
         "<h2>Sources</h2>\n"
         f"{render_sources(sources)}\n"
@@ -650,6 +1091,48 @@ def render_edition_html(edition, paragraphs, sources):
         "../../",
         main,
         f"/daily-state/{edition['date']}/",
+        "article",
+    )
+
+
+def render_editors_notes_html(iso_date, notes):
+    """Outstanding items only. Overruled objections are never listed."""
+    title = f"Editor's notes — {iso_date}"
+    shown = build.display_date(iso_date, "day")
+    rows = []
+    for item in notes["outstanding"]:
+        if item.get("status") not in EDITOR_NOTE_STATUSES:
+            continue
+        if item.get("artifact") not in EDITOR_NOTE_ARTIFACTS:
+            continue
+        rows.append(
+            "<section class=\"story\">\n"
+            f"<h2>{html.escape(item['artifact'], quote=True)}</h2>\n"
+            f"<p>{html.escape(item['summary'], quote=True)}</p>\n"
+            f"<p class=\"note\">{html.escape(item['reason'], quote=True)}</p>\n"
+            f"<p class=\"row\"><span class=\"meta\">{html.escape(item['status'], quote=True)}</span></p>\n"
+            "</section>"
+        )
+    if rows:
+        listing = "\n".join(rows)
+    else:
+        listing = "<p>No outstanding issues</p>"
+    main = (
+        "<article>\n"
+        "<p class=\"kicker\">Daily State of AI</p>\n"
+        f"<h1>{html.escape(title, quote=True)}</h1>\n"
+        f"<p><time datetime=\"{iso_date}\">{html.escape(shown)}</time></p>\n"
+        "<p class=\"intro\">Outstanding items from the editor pass.</p>\n"
+        f"{listing}\n"
+        "<p><a href=\"../\">Back to the edition</a></p>\n"
+        "</article>"
+    )
+    return render_page(
+        title,
+        f"Outstanding items from the editor pass for {edition_title(iso_date)}.",
+        "../../../",
+        main,
+        f"/daily-state/{iso_date}/editors-notes/",
         "article",
     )
 
@@ -697,26 +1180,53 @@ def list_edition_dates(repo):
     return dates
 
 
-def load_edition(repo, iso_date):
-    if not is_real_date(iso_date) or os.sep in iso_date or "/" in iso_date:
-        raise Hold("edition date is invalid")
-    root = content_root(repo)
-    directory = os.path.join(root, iso_date)
-    assert_real_child(root, directory, iso_date)
-    if not os.path.isdir(directory):
-        raise Hold("missing edition directory")
-    names = sorted(os.listdir(directory))
-    if names != sorted(CONTENT_FILES):
-        raise Hold("edition directory does not contain the frozen public inputs")
-    paths = {}
+def edition_content_files(editor_mode):
+    """Allowed files inside one edition directory. Nothing else publishes."""
+    return EDITOR_CONTENT_FILES if editor_mode else CONTENT_FILES
+
+
+def edition_output_paths(iso_date, editor_mode):
+    """Allowed generated files for one edition, besides the shared listing."""
+    paths = [f"daily-state/{iso_date}/index.html"]
+    if editor_mode:
+        paths.append(f"daily-state/{iso_date}/editors-notes/index.html")
+    return paths
+
+
+def _read_named(directory, names):
     raw = {}
-    for name in CONTENT_FILES:
+    for name in names:
         path = os.path.join(directory, name)
         assert_real_child(directory, path, name)
         if not os.path.isfile(path):
             raise Hold(f"missing {name}")
-        paths[name] = path
         raw[name] = read_stable(path)
+    return raw
+
+
+def load_edition_directory(directory, iso_date, *, link_opener=None, editor_mode=None):
+    """Validate one frozen edition directory and render its pages.
+
+    editor_mode=True requires editor_notes.json. editor_mode=False keeps the
+    live allowlist. The default follows the edition: notes plus pipeline
+    "editor", or the four frozen inputs.
+    """
+    if not is_real_date(iso_date):
+        raise Hold("edition date is invalid")
+    if os.path.islink(directory) or not os.path.isdir(directory):
+        raise Hold("missing edition directory")
+    names = sorted(os.listdir(directory))
+    notes_present = "editor_notes.json" in names
+    if editor_mode is True and not notes_present:
+        raise Hold("editor notes are missing")
+    if editor_mode is False:
+        selected = False
+    else:
+        selected = notes_present if editor_mode is None else True
+    expected = edition_content_files(selected)
+    if names != sorted(expected):
+        raise Hold("edition directory does not contain the frozen public inputs")
+    raw = _read_named(directory, expected)
     script_text = decode_utf8(raw["script.txt"], "script.txt")
     paragraphs = script_paragraphs(script_text)
     sources = parse_json_object(raw["sources.json"], "sources.json")
@@ -725,26 +1235,68 @@ def load_edition(repo, iso_date):
     validate_qa(qa, iso_date)
     validate_sources(sources, iso_date, qa["source_count"])
     validate_edition(edition, iso_date)
+    declared = edition_declares_editor(edition)
+    if selected != declared:
+        if selected:
+            raise Hold("editor mode is not marked on the edition")
+        raise Hold("editor notes are missing")
     if qa["run_sha256"] != edition["hashes"]["run_sha256"]:
         raise Hold("run_sha256 does not match the qa snapshot")
-    check_hashes(edition, raw["script.txt"], raw["sources.json"], raw["qa.json"])
+    notes = None
+    notes_html = None
+    if selected:
+        notes = parse_json_object(raw["editor_notes.json"], "editor_notes.json")
+        validate_editor_notes(notes, iso_date)
+        receipt = normalize_editor(edition["editor"])
+        if receipt["outstanding"] != len(notes["outstanding"]):
+            raise Hold("editor outstanding count does not match editor notes")
+        check_hashes(
+            edition, raw["script.txt"], raw["sources.json"], raw["qa.json"],
+            notes_bytes=raw["editor_notes.json"],
+        )
+    else:
+        check_hashes(edition, raw["script.txt"], raw["sources.json"], raw["qa.json"])
     for field in ("date",):
         if sources[field] != iso_date or qa[field] != iso_date or edition[field] != iso_date:
             raise Hold("edition dates do not agree")
+    html_text = render_edition_html(edition, paragraphs, sources, editor_mode=selected)
+    if selected:
+        assert_edition_page(html_text, edition)
+        notes_html = render_editors_notes_html(iso_date, notes)
+        if link_opener is not None:
+            raise_hard_stops(source_link_hard_stops(sources["urls"], link_opener))
     return {
         "date": iso_date,
         "paragraphs": paragraphs,
         "sources": sources,
         "qa": qa,
         "edition": edition,
-        "html": render_edition_html(edition, paragraphs, sources),
+        "notes": notes,
+        "editor_mode": selected,
+        "html": html_text,
+        "notes_html": notes_html,
     }
+
+
+def load_edition(repo, iso_date, *, link_opener=None, editor_mode=None):
+    if not is_real_date(iso_date) or os.sep in iso_date or "/" in iso_date:
+        raise Hold("edition date is invalid")
+    root = content_root(repo)
+    directory = os.path.join(root, iso_date)
+    assert_real_child(root, directory, iso_date)
+    if not os.path.isdir(directory):
+        raise Hold("missing edition directory")
+    return load_edition_directory(
+        directory, iso_date, link_opener=link_opener, editor_mode=editor_mode,
+    )
 
 
 def render_output(loaded):
     files = {LISTING_REL: render_listing_html(loaded)}
     for edition in loaded:
         files[f"daily-state/{edition['date']}/index.html"] = edition["html"]
+        if edition.get("notes_html"):
+            files[f"daily-state/{edition['date']}/editors-notes/index.html"] = edition["notes_html"]
     return files
 
 
@@ -824,13 +1376,210 @@ def publish(repo, *, write=True, allow_correction=False):
     return commit_output(repo, files, write=write, allow_correction=allow_correction)
 
 
+def _optional_package_hashes(run, script_bytes, sources_bytes, notes_bytes):
+    hashes = run.get("hashes")
+    if hashes is None:
+        return
+    if type(hashes) is not dict:
+        raise Hold("unknown run schema")
+    actual = {
+        "script_sha256": sha256_bytes(script_bytes),
+        "sources_sha256": sha256_bytes(sources_bytes),
+        "editor_notes_sha256": sha256_bytes(notes_bytes),
+    }
+    for key, value in hashes.items():
+        if key not in actual or type(value) is not str or value != actual[key]:
+            raise Hold(f"{key} does not match the frozen bytes")
+
+
+def load_pipeline_package(directory, *, editor_mode=None, link_opener=None):
+    """Validate a pipeline package and render the edition offline.
+
+    Required files, next to any other pipeline output: script.txt,
+    sources.json, run.json, editor_notes.json. Extra files are not rendered.
+    """
+    required = ("script.txt", "sources.json", "run.json", "editor_notes.json")
+    for name in required:
+        path = os.path.join(directory, name)
+        if os.path.islink(path) or not os.path.isfile(path):
+            raise Hold(f"missing {name}")
+    raw = {name: read_stable(os.path.join(directory, name)) for name in required}
+    run = parse_json_object(raw["run.json"], "run.json")
+    selected = editor_mode_of(run, editor_mode)
+    if not selected:
+        if type(run) is dict and is_real_date(run.get("date")) and type(run.get("source_count")) is int:
+            validate_run(run, run["date"], run["source_count"], editor_mode=False)
+        raise Hold("package has no frozen edition")
+    if not is_real_date(run.get("date")):
+        raise Hold("run date does not match the edition")
+    iso_date = run["date"]
+    sources = parse_json_object(raw["sources.json"], "sources.json")
+    urls = sources.get("urls")
+    source_count = len(urls) if type(urls) is list else 0
+    validate_run(run, iso_date, source_count, editor_mode=True)
+    validate_sources(sources, iso_date, source_count)
+    notes = parse_json_object(raw["editor_notes.json"], "editor_notes.json")
+    validate_editor_notes(notes, iso_date)
+    receipt = normalize_editor(run["editor"])
+    if receipt["outstanding"] != len(notes["outstanding"]):
+        raise Hold("editor outstanding count does not match editor notes")
+    _optional_package_hashes(run, raw["script.txt"], raw["sources.json"], raw["editor_notes.json"])
+    episode_url = run.get("episode_url")
+    problem = audio_reference_problem(episode_url)
+    if problem:
+        raise Hold(f"hard stop: audio: {problem}")
+    if "audio" in run:
+        problem = audio_reference_problem(run["audio"], directory)
+        if problem:
+            raise Hold(f"hard stop: audio: {problem}")
+    edition = {
+        "date": iso_date,
+        "title": edition_title(iso_date),
+        "canonical_url": edition_url(iso_date),
+        "episode_url": episode_url,
+        "episode_id": episode_id_from_url(episode_url),
+    }
+    if "video" in run or "video_url" in run:
+        video_ref = run["video_url"] if "video_url" in run else run.get("video")
+        problem = video_reference_problem(video_ref, directory)
+        if problem:
+            raise Hold(f"hard stop: video: {problem}")
+        if type(video_ref) is str and video_ref.startswith("https://"):
+            edition["video_url"] = video_ref
+    paragraphs = script_paragraphs(decode_utf8(raw["script.txt"], "script.txt"))
+    html_text = render_edition_html(edition, paragraphs, sources, editor_mode=True)
+    notes_html = render_editors_notes_html(iso_date, notes)
+    assert_edition_page(html_text, edition)
+    if link_opener is not None:
+        raise_hard_stops(source_link_hard_stops(sources["urls"], link_opener))
+    loaded = {
+        "date": iso_date,
+        "paragraphs": paragraphs,
+        "sources": sources,
+        "qa": None,
+        "edition": edition,
+        "notes": notes,
+        "editor_mode": True,
+        "html": html_text,
+        "notes_html": notes_html,
+    }
+    loaded["files"] = _edition_files(loaded)
+    return loaded
+
+
+def _edition_files(loaded):
+    files = {}
+    for rel in edition_output_paths(loaded["date"], loaded["editor_mode"]):
+        if rel.endswith("/editors-notes/index.html"):
+            files[rel] = loaded["notes_html"]
+        else:
+            files[rel] = loaded["html"]
+    return files
+
+
+def validate_package(path, *, editor_mode=None, link_opener=None):
+    """Validate one package directory. Offline unless link_opener is set.
+
+    A frozen edition directory (the public inputs, and editor_notes.json in
+    editor mode) uses the same checks as publish. A pipeline directory
+    (script.txt, sources.json, run.json, editor_notes.json, plus any other
+    files the pipeline wrote) is rendered from the editor receipt.
+    """
+    if os.path.islink(path) or not os.path.isdir(path):
+        raise Hold("missing package directory")
+    names = set(os.listdir(path))
+    if "edition.json" in names or "qa.json" in names:
+        edition_path = os.path.join(path, "edition.json")
+        if os.path.islink(edition_path) or not os.path.isfile(edition_path):
+            raise Hold("missing edition.json")
+        edition = parse_json_object(read_stable(edition_path), "edition.json")
+        iso_date = edition.get("date")
+        if not is_real_date(iso_date):
+            raise Hold("edition date is invalid")
+        loaded = load_edition_directory(
+            path, iso_date, link_opener=link_opener, editor_mode=editor_mode,
+        )
+        loaded["files"] = _edition_files(loaded)
+        return loaded
+    return load_pipeline_package(path, editor_mode=editor_mode, link_opener=link_opener)
+
+
+def write_rendered(out_dir, files):
+    if os.path.lexists(out_dir) and (os.path.islink(out_dir) or not os.path.isdir(out_dir)):
+        raise Hold("output path is not a directory")
+    temps = []
+    try:
+        for rel, text in files.items():
+            if rel.startswith("/") or ".." in rel.split("/"):
+                raise Hold("refusing to write outside the output directory")
+            path = os.path.join(out_dir, rel)
+            os.makedirs(os.path.dirname(path), exist_ok=True)
+            fd, tmp = tempfile.mkstemp(dir=os.path.dirname(path), prefix=".ds-", suffix=".tmp")
+            with os.fdopen(fd, "w", encoding="utf-8", newline="\n") as handle:
+                handle.write(text)
+            temps.append((tmp, path))
+        for tmp, path in temps:
+            os.replace(tmp, path)
+    except Exception:
+        for tmp, _path in temps:
+            if os.path.exists(tmp):
+                os.remove(tmp)
+        raise
+
+
+def parse_cli(argv):
+    options = {
+        "check": False,
+        "allow_correction": False,
+        "check_links": False,
+        "package": None,
+        "out": None,
+        "pipeline": None,
+    }
+    index = 0
+    while index < len(argv):
+        arg = argv[index]
+        if arg in ("--check", "--daily-state-check"):
+            options["check"] = True
+        elif arg == "--allow-correction":
+            options["allow_correction"] = True
+        elif arg == "--check-links":
+            options["check_links"] = True
+        elif arg in ("--package", "--out", "--pipeline"):
+            index += 1
+            if index >= len(argv):
+                raise Hold(f"missing value for {arg}")
+            options[arg[2:]] = argv[index]
+        else:
+            raise Hold(f"unknown argument: {arg}")
+        index += 1
+    if options["pipeline"] not in (None, "editor", "live"):
+        raise Hold("unknown pipeline")
+    if options["check_links"] and not options["package"]:
+        raise Hold("--check-links applies to a package directory")
+    return options
+
+
 def main(argv=None, repo=None):
     if argv is None:
         argv = sys.argv[1:]
     repo = repo or os.path.dirname(os.path.abspath(__file__))
-    check_only = "--check" in argv or "--daily-state-check" in argv
-    allow_correction = "--allow-correction" in argv and not check_only
     try:
+        options = parse_cli(argv)
+        if options["package"]:
+            editor_mode = {"editor": True, "live": False}.get(options["pipeline"])
+            opener = live_link_opener if options["check_links"] else None
+            loaded = validate_package(
+                options["package"], editor_mode=editor_mode, link_opener=opener,
+            )
+            if options["out"] and not options["check"]:
+                write_rendered(options["out"], loaded["files"])
+                print(f"editor package: wrote {len(loaded['files'])} file(s)")
+            else:
+                print("editor package check: ok")
+            return 0
+        check_only = options["check"]
+        allow_correction = options["allow_correction"] and not check_only
         result = publish(repo, write=not check_only, allow_correction=allow_correction)
     except Hold as exc:
         print(f"HOLD: {exc}", file=sys.stderr)
