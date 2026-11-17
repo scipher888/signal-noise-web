@@ -950,15 +950,37 @@ class DailyStateTests(unittest.TestCase):
                 self.assertIn('<p class="disclaimer">%s</p>' % HOUSE, html)
 
     def test_published_editions_show_the_ai_label_once(self):
+        notes = "Editor's notes"
+        editor_lines = tuple(
+            '<p class="disclaimer">%s · <a href="%s">%s</a></p>'
+            % (HOUSE, href, notes)
+            for href in ("editors-notes/", "./editors-notes/")
+        )
+        plain_line = '<p class="disclaimer">%s</p>' % HOUSE
         for iso_date in daily_state.list_edition_dates(str(ROOT)):
             with self.subTest(iso_date=iso_date):
                 html = (ROOT / "daily-state" / iso_date / "index.html").read_text(encoding="utf-8")
                 loaded = daily_state.load_edition(str(ROOT), iso_date)
                 self.assertEqual(html, loaded["html"])
                 page = parse_page(html)
-                self.assertEqual(page.disclaimer, HOUSE)
+                self.assertEqual(html.count(HOUSE), 1)
                 self.assertEqual(daily_state.count_ai_labels(html), 1)
                 self.assertTrue(all(not daily_state.is_ai_label(item) for item in page.script_paragraphs))
+                marker = '<p class="disclaimer">'
+                self.assertEqual(html.count(marker), 1)
+                start = html.index(marker)
+                paragraph = html[start:html.index("</p>", start) + len("</p>")]
+                # edition.json marks editor mode; a package load sets the same flag.
+                editor_mode = (
+                    daily_state.edition_declares_editor(loaded["edition"])
+                    or loaded["editor_mode"]
+                )
+                if editor_mode:
+                    self.assertIn(paragraph, editor_lines)
+                    self.assertEqual(page.disclaimer, "%s · %s" % (HOUSE, notes))
+                else:
+                    self.assertEqual(page.disclaimer, HOUSE)
+                    self.assertEqual(paragraph, plain_line)
 
     def test_description_is_a_bounded_prefix(self):
         sentence = ("Alpha " * 80).strip() + "."
