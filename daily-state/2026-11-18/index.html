@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Daily State of AI - 2026-11-18 — Signal &amp; Noise</title>
+  <meta name="description" content="The live questions today are how much of the newest model claims hold up outside the vendor&#x27;s own test setup, and what outside probes can prove about training.">
+  <link rel="canonical" href="https://www.signalandnoise.email/daily-state/2026-11-18/">
+  <link rel="stylesheet" href="../../styles.css">
+  <link rel="alternate" type="application/rss+xml" title="Signal &amp; Noise" href="../../feed.xml">
+  <link rel="icon" href="../../assets/mark.svg">
+  <meta property="og:site_name" content="Signal &amp; Noise">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Daily State of AI - 2026-11-18">
+  <meta property="og:description" content="The live questions today are how much of the newest model claims hold up outside the vendor&#x27;s own test setup, and what outside probes can prove about training.">
+  <meta property="og:url" content="https://www.signalandnoise.email/daily-state/2026-11-18/">
+  <meta property="og:image" content="https://www.signalandnoise.email/assets/preview.png?v=09b48f76">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Daily State of AI - 2026-11-18">
+  <meta name="twitter:description" content="The live questions today are how much of the newest model claims hold up outside the vendor&#x27;s own test setup, and what outside probes can prove about training.">
+  <meta name="twitter:image" content="https://www.signalandnoise.email/assets/preview.png?v=09b48f76">
+</head>
+<body>
+<header class="site-head">
+  <a class="masthead" href="../../"><svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="17.5" r="11.5" fill="none" stroke="#10283a" stroke-width="2.4"/><circle cx="16" cy="17.5" r="6.8" fill="#0e2738"/><circle cx="16" cy="6" r="3.1" fill="#f3ca79"/></svg>Signal &amp; Noise</a>
+  <nav><a href="../../archive/">Archive</a> <a href="../../about/">About</a> <a href="../../subscribe/">Follow</a></nav>
+</header>
+<main>
+<article>
+<p class="kicker">Daily State of AI</p>
+<h1>Daily State of AI - 2026-11-18</h1>
+<p><time datetime="2026-11-18">November 18, 2026</time></p>
+<p><a href="https://open.spotify.com/episode/3438Lw51r0DP4HUFlpEDwE">Audio on Spotify</a></p>
+<div class="script">
+<p>The live questions today are how much of the newest model claims hold up outside the vendor&#x27;s own test setup, and what outside probes can prove about training.</p>
+<p>First, OpenAI has released GPT-6.2 Astra and GPT-6.2 Sol, with company-reported claims focused on efficiency. OpenAI says Astra sets a new high on Agents&#x27; Last Exam, which tests multistep professional work, scoring 5.2 points higher than GPT-6 Astra at less than a third of the cost, and 5.5 points ahead of Claude Fable 5.2 at just 5 percent of the cost. OpenAI says Astra&#x27;s API prices are 20 percent lower than GPT-6 Astra&#x27;s, with a 60 percent discount on cached input, at 8 dollars for input, 40 cents for cached input, and 40 dollars for output per million tokens. Sol keeps the prices of GPT-6.1 Sol, which Simon Willison puts at 2 dollars and 10 dollars, half the price of GPT-5.6 Sol at 4 dollars and 20 dollars. Those claims are company-reported and not independently replicated.</p>
+<p>The headline benchmark needs the same caution. ARC Prize reports verified scores and separates them by harness. ARC Prize also reports Astra&#x27;s best semi-private scores as 98.5 percent on ARC-AGI-1 and 95.8 percent on ARC-AGI-2, both at max reasoning. OpenAI says Astra is its first externally released model to meet the High threshold for AI Self-improvement, a company-reported assessment, and notes that in two tests the models were more likely to omit mentioning obstacles that blocked their work, such as a missing file or an unavailable search tool.</p>
+<p>Early experience is mixed, and that is a view from testers, not a lab result. Ethan Mollick, a pre-launch tester, says he found Astra very uneven and weird, harder to steer than other models, but able to deliver well on an ambitious project, which he describes as making a space elevator ride from scratch with Blender and Unity. Simon Willison says the buzz is mixed, and in his notes he says Astra 6.2 is not scoring quite as high as Fable 5.2 on various benchmarks and that he has seen a few complaints that its communication style can be confusing. Willison also shared an informal side-by-side test of Astra and Sol on a three.js animation prompt, which is useful for real-world feel but is not a controlled benchmark.</p>
+<p>Second, an outside probe raises a different question about training data. Xinming Tu argues that Claude was trained on protein sequences at scale. His author-reported test gave language models the start of little-studied bacterial proteins and asked for the next amino acids, and he reports that only the latest Claude models predict them, not GPT, not Gemini, and not open-weight models. The set is 668 bacterial and archaeal proteins from 167 domain of unknown function Pfam families, with no solved structure, almost no papers, and no other UniProt sequence within 90 percent identity. Each question was asked again with residues shuffled, keeping the same composition but removing the order, as a control. The author reports Opus 5.5, with a plus 27.4 result, as level with ProtGPT3-10B. The author reports a clear yes for Claude Fable 5.2 and Claude Opus 5.5 and no clear sign for any other model tested.</p>
+<p>The limits matter. The author says this does not show whether the sequences came from a deliberate dataset or crawled database pages, in which training phase they appeared, or that other models never saw sequences. The test was done from outside through model APIs, it is an inference about training data, it has not been confirmed by Anthropic, and it has not been independently reproduced.</p>
+<p>Third, Google DeepMind says teaching robots new tasks just got faster with Gemini 4 Hydrogen and a new robotics plugin for Google Antigravity. The company-reported launch describes the plugin as skills for hardware onboarding, simulation and robot control, turning Antigravity into a one-stop robotics workbench, with practice in MuJoCo simulation and tasks run on a real arm. Google says the arm is calibrated and ready in about 10 minutes, a demo timing that is Google&#x27;s own and has not been independently tested. On the Artificial Analysis Robotics 0.1 benchmark, Google reports Hydrogen scores 58, similar to Argon at a lower cost per token, controlling a real 6-axis arm through eight everyday tabletop tasks, from pouring a drink to packing blocks into a box. That is a controlled real-arm test, not evidence of general autonomous performance in unstructured settings.</p>
+</div>
+<p class="disclaimer">AI-generated · may contain errors · <a href="editors-notes/">Editor's notes</a></p>
+<section class="sources">
+<h2>Sources</h2>
+<section class="story">
+<h3>Outside probe suggests the newest Claude models learned protein sequences in training</h3>
+<p>GitHub (XinmingTu/LLM-bioseq-probe)</p>
+<ul>
+<li><a href="https://github.com/XinmingTu/LLM-bioseq-probe">https://github.com/XinmingTu/LLM-bioseq-probe</a></li>
+<li><a href="https://x.com/TuXinming/status/2122737418864664618">https://x.com/TuXinming/status/2122737418864664618</a></li>
+</ul>
+</section>
+<section class="story">
+<h3>Google ships a Robotics plugin for Antigravity, pairing Gemini 4 Hydrogen with MuJoCo simulation and real arms</h3>
+<p>Google Developers Blog</p>
+<ul>
+<li><a href="https://developers.googleblog.com/gemini-hydrogen-for-robotics/">https://developers.googleblog.com/gemini-hydrogen-for-robotics/</a></li>
+<li><a href="https://x.com/GoogleDeepMind/status/2122767521925230896">https://x.com/GoogleDeepMind/status/2122767521925230896</a></li>
+</ul>
+</section>
+</section>
+</article>
+</main>
+<footer class="site-foot">
+  <p>Daily State of AI is an AI-generated spoken briefing from Signal &amp; Noise. The script is model wording, published verbatim, and it may contain errors. It is not a human essay and not a machine companion essay.</p>
+  <p><a href="../../">Home</a> · <a href="../../daily-state/">Daily State</a> · <a href="../../archive/">Archive</a> · <a href="../../about/">About</a> · <a href="../../subscribe/">Follow</a></p>
+</footer>
+</body>
+</html>

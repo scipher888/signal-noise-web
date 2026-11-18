@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-18",
+  "title": "Daily State of AI - 2026-11-18",
+  "canonical_url": "https://www.signalandnoise.email/daily-state/2026-11-18/",
+  "episode_id": "3438Lw51r0DP4HUFlpEDwE",
+  "episode_url": "https://open.spotify.com/episode/3438Lw51r0DP4HUFlpEDwE",
+  "verified_at": "2026-11-18T15:41Z",
+  "verification": {
+    "method": "public_episode_and_show",
+    "checked_at": "2026-11-18T15:41Z",
+    "episode": {
+      "title": "Daily State of AI - 2026-11-18",
+      "canonical_url": "https://open.spotify.com/episode/3438Lw51r0DP4HUFlpEDwE",
+      "id": "3438Lw51r0DP4HUFlpEDwE"
+    },
+    "show": {
+      "id": "1AC7qV1tyVIICLtJVwBapp",
+      "episodes": [
+        {
+          "id": "3438Lw51r0DP4HUFlpEDwE",
+          "title": "Daily State of AI - 2026-11-18",
+          "uri": "spotify:episode:3438Lw51r0DP4HUFlpEDwE"
+        }
+      ]
+    }
+  },
+  "hashes": {
+    "script_sha256": "b0625c453ccb430c9cdb850d60865f9cf44179e96572d39460e4bb5b7630d356",
+    "sources_sha256": "73b60672cf42ddfc0a398dc9f0989758fc1ed35d946beb127eb633ca731d8e20",
+    "qa_sha256": "b7bcdb1cf29c39fb64886bec4e69bc4c4cc9271bac937eaba3f4c67a69e30200",
+    "run_sha256": "be561f44ad7cab78d68deb20502950743541a36d09d0e95aaa2689ca8af3f6e9",
+    "editor_notes_sha256": "8d3f589ba71210fdc5544acaaf7b80ef0ef0cad9eb93156652ca5ac7f2ae11b4"
+  },
+  "pipeline": "editor",
+  "editor": {
+    "model": "meta/muse-ember",
+    "reasoning_effort": "max",
+    "decisions": {
+      "overruled": 1,
+      "accepted_resolved": 1,
+      "accepted_unresolved": 1,
+      "accepted_partial": 0,
+      "total": 3
+    },
+    "completed": true,
+    "outstanding": 1
+  },
+  "hard_stops": []
+}

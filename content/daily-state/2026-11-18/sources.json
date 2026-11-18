@@ -1,0 +1,33 @@
+{
+  "date": "2026-11-18",
+  "urls": [
+    "https://github.com/XinmingTu/LLM-bioseq-probe",
+    "https://developers.googleblog.com/gemini-hydrogen-for-robotics/",
+    "https://x.com/TuXinming/status/2122737418864664618",
+    "https://x.com/GoogleDeepMind/status/2122767521925230896"
+  ],
+  "stories": [
+    {
+      "index": 1,
+      "title": "Outside probe suggests the newest Claude models learned protein sequences in training",
+      "outlets": [
+        "GitHub (XinmingTu/LLM-bioseq-probe)"
+      ],
+      "urls": [
+        "https://github.com/XinmingTu/LLM-bioseq-probe",
+        "https://x.com/TuXinming/status/2122737418864664618"
+      ]
+    },
+    {
+      "index": 2,
+      "title": "Google ships a Robotics plugin for Antigravity, pairing Gemini 4 Hydrogen with MuJoCo simulation and real arms",
+      "outlets": [
+        "Google Developers Blog"
+      ],
+      "urls": [
+        "https://developers.googleblog.com/gemini-hydrogen-for-robotics/",
+        "https://x.com/GoogleDeepMind/status/2122767521925230896"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "date": "2026-11-18",
+  "outstanding": [
+    {
+      "artifact": "episode",
+      "summary": "Accepted but unresolved; no paragraph change.",
+      "reason": "Coverage gap remains because adding the missing benchmark detail would require new facts not permitted in the edit.",
+      "status": "accepted_unresolved"
+    }
+  ],
+  "generated_by": {
+    "model": "meta/muse-ember"
+  }
+}
