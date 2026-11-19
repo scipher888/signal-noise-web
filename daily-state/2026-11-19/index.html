@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Daily State of AI - 2026-11-19 — Signal &amp; Noise</title>
+  <meta name="description" content="How much are AI agents actually speeding up AI research, and does that tell us anything about a possible runaway in capability?">
+  <link rel="canonical" href="https://www.signalandnoise.email/daily-state/2026-11-19/">
+  <link rel="stylesheet" href="../../styles.css">
+  <link rel="alternate" type="application/rss+xml" title="Signal &amp; Noise" href="../../feed.xml">
+  <link rel="icon" href="../../assets/mark.svg">
+  <meta property="og:site_name" content="Signal &amp; Noise">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Daily State of AI - 2026-11-19">
+  <meta property="og:description" content="How much are AI agents actually speeding up AI research, and does that tell us anything about a possible runaway in capability?">
+  <meta property="og:url" content="https://www.signalandnoise.email/daily-state/2026-11-19/">
+  <meta property="og:image" content="https://www.signalandnoise.email/assets/preview.png?v=09b48f76">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Daily State of AI - 2026-11-19">
+  <meta name="twitter:description" content="How much are AI agents actually speeding up AI research, and does that tell us anything about a possible runaway in capability?">
+  <meta name="twitter:image" content="https://www.signalandnoise.email/assets/preview.png?v=09b48f76">
+</head>
+<body>
+<header class="site-head">
+  <a class="masthead" href="../../"><svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="17.5" r="11.5" fill="none" stroke="#10283a" stroke-width="2.4"/><circle cx="16" cy="17.5" r="6.8" fill="#0e2738"/><circle cx="16" cy="6" r="3.1" fill="#f3ca79"/></svg>Signal &amp; Noise</a>
+  <nav><a href="../../archive/">Archive</a> <a href="../../about/">About</a> <a href="../../subscribe/">Follow</a></nav>
+</header>
+<main>
+<article>
+<p class="kicker">Daily State of AI</p>
+<h1>Daily State of AI - 2026-11-19</h1>
+<p><time datetime="2026-11-19">November 19, 2026</time></p>
+<p><a href="https://open.spotify.com/episode/3BH2M4QPm1cVDJXzRBoZia">Audio on Spotify</a></p>
+<div class="script">
+<p>How much are AI agents actually speeding up AI research, and does that tell us anything about a possible runaway in capability? How much of an apparent leap in chip design comes from autonomous systems, and how much from models working with engineers and established tools? And as Google releases another Gemini model, are early rankings enough to establish which model is best for the money?</p>
+<p>OpenAI’s new research-acceleration report gives a partial, company-reported view of how its own researchers use AI. The company says agents are succeeding at longer tasks more often, but human involvement remains central.</p>
+<p>From March to October, OpenAI’s estimated agent success rate rose from 23 percent to 46 percent on tasks estimated to take a person two to four hours. For tasks estimated at four to eight hours, it rose from 13 percent to 35 percent. These are estimates from OpenAI’s internal measurements, not an independent audit, and they should not be confused with a measure of how much an entire research organization has accelerated.</p>
+<p>The results also vary sharply by task. OpenAI reports autonomous success of 79 percent for monitoring training runs, 35 percent for launching them, and 25 percent for writing code for inference and serving systems. That unevenness matters: an agent that can monitor a run does not necessarily have the same competence at designing or conducting the research around it.</p>
+<p>Usage is rising too. At API list prices, OpenAI says the median researcher’s daily usage reached 2,400 dollars in October, up 62 percent from September. That is a list-price valuation, not necessarily the company’s actual cost, and it does not by itself establish a productivity gain.</p>
+<p>Ramez Naam argues that the data do not show runaway superintelligence. He also wants Anthropic to publish similarly detailed data, saying what it has released so far is insufficient for independent conclusions. In a broader argument, researcher Sayash Kapoor warns that fast-takeoff expectations rest on thin company-supplied evidence and contested assumptions, and could narrow the range of policy responses people consider. Neither criticism proves that rapid acceleration cannot happen. Both put weight on the difficulty of measuring it now.</p>
+<p>OpenAI is also reporting progress in chip design, in work with AMD and on its own inference chip. The company says its models identified up to a 14 percent improvement in power, performance and area trade-offs on heavily optimized AMD GPU intellectual property. “Up to” is important: that is not a claim that every design, or each of the three metrics separately, improved by 14 percent.</p>
+<p>OpenAI says AMD included some changes in a design sent for manufacturing and put others into production design files for future versions. That is a step beyond a purely artificial benchmark, but it is still OpenAI’s account; the supplied sources do not include an independent replication or a separate published AMD verification.</p>
+<p>On OpenAI’s Jalapeño inference chip, the company estimates that model-proposed changes reduced standard-cell area in the vector unit by about 13 percent and in the matrix unit by about 10 percent. OpenAI describes using Synopsys tools to check that rewrites preserved a block’s behavior and to evaluate design trade-offs. This was a model-assisted engineering process with verification tools, not evidence that a model independently designed a whole production chip.</p>
+<p>OpenAI president Greg Brockman calls the AMD result unprecedented. That is a view from the same company reporting the work, not independent corroboration. OpenAI also acknowledges that its chip-design tests could better represent production conditions by checking timing after physical synthesis and applying tighter area constraints.</p>
+<p>Meanwhile, Google is rolling out Gemini 4 Neon, positioned between its Carbon and Hydrogen models. The early question is whether its combination of capability and cost holds up beyond selected tests.</p>
+<p>Google cites Artificial Analysis, a commercial benchmarking firm, for a score of 61 at Neon’s extra-high thinking level, placing it third overall on that firm’s intelligence index. This is a third-party evaluation, but not an independent replication of every launch claim. Google also reports a 32 percent lower cost per task than Carbon at Neon’s default high thinking level. Those figures depend on the chosen settings, tasks and pricing.</p>
+<p>Google lists Neon at three dollars per million input tokens and fifteen dollars per million output tokens. Google also claims its lowest fabrication rate yet in internal testing, a result that has not been independently replicated.</p>
+<p>Paweł Huryn says Neon narrowly led his own informal bug-fixing test. Jeremy Howard offers a strongly favorable assessment. Together, those reactions suggest interest worth testing, not a settled verdict on performance in real-world work.</p>
+</div>
+<p class="disclaimer">AI-generated · may contain errors · <a href="editors-notes/">Editor's notes</a></p>
+<section class="sources">
+<h2>Sources</h2>
+<section class="story">
+<h3>Google ships Gemini 4 Neon, its fourth Gemini 4 model in seven weeks, and early third-party tests put it near the top on cost per task</h3>
+<p>Google</p>
+<ul>
+<li><a href="https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-neon/">https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-neon/</a></li>
+<li><a href="https://x.com/GoogleDeepMind/status/2123167884411077030">https://x.com/GoogleDeepMind/status/2123167884411077030</a></li>
+<li><a href="https://x.com/ArtificialAnlys/status/2123170645777526962">https://x.com/ArtificialAnlys/status/2123170645777526962</a></li>
+<li><a href="https://x.com/PawelHuryn/status/2123351354303300052">https://x.com/PawelHuryn/status/2123351354303300052</a></li>
+<li><a href="https://x.com/jeremyphoward/status/2123340065715937423">https://x.com/jeremyphoward/status/2123340065715937423</a></li>
+</ul>
+</section>
+<section class="story">
+<h3>OpenAI publishes internal research-acceleration data: agents doing more of the work, humans still central, and critics read it as evidence against imminent runaway</h3>
+<p>OpenAI</p>
+<ul>
+<li><a href="https://openai.com/index/research-acceleration-jagged-frontier/">https://openai.com/index/research-acceleration-jagged-frontier/</a></li>
+<li><a href="https://x.com/OpenAI/status/2123191365983248653">https://x.com/OpenAI/status/2123191365983248653</a></li>
+<li><a href="https://x.com/ramez/status/2123273722501210149">https://x.com/ramez/status/2123273722501210149</a></li>
+<li><a href="https://x.com/sayashk/status/2123217804216455315">https://x.com/sayashk/status/2123217804216455315</a></li>
+</ul>
+</section>
+<section class="story">
+<h3>OpenAI says its models found up to 14% PPA gains on AMD&#x27;s flagship GPU IP, with some changes in a design sent for manufacturing</h3>
+<p>OpenAI</p>
+<ul>
+<li><a href="https://openai.com/index/advancing-chip-design-with-our-models/">https://openai.com/index/advancing-chip-design-with-our-models/</a></li>
+<li><a href="https://x.com/OpenAI/status/2123100386638877054">https://x.com/OpenAI/status/2123100386638877054</a></li>
+<li><a href="https://x.com/gdb/status/2123130414323888463">https://x.com/gdb/status/2123130414323888463</a></li>
+</ul>
+</section>
+</section>
+</article>
+</main>
+<footer class="site-foot">
+  <p>Daily State of AI is an AI-generated spoken briefing from Signal &amp; Noise. The script is model wording, published verbatim, and it may contain errors. It is not a human essay and not a machine companion essay.</p>
+  <p><a href="../../">Home</a> · <a href="../../daily-state/">Daily State</a> · <a href="../../archive/">Archive</a> · <a href="../../about/">About</a> · <a href="../../subscribe/">Follow</a></p>
+</footer>
+</body>
+</html>
