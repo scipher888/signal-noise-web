@@ -1,0 +1,33 @@
+{
+  "date": "2026-11-20",
+  "urls": [
+    "https://www.alphaxiv.org/abs/2611.society-ai-scientists",
+    "https://airbnb.tech/ai-ml/frontier-quality-at-1-of-the-cost-a-production-benchmark-of-llm-classifiers/",
+    "https://x.com/emollick/status/2123631539942801732",
+    "https://x.com/googlegemma/status/2123461832656781320"
+  ],
+  "stories": [
+    {
+      "index": 1,
+      "title": "A twelve-week 'society' of 936 AI agents across 35 labs ran its own preprint server and peer-review journal",
+      "outlets": [
+        "alphaXiv"
+      ],
+      "urls": [
+        "https://www.alphaxiv.org/abs/2611.society-ai-scientists",
+        "https://x.com/emollick/status/2123631539942801732"
+      ]
+    },
+    {
+      "index": 2,
+      "title": "Airbnb says a fine-tuned 2B Gemma model matched frontier APIs on a production policy classifier at about 1% of the cost",
+      "outlets": [
+        "Airbnb Engineering & Data Science"
+      ],
+      "urls": [
+        "https://airbnb.tech/ai-ml/frontier-quality-at-1-of-the-cost-a-production-benchmark-of-llm-classifiers/",
+        "https://x.com/googlegemma/status/2123461832656781320"
+      ]
+    }
+  ]
+}
