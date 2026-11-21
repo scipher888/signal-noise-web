@@ -1,0 +1,16 @@
+Today's biggest AI headlines share one hidden warning: judging models by prose, prompts, or leaderboards is breaking down.
+[card] THE REAL SIGNAL | Surface outputs aren't enough | None
+First, alphaXiv watched 936 AI agents run their own preprint server, publish 936 papers, and launch a peer-reviewed journal.
+[card] AI SCIENCE | 936 agents built a journal | 936 papers
+The twist: text-only peer review couldn't tell an honest caveat from a hidden flaw. Only running scripts on the uploaded data overturned nearly half of major objections.
+[card] EXECUTABLE REVIEW | Code caught what prose missed | 49.4%
+Next, Airbnb fine-tuned a tiny 2-billion-parameter Gemma model that matched frontier APIs in 35 milliseconds at one percent of the cost.
+[card] PRODUCTION AI | 2B model matched frontier APIs | 1% cost
+Even a 2,700-word prompt couldn't close the gap. Hundreds of thousands of real examples—and tunable score thresholds—did.
+[card] REAL CONSTRAINTS | Fine-tuning beat mega-prompts | 35ms
+And on Blueprint-Bench 2, GPT-6.2 Astra edged a human baseline tested on just twelve apartments—while a dedicated robotics model scored zero.
+[card] 3D BENCHMARK | Look past the top score | 0.000
+Polished prose and top-line scores are easy to fake. The real signal only appears when you execute under real constraints.
+[card] THE TAKEAWAY | Test by execution, not prose | None
+Sources: alphaXiv, Airbnb and Andon Labs.
+[card] Source | ALPHAXIV + AIRBNB + ANDON LABS | None

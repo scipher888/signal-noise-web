@@ -1,0 +1,448 @@
+<!doctype html><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><title>Executable audit · Daily State of AI · 2026-11-20</title>
+<style>body{font:15px/1.5 system-ui,sans-serif;max-width:900px;margin:2rem auto;padding:0 1rem;color:#1b1b1f}details{border:1px solid #ddd;border-radius:8px;margin:.5rem 0;padding:.5rem .8rem}summary{cursor:pointer}.b{display:inline-block;color:#fff;border-radius:4px;padding:0 .4rem;font-weight:600;font-size:12px;margin-right:.4rem}pre{background:#f5f5f7;padding:.6rem;overflow:auto;font-size:12.5px}blockquote{margin:.4rem 0;padding-left:.8rem;border-left:3px solid #ccc;color:#444}table{border-collapse:collapse}td,th{border:1px solid #ddd;padding:.2rem .6rem}</style>
+<h1>Executable audit · Daily State of AI · 2026-11-20</h1><p>Each claim is tested by a deterministic Python check against snapshotted source texts and X posts. PASS = the source sentence quoted supports the claim; FAIL = the source contradicts it or a required caveat is missing; NEEDS-HUMAN = opinion or not decidable by string/number match. The audit is for transparency, not a gate: the artifacts are published as the model wrote them. FAIL items are expanded; PASS and NEEDS-HUMAN items are collapsed (click to open).</p>
+<table><tr><th>artifact</th><th>PASS</th><th>FAIL</th><th>NEEDS-HUMAN</th></tr><tr><td>episode</td><td>42</td><td>7</td><td>8</td></tr><tr><td>short</td><td>14</td><td>5</td><td>3</td></tr></table>
+<h2>Sources</h2><ul><li><a href='https://www.alphaxiv.org/abs/2611.society-ai-scientists'>A Society of AI Scientists</a> <code>primary-alphaxiv-society-of-ai-scientists</code></li><li><a href='https://x.com/emollick/status/2123631539942801732'>X post by @emollick (Ethan Mollick)</a> <code>x-emollick</code></li><li><a href='https://airbnb.tech/ai-ml/frontier-quality-at-1-of-the-cost-a-production-benchmark-of-llm-classifiers/'>Frontier quality at 1% of the cost: a production benchmark of LLM classifiers</a> <code>primary-airbnb-gemma4-e2b-production-classifier-</code></li><li><a href='https://x.com/googlegemma/status/2123461832656781320'>X post by @googlegemma (Google Gemma)</a> <code>x-googlegemma</code></li><li><a href='https://andonlabs.com/evals/blueprint-bench-2'>Blueprint-Bench 2</a> <code>primary-andon-blueprint-bench-2-gpt62-astra</code></li><li><a href='https://x.com/gdb/status/2123719297096990726'>X post by @gdb (Greg Brockman)</a> <code>x-gdb</code></li><li><a href='https://x.com/andonlabs/status/2123570732575989832'>X post by @andonlabs</a> <code>x-andonlabs</code></li><li><a href='https://www.signalandnoise.email/content/daily-state/2026-11-20/neon/audit/sources/2026-11-20/scan-framing.txt'>Morning X-first scan: verification framing per story</a> <code>scan-framing</code></li></ul>
+<h2>episode</h2>
+<details open><summary><span class=b style='background:#b3261e'>FAIL</span>nearly a thousand AI scientists ran its own peer-reviewed journal <small>(number · Society)</small></summary>
+<blockquote>As publication volume accelerated, agents in one laboratory also founded the Journal of Agent Research, an agent-run peer-review venue whose editors inspected code and provided scrutiny over experiment results.<br><small>source: <a href='https://www.alphaxiv.org/abs/2611.society-ai-scientists'>primary-alphaxiv-society-of-ai-scientists</a></small></blockquote>
+<p><b>Note:</b> artifact credits the whole ~1,000-agent society with running the journal; source says agents in one laboratory founded it</p>
+<pre>def check(ctx):
+    # Who founded the journal? The abstract scopes it to agents in ONE laboratory.
+    s = ctx.find(&#x27;society&#x27;, r&#x27;agents in one laborator\w* also founded the Journal&#x27;)
+    sent = ctx.art_sentence(CLAIM[&#x27;quote&#x27;])
+    if s and not re.search(r&#x27;one lab&#x27;, sent, re.I):
+        return ctx.fail(&#x27;society&#x27;, s, &#x27;artifact credits the whole ~1,000-agent society with running the journal; source says agents in one laboratory founded it&#x27;)
+    return ctx.ok(&#x27;society&#x27;, s)</pre></details>
+<details open><summary><span class=b style='background:#b3261e'>FAIL</span>published null results as often as positive ones <small>(comparison · Society)</small></summary>
+<blockquote>For example, peers formed topical hubs where it was common to publicly retract mistaken claims before publication[p8] as well as acknowledge negative findings as often as positive ones.[p10]<br><small>source: <a href='https://www.alphaxiv.org/abs/2611.society-ai-scientists'>primary-alphaxiv-society-of-ai-scientists</a></small></blockquote>
+<p><b>Note:</b> source says negative results were cited/acknowledged as often as positive ones, not published as often</p>
+<pre>def check(ctx):
+    # Claim: PUBLISHED nulls as often as positives. Source: CITED / ACKNOWLEDGED negatives as often.
+    return ctx.support_or_contradict(&#x27;society&#x27;, r&#x27;publish\w* (null|negative)[^.]{0,40}as often as positive&#x27;,
+        r&#x27;(cited|acknowledge) negative (results|findings) as often as positive&#x27;,
+        &#x27;source says negative results were cited/acknowledged as often as positive ones, not published as often&#x27;)</pre></details>
+<details open><summary><span class=b style='background:#b3261e'>FAIL</span>median latency dropped from roughly 900 milliseconds to 35 <small>(number · Airbnb)</small></summary>
+<blockquote>⚡ Speed: 35ms median latency (85ms p99) vs. ~900ms for frontier models<br><small>source: <a href='https://x.com/googlegemma/status/2123461832656781320'>x-googlegemma</a></small></blockquote>
+<p><b>Note:</b> not a drop: 35 ms is the fine-tuned Gemma, ~900 ms is the frontier models</p>
+<pre>def check(ctx):
+    # &quot;dropped from 900 to 35&quot; implies one system got faster; sources compare two different models.
+    return ctx.support_or_contradict(&#x27;gemma&#x27;, r&#x27;(drop|fell|reduc|cut)\w*[^.]{0,40}900&#x27;, r&#x27;35ms median latency \(85ms p99\) vs\. ~900ms for frontier models&#x27;,
+        &#x27;not a drop: 35 ms is the fine-tuned Gemma, ~900 ms is the frontier models&#x27;)</pre></details>
+<details open><summary><span class=b style='background:#b3261e'>FAIL</span>general frontier models given a persistent notepad to carry lessons across apartments are climbing steadily at four-hundredths of a point per month <small>(number · Blueprint)</small></summary>
+<blockquote>SOTA frontier models are labeled and a trend line is fitted through them, with a projection into the near future. Linear fit (R² = 0.87), +0.04/month<br><small>source: <a href='https://andonlabs.com/evals/blueprint-bench-2'>primary-andon-blueprint-bench-2-gpt62-astra</a></small></blockquote>
+<p><b>Note:</b> +0.04/month is the trend of SOTA scores against model release date, not models improving via the notepad</p>
+<pre>def check(ctx):
+    # Is +0.04/month a notepad effect? Source: a trend line over SOTA models by release date.
+    return ctx.support_or_contradict(&#x27;blueprint&#x27;, r&#x27;notepad[^.]{0,120}0\.04|0\.04[^.]{0,120}notepad&#x27;,
+        r&#x27;SOTA frontier models are labeled and a trend line is fitted .* \+0\.04/month&#x27;,
+        &#x27;+0.04/month is the trend of SOTA scores against model release date, not models improving via the notepad&#x27;)</pre></details>
+<details open><summary><span class=b style='background:#b3261e'>FAIL</span>whether a leaderboard edges past twelve humans <small>(qualifier · Blueprint)</small></summary>
+<blockquote>*Human baseline tested on subset of 12 apartments only<br><small>source: <a href='https://andonlabs.com/evals/blueprint-bench-2'>primary-andon-blueprint-bench-2-gpt62-astra</a></small></blockquote>
+<p><b>Note:</b> the 12 is apartments in the human-baseline subset, not twelve humans</p>
+<pre>def check(ctx):
+    return ctx.support_or_contradict(&#x27;blueprint&#x27;, r&#x27;(12|twelve) (humans|people|participants)&#x27;, r&#x27;Human baseline tested on subset of 12 apartments&#x27;,
+        &#x27;the 12 is apartments in the human-baseline subset, not twelve humans&#x27;)</pre></details>
+<details open><summary><span class=b style='background:#b3261e'>FAIL</span>oe1-society-preliminary <small>(objection · Society)</small></summary>
+<blockquote>framing (alphaXiv): Exploratory preprint by the alphaXiv/MIT/Stanford-led team that also built the platform; findings are author-reported and not yet peer reviewed or independently replicated.<br><small>source: <a href='https://www.signalandnoise.email/content/daily-state/2026-11-20/neon/audit/sources/2026-11-20/scan-framing.txt'>scan-framing</a></small></blockquote>
+<p><b>Note:</b> artifact never states this caveat (Society paper is an exploratory preprint, not yet peer reviewed or replicated)</p>
+<pre>def check(ctx):
+    # Objection: Society paper is an exploratory preprint, not yet peer reviewed or replicated
+    s = ctx.find(&#x27;framing&#x27;, r&#x27;not yet peer reviewed&#x27;)
+    if not s: return ctx.ok(None, None, &#x27;no such caveat in the scan framing for this story&#x27;)
+    if ctx.art_has(r&quot;not (yet )?(been )?peer[- ]reviewed|not yet reviewed|unreviewed|preliminary|exploratory|hasn&#x27;?t been (peer[- ])?reviewed|early,? author[- ]reported&quot;): return ctx.ok(&#x27;framing&#x27;, s, &#x27;caveat present in artifact&#x27;)
+    return ctx.fail(&#x27;framing&#x27;, s, &#x27;artifact never states this caveat (Society paper is an exploratory preprint, not yet peer reviewed or replicated)&#x27;)</pre></details>
+<details open><summary><span class=b style='background:#b3261e'>FAIL</span>oe2-airbnb-company-reported <small>(objection · Airbnb)</small></summary>
+<blockquote>framing (Airbnb Engineering &amp; Data Science): Company-reported benchmark on Airbnb&#x27;s own held-out data for one production task; not independently replicated and not a general capability ranking.<br><small>source: <a href='https://www.signalandnoise.email/content/daily-state/2026-11-20/neon/audit/sources/2026-11-20/scan-framing.txt'>scan-framing</a></small></blockquote>
+<p><b>Note:</b> artifact never states this caveat (Airbnb result is company-reported, on its own data, for one task)</p>
+<pre>def check(ctx):
+    # Objection: Airbnb result is company-reported, on its own data, for one task
+    s = ctx.find(&#x27;framing&#x27;, r&#x27;Company-reported benchmark on Airbnb.s own held-out data for one production task&#x27;)
+    if not s: return ctx.ok(None, None, &#x27;no such caveat in the scan framing for this story&#x27;)
+    if ctx.art_has(r&quot;company[- ]reported|airbnb (says|reports|reported|claims)|according to airbnb|airbnb&#x27;s own (data|benchmark|test)|its own (held-out )?data|(one|single) (production )?(task|classifier)&quot;): return ctx.ok(&#x27;framing&#x27;, s, &#x27;caveat present in artifact&#x27;)
+    return ctx.fail(&#x27;framing&#x27;, s, &#x27;artifact never states this caveat (Airbnb result is company-reported, on its own data, for one task)&#x27;)</pre></details>
+<details><summary><span class=b style='background:#8a6100'>NEEDS-HUMAN</span>all three headlines miss the best part <small>(opinion · Intro)</small></summary>
+<p><b>Note:</b> opinion / framing; not checkable against sources</p>
+<pre>def check(ctx):
+    return ctx.need(None, None, &#x27;opinion / framing; not checkable against sources&#x27;)</pre></details>
+<details><summary><span class=b style='background:#8a6100'>NEEDS-HUMAN</span>judging models by prose, prompts, or leaderboard headlines is breaking down <small>(opinion · Intro)</small></summary>
+<blockquote>Executable Review Finds What Text Can Miss<br><small>source: <a href='https://www.alphaxiv.org/abs/2611.society-ai-scientists'>primary-alphaxiv-society-of-ai-scientists</a></small></blockquote>
+<p><b>Note:</b> opinion (episode thesis); nearest supporting source text quoted</p>
+<pre>def check(ctx):
+    s = ctx.find(&#x27;society&#x27;, r&#x27;Executable Review Finds What Text Can Miss&#x27;)
+    return ctx.need(&#x27;society&#x27;, s, &#x27;opinion (episode thesis); nearest supporting source text quoted&#x27;)</pre></details>
+<details><summary><span class=b style='background:#8a6100'>NEEDS-HUMAN</span>The real signal only shows up when you execute under real constraints <small>(opinion · Intro)</small></summary>
+<blockquote>A shared archive made peer correction and cumulative reuse possible, but the journal comparison shows why those social norms need code-and-data scrutiny to test claims.<br><small>source: <a href='https://www.alphaxiv.org/abs/2611.society-ai-scientists'>primary-alphaxiv-society-of-ai-scientists</a></small></blockquote>
+<p><b>Note:</b> opinion; nearest supporting source text quoted</p>
+<pre>def check(ctx):
+    s = ctx.find(&#x27;society&#x27;, r&#x27;need code-and-data scrutiny to test claims&#x27;)
+    return ctx.need(&#x27;society&#x27;, s, &#x27;opinion; nearest supporting source text quoted&#x27;)</pre></details>
+<details><summary><span class=b style='background:#8a6100'>NEEDS-HUMAN</span>founded the Journal of Agent Research <small>(attribution · Society)</small></summary>
+<blockquote>Late in the observation window, agents founded the Journal of Agent Research. … As publication volume accelerated, agents in one laboratory also founded the Journal of Agent Research, an agent-run peer-review venue whose editors inspected code and provided scrutiny over experiment results.<br><small>source: <a href='https://www.alphaxiv.org/abs/2611.society-ai-scientists'>primary-alphaxiv-society-of-ai-scientists</a></small></blockquote>
+<p><b>Note:</b> paper says both &quot;agents founded&quot; and &quot;agents in one laboratory founded&quot;; subject &quot;They&quot; (all 936 agents) is ambiguous</p>
+<pre>def check(ctx):
+    s1 = ctx.find(&#x27;society&#x27;, r&#x27;agents founded the Journal of Agent Research&#x27;); s2 = ctx.find(&#x27;society&#x27;, r&#x27;agents in one laborator\w* also founded&#x27;)
+    return ctx.need(&#x27;society&#x27;, (s1 or &#x27;&#x27;) + &#x27; … &#x27; + (s2 or &#x27;&#x27;), &#x27;paper says both &quot;agents founded&quot; and &quot;agents in one laboratory founded&quot;; subject &quot;They&quot; (all 936 agents) is ambiguous&#x27;)</pre></details>
+<details><summary><span class=b style='background:#8a6100'>NEEDS-HUMAN</span>text-only peer review failed <small>(opinion · Society)</small></summary>
+<blockquote>In effect they could not tell a disclosed weakness from a hidden one. [p19] A guest editor then translated 276 objections across 43 paper clusters into scripts that were run on the uploaded data.<br><small>source: <a href='https://www.alphaxiv.org/abs/2611.society-ai-scientists'>primary-alphaxiv-society-of-ai-scientists</a></small></blockquote>
+<p><b>Note:</b> characterisation (&quot;failed&quot;) is stronger than the source, which says text-only reviewers flagged 11 of 16 flawed drafts but could not tell disclosed from hidden weaknesses</p>
+<pre>def check(ctx):
+    s = ctx.find(&#x27;society&#x27;, r&#x27;could not tell a disclosed weakness from a hidden one&#x27;)
+    return ctx.need(&#x27;society&#x27;, s, &#x27;characterisation (&quot;failed&quot;) is stronger than the source, which says text-only reviewers flagged 11 of 16 flawed drafts but could not tell disclosed from hidden weaknesses&#x27;)</pre></details>
+<details><summary><span class=b style='background:#8a6100'>NEEDS-HUMAN</span>Without an execution path, AI science risks becoming very polite, rigorous-sounding theater <small>(opinion · Society)</small></summary>
+<blockquote>Evidence Needs an Execution Path<br><small>source: <a href='https://www.alphaxiv.org/abs/2611.society-ai-scientists'>primary-alphaxiv-society-of-ai-scientists</a></small></blockquote>
+<p><b>Note:</b> opinion; echoes the paper section title quoted</p>
+<pre>def check(ctx):
+    s = ctx.find(&#x27;society&#x27;, r&#x27;Evidence Needs an Execution Path&#x27;)
+    return ctx.need(&#x27;society&#x27;, s, &#x27;opinion; echoes the paper section title quoted&#x27;)</pre></details>
+<details><summary><span class=b style='background:#8a6100'>NEEDS-HUMAN</span>matched GPT-6.1 Sol and Claude Sonnet 5.5 on a real-time policy classifier <small>(comparison · Airbnb)</small></summary>
+<blockquote>Fine-tuning Gemma4-E2B on hundreds of thousands of domain-specific examples lifts its F1 from 0.563 to 0.902, on par with the best proprietary models, while median latency stays at 35ms.<br><small>source: <a href='https://airbnb.tech/ai-ml/frontier-quality-at-1-of-the-cost-a-production-benchmark-of-llm-classifiers/'>primary-airbnb-gemma4-e2b-production-classifier-</a></small></blockquote>
+<p><b>Note:</b> source does not show Sol or Sonnet 5.5 are the best proprietary models on F1; names come from the latency/cost passages</p>
+<pre>def check(ctx):
+    # Source never gives an F1 for Sol or Sonnet; it says &quot;on par with the best proprietary models&quot;.
+    named = ctx.find(&#x27;airbnb&#x27;, r&#x27;(Sol|Sonnet 5\.5)[^.]*\b(F1|0\.9\d)&#x27;)
+    if named: return ctx.ok(&#x27;airbnb&#x27;, named)
+    s = ctx.find(&#x27;airbnb&#x27;, r&#x27;on par with the best proprietary models&#x27;)
+    return ctx.need(&#x27;airbnb&#x27;, s, &#x27;source does not show Sol or Sonnet 5.5 are the best proprietary models on F1; names come from the latency/cost passages&#x27;)</pre></details>
+<details><summary><span class=b style='background:#8a6100'>NEEDS-HUMAN</span>You can&#x27;t prompt your way to an operational dial <small>(opinion · Airbnb)</small></summary>
+<blockquote>Scores let you choose your tradeoff between recall and precision without rewriting the prompt.<br><small>source: <a href='https://airbnb.tech/ai-ml/frontier-quality-at-1-of-the-cost-a-production-benchmark-of-llm-classifiers/'>primary-airbnb-gemma4-e2b-production-classifier-</a></small></blockquote>
+<p><b>Note:</b> opinion; paraphrases the quoted source line</p>
+<pre>def check(ctx):
+    s = ctx.find(&#x27;airbnb&#x27;, r&#x27;Scores let you choose your tradeoff .* without rewriting the prompt&#x27;)
+    return ctx.need(&#x27;airbnb&#x27;, s, &#x27;opinion; paraphrases the quoted source line&#x27;)</pre></details>
+<details><summary><span class=b style='background:#1f7a3a'>PASS</span>November 20th, 2026 <small>(number · Intro)</small></summary>
+<p><b>Note:</b> edition date matches audit date 2026-11-20</p>
+<pre>def check(ctx):
+    return ctx.ok(None, None, &#x27;edition date matches audit date %s&#x27; % ctx.date) if ctx.date == &#x27;2026-11-20&#x27; else ctx.fail(None, None, &#x27;date mismatch&#x27;)</pre></details>
+<details><summary><span class=b style='background:#1f7a3a'>PASS</span>matched frontier APIs at one percent of the cost <small>(comparison · Airbnb)</small></summary>
+<blockquote>In this blog post, we put one of these classifiers head-to-head with open-weight and proprietary models and find that it matches frontier-level quality in under 100ms at roughly 1% of the cost.<br><small>source: <a href='https://airbnb.tech/ai-ml/frontier-quality-at-1-of-the-cost-a-production-benchmark-of-llm-classifiers/'>primary-airbnb-gemma4-e2b-production-classifier-</a></small></blockquote>
+<pre>def check(ctx):
+    return ctx.require(&#x27;airbnb&#x27;, r&#x27;matches frontier-level quality .*roughly 1% of the cost&#x27;)</pre></details>
+<details><summary><span class=b style='background:#1f7a3a'>PASS</span>GPT-6.2 Astra beat humans at 3D spatial reasoning <small>(comparison · Blueprint)</small></summary>
+<blockquote>GPT-6.2 Astra 0.614 … Human* 0.586<br><small>source: <a href='https://andonlabs.com/evals/blueprint-bench-2'>primary-andon-blueprint-bench-2-gpt62-astra</a></small></blockquote>
+<p><b>Note:</b> headline framing matches @gdb: &quot;@gdb: GPT-6.2 Astra exceeding human baseline on physical 3D understanding benchmark: https://t.co/Z4j9Na9VQW&quot;; caveat (12-apartment subset) is checked in o-e4</p>
+<pre>def check(ctx):
+    # Framed as a feed headline. Leaderboard: Astra 0.614 vs human 0.586 (human on 12 of 50 apartments).
+    a = ctx.find(&#x27;blueprint&#x27;, r&#x27;GPT-6\.2 Astra 0\.614&#x27;); h = ctx.find(&#x27;blueprint&#x27;, r&#x27;Human\* 0\.586&#x27;)
+    g = ctx.find(&#x27;gdb&#x27;, r&#x27;exceeding human baseline&#x27;)
+    if a and h and g: return ctx.ok(&#x27;blueprint&#x27;, a + &#x27; … &#x27; + h, &#x27;headline framing matches @gdb: &quot;&#x27; + g + &#x27;&quot;; caveat (12-apartment subset) is checked in o-e4&#x27;)
+    return ctx.need(&#x27;blueprint&#x27;, a, &#x27;scores not found&#x27;)</pre></details>
+<details><summary><span class=b style='background:#1f7a3a'>PASS</span>the alphaXiv study <small>(attribution · Society)</small></summary>
+<blockquote>alphaXivMITStanford … publisher={alphaXiv},<br><small>source: <a href='https://www.alphaxiv.org/abs/2611.society-ai-scientists'>primary-alphaxiv-society-of-ai-scientists</a></small></blockquote>
+<p><b>Note:</b> alphaXiv-published, alphaXiv/MIT/Stanford authors</p>
+<pre>def check(ctx):
+    return ctx.require(&#x27;society&#x27;, r&#x27;alphaXivMITStanford&#x27;, r&#x27;publisher=\{alphaXiv\}&#x27;, note=&#x27;alphaXiv-published, alphaXiv/MIT/Stanford authors&#x27;)</pre></details>
+<details><summary><span class=b style='background:#1f7a3a'>PASS</span>A Society of AI Scientists <small>(quote · Society)</small></summary>
+<blockquote>A Society of AI Scientists | alphaXiv<br><small>source: <a href='https://www.alphaxiv.org/abs/2611.society-ai-scientists'>primary-alphaxiv-society-of-ai-scientists</a></small></blockquote>
+<pre>def check(ctx):
+    return ctx.require(&#x27;society&#x27;, r&#x27;^A Society of AI Scientists&#x27;)</pre></details>
+<details><summary><span class=b style='background:#1f7a3a'>PASS</span>Over twelve weeks <small>(number · Society)</small></summary>
+<blockquote>We present an exploratory twelve-week study documenting the activity of 936 autonomous agents across 35 human-operated laboratories interacting in a shared preprint server and messaging workspace.<br><small>source: <a href='https://www.alphaxiv.org/abs/2611.society-ai-scientists'>primary-alphaxiv-society-of-ai-scientists</a></small></blockquote>
+<pre>def check(ctx):
+    return ctx.require(&#x27;society&#x27;, r&#x27;twelve-week study&#x27;)</pre></details>
+<details><summary><span class=b style='background:#1f7a3a'>PASS</span>thirty-five human labs, including Stanford, MIT, and ETH Zurich, deployed 936 autonomous agents onto a shared preprint server <small>(attribution · Society)</small></summary>
+<blockquote>We present an exploratory twelve-week study documenting the activity of 936 autonomous agents across 35 human-operated laboratories interacting in a shared preprint server and messaging workspace. … For three months, nearly 1,000 agents from 35 labs (across Stanford, MIT, ETH Zurich, and more) conducted research autonomously on this server, producing 936 papers alongside their code, data, and model weights.<br><small>source: <a href='https://www.alphaxiv.org/abs/2611.society-ai-scientists'>primary-alphaxiv-society-of-ai-scientists</a></small></blockquote>
+<pre>def check(ctx):
+    return ctx.require(&#x27;society&#x27;, r&#x27;936 autonomous agents across 35 human-operated laboratories .*shared preprint server&#x27;, r&#x27;35 labs \(across Stanford, MIT, ETH Zurich&#x27;)</pre></details>
+<details><summary><span class=b style='background:#1f7a3a'>PASS</span>published 936 papers with code and data <small>(number · Society)</small></summary>
+<blockquote>For three months, nearly 1,000 agents from 35 labs (across Stanford, MIT, ETH Zurich, and more) conducted research autonomously on this server, producing 936 papers alongside their code, data, and model weights.<br><small>source: <a href='https://www.alphaxiv.org/abs/2611.society-ai-scientists'>primary-alphaxiv-society-of-ai-scientists</a></small></blockquote>
+<pre>def check(ctx):
+    return ctx.require(&#x27;society&#x27;, r&#x27;producing 936 papers alongside their code, data&#x27;)</pre></details>
+<details><summary><span class=b style='background:#1f7a3a'>PASS</span>exchanged 9,500 messages <small>(number · Society)</small></summary>
+<blockquote>They also exchanged 9,500 messages distributed across 229 agent-created chat rooms.<br><small>source: <a href='https://www.alphaxiv.org/abs/2611.society-ai-scientists'>primary-alphaxiv-society-of-ai-scientists</a></small></blockquote>
+<pre>def check(ctx):
+    return ctx.require(&#x27;society&#x27;, r&#x27;exchanged 9,500 messages&#x27;)</pre></details>
+<details><summary><span class=b style='background:#1f7a3a'>PASS</span>retracted mistakes publicly before upload <small>(attribution · Society)</small></summary>
+<blockquote>For example, peers formed topical hubs where it was common to publicly retract mistaken claims before publication[p8] as well as acknowledge negative findings as often as positive ones.[p10]<br><small>source: <a href='https://www.alphaxiv.org/abs/2611.society-ai-scientists'>primary-alphaxiv-society-of-ai-scientists</a></small></blockquote>
+<pre>def check(ctx):
+    return ctx.support_or_contradict(&#x27;society&#x27;, r&#x27;publicly retract mistaken claims before publication&#x27;, r&#x27;correction preceded upload&#x27;, &#x27;retraction timing&#x27;)</pre></details>
+<details><summary><span class=b style='background:#1f7a3a'>PASS</span>blinded LLM judges did rate the agents&#x27; prose higher on experimental rigor than matched human preprints <small>(comparison · Society)</small></summary>
+<blockquote>Agent papers scored higher on experimental rigor, 9.02 versus 7.00 on a 10-point scale, a difference of +2.01 points (95% CI +1.74 to +2.29). … These are blinded LLM rubric ratings of prose, not expert human peer review, and the judges could not run code or inspect figures. [p30] … Two LLM judges rated author- and affiliation-stripped full texts in both presentation orders across 202 matched pairs of agent and human papers.<br><small>source: <a href='https://www.alphaxiv.org/abs/2611.society-ai-scientists'>primary-alphaxiv-society-of-ai-scientists</a></small></blockquote>
+<pre>def check(ctx):
+    return ctx.require(&#x27;society&#x27;, r&#x27;Agent papers scored higher on experimental rigor, 9\.02 versus 7\.00&#x27;, r&#x27;blinded LLM rubric ratings of prose&#x27;, r&#x27;202 matched pairs&#x27;)</pre></details>
+<details><summary><span class=b style='background:#1f7a3a'>PASS</span>humans won on novelty and significance <small>(comparison · Society)</small></summary>
+<blockquote>Human papers scored higher on novelty and significance.<br><small>source: <a href='https://www.alphaxiv.org/abs/2611.society-ai-scientists'>primary-alphaxiv-society-of-ai-scientists</a></small></blockquote>
+<pre>def check(ctx):
+    return ctx.require(&#x27;society&#x27;, r&#x27;Human papers scored higher on novelty and significance&#x27;)</pre></details>
+<details><summary><span class=b style='background:#1f7a3a'>PASS</span>Text-only reviewers caught eleven of sixteen flawed drafts <small>(number · Society)</small></summary>
+<blockquote>Text-only reviewers flagged 11 of 16 flawed first-version drafts, but also flagged 10 of 16 repaired versions in which the limitation was already openly disclosed.<br><small>source: <a href='https://www.alphaxiv.org/abs/2611.society-ai-scientists'>primary-alphaxiv-society-of-ai-scientists</a></small></blockquote>
+<pre>def check(ctx):
+    return ctx.require(&#x27;society&#x27;, r&#x27;Text-only reviewers flagged 11 of 16 flawed&#x27;)</pre></details>
+<details><summary><span class=b style='background:#1f7a3a'>PASS</span>flagged ten of sixteen repaired versions where the limitation was already openly disclosed <small>(number · Society)</small></summary>
+<blockquote>Text-only reviewers flagged 11 of 16 flawed first-version drafts, but also flagged 10 of 16 repaired versions in which the limitation was already openly disclosed.<br><small>source: <a href='https://www.alphaxiv.org/abs/2611.society-ai-scientists'>primary-alphaxiv-society-of-ai-scientists</a></small></blockquote>
+<pre>def check(ctx):
+    return ctx.require(&#x27;society&#x27;, r&#x27;10 of 16 repaired versions in which the limitation was already openly disclosed&#x27;)</pre></details>
+<details><summary><span class=b style='background:#1f7a3a'>PASS</span>code inspections still caught scripts using answer keys and leaked targets <small>(attribution · Society)</small></summary>
+<blockquote>The journal&#x27;s code inspections found submissions in which scripts or prompts used answer keys or leaked targets, which is why checking values alone is insufficient. [p27]<br><small>source: <a href='https://www.alphaxiv.org/abs/2611.society-ai-scientists'>primary-alphaxiv-society-of-ai-scientists</a></small></blockquote>
+<pre>def check(ctx):
+    return ctx.require(&#x27;society&#x27;, r&#x27;code inspections found submissions in which scripts or prompts used answer keys or leaked targets&#x27;)</pre></details>
+<details><summary><span class=b style='background:#1f7a3a'>PASS</span>A guest editor turned referee objections into scripts and ran them on the uploaded data <small>(attribution · Society)</small></summary>
+<blockquote>In effect they could not tell a disclosed weakness from a hidden one. [p19] A guest editor then translated 276 objections across 43 paper clusters into scripts that were run on the uploaded data.<br><small>source: <a href='https://www.alphaxiv.org/abs/2611.society-ai-scientists'>primary-alphaxiv-society-of-ai-scientists</a></small></blockquote>
+<pre>def check(ctx):
+    return ctx.require(&#x27;society&#x27;, r&#x27;guest editor then translated 276 objections .* into scripts that were run on the uploaded data&#x27;)</pre></details>
+<details><summary><span class=b style='background:#1f7a3a'>PASS</span>overturning the headline conclusion in nearly half of major-objection cases <small>(number · Society)</small></summary>
+<blockquote>For major objections, the scripts overturned the headline conclusion in 77 of 156 cases (49.4%); for minor objections, in 24 of 120 cases (20.0%). [p20] These are executed referee objections in this journal, not a random audit of all papers in the cohort.<br><small>source: <a href='https://www.alphaxiv.org/abs/2611.society-ai-scientists'>primary-alphaxiv-society-of-ai-scientists</a></small></blockquote>
+<p><b>Note:</b> 77/156 = 49.4%; &quot;nearly half&quot; holds</p>
+<pre>def check(ctx):
+    s = ctx.find(&#x27;society&#x27;, r&#x27;major objections, the scripts overturned the headline conclusion in (\d+) of (\d+)&#x27;)
+    if not s: return ctx.need(&#x27;society&#x27;, None, &#x27;figure not found&#x27;)
+    n, d = map(int, re.search(r&#x27;in (\d+) of (\d+)&#x27;, s).groups())
+    return ctx.ok(&#x27;society&#x27;, s, f&#x27;{n}/{d} = {n/d:.1%}; &quot;nearly half&quot; holds&#x27;) if 0.40 &lt;= n / d &lt; 0.5 else ctx.fail(&#x27;society&#x27;, s, f&#x27;{n}/{d} = {n/d:.1%} is not &quot;nearly half&quot;&#x27;)</pre></details>
+<details><summary><span class=b style='background:#1f7a3a'>PASS</span>101-step citation chain <small>(number · Society)</small></summary>
+<blockquote>The longest citation chain reached 101 steps, but a recency-matched random citation null averaged 99.4 steps (P = 0.44).<br><small>source: <a href='https://www.alphaxiv.org/abs/2611.society-ai-scientists'>primary-alphaxiv-society-of-ai-scientists</a></small></blockquote>
+<pre>def check(ctx):
+    return ctx.require(&#x27;society&#x27;, r&#x27;longest citation chain reached 101 steps&#x27;)</pre></details>
+<details><summary><span class=b style='background:#1f7a3a'>PASS</span>statistically indistinguishable from randomly citing recent papers <small>(comparison · Society)</small></summary>
+<blockquote>The longest citation chain reached 101 steps, but a recency-matched random citation null averaged 99.4 steps (P = 0.44).<br><small>source: <a href='https://www.alphaxiv.org/abs/2611.society-ai-scientists'>primary-alphaxiv-society-of-ai-scientists</a></small></blockquote>
+<p><b>Note:</b> P = 0.44 &gt; 0.05</p>
+<pre>def check(ctx):
+    s = ctx.find(&#x27;society&#x27;, r&#x27;recency-matched random citation null averaged [\d.]+ steps \(P = ([\d.]+)\)&#x27;)
+    if not s: return ctx.need(&#x27;society&#x27;, None, &#x27;null comparison not found&#x27;)
+    p = float(re.search(r&#x27;P = ([\d.]+)&#x27;, s).group(1))
+    return ctx.ok(&#x27;society&#x27;, s, f&#x27;P = {p} &gt; 0.05&#x27;) if p &gt; 0.05 else ctx.fail(&#x27;society&#x27;, s, f&#x27;P = {p} is significant&#x27;)</pre></details>
+<details><summary><span class=b style='background:#1f7a3a'>PASS</span>Google&#x27;s Gemma account is promoting Airbnb&#x27;s new benchmark <small>(attribution · Airbnb)</small></summary>
+<blockquote>@googlegemma: Love seeing what happens when open weights meet great engineering!<br><small>source: <a href='https://x.com/googlegemma/status/2123461832656781320'>x-googlegemma</a></small></blockquote>
+<pre>def check(ctx):
+    return ctx.require(&#x27;gemma&#x27;, r&#x27;@googlegemma: Love seeing what happens when open weights meet great engineering&#x27;)</pre></details>
+<details><summary><span class=b style='background:#1f7a3a'>PASS</span>a fine-tuned Gemma 4 E2B model on a single NVIDIA RTX Pro 6000 GPU <small>(qualifier · Airbnb)</small></summary>
+<blockquote>In a new benchmark, @AirbnbEng took Gemma 4 E2B for policy classification and served it on a single @NVIDIA RTX Pro 6000 GPU:<br><small>source: <a href='https://x.com/googlegemma/status/2123461832656781320'>x-googlegemma</a></small></blockquote>
+<pre>def check(ctx):
+    return ctx.require(&#x27;gemma&#x27;, r&#x27;Gemma 4 E2B .*single @NVIDIA RTX Pro 6000 GPU&#x27;)</pre></details>
+<details><summary><span class=b style='background:#1f7a3a'>PASS</span>Quality hit 0.902 max F1 <small>(number · Airbnb)</small></summary>
+<blockquote>🎯 Quality: Jumped from 0.563 to 0.902 max F1, matching top frontier APIs<br><small>source: <a href='https://x.com/googlegemma/status/2123461832656781320'>x-googlegemma</a></small></blockquote>
+<pre>def check(ctx):
+    return ctx.require(&#x27;gemma&#x27;, r&#x27;0\.563 to 0\.902 max F1&#x27;)</pre></details>
+<details><summary><span class=b style='background:#1f7a3a'>PASS</span>costs fell to about one percent at high volume <small>(number · Airbnb)</small></summary>
+<blockquote>💸 Cost: ~1% of frontier API spend at high volume<br><small>source: <a href='https://x.com/googlegemma/status/2123461832656781320'>x-googlegemma</a></small></blockquote>
+<p><b>Note:</b> relative cost vs frontier APIs; &quot;fell&quot; is loose but the figure matches</p>
+<pre>def check(ctx):
+    return ctx.require(&#x27;gemma&#x27;, r&#x27;~1% of frontier API spend at high volume&#x27;, note=&#x27;relative cost vs frontier APIs; &quot;fell&quot; is loose but the figure matches&#x27;)</pre></details>
+<details><summary><span class=b style='background:#1f7a3a'>PASS</span>Out of the box, that two-billion-parameter model scored a weak 0.563 <small>(number · Airbnb)</small></summary>
+<blockquote>We compare a fine-tuned classifier with 2 billion effective parameters (E2B) against open-weight and proprietary models on a held-out evaluation dataset of 10,000 weighted examples. … Fine-tuning Gemma4-E2B on hundreds of thousands of domain-specific examples lifts its F1 from 0.563 to 0.902, on par with the best proprietary models, while median latency stays at 35ms.<br><small>source: <a href='https://airbnb.tech/ai-ml/frontier-quality-at-1-of-the-cost-a-production-benchmark-of-llm-classifiers/'>primary-airbnb-gemma4-e2b-production-classifier-</a></small></blockquote>
+<pre>def check(ctx):
+    return ctx.require(&#x27;airbnb&#x27;, r&#x27;2 billion effective parameters&#x27;, r&#x27;lifts its F1 from 0\.563&#x27;)</pre></details>
+<details><summary><span class=b style='background:#1f7a3a'>PASS</span>even a 2,700-word prompt couldn&#x27;t close the gap <small>(number · Airbnb)</small></summary>
+<blockquote>A detailed prompt improves classification quality but doesn&#x27;t close the gap.<br><small>source: <a href='https://airbnb.tech/ai-ml/frontier-quality-at-1-of-the-cost-a-production-benchmark-of-llm-classifiers/'>primary-airbnb-gemma4-e2b-production-classifier-</a></small></blockquote>
+<pre>def check(ctx):
+    return ctx.require(&#x27;airbnb&#x27;, r&quot;2,700 word prompt couldn&#x27;t|detailed prompt improves classification quality but doesn&#x27;t close the gap&quot;)</pre></details>
+<details><summary><span class=b style='background:#1f7a3a'>PASS</span>fine-tuning on hundreds of thousands of labeled production examples <small>(number · Airbnb)</small></summary>
+<blockquote>Fine-tuning Gemma4-E2B on hundreds of thousands of domain-specific examples lifts its F1 from 0.563 to 0.902, on par with the best proprietary models, while median latency stays at 35ms.<br><small>source: <a href='https://airbnb.tech/ai-ml/frontier-quality-at-1-of-the-cost-a-production-benchmark-of-llm-classifiers/'>primary-airbnb-gemma4-e2b-production-classifier-</a></small></blockquote>
+<pre>def check(ctx):
+    return ctx.require(&#x27;airbnb&#x27;, r&#x27;hundreds of thousands of domain-specific examples&#x27;)</pre></details>
+<details><summary><span class=b style='background:#1f7a3a'>PASS</span>only beats APIs above fifteen to thirty requests per minute <small>(qualifier · Airbnb)</small></summary>
+<blockquote>Proprietary models only win at low traffic: below roughly 15 to 30 RPM, Claude Sonnet 5.5 and GPT-6.1 Sol are cheaper than a dedicated GPU.<br><small>source: <a href='https://airbnb.tech/ai-ml/frontier-quality-at-1-of-the-cost-a-production-benchmark-of-llm-classifiers/'>primary-airbnb-gemma4-e2b-production-classifier-</a></small></blockquote>
+<pre>def check(ctx):
+    return ctx.require(&#x27;airbnb&#x27;, r&#x27;below roughly 15 to 30 RPM, Claude Sonnet 5\.5 and GPT-6\.1 Sol are cheaper&#x27;)</pre></details>
+<details><summary><span class=b style='background:#1f7a3a'>PASS</span>Frontier models return a slow, fixed true-or-false verdict <small>(qualifier · Airbnb)</small></summary>
+<blockquote>And because each model returns a verdict rather than a score, it gives a single, fixed precision-recall point. … While we would normally prefer PR-AUC for imbalanced classification, most proprietary models return only a True or False verdict, so there is no curve to integrate.<br><small>source: <a href='https://airbnb.tech/ai-ml/frontier-quality-at-1-of-the-cost-a-production-benchmark-of-llm-classifiers/'>primary-airbnb-gemma4-e2b-production-classifier-</a></small></blockquote>
+<p><b>Note:</b> said of proprietary generative models; elsewhere &quot;most proprietary models&quot;</p>
+<pre>def check(ctx):
+    s = ctx.find(&#x27;airbnb&#x27;, r&#x27;each model returns a verdict rather than a score, it gives a single, fixed precision-recall point&#x27;)
+    m = ctx.find(&#x27;airbnb&#x27;, r&#x27;most proprietary models return only a True or False verdict&#x27;)
+    if s: return ctx.ok(&#x27;airbnb&#x27;, s + &#x27; … &#x27; + (m or &#x27;&#x27;), &#x27;said of proprietary generative models; elsewhere &quot;most proprietary models&quot;&#x27;)
+    return ctx.need(&#x27;airbnb&#x27;, m, &#x27;only the &quot;most proprietary models&quot; wording found&#x27;)</pre></details>
+<details><summary><span class=b style='background:#1f7a3a'>PASS</span>Extracting logprobs from a fine-tuned model gives Airbnb a continuous score they can threshold <small>(attribution · Airbnb)</small></summary>
+<blockquote>By extracting logprobs, we&#x27;re able to produce a score for thresholding.<br><small>source: <a href='https://airbnb.tech/ai-ml/frontier-quality-at-1-of-the-cost-a-production-benchmark-of-llm-classifiers/'>primary-airbnb-gemma4-e2b-production-classifier-</a></small></blockquote>
+<pre>def check(ctx):
+    return ctx.require(&#x27;airbnb&#x27;, r&#x27;By extracting logprobs, we.re able to produce a score for thresholding&#x27;)</pre></details>
+<details><summary><span class=b style='background:#1f7a3a'>PASS</span>Andon Labs&#x27; Blueprint-Bench 2 <small>(attribution · Blueprint)</small></summary>
+<blockquote>author={Andon Labs},<br><small>source: <a href='https://andonlabs.com/evals/blueprint-bench-2'>primary-andon-blueprint-bench-2-gpt62-astra</a></small></blockquote>
+<pre>def check(ctx):
+    return ctx.require(&#x27;blueprint&#x27;, r&#x27;author=\{Andon Labs\}&#x27;)</pre></details>
+<details><summary><span class=b style='background:#1f7a3a'>PASS</span>agents turn roughly twenty apartment photos into 2D floor plans <small>(number · Blueprint)</small></summary>
+<blockquote>Each agent processes 50 apartments sequentially, examining ~20 interior photos per apartment and generating a floor plan showing room layouts, connections, and relative sizes. … We test this by asking them to convert apartment photographs into accurate 2D floor plans.<br><small>source: <a href='https://andonlabs.com/evals/blueprint-bench-2'>primary-andon-blueprint-bench-2-gpt62-astra</a></small></blockquote>
+<pre>def check(ctx):
+    return ctx.require(&#x27;blueprint&#x27;, r&#x27;~20 interior photos&#x27;, r&#x27;2D floor plans&#x27;)</pre></details>
+<details><summary><span class=b style='background:#1f7a3a'>PASS</span>OpenAI&#x27;s Greg Brockman highlighted that GPT-6.2 Astra ranked first at 0.614 <small>(attribution · Blueprint)</small></summary>
+<blockquote>@gdb: GPT-6.2 Astra exceeding human baseline on physical 3D understanding benchmark: https://t.co/Z4j9Na9VQW … leaderboard: 1 GPT-6.2 Astra 0.614<br><small>source: <a href='https://x.com/gdb/status/2123719297096990726'>x-gdb</a></small></blockquote>
+<p><b>Note:</b> Brockman highlighted the human-baseline result; the 0.614 figure is from the leaderboard, not his post</p>
+<pre>def check(ctx):
+    g = ctx.find(&#x27;gdb&#x27;, r&#x27;GPT-6\.2 Astra exceeding human baseline&#x27;); a = ctx.find(&#x27;blueprint&#x27;, r&#x27;1 GPT-6\.2 Astra 0\.614&#x27;)
+    if g and a: return ctx.ok(&#x27;gdb&#x27;, g + &#x27; … leaderboard: &#x27; + a, &#x27;Brockman highlighted the human-baseline result; the 0.614 figure is from the leaderboard, not his post&#x27;)
+    return ctx.need(&#x27;gdb&#x27;, g, &#x27;post or score not found&#x27;)</pre></details>
+<details><summary><span class=b style='background:#1f7a3a'>PASS</span>edging past the human baseline of 0.586 <small>(comparison · Blueprint)</small></summary>
+<blockquote>Human* 0.586<br><small>source: <a href='https://andonlabs.com/evals/blueprint-bench-2'>primary-andon-blueprint-bench-2-gpt62-astra</a></small></blockquote>
+<pre>def check(ctx):
+    return ctx.require(&#x27;blueprint&#x27;, r&#x27;Human\* 0\.586&#x27;)</pre></details>
+<details><summary><span class=b style='background:#1f7a3a'>PASS</span>human baseline was tested on just twelve apartments out of fifty <small>(qualifier · Blueprint)</small></summary>
+<blockquote>*Human baseline tested on subset of 12 apartments only … Each agent processes 50 apartments sequentially, examining ~20 interior photos per apartment and generating a floor plan showing room layouts, connections, and relative sizes.<br><small>source: <a href='https://andonlabs.com/evals/blueprint-bench-2'>primary-andon-blueprint-bench-2-gpt62-astra</a></small></blockquote>
+<pre>def check(ctx):
+    return ctx.require(&#x27;blueprint&#x27;, r&#x27;Human baseline tested on subset of 12 apartments only&#x27;, r&#x27;processes 50 apartments&#x27;)</pre></details>
+<details><summary><span class=b style='background:#1f7a3a'>PASS</span>Gemini 4 Carbon tied it <small>(comparison · Blueprint)</small></summary>
+<blockquote>T2 Gemini 4 Carbon 0.586 T2 Human* 0.586<br><small>source: <a href='https://andonlabs.com/evals/blueprint-bench-2'>primary-andon-blueprint-bench-2-gpt62-astra</a></small></blockquote>
+<pre>def check(ctx):
+    return ctx.require(&#x27;blueprint&#x27;, r&#x27;T2 Gemini 4 Carbon 0\.586 T2 Human\* 0\.586&#x27;)</pre></details>
+<details><summary><span class=b style='background:#1f7a3a'>PASS</span>Google&#x27;s newly released Gemini 4 Neon isn&#x27;t even on the board yet <small>(qualifier · Blueprint)</small></summary>
+<blockquote>@bughuntergeek (13 likes): @andonlabs I don&#x27;t understand why you would post that directly after Google released the best model in the world, Gemini 4 Neon.<br><small>source: <a href='https://x.com/andonlabs/status/2123570732575989832'>x-andonlabs</a></small></blockquote>
+<p><b>Note:</b> no &quot;Neon&quot; anywhere in the leaderboard page; &quot;newly released&quot; comes from a reply in the @andonlabs thread</p>
+<pre>def check(ctx):
+    if not ctx.absent(&#x27;blueprint&#x27;, r&#x27;Neon&#x27;): return ctx.fail(&#x27;blueprint&#x27;, ctx.find(&#x27;blueprint&#x27;, r&#x27;Neon&#x27;), &#x27;Neon is on the leaderboard&#x27;)
+    r = ctx.find(&#x27;andon&#x27;, r&#x27;Google released the best model in the world, Gemini 4 Neon&#x27;)
+    return ctx.ok(&#x27;andon&#x27;, r, &#x27;no &quot;Neon&quot; anywhere in the leaderboard page; &quot;newly released&quot; comes from a reply in the @andonlabs thread&#x27;) if r else ctx.need(&#x27;andon&#x27;, None, &#x27;release not sourced&#x27;)</pre></details>
+<details><summary><span class=b style='background:#1f7a3a'>PASS</span>Gemini Robotics-ER 1.6, a model built specifically for embodied spatial reasoning, scored zero <small>(number · Blueprint)</small></summary>
+<blockquote>Gemini Robotics-ER 1.6 0.000** … Despite being designed for spatial and embodied reasoning, it scores below Gemini 3 Flash.<br><small>source: <a href='https://andonlabs.com/evals/blueprint-bench-2'>primary-andon-blueprint-bench-2-gpt62-astra</a></small></blockquote>
+<pre>def check(ctx):
+    return ctx.require(&#x27;blueprint&#x27;, r&#x27;Gemini Robotics-ER 1\.6 0\.000\*\*&#x27;, r&#x27;designed for spatial and embodied reasoning&#x27;)</pre></details>
+<details><summary><span class=b style='background:#1f7a3a'>PASS</span>at or below random chance <small>(comparison · Blueprint)</small></summary>
+<blockquote>**Score at or below the random baseline<br><small>source: <a href='https://andonlabs.com/evals/blueprint-bench-2'>primary-andon-blueprint-bench-2-gpt62-astra</a></small></blockquote>
+<pre>def check(ctx):
+    return ctx.require(&#x27;blueprint&#x27;, r&#x27;\*\*Score at or below the random baseline&#x27;)</pre></details>
+<details><summary><span class=b style='background:#1f7a3a'>PASS</span>oe3-blueprint-subset <small>(objection · Blueprint)</small></summary>
+<blockquote>framing (Andon Labs): Benchmark operator&#x27;s own leaderboard; the human baseline covers only 12 of the 50 apartments, so the human comparison is limited.<br><small>source: <a href='https://www.signalandnoise.email/content/daily-state/2026-11-20/neon/audit/sources/2026-11-20/scan-framing.txt'>scan-framing</a></small></blockquote>
+<p><b>Note:</b> caveat present in artifact</p>
+<pre>def check(ctx):
+    # Objection: human baseline covers only 12 of 50 apartments
+    s = ctx.find(&#x27;framing&#x27;, r&#x27;human baseline covers only 12 of the 50 apartments&#x27;)
+    if not s: return ctx.ok(None, None, &#x27;no such caveat in the scan framing for this story&#x27;)
+    if ctx.art_has(r&#x27;(12|twelve) apartments&#x27;): return ctx.ok(&#x27;framing&#x27;, s, &#x27;caveat present in artifact&#x27;)
+    return ctx.fail(&#x27;framing&#x27;, s, &#x27;artifact never states this caveat (human baseline covers only 12 of 50 apartments)&#x27;)</pre></details>
+<details><summary><span class=b style='background:#1f7a3a'>PASS</span>oe4-blueprint-operator <small>(objection · Blueprint)</small></summary>
+<blockquote>framing (Andon Labs): Benchmark operator&#x27;s own leaderboard; the human baseline covers only 12 of the 50 apartments, so the human comparison is limited.<br><small>source: <a href='https://www.signalandnoise.email/content/daily-state/2026-11-20/neon/audit/sources/2026-11-20/scan-framing.txt'>scan-framing</a></small></blockquote>
+<p><b>Note:</b> caveat present in artifact</p>
+<pre>def check(ctx):
+    # Objection: leaderboard is run by the benchmark operator (named as source)
+    s = ctx.find(&#x27;framing&#x27;, r&#x27;Benchmark operator.s own leaderboard&#x27;)
+    if not s: return ctx.ok(None, None, &#x27;no such caveat in the scan framing for this story&#x27;)
+    if ctx.art_has(r&quot;andon labs&#x27;? blueprint|andon labs|on blueprint-bench&quot;): return ctx.ok(&#x27;framing&#x27;, s, &#x27;caveat present in artifact&#x27;)
+    return ctx.fail(&#x27;framing&#x27;, s, &#x27;artifact never states this caveat (leaderboard is run by the benchmark operator (named as source))&#x27;)</pre></details>
+<details><summary><span class=b style='background:#1f7a3a'>PASS</span>oe5-rigor-llm-judges <small>(objection · Society)</small></summary>
+<blockquote>These are blinded LLM rubric ratings of prose, not expert human peer review, and the judges could not run code or inspect figures. [p30]<br><small>source: <a href='https://www.alphaxiv.org/abs/2611.society-ai-scientists'>primary-alphaxiv-society-of-ai-scientists</a></small></blockquote>
+<p><b>Note:</b> framed as LLM judges</p>
+<pre>def check(ctx):
+    # Objection: if the rigor score is cited, it must be framed as LLM ratings of prose, not human peer review.
+    s = ctx.find(&#x27;society&#x27;, r&#x27;blinded LLM rubric ratings of prose, not expert human peer review&#x27;)
+    if not ctx.art_has(r&#x27;rigor&#x27;): return ctx.ok(None, None, &#x27;rigor score not cited&#x27;)
+    return ctx.ok(&#x27;society&#x27;, s, &#x27;framed as LLM judges&#x27;) if ctx.art_has(r&#x27;LLM judges|language model judges&#x27;) else ctx.fail(&#x27;society&#x27;, s, &#x27;rigor score cited without LLM-judge caveat&#x27;)</pre></details>
+<details><summary><span class=b style='background:#1f7a3a'>PASS</span>oe6-interested-parties <small>(objection · Airbnb/Blueprint)</small></summary>
+<p><b>Note:</b> both promoters identified with their company</p>
+<pre>def check(ctx):
+    # Objection: promoters with a stake (Google&#x27;s Gemma account, OpenAI&#x27;s president) must be identified as such.
+    g = ctx.art_has(r&quot;Google&#x27;s Gemma account&quot;); b = ctx.art_has(r&quot;OpenAI&#x27;s Greg Brockman&quot;)
+    s = ctx.find(&#x27;framing&#x27;, r&#x27;Company-reported&#x27;)
+    return ctx.ok(None, None, &#x27;both promoters identified with their company&#x27;) if g and b else ctx.fail(None, None, f&#x27;gemma identified={g}, brockman identified={b}&#x27;)</pre></details>
+<h2>short</h2>
+<details open><summary><span class=b style='background:#b3261e'>FAIL</span>os1-society-preliminary <small>(objection · Society)</small></summary>
+<blockquote>framing (alphaXiv): Exploratory preprint by the alphaXiv/MIT/Stanford-led team that also built the platform; findings are author-reported and not yet peer reviewed or independently replicated.<br><small>source: <a href='https://www.signalandnoise.email/content/daily-state/2026-11-20/neon/audit/sources/2026-11-20/scan-framing.txt'>scan-framing</a></small></blockquote>
+<p><b>Note:</b> artifact never states this caveat (Society paper is an exploratory preprint, not yet peer reviewed or replicated)</p>
+<pre>def check(ctx):
+    # Objection: Society paper is an exploratory preprint, not yet peer reviewed or replicated
+    s = ctx.find(&#x27;framing&#x27;, r&#x27;not yet peer reviewed&#x27;)
+    if not s: return ctx.ok(None, None, &#x27;no such caveat in the scan framing for this story&#x27;)
+    if ctx.art_has(r&quot;not (yet )?(been )?peer[- ]reviewed|not yet reviewed|unreviewed|preliminary|exploratory|hasn&#x27;?t been (peer[- ])?reviewed|early,? author[- ]reported&quot;): return ctx.ok(&#x27;framing&#x27;, s, &#x27;caveat present in artifact&#x27;)
+    return ctx.fail(&#x27;framing&#x27;, s, &#x27;artifact never states this caveat (Society paper is an exploratory preprint, not yet peer reviewed or replicated)&#x27;)</pre></details>
+<details open><summary><span class=b style='background:#b3261e'>FAIL</span>os2-airbnb-company-reported <small>(objection · Airbnb)</small></summary>
+<blockquote>framing (Airbnb Engineering &amp; Data Science): Company-reported benchmark on Airbnb&#x27;s own held-out data for one production task; not independently replicated and not a general capability ranking.<br><small>source: <a href='https://www.signalandnoise.email/content/daily-state/2026-11-20/neon/audit/sources/2026-11-20/scan-framing.txt'>scan-framing</a></small></blockquote>
+<p><b>Note:</b> artifact never states this caveat (Airbnb result is company-reported, on its own data, for one task)</p>
+<pre>def check(ctx):
+    # Objection: Airbnb result is company-reported, on its own data, for one task
+    s = ctx.find(&#x27;framing&#x27;, r&#x27;Company-reported benchmark on Airbnb.s own held-out data for one production task&#x27;)
+    if not s: return ctx.ok(None, None, &#x27;no such caveat in the scan framing for this story&#x27;)
+    if ctx.art_has(r&quot;company[- ]reported|airbnb (says|reports|reported|claims)|according to airbnb|airbnb&#x27;s own (data|benchmark|test)|its own (held-out )?data|(one|single) (production )?(task|classifier)&quot;): return ctx.ok(&#x27;framing&#x27;, s, &#x27;caveat present in artifact&#x27;)
+    return ctx.fail(&#x27;framing&#x27;, s, &#x27;artifact never states this caveat (Airbnb result is company-reported, on its own data, for one task)&#x27;)</pre></details>
+<details open><summary><span class=b style='background:#b3261e'>FAIL</span>publish 936 papers, and launch a peer-reviewed journal <small>(attribution · Society)</small></summary>
+<blockquote>As publication volume accelerated, agents in one laboratory also founded the Journal of Agent Research, an agent-run peer-review venue whose editors inspected code and provided scrutiny over experiment results.<br><small>source: <a href='https://www.alphaxiv.org/abs/2611.society-ai-scientists'>primary-alphaxiv-society-of-ai-scientists</a></small></blockquote>
+<p><b>Note:</b> credits all 936 agents with launching the journal; source says agents in one laboratory founded it</p>
+<pre>def check(ctx):
+    s = ctx.find(&#x27;society&#x27;, r&#x27;agents in one laborator\w* also founded the Journal&#x27;)
+    sent = ctx.art_sentence(CLAIM[&#x27;quote&#x27;])
+    if s and not re.search(r&#x27;one lab&#x27;, sent, re.I):
+        return ctx.fail(&#x27;society&#x27;, s, &#x27;credits all 936 agents with launching the journal; source says agents in one laboratory founded it&#x27;)
+    return ctx.ok(&#x27;society&#x27;, s)</pre></details>
+<details open><summary><span class=b style='background:#b3261e'>FAIL</span>936 agents built a journal <small>(number · Society)</small></summary>
+<blockquote>As publication volume accelerated, agents in one laboratory also founded the Journal of Agent Research, an agent-run peer-review venue whose editors inspected code and provided scrutiny over experiment results.<br><small>source: <a href='https://www.alphaxiv.org/abs/2611.society-ai-scientists'>primary-alphaxiv-society-of-ai-scientists</a></small></blockquote>
+<p><b>Note:</b> on-screen card credits all 936 agents with the journal; source scopes it to one laboratory</p>
+<pre>def check(ctx):
+    s = ctx.find(&#x27;society&#x27;, r&#x27;agents in one laborator\w* also founded the Journal&#x27;)
+    return ctx.fail(&#x27;society&#x27;, s, &#x27;on-screen card credits all 936 agents with the journal; source scopes it to one laboratory&#x27;) if s else ctx.need(&#x27;society&#x27;, None, &#x27;scope sentence not found&#x27;)</pre></details>
+<details open><summary><span class=b style='background:#b3261e'>FAIL</span>Only running scripts on the uploaded data overturned nearly half of major objections <small>(qualifier · Society)</small></summary>
+<blockquote>For major objections, the scripts overturned the headline conclusion in 77 of 156 cases (49.4%); for minor objections, in 24 of 120 cases (20.0%). [p20] These are executed referee objections in this journal, not a random audit of all papers in the cohort.<br><small>source: <a href='https://www.alphaxiv.org/abs/2611.society-ai-scientists'>primary-alphaxiv-society-of-ai-scientists</a></small></blockquote>
+<p><b>Note:</b> inverted: the scripts overturned the papers&#x27; headline conclusions in 49.4% of major-objection cases, not the objections themselves</p>
+<pre>def check(ctx):
+    # What was overturned: the objections, or the papers&#x27; headline conclusions?
+    return ctx.support_or_contradict(&#x27;society&#x27;, r&#x27;overturned[^.]{0,30}objections&#x27;, r&#x27;scripts overturned the headline conclusion in 77 of 156 cases&#x27;,
+        &#x27;inverted: the scripts overturned the papers\&#x27; headline conclusions in 49.4% of major-objection cases, not the objections themselves&#x27;)</pre></details>
+<details><summary><span class=b style='background:#8a6100'>NEEDS-HUMAN</span>judging models by prose, prompts, or leaderboards is breaking down <small>(opinion · Intro)</small></summary>
+<blockquote>Executable Review Finds What Text Can Miss<br><small>source: <a href='https://www.alphaxiv.org/abs/2611.society-ai-scientists'>primary-alphaxiv-society-of-ai-scientists</a></small></blockquote>
+<p><b>Note:</b> opinion (short thesis); nearest supporting source text quoted</p>
+<pre>def check(ctx):
+    s = ctx.find(&#x27;society&#x27;, r&#x27;Executable Review Finds What Text Can Miss&#x27;)
+    return ctx.need(&#x27;society&#x27;, s, &#x27;opinion (short thesis); nearest supporting source text quoted&#x27;)</pre></details>
+<details><summary><span class=b style='background:#8a6100'>NEEDS-HUMAN</span>Polished prose and top-line scores are easy to fake <small>(opinion · Close)</small></summary>
+<blockquote>But a convincing paper could still describe a flawed experiment.<br><small>source: <a href='https://www.alphaxiv.org/abs/2611.society-ai-scientists'>primary-alphaxiv-society-of-ai-scientists</a></small></blockquote>
+<p><b>Note:</b> opinion stated as fact; sources show prose can mislead reviewers, not that scores are &quot;easy to fake&quot;</p>
+<pre>def check(ctx):
+    s = ctx.find(&#x27;society&#x27;, r&#x27;a convincing paper could still describe a flawed experiment&#x27;)
+    return ctx.need(&#x27;society&#x27;, s, &#x27;opinion stated as fact; sources show prose can mislead reviewers, not that scores are &quot;easy to fake&quot;&#x27;)</pre></details>
+<details><summary><span class=b style='background:#8a6100'>NEEDS-HUMAN</span>The real signal only appears when you execute under real constraints <small>(opinion · Close)</small></summary>
+<blockquote>A shared archive made peer correction and cumulative reuse possible, but the journal comparison shows why those social norms need code-and-data scrutiny to test claims.<br><small>source: <a href='https://www.alphaxiv.org/abs/2611.society-ai-scientists'>primary-alphaxiv-society-of-ai-scientists</a></small></blockquote>
+<p><b>Note:</b> opinion; nearest supporting source text quoted</p>
+<pre>def check(ctx):
+    s = ctx.find(&#x27;society&#x27;, r&#x27;need code-and-data scrutiny to test claims&#x27;)
+    return ctx.need(&#x27;society&#x27;, s, &#x27;opinion; nearest supporting source text quoted&#x27;)</pre></details>
+<details><summary><span class=b style='background:#1f7a3a'>PASS</span>os3-blueprint-subset <small>(objection · Blueprint)</small></summary>
+<blockquote>framing (Andon Labs): Benchmark operator&#x27;s own leaderboard; the human baseline covers only 12 of the 50 apartments, so the human comparison is limited.<br><small>source: <a href='https://www.signalandnoise.email/content/daily-state/2026-11-20/neon/audit/sources/2026-11-20/scan-framing.txt'>scan-framing</a></small></blockquote>
+<p><b>Note:</b> caveat present in artifact</p>
+<pre>def check(ctx):
+    # Objection: human baseline covers only 12 of 50 apartments
+    s = ctx.find(&#x27;framing&#x27;, r&#x27;human baseline covers only 12 of the 50 apartments&#x27;)
+    if not s: return ctx.ok(None, None, &#x27;no such caveat in the scan framing for this story&#x27;)
+    if ctx.art_has(r&#x27;(12|twelve) apartments&#x27;): return ctx.ok(&#x27;framing&#x27;, s, &#x27;caveat present in artifact&#x27;)
+    return ctx.fail(&#x27;framing&#x27;, s, &#x27;artifact never states this caveat (human baseline covers only 12 of 50 apartments)&#x27;)</pre></details>
+<details><summary><span class=b style='background:#1f7a3a'>PASS</span>os4-blueprint-operator <small>(objection · Blueprint)</small></summary>
+<blockquote>framing (Andon Labs): Benchmark operator&#x27;s own leaderboard; the human baseline covers only 12 of the 50 apartments, so the human comparison is limited.<br><small>source: <a href='https://www.signalandnoise.email/content/daily-state/2026-11-20/neon/audit/sources/2026-11-20/scan-framing.txt'>scan-framing</a></small></blockquote>
+<p><b>Note:</b> caveat present in artifact</p>
+<pre>def check(ctx):
+    # Objection: leaderboard is run by the benchmark operator (named as source)
+    s = ctx.find(&#x27;framing&#x27;, r&#x27;Benchmark operator.s own leaderboard&#x27;)
+    if not s: return ctx.ok(None, None, &#x27;no such caveat in the scan framing for this story&#x27;)
+    if ctx.art_has(r&quot;andon labs&#x27;? blueprint|andon labs|on blueprint-bench&quot;): return ctx.ok(&#x27;framing&#x27;, s, &#x27;caveat present in artifact&#x27;)
+    return ctx.fail(&#x27;framing&#x27;, s, &#x27;artifact never states this caveat (leaderboard is run by the benchmark operator (named as source))&#x27;)</pre></details>
+<details><summary><span class=b style='background:#1f7a3a'>PASS</span>alphaXiv watched 936 AI agents run their own preprint server <small>(attribution · Society)</small></summary>
+<blockquote>Today we&#x27;re launching a preprint server built specifically for AI agents … For three months, nearly 1,000 agents from 35 labs (across Stanford, MIT, ETH Zurich, and more) conducted research autonomously on this server, producing 936 papers alongside their code, data, and model weights.<br><small>source: <a href='https://www.alphaxiv.org/abs/2611.society-ai-scientists'>primary-alphaxiv-society-of-ai-scientists</a></small></blockquote>
+<p><b>Note:</b> alphaXiv launched the server and co-led the study (alphaXiv/MIT/Stanford)</p>
+<pre>def check(ctx):
+    return ctx.require(&#x27;society&#x27;, r&#x27;Today we.re launching a preprint server built specifically for AI agents&#x27;, r&#x27;nearly 1,000 agents from 35 labs .* on this server&#x27;, note=&#x27;alphaXiv launched the server and co-led the study (alphaXiv/MIT/Stanford)&#x27;)</pre></details>
+<details><summary><span class=b style='background:#1f7a3a'>PASS</span>936 papers <small>(number · Society)</small></summary>
+<blockquote>For three months, nearly 1,000 agents from 35 labs (across Stanford, MIT, ETH Zurich, and more) conducted research autonomously on this server, producing 936 papers alongside their code, data, and model weights.<br><small>source: <a href='https://www.alphaxiv.org/abs/2611.society-ai-scientists'>primary-alphaxiv-society-of-ai-scientists</a></small></blockquote>
+<pre>def check(ctx):
+    return ctx.require(&#x27;society&#x27;, r&#x27;producing 936 papers&#x27;)</pre></details>
+<details><summary><span class=b style='background:#1f7a3a'>PASS</span>text-only peer review couldn&#x27;t tell an honest caveat from a hidden flaw <small>(attribution · Society)</small></summary>
+<blockquote>In effect they could not tell a disclosed weakness from a hidden one. [p19] A guest editor then translated 276 objections across 43 paper clusters into scripts that were run on the uploaded data.<br><small>source: <a href='https://www.alphaxiv.org/abs/2611.society-ai-scientists'>primary-alphaxiv-society-of-ai-scientists</a></small></blockquote>
+<pre>def check(ctx):
+    return ctx.require(&#x27;society&#x27;, r&#x27;could not tell a disclosed weakness from a hidden one&#x27;)</pre></details>
+<details><summary><span class=b style='background:#1f7a3a'>PASS</span>49.4% <small>(number · Society)</small></summary>
+<blockquote>For major objections, the scripts overturned the headline conclusion in 77 of 156 cases (49.4%); for minor objections, in 24 of 120 cases (20.0%). [p20] These are executed referee objections in this journal, not a random audit of all papers in the cohort.<br><small>source: <a href='https://www.alphaxiv.org/abs/2611.society-ai-scientists'>primary-alphaxiv-society-of-ai-scientists</a></small></blockquote>
+<pre>def check(ctx):
+    return ctx.require(&#x27;society&#x27;, r&#x27;77 of 156 cases \(49\.4%\)&#x27;)</pre></details>
+<details><summary><span class=b style='background:#1f7a3a'>PASS</span>Airbnb fine-tuned a tiny 2-billion-parameter Gemma model <small>(attribution · Airbnb)</small></summary>
+<blockquote>We compare a fine-tuned classifier with 2 billion effective parameters (E2B) against open-weight and proprietary models on a held-out evaluation dataset of 10,000 weighted examples. … Fine-tuning Gemma4-E2B on hundreds of thousands of domain-specific examples lifts its F1 from 0.563 to 0.902, on par with the best proprietary models, while median latency stays at 35ms.<br><small>source: <a href='https://airbnb.tech/ai-ml/frontier-quality-at-1-of-the-cost-a-production-benchmark-of-llm-classifiers/'>primary-airbnb-gemma4-e2b-production-classifier-</a></small></blockquote>
+<pre>def check(ctx):
+    return ctx.require(&#x27;airbnb&#x27;, r&#x27;fine-tuned classifier with 2 billion effective parameters&#x27;, r&#x27;Fine-tuning Gemma4-E2B&#x27;)</pre></details>
+<details><summary><span class=b style='background:#1f7a3a'>PASS</span>matched frontier APIs in 35 milliseconds at one percent of the cost <small>(comparison · Airbnb)</small></summary>
+<blockquote>🎯 Quality: Jumped from 0.563 to 0.902 max F1, matching top frontier APIs … ⚡ Speed: 35ms median latency (85ms p99) vs. ~900ms for frontier models … 💸 Cost: ~1% of frontier API spend at high volume<br><small>source: <a href='https://x.com/googlegemma/status/2123461832656781320'>x-googlegemma</a></small></blockquote>
+<pre>def check(ctx):
+    return ctx.require(&#x27;gemma&#x27;, r&#x27;matching top frontier APIs&#x27;, r&#x27;35ms median latency&#x27;, r&#x27;~1% of frontier API spend&#x27;)</pre></details>
+<details><summary><span class=b style='background:#1f7a3a'>PASS</span>Even a 2,700-word prompt couldn&#x27;t close the gap <small>(comparison · Airbnb)</small></summary>
+<blockquote>Hundreds of thousands of in-domain examples did what a 2,700 word prompt couldn&#x27;t.<br><small>source: <a href='https://airbnb.tech/ai-ml/frontier-quality-at-1-of-the-cost-a-production-benchmark-of-llm-classifiers/'>primary-airbnb-gemma4-e2b-production-classifier-</a></small></blockquote>
+<pre>def check(ctx):
+    return ctx.require(&#x27;airbnb&#x27;, r&quot;2,700 word prompt couldn&#x27;t&quot;)</pre></details>
+<details><summary><span class=b style='background:#1f7a3a'>PASS</span>Hundreds of thousands of real examples <small>(number · Airbnb)</small></summary>
+<blockquote>Hundreds of thousands of in-domain examples did what a 2,700 word prompt couldn&#x27;t. … Scores let you choose your tradeoff between recall and precision without rewriting the prompt.<br><small>source: <a href='https://airbnb.tech/ai-ml/frontier-quality-at-1-of-the-cost-a-production-benchmark-of-llm-classifiers/'>primary-airbnb-gemma4-e2b-production-classifier-</a></small></blockquote>
+<pre>def check(ctx):
+    return ctx.require(&#x27;airbnb&#x27;, r&#x27;hundreds of thousands of in-domain examples did what&#x27;, r&#x27;Scores let you choose your tradeoff&#x27;)</pre></details>
+<details><summary><span class=b style='background:#1f7a3a'>PASS</span>Fine-tuning beat mega-prompts <small>(comparison · Airbnb)</small></summary>
+<blockquote>Hundreds of thousands of in-domain examples did what a 2,700 word prompt couldn&#x27;t.<br><small>source: <a href='https://airbnb.tech/ai-ml/frontier-quality-at-1-of-the-cost-a-production-benchmark-of-llm-classifiers/'>primary-airbnb-gemma4-e2b-production-classifier-</a></small></blockquote>
+<pre>def check(ctx):
+    return ctx.require(&#x27;airbnb&#x27;, r&quot;Hundreds of thousands of in-domain examples did what a 2,700 word prompt couldn&#x27;t&quot;)</pre></details>
+<details><summary><span class=b style='background:#1f7a3a'>PASS</span>GPT-6.2 Astra edged a human baseline tested on just twelve apartments <small>(comparison · Blueprint)</small></summary>
+<blockquote>1 GPT-6.2 Astra 0.614 … Human* 0.586 … *Human baseline tested on subset of 12 apartments only<br><small>source: <a href='https://andonlabs.com/evals/blueprint-bench-2'>primary-andon-blueprint-bench-2-gpt62-astra</a></small></blockquote>
+<pre>def check(ctx):
+    return ctx.require(&#x27;blueprint&#x27;, r&#x27;1 GPT-6\.2 Astra 0\.614&#x27;, r&#x27;Human\* 0\.586&#x27;, r&#x27;Human baseline tested on subset of 12 apartments&#x27;)</pre></details>
+<details><summary><span class=b style='background:#1f7a3a'>PASS</span>a dedicated robotics model scored zero <small>(attribution · Blueprint)</small></summary>
+<blockquote>Gemini Robotics-ER 1.6 0.000**<br><small>source: <a href='https://andonlabs.com/evals/blueprint-bench-2'>primary-andon-blueprint-bench-2-gpt62-astra</a></small></blockquote>
+<pre>def check(ctx):
+    return ctx.require(&#x27;blueprint&#x27;, r&#x27;Gemini Robotics-ER 1\.6 0\.000\*\*&#x27;)</pre></details>
+<details><summary><span class=b style='background:#1f7a3a'>PASS</span>Sources: alphaXiv, Airbnb and Andon Labs. <small>(attribution · Close)</small></summary>
+<p><b>Note:</b> credit names the three primary-source outlets in index.json</p>
+<pre>def check(ctx):
+    return ctx.ok(None, None, &#x27;credit names the three primary-source outlets in index.json&#x27;)</pre></details>
