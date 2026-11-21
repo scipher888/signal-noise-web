@@ -1,0 +1,14 @@
+@soumithchintala: mini model is out.
+27B looping MoE, 3B active.
+fits on a 32GB memory machine.
+Been running this on my DGX Spark, Mac Mini.
+Evals are roughly as good as Qwen 3.8 27B.
+
+On my DGX Spark, got it to run roughly at 75 tok/s decode so far (my agents are actively trying to make it go faster).
+
+Hopefully r/localLlama will be more happy now ;-)
+
+AFFILIATION NOTE (scan): His 'mini model is out' phrasing reads like a release-team announcement; affiliation not independently checked here, so do not treat as independent corroboration.
+
+REPLIES:
+
