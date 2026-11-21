@@ -1,0 +1,34 @@
+@unknown: Some of you thought that Inkling 2 Small was too big at 594B parameters. We heard you: Inkling 2 Mini is a looped transformer with just 26B parameters, small enough to run on your laptop, powerful enough for agentic work with a score of 20.1 on AA Index.
+https://t.co/9HzaUMwghb
+
+REPLIES:
+@superjax0sg (1 likes): @thinkymachines @DogukanUrker wen? This is the way!!!
+@grok (1 likes): @DougButdorf @thinkymachines At the current pace—capability roughly 10x more efficient per year, plus wearables already running 1-2B models on-device—an agentic model matching Inkling 2 Mini’s level should fit a high-end watch by around 2028-29. Extreme quantization, looping, and better NPUs will get us
+@Zero04203017 (1 likes): @lennox_saint @thinkymachines Lower is better?
+@aliteqai (0 likes): @iamthoufic @thinkymachines @grok easiest path: 1) install LM Studio 2) search "Inkling 2 Mini" in its model tab 3) pick a quant that fits your gpu, 2-bit for 8gb, Q4 for 16gb+ 4) load it and chat. about 10 minutes start to finish
+@aliteqai (0 likes): @sdipietr @thinkymachines @bot 64gb is plenty, you can run the 8-bit (~28GB) with lots of room left for long context. run it through EXO if you can, their engine is way faster than plain MLX on macs right now
+@aliteqai (0 likes): @Rifadm816 @thinkymachines @grok yes. a 16gb macbook runs the 2-bit, 32gb runs the 4-bit comfortably. any M-series chip works, the Pro/Max chips are noticeably faster because of the extra memory bandwidth
+@DefneAitech (0 likes): @thinkymachines 26B that actually runs locally changes who can build
+@aliteqai (0 likes): @aakkshhayy @thinkymachines @grok minimum is about 16gb of ram (the 2-bit file is 8.5GB). a laptop with an 8gb+ nvidia gpu or a 16-32gb macbook both work. for software, LM Studio or Ollama if you want point and click, llama.cpp if you want max speed
+@aliteqai (0 likes): @Robkraudy @thinkymachines @grok rough memory needs: ~8.5GB for the 2-bit, ~16.6GB for Q4, ~53GB for full bf16. so a 12gb gpu or a 16gb mac is the floor for a decent experience, 24gb gpu or 32gb mac if you want the 4-bit
+@aliteqai (0 likes): @calciolari16 @thinkymachines @grok yes. the 9070 XT has 16gb so a Q3 or the 2-bit fits fully on the card, or run the Q4 with a few experts offloaded into your 32gb ram. use llama.cpp's vulkan or rocm build. vs qwen 3.8 27b: better coding on the benchmarks and much faster since only 3.4B params are active, but one
+@aliteqai (0 likes): @artaraya @thinkymachines yep, ollama added it in 0.40.17, it's in the pre-release right now. LM Studio has it too if you prefer a ui
+@DogukanUrker (0 likes): @superjax0sg @thinkymachines here you go. running sone benchmarks rn https://t.co/luEvEnwn3K
+@bot (0 likes): @CorbensLife @thinkymachines On it, sending this straight to your Grok Bot.
+@CorbensLife (0 likes): @thinkymachines @bot let’s look into this
+@QNFT_girlfriend (0 likes): @sir_parisii @thinkymachines Pull the weights from Hugging Face and serve them with vLLM or SGLang. Both give you an OpenAI-compatible endpoint, so most clients work as is. Check the model card for hardware notes before trying it on a laptop.
+@Karl22637357 (0 likes): @thinkymachines Will this run on my MacBook Pro?
+@cs_coville (0 likes): @UnslothAI @thinkymachines God bless you
+@KEKIATECH (0 likes): @thinkymachines The future of AI might not be another massive data center. 💻
+
+It might be powerful models running directly on your laptop.
+
+Less dependence on the cloud. More control for users. That's real progress. 🚀
+@0xKaps (0 likes): @thinkymachines great
+@JustJorshin (0 likes): @thinkymachines My first test would be 10 screenshots and scanned PDFs where plain OCR misses the layout. Can it pull the right field and point back to the right page, without making my Mac swap? That would tell me more than a big context number.
+@RyanonAi (0 likes): @thinkymachines Local agentic power is finally here
+@jufjgdgmailcom1 (0 likes): @thinkymachines The "runs on a laptop" line needs a hardware asterisk. The weights are ~20GB. The official demo was a 48GB MacBook Pro M5, in airplane mode, building a flight sim. That's not a 16GB machine.
+
+The score that matters isn't the AA Index 20.1 — Qwen3.8-27B ties it there. Inkling
+@DougButdorf (0 likes): @thinkymachines Outstanding work. @grok - When will a model like this fit on my watch considering the pace of improvement?
+@OxxBishop (0 likes): @thinkymachines giving this a swing rn

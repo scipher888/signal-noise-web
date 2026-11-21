@@ -1,0 +1,15 @@
+@ArtificialAnlys: Millennium Prize Problems: humans and two labs tied with a score of one
+
+➤ Human: Grigori Perelman proved the Poincaré conjecture in 2003, the only solution officially recognized so far. He turned down the prize
+ ➤ OpenAI: claimed a solution to the Navier-Stokes problem in September, using an unreleased internal model
+ ➤ Anthropic: Levent Alpöge posted a claimed proof of the Riemann hypothesis today, found working with Claude
+ ➤ Still open: P vs NP, the Hodge conjecture, Yang-Mills existence and mass gap, and the Birch and Swinnerton-Dyer conjecture
+
+Both AI results are still awaiting independent verification, so scores are provisional.
+
+Congratulations to @alpoge and @AnthropicAI on the result! 🧵
+
+AFFILIATION NOTE (scan): Independent benchmarking firm offering commentary; not a verification of the proof.
+
+REPLIES:
+
