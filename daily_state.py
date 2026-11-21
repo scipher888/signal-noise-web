@@ -1546,7 +1546,14 @@ def assert_audit_edition_page(html_text, edition, prompt):
     canonical_link = f'<link rel="canonical" href="{escaped}">'
     if canonical_link not in html_text:
         raise Hold("canonical url does not match the edition")
-    if edition.get("variant") is None and root_audit_uses_spotify(edition):
+    if edition.get("variant") is None and root_audit_keeps_player(edition, edition["date"]):
+        audio = f'<audio controls src="{html.escape(edition["audio_url"], quote=True)}"></audio>'
+        spotify = (
+            f'<p><a href="{html.escape(edition["episode_url"], quote=True)}">Audio on Spotify</a></p>'
+        )
+        if html_text.count(f"<p>{audio}</p>\n{spotify}") != 1 or html_text.count(spotify) != 1:
+            raise Hold("hard stop: audio: missing or broken audio reference")
+    elif edition.get("variant") is None and root_audit_uses_spotify(edition):
         spotify = (
             f'<a href="{html.escape(edition["episode_url"], quote=True)}">Audio on Spotify</a>'
         )
@@ -1596,14 +1603,20 @@ def render_audit_edition_html(edition, paragraphs, sources, prompt, variant):
         "with no rules, editor or edits, published as produced."
     )
     quoted = "<blockquote>\n<pre>" + html.escape(prompt, quote=True) + "</pre>\n</blockquote>"
+    spotify_link = None
     if variant is None and root_audit_uses_spotify(edition):
-        audio = (
+        spotify_link = (
             f"<a href=\"{html.escape(edition['episode_url'], quote=True)}\">Audio on Spotify</a>"
         )
+    if spotify_link and not root_audit_keeps_player(edition, edition["date"]):
+        audio = spotify_link
     else:
         audio = (
             f"<audio controls src=\"{html.escape(edition['audio_url'], quote=True)}\"></audio>"
         )
+        if spotify_link:
+            # 2026-11-21: the Spotify link sits under the self-hosted player.
+            audio += f"</p>\n<p>{spotify_link}"
     link_parts = []
     if edition["video_url"] is not None:
         link_parts.append(f"<a href=\"{html.escape(edition['video_url'], quote=True)}\">Short</a>")
@@ -1855,12 +1868,25 @@ def root_audit_uses_spotify(edition):
     return type(edition) is dict and any(key in edition for key in ROOT_AUDIT_SPOTIFY_KEYS)
 
 
+def root_audit_keeps_player(edition, iso_date):
+    """2026-11-21 only: the self-hosted player stays and the Spotify link is added under it."""
+    return (
+        root_audit_uses_spotify(edition)
+        and edition.get("audio_url") is not None
+        and is_real_date(iso_date)
+        and iso_date <= SELF_HOSTED_AUDIO_LAST_DATE
+    )
+
+
 def validate_root_audit_audio(edition, iso_date):
     """Spotify episode link with recorded public verification, as pre-audit editions."""
     require_keys(edition, AUDIT_EDITION_KEYS | ROOT_AUDIT_SPOTIFY_KEYS, "edition.json")
-    if edition["audio_url"] is not None:
+    if root_audit_keeps_player(edition, iso_date):
+        if edition["audio_url"] != variant_asset_url(iso_date, None, "episode.mp3"):
+            raise Hold("edition audio url does not match")
+    elif edition["audio_url"] is not None:
         raise Hold("hard stop: audio: a Spotify edition must not self-host episode.mp3")
-    if edition["hashes"].get("episode_sha256") is not None:
+    elif edition["hashes"].get("episode_sha256") is not None:
         raise Hold("hard stop: audio: a Spotify edition must not self-host episode.mp3")
     verified = edition["verified_at"]
     matched = VERIFIED_AT_RE.fullmatch(verified) if type(verified) is str else None
@@ -1914,7 +1940,7 @@ def validate_root_audit_edition(edition, iso_date, has_short):
             if value is not None:
                 raise Hold("short_sha256 is set without a short")
             continue
-        if key == "episode_sha256" and spotify:
+        if key == "episode_sha256" and spotify and not root_audit_keeps_player(edition, iso_date):
             continue
         if type(value) is not str or not SHA256_RE.fullmatch(value):
             raise Hold(f"{key} is malformed")
@@ -1948,7 +1974,8 @@ def _load_root_audit_edition(directory, iso_date, *, link_opener=None):
     edition = parse_json_object(raw["edition.json"], "edition.json")
     run = parse_json_object(raw["neon_run.json"], "neon_run.json")
     validate_root_audit_edition(edition, iso_date, has_short)
-    spotify = root_audit_uses_spotify(edition)
+    keeps_player = root_audit_keeps_player(edition, iso_date)
+    spotify = root_audit_uses_spotify(edition) and not keeps_player
     if spotify and "episode.mp3" in files:
         raise Hold("hard stop: audio: a Spotify edition must not self-host episode.mp3")
     if not spotify and "episode.mp3" not in files:
