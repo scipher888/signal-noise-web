@@ -89,7 +89,7 @@ class Repo:
         self.tmp.cleanup()
 
 
-def write_audit(repo, script_sha=None, status="FAIL"):
+def write_audit(repo, script_sha=None, status="FAIL", takeaways=False):
     kit = repo.root / "kit"
     checks = kit / "checks" / DATE
     checks.mkdir(parents=True)
@@ -112,6 +112,17 @@ def write_audit(repo, script_sha=None, status="FAIL"):
     }
     if status != "FAIL":
         audit["meta"]["summary"]["episode"] = {"PASS": 1, "FAIL": 0, "NEEDS-HUMAN": 0, "ERROR": 0}
+    if takeaways:
+        (checks / "t01-claim.py").write_text("CLAIM = {}\n")
+        (checks / "tc01-citation.py").write_text("CLAIM = {}\n")
+        audit["results"] += [
+            {"id": "t01-claim", "artifact": "takeaways", "quote": "a takeaway claim", "status": "PASS",
+             "source_quote": "a source line", "check_file": f"checks/{DATE}/t01-claim.py", "note": ""},
+            {"id": "tc01-citation", "artifact": "takeaways", "quote": None, "status": "FAIL",
+             "source_quote": None, "check_file": f"checks/{DATE}/tc01-citation.py",
+             "note": "Takeaway 1 cites https://elsewhere.example/x, which is not in the episode sources.json."},
+        ]
+        audit["meta"]["summary"]["takeaways"] = {"PASS": 1, "FAIL": 1, "NEEDS-HUMAN": 0, "ERROR": 0}
     (out / "audit.json").write_text(json.dumps(audit), encoding="utf-8")
     return kit, out
 
@@ -198,6 +209,24 @@ class DailyNeonEditionTest(unittest.TestCase):
         self.assertIn(f"content/daily-state/{DATE}/audit/checks/{DATE}/e01-claim.py", loaded["audit_html"])
         # The edition page itself does not change when the audit lands.
         self.assertIn(' · <a href="audit/">Audit</a></p>', loaded["html"])
+
+    def test_attach_audit_shows_takeaway_checks(self):
+        self.repo.build()
+        kit, out = write_audit(self.repo, takeaways=True)
+        with mock.patch.object(neon_edition, "REPO", str(self.repo.root)):
+            rc = neon_edition.main(["attach-audit", "--date", DATE, "--audit-out", str(out), "--kit", str(kit)])
+        self.assertEqual(rc, 0)
+        html_text = self.repo.load()["audit_html"]
+        self.assertIn("Takeaways 1 PASS / 1 FAIL / 0 NEEDS-HUMAN", html_text)
+        self.assertIn("<h2>Takeaways</h2>", html_text)
+        self.assertIn("not in the episode sources.json", html_text)
+
+    def test_audit_without_takeaways_has_no_takeaways_row(self):
+        self.repo.build()
+        kit, out = write_audit(self.repo)
+        with mock.patch.object(neon_edition, "REPO", str(self.repo.root)):
+            neon_edition.main(["attach-audit", "--date", DATE, "--audit-out", str(out), "--kit", str(kit)])
+        self.assertNotIn("Takeaways", self.repo.load()["audit_html"])
 
     def test_attach_audit_for_another_script_holds(self):
         self.repo.build()

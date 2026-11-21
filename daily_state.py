@@ -153,7 +153,9 @@ AUDIT_STATUSES = ("PASS", "FAIL", "NEEDS-HUMAN", "ERROR")
 # FAIL stays expanded. ERROR is the same kind of open item. The rest collapse.
 AUDIT_STATUS_ORDER = ("FAIL", "ERROR", "NEEDS-HUMAN", "PASS")
 AUDIT_OPEN_STATUSES = frozenset({"FAIL", "ERROR"})
-AUDIT_ARTIFACTS = ("episode", "short")
+# takeaways: the claims in the takeaways extracted from the episode (2026-11-21);
+# shown on the audit page only when that day's audit tested them.
+AUDIT_ARTIFACTS = ("episode", "short", "takeaways")
 REPO_FILE_URL = "https://github.com/scipher888/signal-noise-web/blob/main/"
 VERIFICATION_KEYS = {"method", "checked_at", "episode", "show"}
 EPISODE_EVIDENCE_KEYS = {"title", "canonical_url", "id"}
@@ -1668,10 +1670,13 @@ def render_audit_html(edition, results, counts, variant):
     iso_date = edition["date"]
     title = f"Audit — {edition['title']}"
     shown = build.display_date(iso_date, "day")
-    summary = "\n".join([
+    summary_lines = [
         _audit_count_line("Episode", counts["episode"]),
         _audit_count_line("Short", counts["short"]),
-    ])
+    ]
+    if any(counts["takeaways"].values()):
+        summary_lines.append(_audit_count_line("Takeaways", counts["takeaways"]))
+    summary = "\n".join(summary_lines)
     explanation = (
         "<p>Each claim is a small Python check run against the source texts. "
         "The audit is for transparency and is not a gate.</p>"
@@ -1682,7 +1687,7 @@ def render_audit_html(edition, results, counts, variant):
     }
     for item in results:
         buckets[item["artifact"]][item["status"]].append(item)
-    headings = {"episode": "Episode", "short": "Short"}
+    headings = {"episode": "Episode", "short": "Short", "takeaways": "Takeaways"}
     groups = []
     for artifact in AUDIT_ARTIFACTS:
         blocks = []
