@@ -1,0 +1,64 @@
+{
+  "date": "2026-11-21",
+  "urls": [
+    "https://alpo.ge/remark.pdf",
+    "https://x.com/emollick/status/2123800664845500602",
+    "https://x.com/AndrewCurran_/status/2123819916768039149",
+    "https://x.com/ArtificialAnlys/status/2123865423364161861",
+    "https://thinkingmachines.ai/news/inkling-2-mini/",
+    "https://x.com/soumithchintala/status/2123878334895436115",
+    "https://x.com/0xSero/status/2123883583740006752",
+    "https://www.rameznaam.com/p/the-most-important-charts-in-ai-are",
+    "https://x.com/ramez/status/2123944723492782408",
+    "https://x.com/emollick/status/2123972584400204199",
+    "https://x.com/ramez/status/2123934198868382184",
+    "https://x.com/random_walker/status/2123869355431661866"
+  ],
+  "stories": [
+    {
+      "index": 1,
+      "title": "An Anthropic mathematician says he and Claude found a Lean-formalized proof of the Riemann Hypothesis",
+      "outlets": [
+        "Levent Alpöge (personal site)",
+        "X"
+      ],
+      "urls": [
+        "https://alpo.ge/remark.pdf",
+        "https://x.com/emollick/status/2123800664845500602",
+        "https://x.com/AndrewCurran_/status/2123819916768039149",
+        "https://x.com/ArtificialAnlys/status/2123865423364161861"
+      ],
+      "verification_status": "author_reported"
+    },
+    {
+      "index": 2,
+      "title": "Thinking Machines releases Inkling 2 Mini, an open-weights looped MoE small enough for a laptop",
+      "outlets": [
+        "Thinking Machines Lab",
+        "X"
+      ],
+      "urls": [
+        "https://thinkingmachines.ai/news/inkling-2-mini/",
+        "https://x.com/soumithchintala/status/2123878334895436115",
+        "https://x.com/0xSero/status/2123883583740006752"
+      ],
+      "verification_status": "company_reported"
+    },
+    {
+      "index": 3,
+      "title": "Ramez Naam says the task-horizon charts are wrong; Mollick and Narayanan press on verifiable versus messy work",
+      "outlets": [
+        "Ramez Naam (Substack)",
+        "X"
+      ],
+      "urls": [
+        "https://www.rameznaam.com/p/the-most-important-charts-in-ai-are",
+        "https://x.com/ramez/status/2123944723492782408",
+        "https://x.com/emollick/status/2123972584400204199",
+        "https://x.com/ramez/status/2123934198868382184",
+        "https://x.com/random_walker/status/2123869355431661866"
+      ],
+      "verification_status": "author_reported"
+    }
+  ]
+}
