@@ -122,7 +122,43 @@ python3 daily_state.py --package DIR --check
 python3 daily_state.py --package DIR --out OUT
 ```
 
-`DIR` is either a frozen edition directory or a pipeline directory containing `script.txt`, `sources.json`, `run.json`, and `editor_notes.json`. Other pipeline files are ignored and are not copied into the page. `OUT` receives `daily-state/YYYY-MM-DD/index.html` and, in editor mode, `daily-state/YYYY-MM-DD/editors-notes/index.html`.
+`DIR` is either a frozen edition directory or a pipeline directory containing `script.txt`, `sources.json`, `run.json`, and `editor_notes.json`. Other pipeline files are ignored and are not copied into the page. `OUT` receives `daily-state/YYYY-MM-DD/index.html` and, in editor mode, `daily-state/YYYY-MM-DD/editors-notes/index.html`. An audit variant directory is checked the same way, offline, and writes the two audit-mode pages below.
+
+## Audit mode
+
+This path is off unless a variant directory opts in. The live page at `daily-state/YYYY-MM-DD/` and, when that date is an editor edition, its editor's notes stay on the checks above. A variant is a subfolder of that date. The only one today is `neon/`. `list_edition_dates()` treats that subfolder as a known edition input, not as a stray directory and not as a second date. `load_edition_directory()` loads it when the directory is the variant, and leaves it out of the parent allowlist so the parent still publishes from its frozen files alone.
+
+Opt in with `edition.json` `"mode": "audit"`. The receipt is the audit counts and the sha256 of `audit/audit.json`:
+
+```json
+{
+  "mode": "audit",
+  "variant": "neon",
+  "audit": {
+    "sha256": "<sha256 of audit/audit.json>",
+    "gate": false,
+    "episode": {"PASS": 42, "FAIL": 7, "NEEDS-HUMAN": 8, "ERROR": 0},
+    "short": {"PASS": 14, "FAIL": 5, "NEEDS-HUMAN": 3, "ERROR": 0}
+  }
+}
+```
+
+`gate` is false. There is no `qa.json`, no editor receipt, and no `semantic_qa`. A pass is not invented here. The audit is published with its failures. It is for transparency and is not a gate.
+
+`sources.json` in this mode may include `reference_snapshot` and a `verification_status` on each story. Those fields stay in the frozen file, so its hash does not change. Live and editor editions still reject both keys.
+
+The variant directory holds `script.txt`, `sources.json`, `edition.json`, `neon_run.json`, `episode.mp3`, `short.mp4`, and `audit/`. The page quotes the episode prompt from `neon_run.json` verbatim. It says the script was written by Google Gemini 4 Neon (medium) from that one prompt, with no rules, editor or edits, published as produced. It embeds `<audio controls>` for `/content/daily-state/YYYY-MM-DD/neon/episode.mp3`, links the short MP4 and `sources.json`, and uses its own canonical URL and `og:url`. Spotify is not required. The disclaimer is `AI-generated · may contain errors · Audit`, once. Audit links to the audit page. The h1 for this edition is `Daily State of AI - 2026-11-20 (Gemini 4 Neon, raw)`.
+
+The audit page uses the site stylesheet and is built from `audit.json`. Counts sit at the top (episode 42 PASS / 7 FAIL / 8 NEEDS-HUMAN, short 14 PASS / 5 FAIL / 3 NEEDS-HUMAN), with a line that each claim is a small Python check run against the source texts and that the audit is not a gate. FAIL items are open. PASS and NEEDS-HUMAN items are collapsed in `<details>`. Each item shows the claim, the result, the source quote, and a link to its check script in the repo.
+
+Generated files. The shared listing stays `daily-state/index.html`. The existing row for the date stays, and the variant is an added row under that date.
+
+- `daily-state/YYYY-MM-DD/neon/index.html`
+- `daily-state/YYYY-MM-DD/neon/audit/index.html`
+
+The 2026-11-20 neon edition is that raw page. Its sibling at `/daily-state/2026-11-20/` is the editor edition and is a different page.
+
+`python3 daily_state.py --check` covers the variant with the other editions. `--pipeline live` and `--pipeline editor` do not load it.
 
 ## Fail closed
 

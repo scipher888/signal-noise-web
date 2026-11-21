@@ -1,0 +1,71 @@
+{
+ "date": "2026-11-20",
+ "bundle_sha256": "38fe3c7337a5d3218a12cedc701cb74127e2a97b6a8580c41a1fd6fe25124dde",
+ "sources": {
+  "primary-alphaxiv-society-of-ai-scientists": {
+   "file": "primary-alphaxiv-society-of-ai-scientists.txt",
+   "url": "https://www.alphaxiv.org/abs/2611.society-ai-scientists",
+   "title": "A Society of AI Scientists",
+   "kind": "primary",
+   "sha256": "d8e18ed908f9ea5e199ef963b965e7f180778da8b89cc2d3f1b9049a28322413",
+   "snapshot_in_repo": false
+  },
+  "x-emollick": {
+   "file": "x-emollick.txt",
+   "url": "https://x.com/emollick/status/2123631539942801732",
+   "title": "X post by @emollick (Ethan Mollick)",
+   "kind": "x_post",
+   "sha256": "468b46bb12397ff86fc5be6294f2a9738d26897f19e1487d776c913f7c8c6fad",
+   "snapshot_in_repo": false
+  },
+  "primary-airbnb-gemma4-e2b-production-classifier-": {
+   "file": "primary-airbnb-gemma4-e2b-production-classifier-.txt",
+   "url": "https://airbnb.tech/ai-ml/frontier-quality-at-1-of-the-cost-a-production-benchmark-of-llm-classifiers/",
+   "title": "Frontier quality at 1% of the cost: a production benchmark of LLM classifiers",
+   "kind": "primary",
+   "sha256": "bb822730063f75ec3981fa8ca090909d6b50d2518a387a4fc26160d4990fc566",
+   "snapshot_in_repo": false
+  },
+  "x-googlegemma": {
+   "file": "x-googlegemma.txt",
+   "url": "https://x.com/googlegemma/status/2123461832656781320",
+   "title": "X post by @googlegemma (Google Gemma)",
+   "kind": "x_post",
+   "sha256": "8f59a2ee01e6e135f5dcfa81c56790324acbd98162a0145507b39855163f5b52",
+   "snapshot_in_repo": false
+  },
+  "primary-andon-blueprint-bench-2-gpt62-astra": {
+   "file": "primary-andon-blueprint-bench-2-gpt62-astra.txt",
+   "url": "https://andonlabs.com/evals/blueprint-bench-2",
+   "title": "Blueprint-Bench 2",
+   "kind": "primary",
+   "sha256": "a69fca94b840338b1312b083c8f43fdd43745f2b052b26bf6e6186ab0153dd45",
+   "snapshot_in_repo": false
+  },
+  "x-gdb": {
+   "file": "x-gdb.txt",
+   "url": "https://x.com/gdb/status/2123719297096990726",
+   "title": "X post by @gdb (Greg Brockman)",
+   "kind": "x_post",
+   "sha256": "2c64677df5280c7c0bd3348259bd5164d5c79f154bd0e70d9b6ce4429b86f13b",
+   "snapshot_in_repo": false
+  },
+  "x-andonlabs": {
+   "file": "x-andonlabs.txt",
+   "url": "https://x.com/andonlabs/status/2123570732575989832",
+   "title": "X post by @andonlabs",
+   "kind": "x_post",
+   "sha256": "7d087ebd8ce2c8d4283e4fee75a42af277b911e35975989f5c91906a5fa6903b",
+   "snapshot_in_repo": false
+  },
+  "scan-framing": {
+   "file": "scan-framing.txt",
+   "url": "https://www.signalandnoise.email/content/daily-state/2026-11-20/neon/audit/sources/2026-11-20/scan-framing.txt",
+   "title": "Morning X-first scan: verification framing per story",
+   "kind": "scan",
+   "sha256": "1ceb03b6c51cc7af966160619e2bfaf1c9b7db1531a163e30cf2c6cc0f8a7731",
+   "snapshot_in_repo": true
+  }
+ },
+ "note": "Third-party source texts (alphaXiv page, Airbnb post, Andon Labs page, X posts and replies) are not republished; each is identified by URL + sha256 of the text snapshot used by the checks. Our own scan framing is included."
+}

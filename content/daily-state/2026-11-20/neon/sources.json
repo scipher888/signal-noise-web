@@ -1,0 +1,114 @@
+{
+ "date": "2026-11-20",
+ "urls": [
+  "https://www.alphaxiv.org/abs/2611.society-ai-scientists",
+  "https://x.com/emollick/status/2123631539942801732",
+  "https://airbnb.tech/ai-ml/frontier-quality-at-1-of-the-cost-a-production-benchmark-of-llm-classifiers/",
+  "https://x.com/googlegemma/status/2123461832656781320",
+  "https://andonlabs.com/evals/blueprint-bench-2",
+  "https://x.com/gdb/status/2123719297096990726",
+  "https://x.com/andonlabs/status/2123570732575989832"
+ ],
+ "stories": [
+  {
+   "index": 1,
+   "title": "A twelve-week 'society' of 936 AI agents across 35 labs ran its own preprint server and peer-review journal",
+   "outlets": [
+    "alphaXiv"
+   ],
+   "urls": [
+    "https://www.alphaxiv.org/abs/2611.society-ai-scientists",
+    "https://x.com/emollick/status/2123631539942801732"
+   ],
+   "verification_status": "preliminary"
+  },
+  {
+   "index": 2,
+   "title": "Airbnb says a fine-tuned 2B Gemma model matched frontier APIs on a production policy classifier at about 1% of the cost",
+   "outlets": [
+    "Airbnb Engineering & Data Science"
+   ],
+   "urls": [
+    "https://airbnb.tech/ai-ml/frontier-quality-at-1-of-the-cost-a-production-benchmark-of-llm-classifiers/",
+    "https://x.com/googlegemma/status/2123461832656781320"
+   ],
+   "verification_status": "company_reported"
+  },
+  {
+   "index": 3,
+   "title": "Andon Labs' Blueprint-Bench 2 puts GPT-6.2 Astra first at turning apartment photos into floor plans, edging a small human baseline",
+   "outlets": [
+    "Andon Labs"
+   ],
+   "urls": [
+    "https://andonlabs.com/evals/blueprint-bench-2",
+    "https://x.com/gdb/status/2123719297096990726",
+    "https://x.com/andonlabs/status/2123570732575989832"
+   ],
+   "verification_status": "company_reported"
+  }
+ ],
+ "reference_snapshot": {
+  "description": "Exact texts given to the model and used by the audit checks. Captured by the 2026-11-20 X-first scan (cutoff 04:45 AM PST).",
+  "bundle_sha256": "38fe3c7337a5d3218a12cedc701cb74127e2a97b6a8580c41a1fd6fe25124dde",
+  "texts": {
+   "primary-alphaxiv-society-of-ai-scientists": {
+    "url": "https://www.alphaxiv.org/abs/2611.society-ai-scientists",
+    "title": "A Society of AI Scientists",
+    "kind": "primary",
+    "sha256": "d8e18ed908f9ea5e199ef963b965e7f180778da8b89cc2d3f1b9049a28322413",
+    "in_repo": false
+   },
+   "x-emollick": {
+    "url": "https://x.com/emollick/status/2123631539942801732",
+    "title": "X post by @emollick (Ethan Mollick)",
+    "kind": "x_post",
+    "sha256": "468b46bb12397ff86fc5be6294f2a9738d26897f19e1487d776c913f7c8c6fad",
+    "in_repo": false
+   },
+   "primary-airbnb-gemma4-e2b-production-classifier-": {
+    "url": "https://airbnb.tech/ai-ml/frontier-quality-at-1-of-the-cost-a-production-benchmark-of-llm-classifiers/",
+    "title": "Frontier quality at 1% of the cost: a production benchmark of LLM classifiers",
+    "kind": "primary",
+    "sha256": "bb822730063f75ec3981fa8ca090909d6b50d2518a387a4fc26160d4990fc566",
+    "in_repo": false
+   },
+   "x-googlegemma": {
+    "url": "https://x.com/googlegemma/status/2123461832656781320",
+    "title": "X post by @googlegemma (Google Gemma)",
+    "kind": "x_post",
+    "sha256": "8f59a2ee01e6e135f5dcfa81c56790324acbd98162a0145507b39855163f5b52",
+    "in_repo": false
+   },
+   "primary-andon-blueprint-bench-2-gpt62-astra": {
+    "url": "https://andonlabs.com/evals/blueprint-bench-2",
+    "title": "Blueprint-Bench 2",
+    "kind": "primary",
+    "sha256": "a69fca94b840338b1312b083c8f43fdd43745f2b052b26bf6e6186ab0153dd45",
+    "in_repo": false
+   },
+   "x-gdb": {
+    "url": "https://x.com/gdb/status/2123719297096990726",
+    "title": "X post by @gdb (Greg Brockman)",
+    "kind": "x_post",
+    "sha256": "2c64677df5280c7c0bd3348259bd5164d5c79f154bd0e70d9b6ce4429b86f13b",
+    "in_repo": false
+   },
+   "x-andonlabs": {
+    "url": "https://x.com/andonlabs/status/2123570732575989832",
+    "title": "X post by @andonlabs",
+    "kind": "x_post",
+    "sha256": "7d087ebd8ce2c8d4283e4fee75a42af277b911e35975989f5c91906a5fa6903b",
+    "in_repo": false
+   },
+   "scan-framing": {
+    "url": "https://www.signalandnoise.email/content/daily-state/2026-11-20/neon/audit/sources/2026-11-20/scan-framing.txt",
+    "title": "Morning X-first scan: verification framing per story",
+    "kind": "scan",
+    "sha256": "1ceb03b6c51cc7af966160619e2bfaf1c9b7db1531a163e30cf2c6cc0f8a7731",
+    "in_repo": true
+   }
+  },
+  "model_input_sha256": "933a070f0c869ccb821d29f3c559d3f279acfff931172ab49d56d722a766d527"
+ }
+}

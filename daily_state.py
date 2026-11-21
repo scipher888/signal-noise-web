@@ -19,6 +19,12 @@ Essay pages, the archive, and the RSS feed are not inputs or outputs.
 The editor path is not the default. It runs only when a package or edition
 opts in (run.json pipeline "editor" or an editor object, edition.json
 pipeline "editor", or --pipeline editor).
+
+Audit mode is a second opt-in. A variant directory such as
+content/daily-state/YYYY-MM-DD/neon/ with edition.json mode "audit"
+publishes its own page and an audit page. The receipt is the audit counts
+and the sha256 of audit.json. It does not use qa.json, an editor receipt,
+or a fabricated QA pass. The parent edition is unchanged.
 """
 
 import hashlib
@@ -108,6 +114,28 @@ EDITION_KEYS = {
 }
 EDITION_OPTIONAL = {"spotify_episode_fallback", "pipeline", "editor", "hard_stops", "video_url"}
 HASH_KEYS = {"script_sha256", "sources_sha256", "qa_sha256", "run_sha256"}
+# A raw variant sits beside a published date. It is not a date of its own.
+VARIANT_NAMES = frozenset({"neon"})
+AUDIT_ROOT_FILES = (
+    "edition.json", "script.txt", "sources.json", "neon_run.json",
+    "episode.mp3", "short.mp4",
+)
+AUDIT_EDITION_KEYS = frozenset({
+    "schema_version", "date", "mode", "variant", "title", "canonical_url",
+    "model", "reasoning_effort", "audio_url", "video_url", "sources_url",
+    "audit", "hashes",
+})
+AUDIT_HASH_KEYS = frozenset({
+    "script_sha256", "sources_sha256", "neon_run_sha256", "audit_sha256",
+    "episode_sha256", "short_sha256",
+})
+AUDIT_RECEIPT_KEYS = frozenset({"sha256", "gate", "episode", "short"})
+AUDIT_STATUSES = ("PASS", "FAIL", "NEEDS-HUMAN", "ERROR")
+# FAIL stays expanded. ERROR is the same kind of open item. The rest collapse.
+AUDIT_STATUS_ORDER = ("FAIL", "ERROR", "NEEDS-HUMAN", "PASS")
+AUDIT_OPEN_STATUSES = frozenset({"FAIL", "ERROR"})
+AUDIT_ARTIFACTS = ("episode", "short")
+REPO_FILE_URL = "https://github.com/scipher888/signal-noise-web/blob/main/"
 VERIFICATION_KEYS = {"method", "checked_at", "episode", "show"}
 EPISODE_EVIDENCE_KEYS = {"title", "canonical_url", "id"}
 SHOW_KEYS = {"id", "episodes"}
@@ -597,8 +625,15 @@ def validate_qa(qa, iso_date):
     return qa
 
 
-def validate_sources(sources, iso_date, source_count):
-    require_keys(sources, {"date", "urls", "stories"}, "sources.json")
+def validate_sources(sources, iso_date, source_count, *, audit=False):
+    """Live and editor editions reject unknown keys.
+
+    Audit mode keeps the same required shape and also allows the frozen
+    reference_snapshot object and a verification_status on each story.
+    Those fields stay in sources.json so the recorded hash does not change.
+    """
+    optional = {"reference_snapshot"} if audit else frozenset()
+    require_keys(sources, {"date", "urls", "stories"}, "sources.json", optional=optional)
     if not is_real_date(sources["date"]) or sources["date"] != iso_date:
         raise Hold("sources date does not match the edition")
     urls = sources["urls"]
@@ -613,10 +648,15 @@ def validate_sources(sources, iso_date, source_count):
     stories = sources["stories"]
     if type(stories) is not list or not stories or any(type(story) is not dict for story in stories):
         raise Hold("sources stories are missing")
+    story_optional = {"index", "verification_status"} if audit else {"index"}
     for position, story in enumerate(stories, start=1):
-        require_keys(story, {"title", "outlets", "urls"}, "story", optional={"index"})
+        require_keys(story, {"title", "outlets", "urls"}, "story", optional=story_optional)
         if "index" in story and (type(story["index"]) is not int or story["index"] != position):
             raise Hold("story index does not match order")
+        if "verification_status" in story:
+            status = story["verification_status"]
+            if type(status) is not str or status.strip() == "" or any(ch in status for ch in "\r\n"):
+                raise Hold("story verification_status is blank")
         title = story["title"]
         if type(title) is not str or title.strip() == "":
             raise Hold("story title is blank")
@@ -633,6 +673,8 @@ def validate_sources(sources, iso_date, source_count):
             if url not in urls:
                 raise Hold("story url is not in the source list")
             validate_public_https_url(url)
+    if audit and "reference_snapshot" in sources and type(sources["reference_snapshot"]) is not dict:
+        raise Hold("reference_snapshot is invalid")
     return sources
 
 
@@ -1208,14 +1250,502 @@ def render_editors_notes_html(iso_date, notes):
     )
 
 
+def audit_title(iso_date, variant):
+    if variant == "neon":
+        return f"{edition_title(iso_date)} (Gemini 4 Neon, raw)"
+    raise Hold("unknown variant")
+
+
+def audit_page_url(iso_date, variant):
+    return f"{BASE_URL}/daily-state/{iso_date}/{variant}/"
+
+
+def variant_asset_url(iso_date, variant, name):
+    return f"/content/daily-state/{iso_date}/{variant}/{name}"
+
+
+def audit_model_label(model, variant):
+    if variant == "neon" and model == "google/gemini-4-neon":
+        return "Google Gemini 4 Neon"
+    raise Hold("edition model does not match the variant")
+
+
+def audit_check_href(iso_date, variant, check_file):
+    prefix = f"content/daily-state/{iso_date}/{variant}/audit/"
+    return REPO_FILE_URL + prefix + check_file
+
+
+def variant_subfolders(directory):
+    """Known variant directories. A file that uses a variant name still holds."""
+    found = []
+    for name in sorted(os.listdir(directory)):
+        if name not in VARIANT_NAMES:
+            continue
+        path = os.path.join(directory, name)
+        if os.path.islink(path) or not os.path.isdir(path):
+            raise Hold(f"unexpected content entry: {name}")
+        assert_real_child(directory, path, name)
+        found.append(name)
+    return found
+
+
+def _listing_key(item):
+    parts = [int(part) for part in item["date"].split("-")]
+    variant = item.get("variant") or ""
+    rank = 1 if variant else 0
+    return (-parts[0], -parts[1], -parts[2], rank, variant)
+
+
+def audit_counts(results):
+    counts = {
+        artifact: {status: 0 for status in AUDIT_STATUSES}
+        for artifact in AUDIT_ARTIFACTS
+    }
+    for item in results:
+        counts[item["artifact"]][item["status"]] += 1
+    return counts
+
+
+def require_audit_counts(actual, claimed, label):
+    for artifact in AUDIT_ARTIFACTS:
+        row = claimed.get(artifact) if type(claimed) is dict else None
+        if type(row) is not dict or set(row) != set(AUDIT_STATUSES):
+            raise Hold(f"{label} counts are invalid")
+        for status in AUDIT_STATUSES:
+            if type(row[status]) is not int or row[status] != actual[artifact][status]:
+                raise Hold(f"{label} counts do not match the audit results")
+
+
+def validate_audit_edition(edition, iso_date, variant):
+    """Audit receipt only. A QA pass or an editor receipt is a different mode."""
+    require_keys(edition, AUDIT_EDITION_KEYS, "edition.json")
+    if type(edition["schema_version"]) is not int or edition["schema_version"] != SCHEMA_VERSION:
+        raise Hold("unknown edition schema")
+    if edition["mode"] != "audit" or edition["variant"] != variant:
+        raise Hold("unknown edition schema")
+    if not is_real_date(edition["date"]) or edition["date"] != iso_date:
+        raise Hold("edition date does not match")
+    if edition["title"] != audit_title(iso_date, variant):
+        raise Hold("edition title does not match the date")
+    if edition["canonical_url"] != audit_page_url(iso_date, variant):
+        raise Hold("edition canonical url does not match the date")
+    if type(edition["model"]) is not str or edition["model"].strip() == "":
+        raise Hold("edition model is missing")
+    if type(edition["reasoning_effort"]) is not str or edition["reasoning_effort"].strip() == "":
+        raise Hold("edition reasoning effort is missing")
+    if edition["audio_url"] != variant_asset_url(iso_date, variant, "episode.mp3"):
+        raise Hold("edition audio url does not match")
+    if edition["video_url"] != variant_asset_url(iso_date, variant, "short.mp4"):
+        raise Hold("edition video url does not match")
+    if edition["sources_url"] != variant_asset_url(iso_date, variant, "sources.json"):
+        raise Hold("edition sources url does not match")
+    receipt = edition["audit"]
+    if type(receipt) is not dict:
+        raise Hold("unknown edition schema")
+    require_keys(receipt, AUDIT_RECEIPT_KEYS, "audit receipt")
+    if receipt["gate"] is not False:
+        raise Hold("audit edition must not be recorded as a gate")
+    if type(receipt["sha256"]) is not str or not SHA256_RE.fullmatch(receipt["sha256"]):
+        raise Hold("audit receipt hash is malformed")
+    hashes = edition["hashes"]
+    require_keys(hashes, AUDIT_HASH_KEYS, "hashes")
+    for key in AUDIT_HASH_KEYS:
+        if type(hashes[key]) is not str or not SHA256_RE.fullmatch(hashes[key]):
+            raise Hold(f"{key} is malformed")
+    if hashes["audit_sha256"] != receipt["sha256"]:
+        raise Hold("audit receipt does not match audit.json")
+    return edition
+
+
+def validate_neon_run(run, iso_date, variant):
+    """The raw run is evidence. It is not a QA snapshot and it is not copied into one."""
+    if type(run) is not dict:
+        raise Hold("unknown neon run schema")
+    if run.get("date") != iso_date:
+        raise Hold("neon run date does not match the edition")
+    if variant == "neon":
+        if run.get("pipeline") != "neon-minimal-raw":
+            raise Hold("neon run pipeline is not the raw edition")
+        if run.get("model") != "google/gemini-4-neon":
+            raise Hold("neon run model does not match")
+    effort = run.get("reasoning_effort")
+    if type(effort) is not str or not re.fullmatch(r"[A-Za-z0-9-]{1,32}", effort):
+        raise Hold("neon run reasoning effort is invalid")
+    if run.get("editor") is not None or run.get("qa") is not None:
+        raise Hold("audit edition must not carry an editor or QA receipt")
+    if run.get("system_prompt") is not None:
+        raise Hold("audit edition must not carry a system prompt")
+    edits = run.get("edits_after_generation")
+    if type(edits) is not str or not edits.startswith("none"):
+        raise Hold("audit edition was edited")
+    prompts = run.get("prompts")
+    if type(prompts) is not dict or type(prompts.get("episode")) is not str or prompts["episode"].strip() == "":
+        raise Hold("neon run prompt is missing")
+    audit = run.get("audit")
+    if type(audit) is not dict or audit.get("gate") is not False:
+        raise Hold("audit edition must not be recorded as a gate")
+    if type(audit.get("summary")) is not dict:
+        raise Hold("neon run audit summary is missing")
+    return run
+
+
+def validate_audit_document(audit, iso_date, script_sha):
+    if type(audit) is not dict or set(audit) != {"meta", "results"}:
+        raise Hold("unknown audit schema")
+    meta = audit["meta"]
+    results = audit["results"]
+    if type(meta) is not dict or type(results) is not list or not results:
+        raise Hold("unknown audit schema")
+    if meta.get("date") != iso_date:
+        raise Hold("audit date does not match the edition")
+    artifacts = meta.get("artifacts")
+    if type(artifacts) is not dict or type(artifacts.get("episode")) is not dict:
+        raise Hold("unknown audit schema")
+    if artifacts["episode"].get("sha256") != script_sha:
+        raise Hold("audit script hash does not match script.txt")
+    summary = meta.get("summary")
+    if type(summary) is not dict:
+        raise Hold("audit summary is missing")
+    seen = set()
+    clean = []
+    for item in results:
+        if type(item) is not dict:
+            raise Hold("audit result is invalid")
+        for key in ("id", "artifact", "quote", "status", "source_quote", "check_file", "note"):
+            if key not in item:
+                raise Hold("audit result is invalid")
+        if type(item["id"]) is not str or not re.fullmatch(r"[a-z0-9-]{1,80}", item["id"]):
+            raise Hold("audit result id is invalid")
+        if item["id"] in seen:
+            raise Hold("audit result id is duplicated")
+        seen.add(item["id"])
+        if item["artifact"] not in AUDIT_ARTIFACTS:
+            raise Hold("audit result artifact is invalid")
+        if item["status"] not in AUDIT_STATUSES:
+            raise Hold("audit result status is invalid")
+        if type(item["note"]) is not str:
+            raise Hold("audit result note is invalid")
+        quote = item["quote"]
+        if quote is not None and (type(quote) is not str or quote.strip() == ""):
+            raise Hold("audit result claim is blank")
+        if quote is None and item["note"].strip() == "":
+            raise Hold("audit result claim is blank")
+        if item["source_quote"] is not None and type(item["source_quote"]) is not str:
+            raise Hold("audit result source quote is invalid")
+        if type(item["check_file"]) is not str:
+            raise Hold("audit result check is invalid")
+        clean.append(item)
+    counts = audit_counts(clean)
+    require_audit_counts(counts, summary, "audit.json")
+    return clean, counts
+
+
+def audit_check_path(directory, iso_date, item):
+    rel = item["check_file"]
+    expected = f"checks/{iso_date}/{item['id']}.py"
+    if rel != expected:
+        raise Hold("audit check path does not match the claim")
+    path = _within_directory(os.path.join(directory, "audit"), rel)
+    if path is None or os.path.islink(path) or not os.path.isfile(path):
+        raise Hold("audit check script is missing")
+    return rel
+
+
+def assert_audit_directory(directory):
+    files = []
+    dirs = []
+    for name in sorted(os.listdir(directory)):
+        path = os.path.join(directory, name)
+        if os.path.islink(path):
+            raise Hold(f"unexpected content entry: {name}")
+        if os.path.isdir(path):
+            dirs.append(name)
+        elif os.path.isfile(path):
+            files.append(name)
+        else:
+            raise Hold(f"unexpected content entry: {name}")
+    if files != sorted(AUDIT_ROOT_FILES) or dirs != ["audit"]:
+        raise Hold("edition directory does not contain the frozen public inputs")
+    audit_json = os.path.join(directory, "audit", "audit.json")
+    if os.path.islink(audit_json) or not os.path.isfile(audit_json):
+        raise Hold("missing audit.json")
+
+
+def check_audit_hashes(edition, raw):
+    actual = {
+        "script_sha256": sha256_bytes(raw["script.txt"]),
+        "sources_sha256": sha256_bytes(raw["sources.json"]),
+        "neon_run_sha256": sha256_bytes(raw["neon_run.json"]),
+        "audit_sha256": sha256_bytes(raw["audit.json"]),
+        "episode_sha256": sha256_bytes(raw["episode.mp3"]),
+        "short_sha256": sha256_bytes(raw["short.mp4"]),
+    }
+    for key, value in actual.items():
+        if edition["hashes"][key] != value:
+            raise Hold(f"{key} does not match the frozen bytes")
+
+
+def assert_audit_edition_page(html_text, edition, prompt):
+    title = edition["title"]
+    h1 = f"<h1>{html.escape(title, quote=True)}</h1>"
+    if h1 not in html_text:
+        raise Hold("edition h1 does not match")
+    canonical = edition["canonical_url"]
+    escaped = html.escape(canonical, quote=True)
+    og = f'<meta property="og:url" content="{escaped}">'
+    if html_text.count(og) != 1:
+        raise Hold("og:url does not match the edition")
+    canonical_link = f'<link rel="canonical" href="{escaped}">'
+    if canonical_link not in html_text:
+        raise Hold("canonical url does not match the edition")
+    audio = f'<audio controls src="{html.escape(edition["audio_url"], quote=True)}"></audio>'
+    if html_text.count(audio) != 1:
+        raise Hold("hard stop: audio: missing or broken audio reference")
+    if "open.spotify.com" in html_text or "Audio on Spotify" in html_text:
+        raise Hold("audit edition must not link Spotify")
+    short = f'<a href="{html.escape(edition["video_url"], quote=True)}">Short</a>'
+    if html_text.count(short) != 1:
+        raise Hold("hard stop: video: missing short")
+    sources_link = f'<a href="{html.escape(edition["sources_url"], quote=True)}">Sources</a>'
+    if html_text.count(sources_link) != 1:
+        raise Hold("sources link is missing")
+    disclaimer = (
+        f'<p class="disclaimer">{AI_LABEL_EXACT}'
+        ' · <a href="audit/">Audit</a></p>'
+    )
+    if html_text.count(disclaimer) != 1 or html_text.count(AI_LABEL_EXACT) != 1:
+        raise Hold("hard stop: label: AI-generated label must appear exactly once")
+    if count_ai_labels(html_text) != 1:
+        raise Hold("hard stop: label: AI-generated label must appear exactly once")
+    if html.escape(prompt, quote=True) not in html_text:
+        raise Hold("edition prompt does not match the neon run")
+    if "semantic_qa" in html_text or "qa.json" in html_text:
+        raise Hold("audit edition must not carry a QA receipt")
+
+
+def render_audit_edition_html(edition, paragraphs, sources, prompt, variant):
+    body = "\n".join(
+        f"<p>{html.escape(paragraph, quote=True)}</p>"
+        for paragraph in body_paragraphs(paragraphs)
+    )
+    shown = build.display_date(edition["date"], "day")
+    label = html.escape(audit_model_label(edition["model"], variant), quote=True)
+    effort = html.escape(edition["reasoning_effort"], quote=True)
+    note = (
+        f"Written by {label} ({effort}) from one minimal prompt, "
+        "with no rules, editor or edits, published as produced."
+    )
+    quoted = "<blockquote>\n<pre>" + html.escape(prompt, quote=True) + "</pre>\n</blockquote>"
+    audio = (
+        f"<audio controls src=\"{html.escape(edition['audio_url'], quote=True)}\"></audio>"
+    )
+    links = (
+        f"<a href=\"{html.escape(edition['video_url'], quote=True)}\">Short</a>"
+        " · "
+        f"<a href=\"{html.escape(edition['sources_url'], quote=True)}\">Sources</a>"
+    )
+    disclaimer = (
+        f"<p class=\"disclaimer\">{AI_LABEL_EXACT}"
+        " · <a href=\"audit/\">Audit</a></p>"
+    )
+    main = (
+        "<article>\n"
+        "<p class=\"kicker\">Daily State of AI</p>\n"
+        f"<h1>{html.escape(edition['title'], quote=True)}</h1>\n"
+        f"<p><time datetime=\"{edition['date']}\">{html.escape(shown)}</time></p>\n"
+        f"<p class=\"intro\">{note}</p>\n"
+        f"{quoted}\n"
+        f"<p>{audio}</p>\n"
+        f"<p>{links}</p>\n"
+        "<div class=\"script\">\n"
+        f"{body}\n"
+        "</div>\n"
+        f"{disclaimer}\n"
+        "<section class=\"sources\">\n"
+        "<h2>Sources</h2>\n"
+        f"{render_sources(sources)}\n"
+        "</section>\n"
+        "</article>"
+    )
+    return render_page(
+        edition["title"],
+        description_from_paragraphs(paragraphs),
+        "../../../",
+        main,
+        f"/daily-state/{edition['date']}/{variant}/",
+        "article",
+    )
+
+
+def audit_claim_text(item):
+    """Spoken claim, or the omission note when the check has no quote."""
+    if type(item["quote"]) is str and item["quote"].strip() != "":
+        return item["quote"]
+    return item["note"]
+
+
+def render_audit_item(edition, item, variant):
+    claim = html.escape(audit_claim_text(item), quote=True)
+    status = html.escape(item["status"], quote=True)
+    if item["source_quote"] is None:
+        quote = "(none)"
+    else:
+        quote = html.escape(item["source_quote"], quote=True)
+    href = html.escape(audit_check_href(edition["date"], variant, item["check_file"]), quote=True)
+    check = html.escape(item["check_file"], quote=True)
+    open_attr = " open" if item["status"] in AUDIT_OPEN_STATUSES else ""
+    note = ""
+    if item["note"].strip() and item["note"] != audit_claim_text(item):
+        note = f"<p>{html.escape(item['note'], quote=True)}</p>\n"
+    return (
+        f"<details{open_attr}>\n"
+        f"<summary>{status} · {claim}</summary>\n"
+        f"<p>Claim: {claim}</p>\n"
+        f"<p>Result: {status}</p>\n"
+        f"<p>Source quote: {quote}</p>\n"
+        f"{note}"
+        f"<p><a href=\"{href}\">{check}</a></p>\n"
+        "</details>"
+    )
+
+
+def _audit_count_line(label, row):
+    text = (
+        f"{label} {row['PASS']} PASS / {row['FAIL']} FAIL / "
+        f"{row['NEEDS-HUMAN']} NEEDS-HUMAN"
+    )
+    if row["ERROR"]:
+        text += f" / {row['ERROR']} ERROR"
+    return f"<p class=\"row\">{html.escape(text, quote=True)}</p>"
+
+
+def render_audit_html(edition, results, counts, variant):
+    iso_date = edition["date"]
+    title = f"Audit — {edition['title']}"
+    shown = build.display_date(iso_date, "day")
+    summary = "\n".join([
+        _audit_count_line("Episode", counts["episode"]),
+        _audit_count_line("Short", counts["short"]),
+    ])
+    explanation = (
+        "<p>Each claim is a small Python check run against the source texts. "
+        "The audit is for transparency and is not a gate.</p>"
+    )
+    buckets = {
+        artifact: {status: [] for status in AUDIT_STATUS_ORDER}
+        for artifact in AUDIT_ARTIFACTS
+    }
+    for item in results:
+        buckets[item["artifact"]][item["status"]].append(item)
+    headings = {"episode": "Episode", "short": "Short"}
+    groups = []
+    for artifact in AUDIT_ARTIFACTS:
+        blocks = []
+        for status in AUDIT_STATUS_ORDER:
+            for item in buckets[artifact][status]:
+                blocks.append(render_audit_item(edition, item, variant))
+        if not blocks:
+            continue
+        groups.append(f"<h2>{headings[artifact]}</h2>\n" + "\n".join(blocks))
+    main = (
+        "<article>\n"
+        "<p class=\"kicker\">Daily State of AI</p>\n"
+        f"<h1>{html.escape(title, quote=True)}</h1>\n"
+        f"<p><time datetime=\"{iso_date}\">{html.escape(shown)}</time></p>\n"
+        f"{summary}\n"
+        f"{explanation}\n"
+        + "\n".join(groups)
+        + "\n<p><a href=\"../\">Back to the edition</a></p>\n"
+        "</article>"
+    )
+    return render_page(
+        title,
+        f"Claim audit for {edition['title']}. The audit is for transparency and is not a gate.",
+        "../../../../",
+        main,
+        f"/daily-state/{iso_date}/{variant}/audit/",
+        "article",
+    )
+
+
+def _load_audit_edition(directory, iso_date, variant, *, link_opener=None):
+    if not is_real_date(iso_date):
+        raise Hold("edition date is invalid")
+    if os.path.islink(directory) or not os.path.isdir(directory):
+        raise Hold("missing edition directory")
+    parent = os.path.basename(os.path.dirname(os.path.abspath(directory)))
+    if parent != iso_date:
+        raise Hold("edition date does not match")
+    assert_audit_directory(directory)
+    raw = _read_named(directory, AUDIT_ROOT_FILES)
+    audit_path = os.path.join(directory, "audit", "audit.json")
+    assert_real_child(directory, audit_path, "audit.json")
+    raw["audit.json"] = read_stable(audit_path)
+    script_text = decode_utf8(raw["script.txt"], "script.txt")
+    paragraphs = script_paragraphs(script_text)
+    sources = parse_json_object(raw["sources.json"], "sources.json")
+    edition = parse_json_object(raw["edition.json"], "edition.json")
+    run = parse_json_object(raw["neon_run.json"], "neon_run.json")
+    audit = parse_json_object(raw["audit.json"], "audit.json")
+    validate_audit_edition(edition, iso_date, variant)
+    validate_neon_run(run, iso_date, variant)
+    urls = sources.get("urls")
+    source_count = len(urls) if type(urls) is list else 0
+    validate_sources(sources, iso_date, source_count, audit=True)
+    script_sha = sha256_bytes(raw["script.txt"])
+    results, counts = validate_audit_document(audit, iso_date, script_sha)
+    for item in results:
+        audit_check_path(directory, iso_date, item)
+    check_audit_hashes(edition, raw)
+    if edition["model"] != run["model"] or edition["reasoning_effort"] != run["reasoning_effort"]:
+        raise Hold("edition receipt does not match the neon run")
+    require_audit_counts(counts, {
+        "episode": edition["audit"]["episode"],
+        "short": edition["audit"]["short"],
+    }, "edition.json")
+    require_audit_counts(counts, run["audit"]["summary"], "neon run")
+    problem = _local_media_problem("audio", "episode.mp3", directory)
+    if problem:
+        raise Hold(f"hard stop: audio: {problem}")
+    problem = _local_media_problem("video", "short.mp4", directory)
+    if problem:
+        raise Hold(f"hard stop: video: {problem}")
+    prompt = run["prompts"]["episode"]
+    html_text = render_audit_edition_html(edition, paragraphs, sources, prompt, variant)
+    audit_html = render_audit_html(edition, results, counts, variant)
+    assert_audit_edition_page(html_text, edition, prompt)
+    if link_opener is not None:
+        raise_hard_stops(source_link_hard_stops(sources["urls"], link_opener))
+    loaded = {
+        "date": iso_date,
+        "variant": variant,
+        "paragraphs": paragraphs,
+        "sources": sources,
+        "qa": None,
+        "edition": edition,
+        "notes": None,
+        "editor_mode": False,
+        "audit_mode": True,
+        "html": html_text,
+        "notes_html": None,
+        "audit_html": audit_html,
+        "audit_counts": counts,
+        "prompt": prompt,
+    }
+    loaded["files"] = _edition_files(loaded)
+    return loaded
+
+
 def render_listing_html(editions):
-    ordered = sorted(editions, key=lambda item: item["date"], reverse=True)
+    ordered = sorted(editions, key=_listing_key)
     rows = []
     for item in ordered:
         document = item["edition"]
         shown = build.display_date(item["date"], "day")
+        variant = item.get("variant")
+        href = f"{item['date']}/{variant}/" if variant else f"{item['date']}/"
         rows.append(
-            f"<p class=\"row\"><a href=\"{item['date']}/\">{html.escape(document['title'], quote=True)}</a> "
+            f"<p class=\"row\"><a href=\"{href}\">{html.escape(document['title'], quote=True)}</a> "
             f"<span class=\"meta\"><time datetime=\"{item['date']}\">{html.escape(shown)}</time></span></p>"
         )
     main = (
@@ -1245,6 +1775,8 @@ def list_edition_dates(repo):
         if not is_real_date(name) or os.path.islink(path) or not os.path.isdir(path):
             raise Hold(f"unexpected content entry: {name}")
         assert_real_child(root, path, name)
+        # neon/ and any other known variant is an edition, not a stray directory.
+        variant_subfolders(path)
         dates.append(name)
     if not dates:
         raise Hold("no daily state editions")
@@ -1256,8 +1788,11 @@ def edition_content_files(editor_mode):
     return EDITOR_CONTENT_FILES if editor_mode else CONTENT_FILES
 
 
-def edition_output_paths(iso_date, editor_mode):
+def edition_output_paths(iso_date, editor_mode, variant=None):
     """Allowed generated files for one edition, besides the shared listing."""
+    if variant:
+        base = f"daily-state/{iso_date}/{variant}"
+        return [f"{base}/index.html", f"{base}/audit/index.html"]
     paths = [f"daily-state/{iso_date}/index.html"]
     if editor_mode:
         paths.append(f"daily-state/{iso_date}/editors-notes/index.html")
@@ -1275,18 +1810,33 @@ def _read_named(directory, names):
     return raw
 
 
-def load_edition_directory(directory, iso_date, *, link_opener=None, editor_mode=None):
+def load_edition_directory(directory, iso_date, *, link_opener=None, editor_mode=None, variant=None):
     """Validate one frozen edition directory and render its pages.
 
     editor_mode=True requires editor_notes.json. editor_mode=False keeps the
     live allowlist. The default follows the edition: notes plus pipeline
-    "editor", or the four frozen inputs.
+    "editor", or the four frozen inputs. A known variant subfolder such as
+    neon/ is an audit edition and is not one of the parent files.
     """
+    base = os.path.basename(os.path.normpath(directory))
+    if variant is None and base in VARIANT_NAMES:
+        variant = base
+    if variant is not None:
+        if variant not in VARIANT_NAMES or base != variant:
+            raise Hold("unknown variant")
+        if editor_mode is True:
+            raise Hold("audit edition is not an editor edition")
+        if editor_mode is False:
+            raise Hold("audit edition is not a live edition")
+        return _load_audit_edition(
+            directory, iso_date, variant, link_opener=link_opener,
+        )
     if not is_real_date(iso_date):
         raise Hold("edition date is invalid")
     if os.path.islink(directory) or not os.path.isdir(directory):
         raise Hold("missing edition directory")
-    names = sorted(os.listdir(directory))
+    variants = variant_subfolders(directory)
+    names = sorted(name for name in os.listdir(directory) if name not in variants)
     notes_present = "editor_notes.json" in names
     if editor_mode is True and not notes_present:
         raise Hold("editor notes are missing")
@@ -1365,6 +1915,12 @@ def load_edition(repo, iso_date, *, link_opener=None, editor_mode=None):
 def render_output(loaded):
     files = {LISTING_REL: render_listing_html(loaded)}
     for edition in loaded:
+        variant = edition.get("variant")
+        if variant:
+            base = f"daily-state/{edition['date']}/{variant}"
+            files[f"{base}/index.html"] = edition["html"]
+            files[f"{base}/audit/index.html"] = edition["audit_html"]
+            continue
         files[f"daily-state/{edition['date']}/index.html"] = edition["html"]
         if edition.get("notes_html"):
             files[f"daily-state/{edition['date']}/editors-notes/index.html"] = edition["notes_html"]
@@ -1440,9 +1996,26 @@ def commit_output(repo, files, write, allow_correction):
     return {"wrote": len(changed), "noop": False}
 
 
+def load_editions(repo, *, link_opener=None):
+    """Parent editions, then each known variant, newest date last in this list."""
+    loaded = []
+    root = content_root(repo)
+    for iso_date in list_edition_dates(repo):
+        loaded.append(load_edition(repo, iso_date, link_opener=link_opener))
+        directory = os.path.join(root, iso_date)
+        for variant in variant_subfolders(directory):
+            loaded.append(load_edition_directory(
+                os.path.join(directory, variant),
+                iso_date,
+                link_opener=link_opener,
+                variant=variant,
+            ))
+    return loaded
+
+
 def publish(repo, *, write=True, allow_correction=False):
     """Validate every edition before replacing any generated file."""
-    loaded = [load_edition(repo, iso_date) for iso_date in list_edition_dates(repo)]
+    loaded = load_editions(repo)
     files = render_output(loaded)
     return commit_output(repo, files, write=write, allow_correction=allow_correction)
 
@@ -1540,8 +2113,11 @@ def load_pipeline_package(directory, *, editor_mode=None, link_opener=None):
 
 def _edition_files(loaded):
     files = {}
-    for rel in edition_output_paths(loaded["date"], loaded["editor_mode"]):
-        if rel.endswith("/editors-notes/index.html"):
+    variant = loaded.get("variant")
+    for rel in edition_output_paths(loaded["date"], loaded["editor_mode"], variant):
+        if rel.endswith("/audit/index.html"):
+            files[rel] = loaded["audit_html"]
+        elif rel.endswith("/editors-notes/index.html"):
             files[rel] = loaded["notes_html"]
         else:
             files[rel] = loaded["html"]
@@ -1643,11 +2219,12 @@ def main(argv=None, repo=None):
             loaded = validate_package(
                 options["package"], editor_mode=editor_mode, link_opener=opener,
             )
+            kind = "audit" if loaded.get("audit_mode") else "editor"
             if options["out"] and not options["check"]:
                 write_rendered(options["out"], loaded["files"])
-                print(f"editor package: wrote {len(loaded['files'])} file(s)")
+                print(f"{kind} package: wrote {len(loaded['files'])} file(s)")
             else:
-                print("editor package check: ok")
+                print(f"{kind} package check: ok")
             return 0
         check_only = options["check"]
         allow_correction = options["allow_correction"] and not check_only
