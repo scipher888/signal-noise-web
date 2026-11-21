@@ -22,8 +22,11 @@ pipeline "editor", or --pipeline editor).
 
 From 2026-11-21 the daily edition itself can be an audit edition: the date
 directory holds edition.json mode "audit" with "variant": null, the raw
-Neon script, sources.json, neon_run.json and the self-hosted episode.mp3
-(plus short.mp4 when the short shipped). The executable audit is attached
+Neon script, sources.json and neon_run.json (plus short.mp4 when the short
+shipped). From 2026-11-22 the page links the canonical Spotify episode
+("Audio on Spotify", with the recorded public verification, as before the
+audit editions) and no episode.mp3 is published; a missing or unverified
+Spotify episode holds. Only 2026-11-21 keeps its self-hosted episode.mp3. The executable audit is attached
 later as an audit/ subdirectory. Until then the audit page says the audit
 is pending, and only that pending page may be replaced once the audit lands.
 
@@ -146,6 +149,11 @@ ROOT_AUDIT_HASH_KEYS = frozenset({
     "script_sha256", "sources_sha256", "neon_run_sha256", "episode_sha256", "short_sha256",
 })
 ROOT_AUDIT_RECEIPT = {"gate": False, "attach": "after_publish"}
+# From 2026-11-22 (Synthia, 2026-11-21) a daily audit edition links the
+# Spotify episode like the pre-audit editions and publishes no episode.mp3.
+# Dates up to this one keep the self-hosted player they were published with.
+SELF_HOSTED_AUDIO_LAST_DATE = "2026-11-21"
+ROOT_AUDIT_SPOTIFY_KEYS = frozenset({"episode_id", "episode_url", "verified_at", "verification"})
 ROOT_NEON_PIPELINE = "neon"
 NEON_MODEL = "google/gemini-4-neon"
 AUDIT_PENDING_MARKER = "<!-- daily-state-audit-pending -->"
@@ -1538,11 +1546,20 @@ def assert_audit_edition_page(html_text, edition, prompt):
     canonical_link = f'<link rel="canonical" href="{escaped}">'
     if canonical_link not in html_text:
         raise Hold("canonical url does not match the edition")
-    audio = f'<audio controls src="{html.escape(edition["audio_url"], quote=True)}"></audio>'
-    if html_text.count(audio) != 1:
-        raise Hold("hard stop: audio: missing or broken audio reference")
-    if "open.spotify.com" in html_text or "Audio on Spotify" in html_text:
-        raise Hold("audit edition must not link Spotify")
+    if edition.get("variant") is None and root_audit_uses_spotify(edition):
+        spotify = (
+            f'<a href="{html.escape(edition["episode_url"], quote=True)}">Audio on Spotify</a>'
+        )
+        if html_text.count(spotify) != 1:
+            raise Hold("hard stop: audio: missing or broken Spotify episode link")
+        if "<audio" in html_text:
+            raise Hold("hard stop: audio: a Spotify edition must not self-host episode.mp3")
+    else:
+        audio = f'<audio controls src="{html.escape(edition["audio_url"], quote=True)}"></audio>'
+        if html_text.count(audio) != 1:
+            raise Hold("hard stop: audio: missing or broken audio reference")
+        if "open.spotify.com" in html_text or "Audio on Spotify" in html_text:
+            raise Hold("audit edition must not link Spotify")
     if edition["video_url"] is not None:
         short = f'<a href="{html.escape(edition["video_url"], quote=True)}">Short</a>'
         if html_text.count(short) != 1:
@@ -1579,9 +1596,14 @@ def render_audit_edition_html(edition, paragraphs, sources, prompt, variant):
         "with no rules, editor or edits, published as produced."
     )
     quoted = "<blockquote>\n<pre>" + html.escape(prompt, quote=True) + "</pre>\n</blockquote>"
-    audio = (
-        f"<audio controls src=\"{html.escape(edition['audio_url'], quote=True)}\"></audio>"
-    )
+    if variant is None and root_audit_uses_spotify(edition):
+        audio = (
+            f"<a href=\"{html.escape(edition['episode_url'], quote=True)}\">Audio on Spotify</a>"
+        )
+    else:
+        audio = (
+            f"<audio controls src=\"{html.escape(edition['audio_url'], quote=True)}\"></audio>"
+        )
     link_parts = []
     if edition["video_url"] is not None:
         link_parts.append(f"<a href=\"{html.escape(edition['video_url'], quote=True)}\">Short</a>")
@@ -1828,8 +1850,35 @@ def directory_declares_root_audit(directory):
     return type(edition) is dict and edition.get("mode") == "audit" and edition.get("variant") is None
 
 
+def root_audit_uses_spotify(edition):
+    """True for the Spotify-linked daily audit edition (from 2026-11-22)."""
+    return type(edition) is dict and any(key in edition for key in ROOT_AUDIT_SPOTIFY_KEYS)
+
+
+def validate_root_audit_audio(edition, iso_date):
+    """Spotify episode link with recorded public verification, as pre-audit editions."""
+    require_keys(edition, AUDIT_EDITION_KEYS | ROOT_AUDIT_SPOTIFY_KEYS, "edition.json")
+    if edition["audio_url"] is not None:
+        raise Hold("hard stop: audio: a Spotify edition must not self-host episode.mp3")
+    if edition["hashes"].get("episode_sha256") is not None:
+        raise Hold("hard stop: audio: a Spotify edition must not self-host episode.mp3")
+    verified = edition["verified_at"]
+    matched = VERIFIED_AT_RE.fullmatch(verified) if type(verified) is str else None
+    if not matched or matched.group(1) != iso_date:
+        raise Hold("verification time is missing or stale")
+    episode_url = edition["episode_url"]
+    episode_id = episode_id_from_url(episode_url)
+    if edition["episode_id"] != episode_id:
+        raise Hold("episode id does not match the episode url")
+    validate_recorded_verification(edition, iso_date, episode_url, episode_id)
+
+
 def validate_root_audit_edition(edition, iso_date, has_short):
-    require_keys(edition, AUDIT_EDITION_KEYS, "edition.json")
+    spotify = root_audit_uses_spotify(edition)
+    if spotify:
+        require_keys(edition, AUDIT_EDITION_KEYS | ROOT_AUDIT_SPOTIFY_KEYS, "edition.json")
+    else:
+        require_keys(edition, AUDIT_EDITION_KEYS, "edition.json")
     if type(edition["schema_version"]) is not int or edition["schema_version"] != SCHEMA_VERSION:
         raise Hold("unknown edition schema")
     if edition["mode"] != "audit" or edition["variant"] is not None:
@@ -1844,7 +1893,11 @@ def validate_root_audit_edition(edition, iso_date, has_short):
         raise Hold("edition model does not match the daily neon pipeline")
     if type(edition["reasoning_effort"]) is not str or edition["reasoning_effort"].strip() == "":
         raise Hold("edition reasoning effort is missing")
-    if edition["audio_url"] != variant_asset_url(iso_date, None, "episode.mp3"):
+    if spotify:
+        validate_root_audit_audio(edition, iso_date)
+    elif not is_real_date(iso_date) or iso_date > SELF_HOSTED_AUDIO_LAST_DATE:
+        raise Hold("hard stop: audio: the Spotify episode url is missing")
+    elif edition["audio_url"] != variant_asset_url(iso_date, None, "episode.mp3"):
         raise Hold("edition audio url does not match")
     expected_video = variant_asset_url(iso_date, None, "short.mp4") if has_short else None
     if edition["video_url"] != expected_video:
@@ -1860,6 +1913,8 @@ def validate_root_audit_edition(edition, iso_date, has_short):
         if key == "short_sha256" and not has_short:
             if value is not None:
                 raise Hold("short_sha256 is set without a short")
+            continue
+        if key == "episode_sha256" and spotify:
             continue
         if type(value) is not str or not SHA256_RE.fullmatch(value):
             raise Hold(f"{key} is malformed")
@@ -1880,7 +1935,8 @@ def _load_root_audit_edition(directory, iso_date, *, link_opener=None):
         else:
             raise Hold(f"unexpected content entry: {name}")
     allowed = set(ROOT_AUDIT_REQUIRED_FILES) | set(ROOT_AUDIT_OPTIONAL_FILES)
-    if not set(ROOT_AUDIT_REQUIRED_FILES) <= set(files) or not set(files) <= allowed:
+    required = set(ROOT_AUDIT_REQUIRED_FILES) - {"episode.mp3"}
+    if not required <= set(files) or not set(files) <= allowed:
         raise Hold("edition directory does not contain the frozen public inputs")
     if dirs not in ([], ["audit"]):
         raise Hold("edition directory does not contain the frozen public inputs")
@@ -1892,6 +1948,11 @@ def _load_root_audit_edition(directory, iso_date, *, link_opener=None):
     edition = parse_json_object(raw["edition.json"], "edition.json")
     run = parse_json_object(raw["neon_run.json"], "neon_run.json")
     validate_root_audit_edition(edition, iso_date, has_short)
+    spotify = root_audit_uses_spotify(edition)
+    if spotify and "episode.mp3" in files:
+        raise Hold("hard stop: audio: a Spotify edition must not self-host episode.mp3")
+    if not spotify and "episode.mp3" not in files:
+        raise Hold("edition directory does not contain the frozen public inputs")
     validate_neon_run(run, iso_date, None)
     urls = sources.get("urls")
     source_count = len(urls) if type(urls) is list else 0
@@ -1900,7 +1961,7 @@ def _load_root_audit_edition(directory, iso_date, *, link_opener=None):
         "script_sha256": sha256_bytes(raw["script.txt"]),
         "sources_sha256": sha256_bytes(raw["sources.json"]),
         "neon_run_sha256": sha256_bytes(raw["neon_run.json"]),
-        "episode_sha256": sha256_bytes(raw["episode.mp3"]),
+        "episode_sha256": None if spotify else sha256_bytes(raw["episode.mp3"]),
         "short_sha256": sha256_bytes(raw["short.mp4"]) if has_short else None,
     }
     for key, value in actual.items():
@@ -1910,9 +1971,10 @@ def _load_root_audit_edition(directory, iso_date, *, link_opener=None):
         raise Hold("edition receipt does not match the neon run")
     if run.get("script_sha256") not in (None, actual["script_sha256"]):
         raise Hold("neon run script hash does not match script.txt")
-    problem = _local_media_problem("audio", "episode.mp3", directory)
-    if problem:
-        raise Hold(f"hard stop: audio: {problem}")
+    if not spotify:
+        problem = _local_media_problem("audio", "episode.mp3", directory)
+        if problem:
+            raise Hold(f"hard stop: audio: {problem}")
     if has_short:
         problem = _local_media_problem("video", "short.mp4", directory)
         if problem:

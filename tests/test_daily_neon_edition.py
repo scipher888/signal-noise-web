@@ -1,4 +1,4 @@
-"""Daily (root) Gemini 4 Neon audit editions from 2026-11-21. No network."""
+"""Daily (root) Gemini 4 Neon audit editions. From 2026-11-22 they link Spotify. No network."""
 
 import hashlib
 import json
@@ -6,6 +6,7 @@ import os
 import sys
 import tempfile
 import unittest
+from datetime import datetime, timezone
 from pathlib import Path
 from unittest import mock
 
@@ -16,12 +17,25 @@ sys.path.insert(0, str(ROOT / "tools"))
 import daily_state  # noqa: E402
 import neon_edition  # noqa: E402
 
-DATE = "2026-11-21"
+DATE = "2026-11-22"
+EPISODE_ID = "5N0wawFLP0cwayiO8XH0Ax"
+EPISODE_URL = f"https://open.spotify.com/episode/{EPISODE_ID}"
+SPOTIFY_LINK = f'<p><a href="{EPISODE_URL}">Audio on Spotify</a></p>'
 HOUSE = "AI-generated \u00b7 may contain errors"
 SCRIPT = "Welcome to the Daily State of AI.\n\nSecond paragraph with the insight.\n\nThird paragraph.\n"
 PROMPT = "Here are today's AI news reports and X threads. What's the non-obvious insight others are missing?\n"
 MP3 = b"ID3" + b"\x00" * 200
 MP4 = b"\x00\x00\x00\x18ftypmp42" + b"\x00" * 200
+
+
+def fake_spotify(title=None, episode_id=EPISODE_ID):
+    title = title or f"Daily State of AI - {DATE}"
+
+    def fetch(url):
+        if "/episode/" in url:
+            return {"title": title, "canonical_url": url, "id": url.rsplit("/", 1)[-1]}
+        return {"episodes": [{"id": episode_id, "title": title, "uri": f"spotify:episode:{episode_id}"}]}
+    return fetch
 
 
 def sha(data):
@@ -67,19 +81,23 @@ class Repo:
         (self.mirror / "sources.json").write_text(json.dumps(sources(), indent=2), encoding="utf-8")
         (self.mirror / "episode.mp3").write_bytes(MP3)
         (self.mirror / "run.json").write_text(json.dumps(mini_run()), encoding="utf-8")
+        (self.mirror / "takeaways.json").write_text(
+            json.dumps({"date": DATE, "spotify_episode_url": EPISODE_URL}), encoding="utf-8")
         self.short = self.root / "short.mp4"
         self.short.write_bytes(MP4)
 
     def edition_dir(self):
         return self.root / "content" / "daily-state" / DATE
 
-    def build(self, short=True, run=None):
+    def build(self, short=True, run=None, fetch=None, extra=()):
         if run is not None:
             (self.mirror / "run.json").write_text(json.dumps(run), encoding="utf-8")
-        argv = ["build", "--date", DATE, "--episode-dir", str(self.mirror)]
+        argv = ["build", "--date", DATE, "--episode-dir", str(self.mirror), *extra]
         if short:
             argv += ["--short", str(self.short)]
-        with mock.patch.object(neon_edition, "REPO", str(self.root)):
+        with mock.patch.object(neon_edition, "REPO", str(self.root)), \
+                mock.patch.object(neon_edition, "spotify_fetch", fetch or fake_spotify()), \
+                mock.patch.object(neon_edition, "utc_now", lambda: datetime(2026, 11, 22, 15, 20, tzinfo=timezone.utc)):
             return neon_edition.main(argv)
 
     def load(self):
@@ -142,9 +160,10 @@ class DailyNeonEditionTest(unittest.TestCase):
         self.assertIn(f"<h1>Daily State of AI - {DATE}</h1>", page)
         self.assertEqual(page.count(HOUSE), 1)
         self.assertIn(' · <a href="audit/">Audit</a></p>', page)
-        self.assertIn(f'<audio controls src="/content/daily-state/{DATE}/episode.mp3"></audio>', page)
+        self.assertEqual(page.count(SPOTIFY_LINK), 1)
+        self.assertNotIn("<audio", page)
+        self.assertNotIn("episode.mp3", page)
         self.assertIn(f'<a href="/content/daily-state/{DATE}/short.mp4">Short</a>', page)
-        self.assertNotIn("open.spotify.com", page)
         self.assertIn(f'<link rel="canonical" href="https://www.signalandnoise.email/daily-state/{DATE}/">', page)
         self.assertIn("Welcome to the Daily State of AI.", page)
         self.assertIn(daily_state.AUDIT_PENDING_MARKER, loaded["audit_html"])
@@ -154,6 +173,95 @@ class DailyNeonEditionTest(unittest.TestCase):
         self.assertIsNone(edition["variant"])
         self.assertEqual(edition["audit"], {"gate": False, "attach": "after_publish"})
         self.assertEqual((self.repo.edition_dir() / "script.txt").read_text(), SCRIPT)
+        self.assertIsNone(edition["audio_url"])
+        self.assertEqual(edition["episode_url"], EPISODE_URL)
+        self.assertEqual(edition["episode_id"], EPISODE_ID)
+        self.assertEqual(edition["verification"]["method"], "public_episode_and_show")
+        self.assertIsNone(edition["hashes"]["episode_sha256"])
+        self.assertFalse((self.repo.edition_dir() / "episode.mp3").exists())
+
+    def test_episode_url_falls_back_to_run_json(self):
+        (self.repo.mirror / "takeaways.json").unlink()
+        self.assertEqual(self.repo.build(run=mini_run(episode_url=EPISODE_URL)), 0)
+        self.assertEqual(self.repo.load()["html"].count(SPOTIFY_LINK), 1)
+
+    def test_missing_spotify_url_refuses_the_build(self):
+        (self.repo.mirror / "takeaways.json").unlink()
+        self.assertEqual(self.repo.build(), 1)
+        self.assertFalse(self.repo.edition_dir().exists())
+
+    def test_show_or_malformed_url_refuses_the_build(self):
+        for url in ("https://open.spotify.com/show/1AC7qV1tyVIICLtJVwBapp", "https://spotify.app.link/x"):
+            with self.subTest(url=url):
+                self.assertEqual(self.repo.build(extra=["--episode-url", url]), 1)
+                self.assertFalse(self.repo.edition_dir().exists())
+
+    def test_unverified_episode_refuses_the_build(self):
+        self.assertEqual(self.repo.build(fetch=fake_spotify(title="Daily State of AI - 2026-11-21")), 1)
+        self.assertEqual(self.repo.build(fetch=fake_spotify(episode_id="X" * 22)), 1)
+
+        def broken(url):
+            raise OSError("network down")
+        self.assertEqual(self.repo.build(fetch=broken), 1)
+        self.assertFalse(self.repo.edition_dir().exists())
+
+    def test_recorded_verification_file_is_accepted(self):
+        evidence = {
+            "method": "public_episode_and_show", "checked_at": f"{DATE}T15:20Z",
+            "episode": {"title": f"Daily State of AI - {DATE}", "canonical_url": EPISODE_URL, "id": EPISODE_ID},
+            "show": {"id": "1AC7qV1tyVIICLtJVwBapp", "episodes": [
+                {"id": EPISODE_ID, "title": f"Daily State of AI - {DATE}", "uri": f"spotify:episode:{EPISODE_ID}"}]},
+        }
+        path = self.repo.root / "evidence.json"
+        path.write_text(json.dumps(evidence))
+
+        def no_network(url):
+            raise AssertionError("must not fetch")
+        self.assertEqual(self.repo.build(fetch=no_network, extra=["--verification", str(path)]), 0)
+        self.assertEqual(self.repo.load()["edition"]["verified_at"], f"{DATE}T15:20Z")
+
+    def edit_edition(self, change):
+        path = self.repo.edition_dir() / "edition.json"
+        edition = json.loads(path.read_text())
+        change(edition)
+        path.write_text(json.dumps(edition))
+
+    def test_self_hosted_mp3_after_2026_11_21_holds(self):
+        self.repo.build()
+        (self.repo.edition_dir() / "episode.mp3").write_bytes(MP3)
+        with self.assertRaises(daily_state.Hold):
+            self.repo.load()
+
+    def test_old_self_hosted_shape_after_2026_11_21_holds(self):
+        self.repo.build()
+        (self.repo.edition_dir() / "episode.mp3").write_bytes(MP3)
+
+        def legacy(edition):
+            for key in ("episode_id", "episode_url", "verified_at", "verification"):
+                edition.pop(key)
+            edition["audio_url"] = f"/content/daily-state/{DATE}/episode.mp3"
+            edition["hashes"]["episode_sha256"] = sha(MP3)
+        self.edit_edition(legacy)
+        with self.assertRaises(daily_state.Hold) as ctx:
+            self.repo.load()
+        self.assertIn("Spotify episode url is missing", str(ctx.exception))
+
+    def test_tampered_spotify_receipt_holds(self):
+        self.repo.build()
+        changes = (
+            lambda e: e.pop("verification"),
+            lambda e: e.update(episode_id="Y" * 22),
+            lambda e: e.update(verified_at="2026-11-20T15:20Z"),
+            lambda e: e.update(audio_url=f"/content/daily-state/{DATE}/episode.mp3"),
+            lambda e: e.update(episode_url="https://open.spotify.com/show/1AC7qV1tyVIICLtJVwBapp"),
+        )
+        original = (self.repo.edition_dir() / "edition.json").read_text()
+        for change in changes:
+            with self.subTest(change=change):
+                (self.repo.edition_dir() / "edition.json").write_text(original)
+                self.edit_edition(change)
+                with self.assertRaises(daily_state.Hold):
+                    self.repo.load()
 
     def test_build_without_short_has_no_short_link(self):
         self.assertEqual(self.repo.build(short=False), 0)
