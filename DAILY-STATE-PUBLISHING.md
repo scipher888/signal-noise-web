@@ -179,3 +179,26 @@ Publishing the same bytes again changes nothing. The same date with different by
 ## After merge
 
 Wait until GitHub Pages has finished the merged commit, then open the canonical URL and confirm the title, date, script, four source links, Spotify href, and stylesheet. Only then is the page live. The page check does not prove how a phone opens Spotify.
+
+## Daily Gemini 4 Neon editions (from 2026-11-21)
+
+Joel approved on 2026-11-20 that the daily edition itself is the raw Gemini 4 Neon minimal-prompt edition. Neon writes it, it is published as produced, and nothing is edited. `content/daily-state/YYYY-MM-DD/` then holds `edition.json` (mode `"audit"`, `"variant": null`), `script.txt`, `sources.json`, `neon_run.json`, the self-hosted `episode.mp3` (the Grok Voice episode, the same audio as Telegram and Spotify), and `short.mp4` when the short shipped. It holds no `qa.json` and no editor receipt.
+
+The page carries the label `AI-generated · may contain errors · Audit` once and links the audit at `/daily-state/YYYY-MM-DD/audit/`.
+
+1. Stage it from the Mini mirror. This refuses a run that is not `status: ok` on the `neon` pipeline, or a script whose hash differs from the run's:
+
+   ```bash
+   python3 tools/neon_edition.py build --date D --episode-dir /workspace/daily-state-slim/out/D \
+     --short /workspace/dsoai-shorts/D/short-*.mp4 --short-report /workspace/dsoai-shorts/D/report.json
+   python3 daily_state.py && python3 daily_state.py --check
+   ```
+
+2. The executable audit runs after publishing, for transparency only. It never blocks or edits the edition. Until it is attached, `/audit/` is a pending placeholder, and that placeholder is the only edition page that may be replaced later. Attach the audit in a follow-up PR:
+
+   ```bash
+   python3 tools/neon_edition.py attach-audit --date D --audit-out AUDIT_OUT --kit AUDIT_KIT
+   python3 daily_state.py && python3 daily_state.py --check
+   ```
+
+   `audit.json` must be for D, and its episode hash must match `script.txt`. An audit of the episode alone, with no short that day, is valid.
