@@ -182,7 +182,9 @@ Wait until GitHub Pages has finished the merged commit, then open the canonical 
 
 ## Daily Gemini 4 Neon editions (from 2026-11-21)
 
-Joel approved on 2026-11-20 that the daily edition itself is the raw Gemini 4 Neon minimal-prompt edition. Neon writes it, it is published as produced, and nothing is edited. `content/daily-state/YYYY-MM-DD/` then holds `edition.json` (mode `"audit"`, `"variant": null`), `script.txt`, `sources.json`, `neon_run.json`, the self-hosted `episode.mp3` (the Grok Voice episode, the same audio as Telegram and Spotify), and `short.mp4` when the short shipped. It holds no `qa.json` and no editor receipt.
+Joel approved on 2026-11-20 that the daily edition itself is the raw Gemini 4 Neon minimal-prompt edition. Neon writes it, it is published as produced, and nothing is edited. `content/daily-state/YYYY-MM-DD/` then holds `edition.json` (mode `"audit"`, `"variant": null`), `script.txt`, `sources.json`, `neon_run.json`, and `short.mp4` when the short shipped. It holds no `qa.json` and no editor receipt.
+
+Audio (from 2026-11-22, Synthia 2026-11-21): the page links the canonical Spotify episode as `<p><a href="https://open.spotify.com/episode/ID">Audio on Spotify</a></p>`, the same as the pre-audit editions, and no `episode.mp3` is published. `edition.json` carries `episode_id`, `episode_url`, `verified_at` and the recorded `verification` (method `public_episode_and_show`), with `audio_url: null` and `hashes.episode_sha256: null`. The build reads the URL from `--episode-url`, else `spotify_episode_url` in the mirror's `takeaways.json`, else `spotify_episode_url`/`episode_url` in `run.json`, checks the public episode and show pages for the exact title `Daily State of AI - YYYY-MM-DD` (or reads `--verification FILE`), and refuses to stage on a missing, malformed or unverified episode. `verified_at` is UTC and must fall on the edition date. `daily_state.py --check` holds an edition after 2026-11-21 with no Spotify episode, or with a self-hosted `episode.mp3`. Only 2026-11-21 keeps the self-hosted player it was published with.
 
 The page carries the label `AI-generated · may contain errors · Audit` once and links the audit at `/daily-state/YYYY-MM-DD/audit/`.
 
@@ -191,6 +193,7 @@ The page carries the label `AI-generated · may contain errors · Audit` once an
    ```bash
    python3 tools/neon_edition.py build --date D --episode-dir /workspace/daily-state-slim/out/D \
      --short /workspace/dsoai-shorts/D/short-*.mp4 --short-report /workspace/dsoai-shorts/D/report.json
+   # Spotify URL: takeaways.json spotify_episode_url (or --episode-url URL); verified live, recorded in edition.json
    python3 daily_state.py && python3 daily_state.py --check
    ```
 

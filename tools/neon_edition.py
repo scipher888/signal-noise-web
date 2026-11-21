@@ -2,14 +2,23 @@
 """Stage a daily Gemini 4 Neon audit edition, then attach its executable audit.
 
     python3 tools/neon_edition.py build --date D --episode-dir DIR [--short MP4 --short-report JSON]
+        [--episode-url URL] [--verification JSON]
     python3 tools/neon_edition.py attach-audit --date D --audit-out DIR --kit DIR
 
-build copies the frozen Neon run (script.txt, sources.json, episode.mp3 and
-run.json from the Mac Mini mirror) into content/daily-state/D/ with
-edition.json mode "audit" and "variant": null. Nothing is edited: the
-script bytes are the model's reply. It refuses an existing directory, a run
-that is not status ok on the neon pipeline, or a script whose hash does not
-match the run. The audit page is a pending placeholder until attach-audit.
+build copies the frozen Neon run (script.txt, sources.json and run.json from
+the Mac Mini mirror) into content/daily-state/D/ with edition.json mode
+"audit" and "variant": null. Nothing is edited: the script bytes are the
+model's reply. The page links the Spotify episode ("Audio on Spotify"), as
+the pre-audit editions did; episode.mp3 is not copied (from 2026-11-22).
+The episode URL comes from --episode-url, else spotify_episode_url in the
+mirror's takeaways.json, else spotify_episode_url / episode_url in run.json.
+It must be an open.spotify.com/episode/<22-char id> URL whose public page and
+the show's public page both name "Daily State of AI - D"; that evidence is
+recorded in edition.json (or read from --verification, a recorded evidence
+file). A missing, malformed or unverified episode refuses the build.
+It also refuses an existing directory, a run that is not status ok on the
+neon pipeline, or a script whose hash does not match the run. The audit page
+is a pending placeholder until attach-audit.
 
 attach-audit copies the audit (audit.json, audit.md, the per-claim checks,
 the helper library, the runner, and the source snapshots) into
@@ -20,10 +29,14 @@ Both commands validate with daily_state.py's loader before returning 0.
 """
 import argparse
 import hashlib
+import html as html_lib
 import json
 import os
+import re
 import shutil
 import sys
+import urllib.request
+from datetime import datetime, timezone
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(HERE)
@@ -46,6 +59,86 @@ def sha256_file(path):
     return digest.hexdigest()
 
 
+SHOW_URL = "https://open.spotify.com/show/1AC7qV1tyVIICLtJVwBapp"
+USER_AGENT = "Mozilla/5.0 (signal-noise-web daily-state verifier)"
+
+
+def _get(url):
+    request = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
+    with urllib.request.urlopen(request, timeout=30) as response:
+        return response.read().decode("utf-8", "replace")
+
+
+def _meta(page, attr, name):
+    match = re.search(r'<meta %s="%s" content="([^"]*)"' % (attr, re.escape(name)), page)
+    return html_lib.unescape(match.group(1)) if match else None
+
+
+def spotify_fetch(url):
+    """Public-page documents for daily_state.verify_public_episode."""
+    if "/episode/" in url:
+        page = _get(url)
+        canonical = re.search(r'<link rel="canonical" href="([^"]*)"', page)
+        return {
+            "title": _meta(page, "property", "og:title"),
+            "canonical_url": html_lib.unescape(canonical.group(1)) if canonical else _meta(page, "property", "og:url"),
+            "id": url.rsplit("/", 1)[-1],
+        }
+    show_id = url.rstrip("/").rsplit("/", 1)[-1]
+    page = _get(f"https://open.spotify.com/embed/show/{show_id}")
+    match = re.search(r'<script id="__NEXT_DATA__" type="application/json">(.*?)</script>', page, re.S)
+    if not match:
+        raise daily_state.Hold("verification parse failed")
+    entity = json.loads(match.group(1))["props"]["pageProps"]["state"]["data"]["entity"]
+    episodes = []
+    items = [entity] if entity.get("type") == "episode" else []
+    items += [item for item in entity.get("trackList") or [] if isinstance(item, dict)]
+    for item in items:
+        uri = item.get("uri") or ""
+        if uri.startswith("spotify:episode:"):
+            episode = {"id": uri.split(":")[-1], "title": item.get("title") or item.get("name"), "uri": uri}
+            if episode not in episodes:
+                episodes.append(episode)
+    return {"episodes": episodes}
+
+
+def utc_now():
+    return datetime.now(timezone.utc)
+
+
+def resolve_episode_url(args, src, run):
+    if args.episode_url:
+        return args.episode_url
+    try:
+        with open(os.path.join(src, "takeaways.json"), encoding="utf-8") as handle:
+            takeaways = json.load(handle)
+    except (OSError, ValueError):
+        takeaways = {}
+    for value in (takeaways.get("spotify_episode_url"), run.get("spotify_episode_url"), run.get("episode_url")):
+        if value:
+            return value
+    return None
+
+
+def record_verification(args, date, episode_url):
+    """Recorded public verification, the same evidence as the pre-audit editions."""
+    if args.verification:
+        with open(args.verification, encoding="utf-8") as handle:
+            verification = json.load(handle)
+        return verification["checked_at"], verification
+    show_url = args.show_url or SHOW_URL
+    chosen = daily_state.verify_public_episode(spotify_fetch, date, episode_url, show_url)
+    checked_at = utc_now().strftime("%Y-%m-%dT%H:%MZ")
+    title = daily_state.edition_title(date)
+    verification = {
+        "method": "public_episode_and_show",
+        "checked_at": checked_at,
+        "episode": {"title": title, "canonical_url": episode_url, "id": daily_state.episode_id_from_url(episode_url)},
+        "show": {"id": show_url.rstrip("/").rsplit("/", 1)[-1], "episodes": [chosen]},
+    }
+    return checked_at, verification
+
+
 def fail(message):
     print(f"HOLD: {message}", file=sys.stderr)
     return 1
@@ -66,9 +159,19 @@ def build(args):
         return fail("neon run is not an ok run for this date")
     if run.get("pipeline") != daily_state.ROOT_NEON_PIPELINE or run.get("model") != daily_state.NEON_MODEL:
         return fail("run is not the daily neon pipeline")
-    for name in ("script.txt", "sources.json", "episode.mp3"):
+    for name in ("script.txt", "sources.json"):
         if not os.path.isfile(os.path.join(src, name)):
             return fail(f"missing {name}")
+    episode_url = resolve_episode_url(args, src, run)
+    if not episode_url:
+        return fail("hard stop: audio: the Spotify episode url is missing")
+    try:
+        episode_id = daily_state.episode_id_from_url(episode_url)
+        verified_at, verification = record_verification(args, date, episode_url)
+    except daily_state.Hold as exc:
+        return fail(f"hard stop: audio: {exc}")
+    except Exception as exc:  # noqa: BLE001  network or parse failure holds
+        return fail(f"hard stop: audio: Spotify verification failed ({type(exc).__name__})")
     script_sha = sha256_file(os.path.join(src, "script.txt"))
     if run.get("script_sha256") != script_sha:
         return fail("script.txt does not match the neon run")
@@ -99,7 +202,7 @@ def build(args):
         neon_run["short"] = short
     os.makedirs(dest)
     try:
-        for name in ("script.txt", "sources.json", "episode.mp3"):
+        for name in ("script.txt", "sources.json"):
             shutil.copyfile(os.path.join(src, name), os.path.join(dest, name))
         if has_short:
             shutil.copyfile(args.short, os.path.join(dest, "short.mp4"))
@@ -115,7 +218,11 @@ def build(args):
             "canonical_url": daily_state.audit_page_url(date, None),
             "model": run["model"],
             "reasoning_effort": run["reasoning_effort"],
-            "audio_url": daily_state.variant_asset_url(date, None, "episode.mp3"),
+            "audio_url": None,
+            "episode_id": episode_id,
+            "episode_url": episode_url,
+            "verified_at": verified_at,
+            "verification": verification,
             "video_url": daily_state.variant_asset_url(date, None, "short.mp4") if has_short else None,
             "sources_url": daily_state.variant_asset_url(date, None, "sources.json"),
             "audit": dict(daily_state.ROOT_AUDIT_RECEIPT),
@@ -123,7 +230,7 @@ def build(args):
                 "script_sha256": script_sha,
                 "sources_sha256": sha256_file(os.path.join(dest, "sources.json")),
                 "neon_run_sha256": hashlib.sha256(run_bytes).hexdigest(),
-                "episode_sha256": sha256_file(os.path.join(dest, "episode.mp3")),
+                "episode_sha256": None,
                 "short_sha256": sha256_file(os.path.join(dest, "short.mp4")) if has_short else None,
             },
         }
@@ -195,6 +302,9 @@ def main(argv=None):
     b.add_argument("--episode-dir", required=True)
     b.add_argument("--short", default=None)
     b.add_argument("--short-report", default=None)
+    b.add_argument("--episode-url", default=None)
+    b.add_argument("--show-url", default=None)
+    b.add_argument("--verification", default=None)
     a = sub.add_parser("attach-audit")
     a.add_argument("--date", required=True)
     a.add_argument("--audit-out", required=True)
