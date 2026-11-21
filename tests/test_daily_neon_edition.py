@@ -246,6 +246,26 @@ class DailyNeonEditionTest(unittest.TestCase):
             self.repo.load()
         self.assertIn("Spotify episode url is missing", str(ctx.exception))
 
+    def test_player_plus_spotify_link_is_only_for_2026_11_21(self):
+        self.repo.build()
+        (self.repo.edition_dir() / "episode.mp3").write_bytes(MP3)
+
+        def both(edition):
+            edition["audio_url"] = f"/content/daily-state/{DATE}/episode.mp3"
+            edition["hashes"]["episode_sha256"] = sha(MP3)
+        self.edit_edition(both)
+        with self.assertRaises(daily_state.Hold):
+            self.repo.load()
+
+    def test_published_2026_11_21_keeps_player_and_adds_spotify_link(self):
+        loaded = daily_state.load_edition(str(ROOT), "2026-11-21")
+        page = loaded["html"]
+        player = '<p><audio controls src="/content/daily-state/2026-11-21/episode.mp3"></audio></p>'
+        link = '<p><a href="https://open.spotify.com/episode/5N0wawFLP0cwayiO8XH0Am">Audio on Spotify</a></p>'
+        self.assertEqual(page.count(player + "\n" + link), 1)
+        self.assertEqual(page.count("open.spotify.com/episode/"), 1)
+        self.assertEqual(page.count(' · <a href="audit/">Audit</a></p>'), 1)
+
     def test_tampered_spotify_receipt_holds(self):
         self.repo.build()
         changes = (
