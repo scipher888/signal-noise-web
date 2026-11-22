@@ -3,6 +3,7 @@
 import hashlib
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -366,6 +367,22 @@ class DailyStateTests(unittest.TestCase):
         archive = (ROOT / "archive" / "index.html").read_text(encoding="utf-8")
         self.assertNotIn("/daily-state/", feed)
         self.assertNotIn("/daily-state/", archive)
+
+    def test_prompt_pre_wraps_in_shared_stylesheet(self):
+        """The prompt sits in <blockquote><pre>. Wrap it in styles.css so every edition inherits the fix."""
+        css = (ROOT / "styles.css").read_text(encoding="utf-8")
+        match = re.search(r"article blockquote pre\s*\{([^}]+)\}", css)
+        self.assertIsNotNone(match, "styles.css must wrap Daily State prompt <pre> blocks")
+        body = re.sub(r"/\*.*?\*/", "", match.group(1), flags=re.S)
+        decls = {}
+        for part in body.split(";"):
+            if ":" in part:
+                prop, value = part.split(":", 1)
+                decls[prop.strip()] = value.strip()
+        self.assertEqual(decls.get("white-space"), "pre-wrap")
+        self.assertEqual(decls.get("overflow-wrap"), "anywhere")
+        self.assertEqual(decls.get("word-break"), "normal")
+        self.assertEqual(decls.get("overflow-x"), "visible")
 
     def test_public_qa_projection_drops_private_fields(self):
         projected = daily_state.project_qa(minimal_run(), RUN_SHA, DATE, 4)

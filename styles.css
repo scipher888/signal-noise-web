@@ -55,6 +55,14 @@ article blockquote {
 article table { border-collapse: collapse; width: 100%; font-size: 0.95em; }
 article th, article td { border: 1px solid var(--line); padding: 0.5rem 0.65rem; text-align: left; vertical-align: top; }
 article pre { overflow-x: auto; background: var(--paper-bright); padding: 0.8rem 1rem; border: 1px solid var(--line); border-radius: 8px; font-size: 0.85em; }
+/* Daily State prompt: keep paragraph breaks, wrap long lines so phones need no sideways scroll. */
+article blockquote pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  word-break: normal;
+  overflow-x: visible;
+  max-width: 100%;
+}
 
 /* Companion map — top of the essay (after title/dek) plus a light foot copy.
    Grouped by who wrote it, current page pinned. Label and links share a
