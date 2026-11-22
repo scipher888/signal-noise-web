@@ -121,6 +121,7 @@ LOCAL_MACHINE = {
     35: "the-long-game-of-not-gaining",
     36: "alignment-at-human-scale",
     37: "where-the-starship-catch-ranks-and-what-it-could-change",
+    38: "what-intelligence-cant-tell-you-about-your-own-life",
 }
 
 # A separate page, written without AI, linked on the author's row beside
@@ -133,11 +134,14 @@ UNAIDED = {
     35: "what-is-the-best-strategy-to-optimize-weight-prevent-weight-gain-without-medications",
     36: "issue-036-written-without-ai",
     37: "issue-037-source-material",
+    38: "issue-038-source-material",
 }
 UNAIDED_LEAF = "Written without AI"
 # Issue 37's source mixes the author's own words with Grok Heavy research, so
 # "Written without AI" would be false there. One name per destination still holds.
-UNAIDED_LEAF_BY_ISSUE = {37: "Source material"}
+# Issue 38's source is all the author's, but it is the editorial-run input (with
+# one private link removed), so it keeps Issue 37's "Source material" name.
+UNAIDED_LEAF_BY_ISSUE = {37: "Source material", 38: "Source material"}
 
 # Snapshot audit records that 404. Omit the audit leaf the same way audio is
 # omitted when there is no episode. Issue 31's record is published.
@@ -197,6 +201,7 @@ MANIFEST = {
     "stop-trying-to-out-willpower-your-appetite-stuff-it-into-submission-instead": (35, "drafts/issue-035-web-paste-2026-10-31.html", "2026-10-31", "day"),
     "my-son-his-calorie-tracker-and-the-tyranny-of-the-nanny-bot": (36, "drafts/issue-036-web-paste-2026-11-08.html", "2026-11-08", "day"),
     "what-spacex-caught-in-those-mechanical-arms-is-bigger-than-a-rocket": (37, "drafts/issue-037-web-paste-2026-11-14.html", "2026-11-14", "day"),
+    "the-smartest-people-in-the-room-are-the-easiest-to-fool": (38, "drafts/issue-038-web-paste-2026-11-21.html", "2026-11-21", "day"),
 }
 
 # Pages that belong to an issue but are not its archive row or feed item.
@@ -231,6 +236,10 @@ SIDE_PAGES = {
         37, "machine", "drafts/issue-037-machine-web-paste-2026-11-14.html", "2026-11-14", "day"),
     "issue-037-source-material": (
         37, "unaided", "drafts/issue-037-source-web-paste-2026-11-14.html", "2026-11-14", "day"),
+    "what-intelligence-cant-tell-you-about-your-own-life": (
+        38, "machine", "drafts/issue-038-machine-web-paste-2026-11-21.html", "2026-11-21", "day"),
+    "issue-038-source-material": (
+        38, "unaided", "drafts/issue-038-source-web-paste-2026-11-21.html", "2026-11-21", "day"),
 }
 
 # Sources whose title/dek live outside the body (beehiiv field lines / build comments).
@@ -497,9 +506,9 @@ def companion_navs(issue, here="author"):
             f"{BASE_URL}/p/{UNAIDED[issue]}/",
             here == "unaided",
         ))
-    # Issues 32 through 37: the unaided (or source) page keeps the map it already
+    # Issues 32 through 38: the unaided (or source) page keeps the map it already
     # published (no audio leaf, even after an episode exists).
-    show_audio = not (issue in (32, 33, 34, 35, 36, 37) and here == "unaided")
+    show_audio = not (issue in (32, 33, 34, 35, 36, 37, 38) and here == "unaided")
     if issue in AUDIO and show_audio:
         author.append(f'<a href="{AUDIO[issue]}">Audio companion</a>')
     if issue in VIDEO and show_audio:
@@ -581,6 +590,15 @@ MACHINE_QUESTIONS = {
         "in the Starbase tower&rsquo;s arms after it returned from orbit; the booster&rsquo;s catch "
         "on the same flight was aborted. "
         '<a href="https://www.space.com/space-exploration/launches-spacecraft/spacex-chopsticks-catch-starship-upper-stage-flight-14">Space.com report</a>.',
+    ),
+    38: (
+        "To what extent, if any, does intelligence help people make wise life choices involving needs, wants, desires, and emotions? And what, if anything, does that imply about how highly intelligent people should approach these decisions that can have a major impact on their quality of life?",
+        "This question, in the author&rsquo;s own words, is the substantive prompt. "
+        "The same message also gave formatting instructions. "
+        f'<a href="{AUDIT_BASE}/issue-038/development/#machine-question">Full prompt</a>. '
+        "Four identical requests contained none of the author&rsquo;s brain dump, links or drafts "
+        f'(<a href="{AUDIT_BASE}/issue-038/source/metadata/isolation.json">isolation record</a>). '
+        "Grok Bot recommended the Claude Fable 5.2 essay and the author approved it; it is unchanged.",
     ),
 }
 
