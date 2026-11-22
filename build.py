@@ -624,31 +624,6 @@ def machine_question_html(issue):
     )
 
 
-# Editor's note above an author essay, outside the frozen body (Issue 38: the
-# author kept the essay's wording and the fact corrections live here and in the audit).
-AUTHOR_NOTES = {
-    38: (
-        "Editor&rsquo;s note: Under this newsletter&rsquo;s audit convention, fact checks appear in the audit, not in the essay. "
-        "Two clarifications. Jensen Huang resigned as Nvidia&rsquo;s CEO on November 12, 2026, amid reports of two affairs, "
-        "one with a woman The Washington Post reported was suspected of being a Chinese spy. China denies the allegation, "
-        "the Justice Department has reached no conclusion, and Nvidia says it has no reason to believe national security or "
-        "company secrets were compromised. The &ldquo;consensual non-consent&rdquo; reporting the essay refers to "
-        "(Washington Free Beacon, November 16) concerns an Anthropic researcher listed as a manager of a business that hosts "
-        "such parties, which reportedly draw employees of Anthropic and OpenAI. The reporting does not show that either "
-        "company organized or endorsed the events. "
-        f'<a href="{AUDIT_BASE}/issue-038/#audit">Full findings in The World Behind the Words</a>.'
-    ),
-}
-
-
-def author_note_html(issue):
-    note = AUTHOR_NOTES.get(issue)
-    if not note:
-        return ""
-    return ('<aside class="mq ednote" aria-label="Editor&rsquo;s note">'
-            f'<p class="mq-meta">{note}</p></aside>')
-
-
 def essay_page(slug, issue, title, dek_html, body, date, precision, here="author"):
     kicker = f"Issue {issue}" if issue else "Process note"
     dateline = display_date(date, precision)
@@ -660,12 +635,6 @@ def essay_page(slug, issue, title, dek_html, body, date, precision, here="author
     # extra newline so the nav follows the title the way a dek-less page should.
     nav_top = companions_top[1:] if (not dek_html and companions_top.startswith("\n")) else companions_top
     origin = ""
-    if here == "author" and issue:
-        block = author_note_html(issue)
-        if block:
-            origin = "\n" + block
-            if not nav_top.startswith("\n"):
-                origin += "\n"
     if here == "machine":
         block = machine_question_html(issue)
         if block:

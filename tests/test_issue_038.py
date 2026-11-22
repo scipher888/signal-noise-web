@@ -1,4 +1,4 @@
-"""Issue 38: the verbatim machine question, editor's notes outside the frozen prose,
+"""Issue 38: the verbatim machine question outside the frozen prose, no corrective note above the author essay,
 and a source page that reproduces the published brain dump."""
 
 import hashlib
@@ -35,17 +35,20 @@ class Issue38(unittest.TestCase):
         self.assertIn("The question given to the AI:", aside)
         self.assertLess(page.index("</aside>"), page.index("<p>Intelligence, in the sense that IQ tests measure"))
 
-    def test_author_note_outside_prose_and_before_body(self):
+    def test_author_page_has_no_corrective_note(self):
+        # Ruling A, audit only: the corrections live in the audit, not above the essay.
         page = AUTHOR.read_text(encoding="utf-8")
-        aside = re.search(r'<aside class="mq ednote".*?</aside>', page, re.S).group(0)
-        for s in ("Editor&rsquo;s note", "resigned as Nvidia&rsquo;s CEO on November 12, 2026",
-                  "suspected of being a Chinese spy", "an Anthropic researcher", "issue-038/#audit"):
-            self.assertIn(s, aside)
-        self.assertLess(page.index('<p class="dek">'), page.index('<aside class="mq ednote"'))
-        self.assertLess(page.index("</aside>"), page.index("<p>We like to believe"))
+        self.assertNotIn("ednote", page)
+        self.assertNotIn("Editor&rsquo;s note", page)
+        self.assertNotIn("suspected of being a Chinese spy", page)
+        self.assertNotIn('<aside class="mq"', page)
+        # the audit stays linked from the companion nav
+        nav = re.search(r'<nav class="cnav top".*?</nav>', page, re.S).group(0)
+        self.assertIn("signal-noise-audit-snapshot/issues/issue-038/", nav)
         # the frozen wording is untouched, including the approved phrase
         self.assertIn("subcultures among staffers at top AI labs", page)
         self.assertNotIn("staffers at OpenAI", page)
+        self.assertLess(page.index('<p class="dek">'), page.index("<p>We like to believe"))
 
     def test_source_text_published_version(self):
         page = SOURCE.read_text(encoding="utf-8")
