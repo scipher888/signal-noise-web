@@ -404,6 +404,24 @@ class DailyStateTests(unittest.TestCase):
         self.assertEqual(decls.get("word-break"), "normal")
         self.assertEqual(decls.get("overflow-x"), "visible")
 
+    def test_article_links_and_source_urls_wrap(self):
+        """Long source URLs and other article links must wrap at phone width via styles.css."""
+        css = re.sub(r"/\*.*?\*/", "", (ROOT / "styles.css").read_text(encoding="utf-8"), flags=re.S)
+        rules = re.findall(r"([^{}]+)\{([^{}]+)\}", css)
+        wrapped = set()
+        for selectors, body in rules:
+            decls = {}
+            for part in body.split(";"):
+                if ":" in part:
+                    prop, value = part.split(":", 1)
+                    decls[prop.strip()] = value.strip()
+            if decls.get("overflow-wrap") != "anywhere":
+                continue
+            for selector in selectors.split(","):
+                wrapped.add(selector.strip())
+        for selector in ("article a", "article li"):
+            self.assertIn(selector, wrapped, f"{selector} must set overflow-wrap: anywhere")
+
     def test_public_qa_projection_drops_private_fields(self):
         projected = daily_state.project_qa(minimal_run(), RUN_SHA, DATE, 4)
         committed = load_json(ROOT / "content" / "daily-state" / DATE / "qa.json")
