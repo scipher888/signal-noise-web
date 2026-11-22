@@ -65,6 +65,12 @@ article blockquote pre {
   max-width: 100%;
 }
 
+/* Long unbreakable URLs in Sources (and other article links) wrap at phone width. */
+article a,
+article li {
+  overflow-wrap: anywhere;
+}
+
 /* Companion map — top of the essay (after title/dek) plus a light foot copy.
    Grouped by who wrote it, current page pinned. Label and links share a
    baseline on wide screens; under 640px the label stacks above its own row.
