@@ -56,13 +56,18 @@ article blockquote {
 article table { border-collapse: collapse; width: 100%; font-size: 0.95em; }
 article th, article td { border: 1px solid var(--line); padding: 0.5rem 0.65rem; text-align: left; vertical-align: top; }
 article pre { overflow-x: auto; background: var(--paper-bright); padding: 0.8rem 1rem; border: 1px solid var(--line); border-radius: 8px; font-size: 0.85em; }
-/* Daily State prompt: gold rail, eyebrow label, wrap long lines so phones need no sideways scroll. */
+/* Daily State prompt: gold rail, eyebrow label, wrap long lines so phones need no sideways scroll.
+   The prompt stays inside <blockquote><pre> so the #73 wrap rule still applies if a
+   cached styles.css predates the figure wrapper. */
 article figure.ds-prompt {
   margin: 1.4rem 0;
   padding: 0.1rem 1.2rem 0.85rem;
   border-left: 3px solid var(--sun);
   color: var(--ink-soft);
   background: var(--paper-bright);
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
 }
 article figure.ds-prompt .ds-prompt-label {
   font-family: var(--sans);
@@ -73,6 +78,13 @@ article figure.ds-prompt .ds-prompt-label {
   color: var(--muted);
   margin: 0.7rem 0 0.5rem;
 }
+article figure.ds-prompt blockquote {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+}
 /* Daily State prompt: keep paragraph breaks, wrap long lines so phones need no sideways scroll. */
 article blockquote pre,
 article figure.ds-prompt pre {
@@ -81,6 +93,23 @@ article figure.ds-prompt pre {
   word-break: normal;
   overflow-x: visible;
   max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+/* House label under the top links: visible, but secondary to the edition. */
+article p.disclaimer {
+  font-family: var(--sans);
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin: 0.35rem 0 1.6rem;
+}
+article p.disclaimer a {
+  color: var(--ink-soft);
+  text-decoration-color: var(--line);
+}
+article p.disclaimer a:hover {
+  text-decoration-color: var(--sun);
 }
 
 /* Long unbreakable URLs in Sources (and other article links) wrap at phone width. */

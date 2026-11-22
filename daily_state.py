@@ -1110,6 +1110,18 @@ def assert_edition_page(html_text, edition):
         raise Hold("hard stop: audio: missing or broken audio reference")
     if html_text.count(AI_LABEL_EXACT) != 1 or count_ai_labels(html_text) != 1:
         raise Hold("hard stop: label: AI-generated label must appear exactly once")
+    assert_disclaimer_above_script(html_text)
+
+
+def assert_disclaimer_above_script(html_text):
+    """The house label sits once, under the top links and above the script."""
+    marker = '<p class="disclaimer">'
+    if html_text.count(marker) != 1:
+        raise Hold("hard stop: label: AI-generated label must appear exactly once")
+    if "<div class=\"script\">" not in html_text:
+        raise Hold("edition script is missing")
+    if html_text.index(marker) > html_text.index('<div class="script">'):
+        raise Hold("disclaimer must sit above the script")
 
 
 def description_from_paragraphs(paragraphs):
@@ -1180,14 +1192,27 @@ def apply_daily_footer(page, root):
     return page[:start] + daily_footer(root) + page[end:]
 
 
+def styles_cache_token():
+    """Short hash of styles.css so Daily State pages pick up CSS changes immediately."""
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "styles.css")
+    with open(path, "rb") as handle:
+        return hashlib.sha256(handle.read()).hexdigest()[:8]
+
+
 def render_page(title, description, root, main, path, ogtype):
     page = build.render(title, description, root, main, path, ogtype=ogtype)
-    return apply_daily_footer(page, root)
+    page = apply_daily_footer(page, root)
+    href = f"{root}styles.css"
+    needle = f'<link rel="stylesheet" href="{href}">'
+    versioned = f'<link rel="stylesheet" href="{href}?v={styles_cache_token()}">'
+    if needle not in page:
+        raise Hold("stylesheet link is missing")
+    return page.replace(needle, versioned, 1)
 
 
 def render_edition_html(edition, paragraphs, sources, *, editor_mode=False):
     # The description stays on the frozen script. The body omits a duplicate
-    # AI label; p.disclaimer below is the one copy on the page.
+    # AI label; p.disclaimer under the top links is the one copy on the page.
     body = "\n".join(
         f"<p>{html.escape(paragraph, quote=True)}</p>"
         for paragraph in body_paragraphs(paragraphs)
@@ -1214,10 +1239,10 @@ def render_edition_html(edition, paragraphs, sources, *, editor_mode=False):
         f"<h1>{html.escape(edition['title'], quote=True)}</h1>\n"
         f"<p><time datetime=\"{edition['date']}\">{html.escape(shown)}</time></p>\n"
         f"<p>{audio}</p>\n"
+        f"{disclaimer}\n"
         "<div class=\"script\">\n"
         f"{body}\n"
         "</div>\n"
-        f"{disclaimer}\n"
         "<section class=\"sources\">\n"
         "<h2>Sources</h2>\n"
         f"{render_sources(sources)}\n"
@@ -1590,11 +1615,12 @@ def assert_audit_edition_page(html_text, edition, prompt):
         raise Hold("hard stop: label: AI-generated label must appear exactly once")
     if count_ai_labels(html_text) != 1:
         raise Hold("hard stop: label: AI-generated label must appear exactly once")
+    assert_disclaimer_above_script(html_text)
     if html.escape(prompt, quote=True) not in html_text:
         raise Hold("edition prompt does not match the neon run")
     if '<figure class="ds-prompt">' not in html_text:
         raise Hold("edition prompt box is missing")
-    if '<figcaption class="ds-prompt-label">Minimal prompt</figcaption>' not in html_text:
+    if '<figcaption class="kicker ds-prompt-label">Minimal prompt</figcaption>' not in html_text:
         raise Hold("edition prompt is missing the Minimal prompt label")
     if "semantic_qa" in html_text or "qa.json" in html_text:
         raise Hold("audit edition must not carry a QA receipt")
@@ -1614,8 +1640,10 @@ def render_audit_edition_html(edition, paragraphs, sources, prompt, variant):
     )
     quoted = (
         "<figure class=\"ds-prompt\">\n"
-        "<figcaption class=\"ds-prompt-label\">Minimal prompt</figcaption>\n"
+        "<figcaption class=\"kicker ds-prompt-label\">Minimal prompt</figcaption>\n"
+        "<blockquote>\n"
         "<pre>" + html.escape(prompt, quote=True) + "</pre>\n"
+        "</blockquote>\n"
         "</figure>"
     )
     spotify_link = None
@@ -1650,10 +1678,10 @@ def render_audit_edition_html(edition, paragraphs, sources, prompt, variant):
         f"{quoted}\n"
         f"<p>{audio}</p>\n"
         f"<p>{links}</p>\n"
+        f"{disclaimer}\n"
         "<div class=\"script\">\n"
         f"{body}\n"
         "</div>\n"
-        f"{disclaimer}\n"
         "<section class=\"sources\">\n"
         "<h2>Sources</h2>\n"
         f"{render_sources(sources)}\n"

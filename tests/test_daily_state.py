@@ -367,8 +367,11 @@ class DailyStateTests(unittest.TestCase):
         self.assertEqual(canonical, [EDITION_URL])
         self.assertEqual(canonical[0], metas["og:url"])
         css = [item["href"] for item in page.links if item.get("rel") == "stylesheet"]
-        self.assertEqual(css, ["../../styles.css"])
-        self.assertTrue((page_path.parent / css[0]).resolve().is_file())
+        self.assertEqual(len(css), 1)
+        self.assertTrue(css[0].startswith("../../styles.css?v="), css)
+        href = css[0].split("?", 1)[0]
+        self.assertEqual(href, "../../styles.css")
+        self.assertTrue((page_path.parent / href).resolve().is_file())
         image_path = ROOT / "assets" / "preview.png"
         self.assertTrue(image_path.is_file())
         self.assertIn(page.h1, page.title)
@@ -388,12 +391,10 @@ class DailyStateTests(unittest.TestCase):
         self.assertNotIn("daily-state/", archive_main)
         self.assertIn("<h2>November 2026</h2>", listing)
 
-    def test_prompt_pre_wraps_in_shared_stylesheet(self):
-        """The prompt sits in <figure class="ds-prompt"><pre>. Wrap it in styles.css so every edition inherits the fix."""
+    def _css_decls(self):
         css = re.sub(r"/\*.*?\*/", "", (ROOT / "styles.css").read_text(encoding="utf-8"), flags=re.S)
-        rules = re.findall(r"([^{}]+)\{([^{}]+)\}", css)
         decls_by_selector = {}
-        for selectors, body in rules:
+        for selectors, body in re.findall(r"([^{}]+)\{([^{}]+)\}", css):
             decls = {}
             for part in body.split(";"):
                 if ":" in part:
@@ -401,26 +402,26 @@ class DailyStateTests(unittest.TestCase):
                     decls[prop.strip()] = value.strip()
             for selector in selectors.split(","):
                 decls_by_selector[selector.strip()] = decls
+        return decls_by_selector
+
+    def test_prompt_pre_wraps_in_shared_stylesheet(self):
+        """The prompt sits in <figure><blockquote><pre>. Wrap it on both selectors so a cached pre-#76 stylesheet still wraps."""
+        decls_by_selector = self._css_decls()
         for selector in ("article figure.ds-prompt pre", "article blockquote pre"):
             decls = decls_by_selector.get(selector, {})
             self.assertEqual(decls.get("white-space"), "pre-wrap", f"{selector} must wrap")
             self.assertEqual(decls.get("overflow-wrap"), "anywhere", f"{selector} must wrap")
             self.assertEqual(decls.get("word-break"), "normal", f"{selector} must wrap")
             self.assertEqual(decls.get("overflow-x"), "visible", f"{selector} must wrap")
+            self.assertEqual(decls.get("max-width"), "100%", f"{selector} must bind width")
+            self.assertEqual(decls.get("min-width"), "0", f"{selector} must be allowed to shrink")
+        figure = decls_by_selector.get("article figure.ds-prompt", {})
+        self.assertEqual(figure.get("max-width"), "100%")
+        self.assertEqual(figure.get("min-width"), "0")
 
     def test_prompt_box_has_minimal_prompt_label(self):
         """The prompt box carries a visible, accessible 'Minimal prompt' eyebrow."""
-        css = re.sub(r"/\*.*?\*/", "", (ROOT / "styles.css").read_text(encoding="utf-8"), flags=re.S)
-        rules = re.findall(r"([^{}]+)\{([^{}]+)\}", css)
-        decls_by_selector = {}
-        for selectors, body in rules:
-            decls = {}
-            for part in body.split(";"):
-                if ":" in part:
-                    prop, value = part.split(":", 1)
-                    decls[prop.strip()] = value.strip()
-            for selector in selectors.split(","):
-                decls_by_selector[selector.strip()] = decls
+        decls_by_selector = self._css_decls()
         figure = decls_by_selector.get("article figure.ds-prompt", {})
         self.assertEqual(figure.get("border-left"), "3px solid var(--sun)")
         label = decls_by_selector.get("article figure.ds-prompt .ds-prompt-label", {})
@@ -432,17 +433,43 @@ class DailyStateTests(unittest.TestCase):
             ROOT / "daily-state" / "2026-11-21" / "index.html",
             ROOT / "daily-state" / "2026-11-20" / "neon" / "index.html",
         ]
-        caption = '<figcaption class="ds-prompt-label">Minimal prompt</figcaption>'
+        caption = '<figcaption class="kicker ds-prompt-label">Minimal prompt</figcaption>'
         for path in pages:
             html = path.read_text(encoding="utf-8")
             self.assertIn('<figure class="ds-prompt">', html, path)
             self.assertIn(caption, html, path)
-            # The label sits inside the figure, above the prompt text.
             figure_html = re.search(r'<figure class="ds-prompt">(.*?)</figure>', html, re.S)
             self.assertIsNotNone(figure_html, path)
             inner = figure_html.group(1)
             self.assertIn(caption, inner)
-            self.assertLess(inner.index(caption), inner.index("<pre>"))
+            self.assertIn("<blockquote>", inner)
+            self.assertLess(inner.index(caption), inner.index("<blockquote>"))
+            # The pre must stay inside blockquote so article blockquote pre still wraps.
+            block = re.search(r"<blockquote>(.*?)</blockquote>", inner, re.S)
+            self.assertIsNotNone(block, path)
+            self.assertIn("<pre>", block.group(1))
+
+    def test_disclaimer_sits_under_the_top_links(self):
+        """The house label is a small muted line under the top links, once, not below the script."""
+        decls = self._css_decls().get("article p.disclaimer", {})
+        self.assertEqual(decls.get("font-family"), "var(--sans)")
+        self.assertEqual(decls.get("font-size"), "0.85rem")
+        self.assertEqual(decls.get("color"), "var(--muted)")
+        pages = [
+            ROOT / "daily-state" / iso_date / "index.html"
+            for iso_date in daily_state.list_edition_dates(str(ROOT))
+        ]
+        pages.append(ROOT / "daily-state" / "2026-11-20" / "neon" / "index.html")
+        for path in pages:
+            html = path.read_text(encoding="utf-8")
+            marker = '<p class="disclaimer">'
+            self.assertEqual(html.count(marker), 1, path)
+            self.assertLess(html.index(marker), html.index('<div class="script">'), path)
+            self.assertGreater(html.index(marker), html.index("<article>"), path)
+            # After the last top-link paragraph (Spotify / Short / Sources / audio), before the script.
+            head = html[html.index("<article>"):html.index('<div class="script">')]
+            self.assertIn(marker, head, path)
+            self.assertNotIn(marker, html[html.index('<div class="script">'):])
 
     def test_article_links_and_source_urls_wrap(self):
         """Long source URLs and other article links must wrap at phone width via styles.css."""
@@ -1065,6 +1092,7 @@ class DailyStateTests(unittest.TestCase):
                 self.assertTrue(all(not daily_state.is_ai_label(item) for item in page.script_paragraphs))
                 marker = '<p class="disclaimer">'
                 self.assertEqual(html.count(marker), 1)
+                self.assertLess(html.index(marker), html.index('<div class="script">'))
                 start = html.index(marker)
                 paragraph = html[start:html.index("</p>", start) + len("</p>")]
                 # edition.json marks editor mode; a package load sets the same flag.

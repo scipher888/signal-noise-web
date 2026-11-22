@@ -56,9 +56,9 @@ ASSET_SHA256 = {
 }
 LIVE_PAGE_SHA256 = {
     "daily-state/2026-11-20/index.html":
-        "2f7b5340910a8ca8a5953064c0ac5cfe9b6e970c770c87e248982a62421e307c",
+        "679411e6f43fbc07bee3e1a14bb4f68f9afded1b9dea4ec0732a3ac5875a6288",
     "daily-state/2026-11-20/editors-notes/index.html":
-        "ecb7099cc1e69a402852832efad021997b1da422fcce4798b63c72dc8e58e02b",
+        "af44f9bc31209688462ccdcfc44a8193e6e96fa551e85066f9e68232378d4d61",
 }
 
 
@@ -136,8 +136,9 @@ class AuditModeTests(unittest.TestCase):
         prompt = load_json(neon_dir() / "neon_run.json")["prompts"]["episode"]
         figure = re.search(r'<figure class="ds-prompt">(.*?)</figure>', html, re.S)
         self.assertIsNotNone(figure)
-        self.assertIn('<figcaption class="ds-prompt-label">Minimal prompt</figcaption>', figure.group(1))
-        pre = re.search(r"<pre>(.*?)</pre>", figure.group(1), re.S).group(1)
+        self.assertIn('<figcaption class="kicker ds-prompt-label">Minimal prompt</figcaption>', figure.group(1))
+        self.assertIn("<blockquote>", figure.group(1))
+        pre = re.search(r"<blockquote>\s*<pre>(.*?)</pre>", figure.group(1), re.S).group(1)
         self.assertEqual(html_lib.unescape(pre), prompt)
         self.assertEqual(html.count(f'<audio controls src="{AUDIO}"></audio>'), 1)
         self.assertEqual(html.count(f'<a href="{SHORT}">Short</a>'), 1)
@@ -146,11 +147,12 @@ class AuditModeTests(unittest.TestCase):
             f'<p class="disclaimer">{HOUSE} · <a href="audit/">Audit</a></p>'
         )
         self.assertEqual(html.count(disclaimer), 1)
+        self.assertLess(html.index(disclaimer), html.index('<div class="script">'))
         self.assertEqual(html.count(HOUSE), 1)
         self.assertEqual(daily_state.count_ai_labels(html), 1)
         self.assertNotIn("spotify", html.lower())
         self.assertNotIn("semantic_qa", html)
-        self.assertIn('href="../../../styles.css"', html)
+        self.assertIn('href="../../../styles.css?v=', html)
         self.assertEqual(
             loaded["audit_counts"]["episode"],
             {"PASS": 42, "FAIL": 7, "NEEDS-HUMAN": 8, "ERROR": 0},
@@ -166,7 +168,7 @@ class AuditModeTests(unittest.TestCase):
         self.assertIn("Episode 42 PASS / 7 FAIL / 8 NEEDS-HUMAN", html)
         self.assertIn("Short 14 PASS / 5 FAIL / 3 NEEDS-HUMAN", html)
         self.assertIn(EXPLANATION, html)
-        self.assertIn('href="../../../../styles.css"', html)
+        self.assertIn('href="../../../../styles.css?v=', html)
         self.assertEqual(html.count(f'<link rel="canonical" href="{AUDIT_URL}">'), 1)
         self.assertEqual(html.count(f'<meta property="og:url" content="{AUDIT_URL}">'), 1)
         blocks = re.findall(r"<details( open)?>(.*?)</details>", html, re.S)
