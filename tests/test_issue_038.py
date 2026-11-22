@@ -65,10 +65,20 @@ class Issue38(unittest.TestCase):
             self.assertIn("Source material", nav)
             self.assertNotIn("Written without AI", nav)
 
-    def test_no_audio_yet(self):
-        for p in (AUTHOR, MACHINE, SOURCE):
-            self.assertNotIn("Audio companion", p.read_text(encoding="utf-8"))
-
+    def test_audio_companions(self):
+        a = "https://open.spotify.com/episode/5OFFH1zNdvsnvBcVFcC9MT"
+        m = "https://open.spotify.com/episode/7dHpfFFhp5RkpHi1R9QKgX"
+        for p in (AUTHOR, MACHINE):
+            page = p.read_text(encoding="utf-8")
+            for nav in re.findall(r'<nav class="cnav[^"]*".*?</nav>', page, re.S):
+                self.assertIn(f'<a href="{a}">Audio companion</a>', nav)
+                self.assertIn(f'<a href="{m}">Audio companion</a>', nav)
+            self.assertEqual(page.count("Audio companion"), 4)
+            self.assertNotIn("open.spotify.com/embed", page)
+        src = SOURCE.read_text(encoding="utf-8")
+        self.assertNotIn("Audio companion", src)
+        self.assertNotIn(a, src)
+        self.assertNotIn(m, src)
 
 if __name__ == "__main__":
     unittest.main()
