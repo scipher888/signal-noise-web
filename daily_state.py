@@ -1592,6 +1592,10 @@ def assert_audit_edition_page(html_text, edition, prompt):
         raise Hold("hard stop: label: AI-generated label must appear exactly once")
     if html.escape(prompt, quote=True) not in html_text:
         raise Hold("edition prompt does not match the neon run")
+    if '<figure class="ds-prompt">' not in html_text:
+        raise Hold("edition prompt box is missing")
+    if '<figcaption class="ds-prompt-label">Minimal prompt</figcaption>' not in html_text:
+        raise Hold("edition prompt is missing the Minimal prompt label")
     if "semantic_qa" in html_text or "qa.json" in html_text:
         raise Hold("audit edition must not carry a QA receipt")
 
@@ -1608,7 +1612,12 @@ def render_audit_edition_html(edition, paragraphs, sources, prompt, variant):
         f"Written by {label} ({effort}) from one minimal prompt, "
         "with no rules, editor or edits, published as produced."
     )
-    quoted = "<blockquote>\n<pre>" + html.escape(prompt, quote=True) + "</pre>\n</blockquote>"
+    quoted = (
+        "<figure class=\"ds-prompt\">\n"
+        "<figcaption class=\"ds-prompt-label\">Minimal prompt</figcaption>\n"
+        "<pre>" + html.escape(prompt, quote=True) + "</pre>\n"
+        "</figure>"
+    )
     spotify_link = None
     if variant is None and root_audit_uses_spotify(edition):
         spotify_link = (

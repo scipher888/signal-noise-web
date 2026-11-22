@@ -389,20 +389,60 @@ class DailyStateTests(unittest.TestCase):
         self.assertIn("<h2>November 2026</h2>", listing)
 
     def test_prompt_pre_wraps_in_shared_stylesheet(self):
-        """The prompt sits in <blockquote><pre>. Wrap it in styles.css so every edition inherits the fix."""
-        css = (ROOT / "styles.css").read_text(encoding="utf-8")
-        match = re.search(r"article blockquote pre\s*\{([^}]+)\}", css)
-        self.assertIsNotNone(match, "styles.css must wrap Daily State prompt <pre> blocks")
-        body = re.sub(r"/\*.*?\*/", "", match.group(1), flags=re.S)
-        decls = {}
-        for part in body.split(";"):
-            if ":" in part:
-                prop, value = part.split(":", 1)
-                decls[prop.strip()] = value.strip()
-        self.assertEqual(decls.get("white-space"), "pre-wrap")
-        self.assertEqual(decls.get("overflow-wrap"), "anywhere")
-        self.assertEqual(decls.get("word-break"), "normal")
-        self.assertEqual(decls.get("overflow-x"), "visible")
+        """The prompt sits in <figure class="ds-prompt"><pre>. Wrap it in styles.css so every edition inherits the fix."""
+        css = re.sub(r"/\*.*?\*/", "", (ROOT / "styles.css").read_text(encoding="utf-8"), flags=re.S)
+        rules = re.findall(r"([^{}]+)\{([^{}]+)\}", css)
+        decls_by_selector = {}
+        for selectors, body in rules:
+            decls = {}
+            for part in body.split(";"):
+                if ":" in part:
+                    prop, value = part.split(":", 1)
+                    decls[prop.strip()] = value.strip()
+            for selector in selectors.split(","):
+                decls_by_selector[selector.strip()] = decls
+        for selector in ("article figure.ds-prompt pre", "article blockquote pre"):
+            decls = decls_by_selector.get(selector, {})
+            self.assertEqual(decls.get("white-space"), "pre-wrap", f"{selector} must wrap")
+            self.assertEqual(decls.get("overflow-wrap"), "anywhere", f"{selector} must wrap")
+            self.assertEqual(decls.get("word-break"), "normal", f"{selector} must wrap")
+            self.assertEqual(decls.get("overflow-x"), "visible", f"{selector} must wrap")
+
+    def test_prompt_box_has_minimal_prompt_label(self):
+        """The prompt box carries a visible, accessible 'Minimal prompt' eyebrow."""
+        css = re.sub(r"/\*.*?\*/", "", (ROOT / "styles.css").read_text(encoding="utf-8"), flags=re.S)
+        rules = re.findall(r"([^{}]+)\{([^{}]+)\}", css)
+        decls_by_selector = {}
+        for selectors, body in rules:
+            decls = {}
+            for part in body.split(";"):
+                if ":" in part:
+                    prop, value = part.split(":", 1)
+                    decls[prop.strip()] = value.strip()
+            for selector in selectors.split(","):
+                decls_by_selector[selector.strip()] = decls
+        figure = decls_by_selector.get("article figure.ds-prompt", {})
+        self.assertEqual(figure.get("border-left"), "3px solid var(--sun)")
+        label = decls_by_selector.get("article figure.ds-prompt .ds-prompt-label", {})
+        self.assertEqual(label.get("text-transform"), "uppercase")
+        self.assertEqual(label.get("font-family"), "var(--sans)")
+        self.assertEqual(label.get("letter-spacing"), "0.08em")
+        pages = [
+            ROOT / "daily-state" / "2026-11-22" / "index.html",
+            ROOT / "daily-state" / "2026-11-21" / "index.html",
+            ROOT / "daily-state" / "2026-11-20" / "neon" / "index.html",
+        ]
+        caption = '<figcaption class="ds-prompt-label">Minimal prompt</figcaption>'
+        for path in pages:
+            html = path.read_text(encoding="utf-8")
+            self.assertIn('<figure class="ds-prompt">', html, path)
+            self.assertIn(caption, html, path)
+            # The label sits inside the figure, above the prompt text.
+            figure_html = re.search(r'<figure class="ds-prompt">(.*?)</figure>', html, re.S)
+            self.assertIsNotNone(figure_html, path)
+            inner = figure_html.group(1)
+            self.assertIn(caption, inner)
+            self.assertLess(inner.index(caption), inner.index("<pre>"))
 
     def test_article_links_and_source_urls_wrap(self):
         """Long source URLs and other article links must wrap at phone width via styles.css."""
