@@ -56,8 +56,26 @@ article blockquote {
 article table { border-collapse: collapse; width: 100%; font-size: 0.95em; }
 article th, article td { border: 1px solid var(--line); padding: 0.5rem 0.65rem; text-align: left; vertical-align: top; }
 article pre { overflow-x: auto; background: var(--paper-bright); padding: 0.8rem 1rem; border: 1px solid var(--line); border-radius: 8px; font-size: 0.85em; }
+/* Daily State prompt: gold rail, eyebrow label, wrap long lines so phones need no sideways scroll. */
+article figure.ds-prompt {
+  margin: 1.4rem 0;
+  padding: 0.1rem 1.2rem 0.85rem;
+  border-left: 3px solid var(--sun);
+  color: var(--ink-soft);
+  background: var(--paper-bright);
+}
+article figure.ds-prompt .ds-prompt-label {
+  font-family: var(--sans);
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--muted);
+  margin: 0.7rem 0 0.5rem;
+}
 /* Daily State prompt: keep paragraph breaks, wrap long lines so phones need no sideways scroll. */
-article blockquote pre {
+article blockquote pre,
+article figure.ds-prompt pre {
   white-space: pre-wrap;
   overflow-wrap: anywhere;
   word-break: normal;

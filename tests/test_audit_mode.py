@@ -134,7 +134,10 @@ class AuditModeTests(unittest.TestCase):
         self.assertEqual(html.count(f'<meta property="og:url" content="{NEON_URL}">'), 1)
         self.assertIn(NOTE, html)
         prompt = load_json(neon_dir() / "neon_run.json")["prompts"]["episode"]
-        pre = re.search(r"<pre>(.*?)</pre>", html, re.S).group(1)
+        figure = re.search(r'<figure class="ds-prompt">(.*?)</figure>', html, re.S)
+        self.assertIsNotNone(figure)
+        self.assertIn('<figcaption class="ds-prompt-label">Minimal prompt</figcaption>', figure.group(1))
+        pre = re.search(r"<pre>(.*?)</pre>", figure.group(1), re.S).group(1)
         self.assertEqual(html_lib.unescape(pre), prompt)
         self.assertEqual(html.count(f'<audio controls src="{AUDIO}"></audio>'), 1)
         self.assertEqual(html.count(f'<a href="{SHORT}">Short</a>'), 1)
