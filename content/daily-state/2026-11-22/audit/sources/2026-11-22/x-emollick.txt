@@ -1,0 +1,35 @@
+@emollick: We really are in a (temporary?) place where a combination of expertise and being able to work with AI allows people to do incredible things. It is no coincidence that people proving Millennium Problems have all been great mathematicians, the models can't (yet) do it on their own https://t.co/qr4NO1JJxD
+
+AFFILIATION NOTE (scan): Wharton professor and commentator; not involved in the proof or its verification.
+
+REPLIES:
+@moonseesyou (0 likes): @emollick The Millennium Problems constraint really highlights that the models still lack that deep, structural mathematical intuition needed for original proof.
+@tsowell1984 (0 likes): @emollick It is also because labs give only great mathematicians access to internal very expensive models with a budget to do this experiments.
+@creativerex84 (0 likes): @emollick Same thing in video right now. The people pulling great AI footage are mostly ex editors and DPs, because they already know what a wrong shot looks like and can say why. Do you think that gap closes once models can judge their own output, or does that part stay human?
+@itsmeandresito (0 likes): @emollick Same pattern in software. AI multiplies what you already know, so the people who can judge the output get the biggest gains. The open question is how juniors build that judgment if AI does the early reps for them.
+@escalisai (0 likes): @emollick I see the small version of this every week. My Grok Bots are only as good as the corrections I give them. The bids bot got good because I know what a winning bid looks like and could flag every weak line. Without that, it just writes confident filler.
+@PontusLenell (0 likes): @emollick same in small business, the owner who knows the trade inside out gets way more out of AI than a newcomer. do you think that gap shrinks or grows as the models get better
+@NaveenBhati1 (0 likes): @emollick The pattern holds well beyond maths. AI pays most to the people who already know what good looks like. Which raises the uncomfortable question for every business: if expertise is the multiplier, how are you still building it?
+@kadirkurtulus (0 likes): @emollick Verification is the bottleneck.
+@NirmeshMehta (0 likes): @emollick I think something similar is the case in software development.
+
+AI has automated 90-99% of the effort. Two points stand out - there is still 1% left. And second, this 1% is not ‘uniform’ - it precisely represents the skill gap that AI doesn’t have yet. AI doesn’t have systemic
+@JackPsta (0 likes): @emollick It means that Knowledge is now in a fewer hands. I really hope they will do some breakthroughs in cancer treatment and chronic diseases of which matter to everybody.
+@rita_jenil (0 likes): @emollick The bottleneck moved from proving to picking. A model can grind through attempts, but it can't tell you which problem is worth years of your life.
+
+That judgement is the expertise that compounds now.
+@aspeopledo (0 likes): @emollick Expertise matters because a convincing first draft can now arrive faster than we can check the last ten percent.
+@seanbuildlog (0 likes): @emollick The Millennium Problems example makes the point well — the expert is the one who can tell whether the model's output is a real step forward or a plausible-looking dead end. That judgment is the part that doesn't scale with better models alone.
+@alkaidzhuang (0 likes): @emollick The model can sit with the problem for a long time. Someone who knows the field still has to say what counts as done. I keep that check outside the run: a test, a formal verifier, or a person who can reject it. Expertise is the stop condition, not the first draft.
+@Ai3yl (0 likes): @emollick This matches what I see outside math too. AI amplifies whatever skill you already have. Someone who already knows how to teach or sell gets a huge lever. Someone with nothing to amplify mostly just produces average work faster.
+@wardhammond (0 likes): @emollick The part I keep wondering about is how long it takes the rest of us to understand what the expert and the machine already checked.
+@Adewalwar (0 likes): @emollick As someone with no coding background, this matches. AI helps most where I know enough to catch a wrong answer.
+@bobscilog (0 likes): @emollick wait so if the models can't do it on their own yet, does that mean the expert is still the bottleneck or the ai is
+@WinterPHD8866 (0 likes): @emollick That “complements, not substitutes” framing feels right: deep expertise helps decide what to ask and whether the result holds up. The bottleneck may be verification time, not generation. Have you seen the same pattern outside math?
+@staroaeg (0 likes): @emollick AI is amplifying expertise, not replacing the need for it. The best results still start with someone who knows what to ask.
+@oxniubi (0 likes): @emollick The expert's job is shifting to spotting which confident step is the wrong one.
+Model writes the proof, human smells the bad line.
+@YL9104 (0 likes): @emollick Kevin Bryan's point lands because it cuts against the headline. The story reads like "AI solves Riemann," but the work reads like a mathematician steering and a model grinding — 17 million lines nobody has read, including the author. The model couldn't do it alone, and neither
+@TangoJazz99 (0 likes): @emollick Just becos the 15yr old PhD student needed a professor as a mentor now doesn’t mean he will always need him. Likelihood is he won’t. Ai is 4y old.
+@bebraSOL (0 likes): @emollick the models can't yet do it on their own
+@Adojz (0 likes): @emollick feels the same in software from where i sit, the people who can tell when the output is wrong get way more out of it. how long do you think the "temporary" lasts?

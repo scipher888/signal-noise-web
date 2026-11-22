@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Audit — Daily State of AI - 2026-11-22 — Signal &amp; Noise</title>
-  <meta name="description" content="Claim audit for Daily State of AI - 2026-11-22 (pending).">
+  <meta name="description" content="Claim audit for Daily State of AI - 2026-11-22. The audit is for transparency and is not a gate.">
   <link rel="canonical" href="https://www.signalandnoise.email/daily-state/2026-11-22/audit/">
   <link rel="stylesheet" href="../../../styles.css">
   <link rel="alternate" type="application/rss+xml" title="Signal &amp; Noise" href="../../../feed.xml">
@@ -12,12 +12,12 @@
   <meta property="og:site_name" content="Signal &amp; Noise">
   <meta property="og:type" content="article">
   <meta property="og:title" content="Audit — Daily State of AI - 2026-11-22">
-  <meta property="og:description" content="Claim audit for Daily State of AI - 2026-11-22 (pending).">
+  <meta property="og:description" content="Claim audit for Daily State of AI - 2026-11-22. The audit is for transparency and is not a gate.">
   <meta property="og:url" content="https://www.signalandnoise.email/daily-state/2026-11-22/audit/">
   <meta property="og:image" content="https://www.signalandnoise.email/assets/preview.png?v=09b48f76">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Audit — Daily State of AI - 2026-11-22">
-  <meta name="twitter:description" content="Claim audit for Daily State of AI - 2026-11-22 (pending).">
+  <meta name="twitter:description" content="Claim audit for Daily State of AI - 2026-11-22. The audit is for transparency and is not a gate.">
   <meta name="twitter:image" content="https://www.signalandnoise.email/assets/preview.png?v=09b48f76">
 </head>
 <body>
@@ -26,12 +26,544 @@
   <nav><a href="../../../archive/">Archive</a> <a href="../../../about/">About</a> <a href="../../../subscribe/">Follow</a></nav>
 </header>
 <main>
-<!-- daily-state-audit-pending -->
 <article>
 <p class="kicker">Daily State of AI</p>
 <h1>Audit — Daily State of AI - 2026-11-22</h1>
 <p><time datetime="2026-11-22">November 22, 2026</time></p>
-<p>The executable claim audit for this edition runs after publication and will appear here. The audit is for transparency and is not a gate.</p>
+<p class="row">Episode 26 PASS / 3 FAIL / 3 NEEDS-HUMAN</p>
+<p class="row">Short 15 PASS / 3 FAIL / 7 NEEDS-HUMAN</p>
+<p class="row">Takeaways 10 PASS / 2 FAIL / 4 NEEDS-HUMAN</p>
+<p>Each claim is a small Python check run against the source texts. The audit is for transparency and is not a gate.</p>
+<h2>Episode</h2>
+<details open>
+<summary>FAIL · a certified Riemann proof on the same day the stock market panics about AI returns</summary>
+<p>Claim: a certified Riemann proof on the same day the stock market panics about AI returns</p>
+<p>Result: FAIL</p>
+<p>Source quote: On November 20, 2026, Levent Alpöge released a proof of the Riemann Hypothesis as a Lean library comprising 17 million lines of code.</p>
+<p>Proof was released Friday Nov 20 (when Nasdaq sold off) and certified Saturday Nov 21, not certified on the same trading day</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-22/audit/checks/2026-11-22/e27-certified-same-day-as-selloff.py">checks/2026-11-22/e27-certified-same-day-as-selloff.py</a></p>
+</details>
+<details open>
+<summary>FAIL · Episode omits METR framing caveat: evaluator-reported update with wide uncertainty, not independent replication</summary>
+<p>Claim: Episode omits METR framing caveat: evaluator-reported update with wide uncertainty, not independent replication</p>
+<p>Result: FAIL</p>
+<p>Source quote: framing (METR): METR&#x27;s own evaluation of public models up to Opus 5.5 and GPT-6 Astra; evaluator-reported research update with wide uncertainty, not independent replication.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-22/audit/checks/2026-11-22/oe1-metr-uncertainty-caveat.py">checks/2026-11-22/oe1-metr-uncertainty-caveat.py</a></p>
+</details>
+<details open>
+<summary>FAIL · Episode omits Riemann framing caveat: machine verification of a formal proof, not a human-readable paper or journal peer review</summary>
+<p>Claim: Episode omits Riemann framing caveat: machine verification of a formal proof, not a human-readable paper or journal peer review</p>
+<p>Result: FAIL</p>
+<p>Source quote: This is machine verification of a formal proof, not a human-readable paper or journal peer review.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-22/audit/checks/2026-11-22/oe2-riemann-machine-not-peer-review.py">checks/2026-11-22/oe2-riemann-machine-not-peer-review.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · Sunday, November 22, 2026</summary>
+<p>Claim: Sunday, November 22, 2026</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: 2026-11-21 13:55</p>
+<p>Broadcast date Sunday, November 22, 2026 is not stated in primary sources (dated Nov 20-21, 2026)</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-22/audit/checks/2026-11-22/e01-episode-date.py">checks/2026-11-22/e01-episode-date.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · Levent Alpöge released a Claude-assisted proof of the Riemann Hypothesis</summary>
+<p>Claim: Levent Alpöge released a Claude-assisted proof of the Riemann Hypothesis</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: On November 20, 2026, Levent Alpöge released a proof of the Riemann Hypothesis as a Lean library comprising 17 million lines of code.</p>
+<p>Primary source lean confirms Alpöge released the proof but does not mention Claude</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-22/audit/checks/2026-11-22/e02-alpoge-claude-riemann.py">checks/2026-11-22/e02-alpoge-claude-riemann.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · Ethan Mollick pointed out that it still took a world-class number theorist who had studied Riemann for years to guide the model to the finish line</summary>
+<p>Claim: Ethan Mollick pointed out that it still took a world-class number theorist who had studied Riemann for years to guide the model to the finish line</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: It is no coincidence that people proving Millennium Problems have all been great mathematicians, the models can&#x27;t (yet) do it on their own https://t.co/qr4NO1JJxD</p>
+<p>Mollick wrote generally about great mathematicians and Millennium Problems; number theorist and studied Riemann for years are not in the post text</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-22/audit/checks/2026-11-22/e09-ethan-mollick-attribution.py">checks/2026-11-22/e09-ethan-mollick-attribution.py</a></p>
+</details>
+<details>
+<summary>PASS · 17 million lines of Lean code</summary>
+<p>Claim: 17 million lines of Lean code</p>
+<p>Result: PASS</p>
+<p>Source quote: On November 20, 2026, Levent Alpöge released a proof of the Riemann Hypothesis as a Lean library comprising 17 million lines of code.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-22/audit/checks/2026-11-22/e03-17m-lines-lean.py">checks/2026-11-22/e03-17m-lines-lean.py</a></p>
+</details>
+<details>
+<summary>PASS · the Lean and Mathlib communities formally certified yesterday</summary>
+<p>Claim: the Lean and Mathlib communities formally certified yesterday</p>
+<p>Result: PASS</p>
+<p>Source quote: 2026-11-21 13:55 … Lean and Mathlib communities … We hereby certify that both the statement and the proof of the Riemann Hypothesis are correct.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-22/audit/checks/2026-11-22/e04-lean-mathlib-certified.py">checks/2026-11-22/e04-lean-mathlib-certified.py</a></p>
+</details>
+<details>
+<summary>PASS · METR dropped a major capability update</summary>
+<p>Claim: METR dropped a major capability update</p>
+<p>Result: PASS</p>
+<p>Source quote: November 20, 2026 … This post presents evidence from our capability evaluations of public models relevant to AI R&amp;D acceleration, up to Opus 5.5 and GPT-6 Astra.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-22/audit/checks/2026-11-22/e05-metr-capability-update.py">checks/2026-11-22/e05-metr-capability-update.py</a></p>
+</details>
+<details>
+<summary>PASS · the length of tasks frontier models can complete is still doubling roughly every 3.6 months</summary>
+<p>Claim: the length of tasks frontier models can complete is still doubling roughly every 3.6 months</p>
+<p>Result: PASS</p>
+<p>Source quote: On the combined suite of TH1.1 and TH2, time horizons are doubling roughly every 3.6 months (Section 3.C.1).</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-22/audit/checks/2026-11-22/e06-metr-doubling-3-6-months.py">checks/2026-11-22/e06-metr-doubling-3-6-months.py</a></p>
+</details>
+<details>
+<summary>PASS · the Nasdaq sold off hard as investors questioned whether the AI trade is actually paying off</summary>
+<p>Claim: the Nasdaq sold off hard as investors questioned whether the AI trade is actually paying off</p>
+<p>Result: PASS</p>
+<p>Source quote: You really cannot get a cleaner example of the principle that &quot;AI capabilities ≠ real-world AI consequences&quot; than getting news of a proof of the Riemann Hypothesis-which people have for years cited as a sign of takeoff, AGI, the beginning of the productivity boom that takes us into the transhumanist Valhalla, etc etc-at the same time that the Nasdaq absolutely vomits up all over itself as the AI Trade dies.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-22/audit/checks/2026-11-22/e07-nasdaq-ai-selloff.py">checks/2026-11-22/e07-nasdaq-ai-selloff.py</a></p>
+</details>
+<details>
+<summary>PASS · The journalist Derek Thompson called it the cleanest possible example that AI capabilities don&#x27;t automatically equal real-world consequences</summary>
+<p>Claim: The journalist Derek Thompson called it the cleanest possible example that AI capabilities don&#x27;t automatically equal real-world consequences</p>
+<p>Result: PASS</p>
+<p>Source quote: You really cannot get a cleaner example of the principle that &quot;AI capabilities ≠ real-world AI consequences&quot; than getting news of a proof of the Riemann Hypothesis-which people have for years cited as a sign of takeoff, AGI, the beginning of the productivity boom that takes us into the transhumanist Valhalla, etc etc-at the same time that the Nasdaq absolutely vomits up all over itself as the AI Trade dies.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-22/audit/checks/2026-11-22/e08-derek-thompson-quote.py">checks/2026-11-22/e08-derek-thompson-quote.py</a></p>
+</details>
+<details>
+<summary>PASS · Nathan Lambert&#x27;s talk at Cornell on the future of post-training</summary>
+<p>Claim: Nathan Lambert&#x27;s talk at Cornell on the future of post-training</p>
+<p>Result: PASS</p>
+<p>Source quote: Nathan Lambert … Cornell University, November 20, 2026 … Pushing Frontiers in Open Language Model Post-Training</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-22/audit/checks/2026-11-22/e10-lambert-cornell-talk.py">checks/2026-11-22/e10-lambert-cornell-talk.py</a></p>
+</details>
+<details>
+<summary>PASS · METR&#x27;s update, which tested public models up to Opus 5.5 and GPT-6 Astra</summary>
+<p>Claim: METR&#x27;s update, which tested public models up to Opus 5.5 and GPT-6 Astra</p>
+<p>Result: PASS</p>
+<p>Source quote: This post presents evidence from our capability evaluations of public models relevant to AI R&amp;D acceleration, up to Opus 5.5 and GPT-6 Astra.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-22/audit/checks/2026-11-22/e11-metr-opus-5-5-gpt6-astra.py">checks/2026-11-22/e11-metr-opus-5-5-gpt6-astra.py</a></p>
+</details>
+<details>
+<summary>PASS · They hit the 96th to 98th percentile in multi-month Al Zimmermann programming contests</summary>
+<p>Claim: They hit the 96th to 98th percentile in multi-month Al Zimmermann programming contests</p>
+<p>Result: PASS</p>
+<p>Source quote: The first of these two task families was 15 Al Zimmermann contests, multi-month long optimization competitions. … We find the median placement of the strongest models (Fable 5.1, Opus 5.5 and GPT-6 Astra) is the 96th to 98th percentile of human participants (97 to 413 participants per contest).</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-22/audit/checks/2026-11-22/e12-azspc-96-98-percentile.py">checks/2026-11-22/e12-azspc-96-98-percentile.py</a></p>
+</details>
+<details>
+<summary>PASS · beat competent human speedrunners on NanoGPT at a fraction of the cost</summary>
+<p>Claim: beat competent human speedrunners on NanoGPT at a fraction of the cost</p>
+<p>Result: PASS</p>
+<p>Source quote: L Budget NanoGPT … On Budget NanoGPT speedrun, we find that fully autonomous AI agents outperform many competent speedrunners, achieving better speedups whilst costing less.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-22/audit/checks/2026-11-22/e13-nanogpt-competent-speedrunners.py">checks/2026-11-22/e13-nanogpt-competent-speedrunners.py</a></p>
+</details>
+<details>
+<summary>PASS · METR introduced a new metric called Lifecycle Cost—an estimate of what it takes to build, run, and score a task as a reinforcement learning environment</summary>
+<p>Claim: METR introduced a new metric called Lifecycle Cost—an estimate of what it takes to build, run, and score a task as a reinforcement learning environment</p>
+<p>Result: PASS</p>
+<p>Source quote: In Section 3.B.1, we introduce Lifecycle Cost, a rough proxy for how costly a task would be to build and use as an RL training environment. … This is the cost for us to develop a containerized environment for the task, and then to run and score the task 100 times.⁠26 The goal with this quantity is not to reflect the &#x27;real cost&#x27; of RL environments per se, but rather to have some rough quantitative metric of relative costliness.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-22/audit/checks/2026-11-22/e14-metr-lifecycle-cost-metric.py">checks/2026-11-22/e14-metr-lifecycle-cost-metric.py</a></p>
+</details>
+<details>
+<summary>PASS · Even when you control for how long a task takes a human, doubling its lifecycle cost cuts an AI agent&#x27;s effective time horizon roughly in half</summary>
+<p>Claim: Even when you control for how long a task takes a human, doubling its lifecycle cost cuts an AI agent&#x27;s effective time horizon roughly in half</p>
+<p>Result: PASS</p>
+<p>Source quote: On our dataset, models perform somewhat worse on tasks that we estimate are costlier to turn into RL training environments, even after controlling for how long these tasks would take humans. … In our data, a doubling of lifecycle cost for a task of a given length imposes a difficulty penalty that is very roughly equivalent to halving the time horizon of the agent.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-22/audit/checks/2026-11-22/e15-doubling-lifecycle-cost-halves-horizon.py">checks/2026-11-22/e15-doubling-lifecycle-cost-halves-horizon.py</a></p>
+</details>
+<details>
+<summary>PASS · METR ran experiments with agent swarms</summary>
+<p>Claim: METR ran experiments with agent swarms</p>
+<p>Result: PASS</p>
+<p>Source quote: For several of our tasks, we ran small experiments with swarms, or collections of agents working together towards a common goal without a clear leader or subagent structure.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-22/audit/checks/2026-11-22/e16-metr-agent-swarms.py">checks/2026-11-22/e16-metr-agent-swarms.py</a></p>
+</details>
+<details>
+<summary>PASS · On NanoGPT optimization, where agents get an exact score back quickly, swarms beat independent agents</summary>
+<p>Claim: On NanoGPT optimization, where agents get an exact score back quickly, swarms beat independent agents</p>
+<p>Result: PASS</p>
+<p>Source quote: The only task in our suite that experienced swarm uplift relatively consistently was nanoGPT, in which agents were tasked to optimize a language-model training script based on the nanoGPT speedrun. … For this task, submissions are independent of one another and agents see the exact grade for each submission as they went, and they could submit repeatedly within a fixed budget. … Figure 62: Swarms of size 5 outperform best-of-k counterparts in nanoGPT speedrunning</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-22/audit/checks/2026-11-22/e17-swarms-beat-independent-nanogpt.py">checks/2026-11-22/e17-swarms-beat-independent-nanogpt.py</a></p>
+</details>
+<details>
+<summary>PASS · on tasks where models had to build their own validation loops against hidden targets, swarms actually performed worse</summary>
+<p>Claim: on tasks where models had to build their own validation loops against hidden targets, swarms actually performed worse</p>
+<p>Result: PASS</p>
+<p>Source quote: Tasks that require agents to create their own feedback loops are particularly susceptible to swarm downlift. … Minecraft Bot: Build an autonomous bot that beats Minecraft, which is evaluated on hidden worlds. … Thus, they reward agents building good validation loops in the available practice settings and avoiding overfitting on individual examples.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-22/audit/checks/2026-11-22/e18-swarms-worse-hidden-targets.py">checks/2026-11-22/e18-swarms-worse-hidden-targets.py</a></p>
+</details>
+<details>
+<summary>PASS · the larger the swarm got, the more confidently the agents misled themselves</summary>
+<p>Claim: the larger the swarm got, the more confidently the agents misled themselves</p>
+<p>Result: PASS</p>
+<p>Source quote: Interestingly, as swarm size increases, the gap grows significantly, suggesting agents in larger swarms were more prone to misleading themselves.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-22/audit/checks/2026-11-22/e19-larger-swarm-misled-themselves.py">checks/2026-11-22/e19-larger-swarm-misled-themselves.py</a></p>
+</details>
+<details>
+<summary>PASS · When METR asked Opus 5.5 to grade evaluation tasks designed by GPT-6 Astra, it systematically overrated them</summary>
+<p>Claim: When METR asked Opus 5.5 to grade evaluation tasks designed by GPT-6 Astra, it systematically overrated them</p>
+<p>Result: PASS</p>
+<p>Source quote: Frontier models show high agreement with our own ratings when the task is made by a weaker model than themselves, but give inappropriately high scores when the task is made by a stronger, or similarly strong, model, see Figure 9.⁠45 Opus 5.5, the judge that had the highest agreement with our human scorer, scores Astra&#x27;s tasks on average about 0.2 (out of 1) more highly than our human.⁠46 … With the end result being that when used as judges they systematically overestimate the quality of their own solutions, and those of stronger models.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-22/audit/checks/2026-11-22/e20-opus-overrated-astra-tasks.py">checks/2026-11-22/e20-opus-overrated-astra-tasks.py</a></p>
+</details>
+<details>
+<summary>PASS · Independent proof checkers like con-leche and con-ron certified the entire proof in twenty-four hours</summary>
+<p>Claim: Independent proof checkers like con-leche and con-ron certified the entire proof in twenty-four hours</p>
+<p>Result: PASS</p>
+<p>Source quote: Over the past day, the Lean and Mathlib communities have rallied to verify the proof&#x27;s correctness. … The exported raw proof has been checked by several proof checkers, including Lean&#x27;s official kernel, the con-leche and con-ron checkers, and several independent checkers contributed by third parties and implemented in different programming languages.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-22/audit/checks/2026-11-22/e21-con-leche-con-ron-24h.py">checks/2026-11-22/e21-con-leche-con-ron-24h.py</a></p>
+</details>
+<details>
+<summary>PASS · Nathan Lambert&#x27;s new Cornell slides</summary>
+<p>Claim: Nathan Lambert&#x27;s new Cornell slides</p>
+<p>Result: PASS</p>
+<p>Source quote: Nathan Lambert … Cornell University, November 20, 2026 … Slides: natolambert.com/cornell-2026</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-22/audit/checks/2026-11-22/e22-lambert-cornell-slides.py">checks/2026-11-22/e22-lambert-cornell-slides.py</a></p>
+</details>
+<details>
+<summary>PASS · Reinforcement learning now consumes far more compute than pretraining</summary>
+<p>Claim: Reinforcement learning now consumes far more compute than pretraining</p>
+<p>Result: PASS</p>
+<p>Source quote: Post-training (RL) now takes most of a frontier lab&#x27;s compute … RL compute relative to pretraining compute for the same model, in GPU-hours:</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-22/audit/checks/2026-11-22/e23-rl-more-compute-than-pretraining.py">checks/2026-11-22/e23-rl-more-compute-than-pretraining.py</a></p>
+</details>
+<details>
+<summary>PASS · nearly twice as much for Beam</summary>
+<p>Claim: nearly twice as much for Beam</p>
+<p>Result: PASS</p>
+<p>Source quote: Beam Oct 2026 … &gt; 1.7×</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-22/audit/checks/2026-11-22/e24-beam-nearly-twice-rl.py">checks/2026-11-22/e24-beam-nearly-twice-rl.py</a></p>
+</details>
+<details>
+<summary>PASS · roughly four times as much for Inkling 2 Small</summary>
+<p>Claim: roughly four times as much for Inkling 2 Small</p>
+<p>Result: PASS</p>
+<p>Source quote: Inkling 2 Small Nov 2026 … ~4×*</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-22/audit/checks/2026-11-22/e25-inkling-four-times-rl.py">checks/2026-11-22/e25-inkling-four-times-rl.py</a></p>
+</details>
+<details>
+<summary>PASS · Frontier labs are spending 50 million dollars a year or more training specialist teachers and distilling them into single models</summary>
+<p>Claim: Frontier labs are spending 50 million dollars a year or more training specialist teachers and distilling them into single models</p>
+<p>Result: PASS</p>
+<p>Source quote: Now very expensive (O($50M+/yr) to do it well). … Stages: Stage 1 SFT/reasoning foundation → Stage 2 train domain-specialist teachers (with older-style post-training recipes) → Stage 3 MOPD into a single student (final model).</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-22/audit/checks/2026-11-22/e26-50m-year-specialist-teachers.py">checks/2026-11-22/e26-50m-year-specialist-teachers.py</a></p>
+</details>
+<details>
+<summary>PASS · As Lambert warned students at Cornell, models dramatically accelerate output, but they barely accelerate understanding—and the load-bearing insight is often a tiny fraction of the work</summary>
+<p>Claim: As Lambert warned students at Cornell, models dramatically accelerate output, but they barely accelerate understanding—and the load-bearing insight is often a tiny fraction of the work</p>
+<p>Result: PASS</p>
+<p>Source quote: Using LLMs accelerates output but very minimally accelerates understanding … To use a Claude-ism, the load-bearing piece of work may be a very small proportion of the overall process.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-22/audit/checks/2026-11-22/e28-lambert-output-vs-understanding.py">checks/2026-11-22/e28-lambert-output-vs-understanding.py</a></p>
+</details>
+<details>
+<summary>PASS · METR&#x27;s data shows models are improving even on high-cost tasks, just from a lower baseline</summary>
+<p>Claim: METR&#x27;s data shows models are improving even on high-cost tasks, just from a lower baseline</p>
+<p>Result: PASS</p>
+<p>Source quote: Despite this, we see similar rates of progress on high and low cost subsets of our tasks, and we also see AI performance improving over time even on our most costly tasks. … When we subset our tasks by high and low Lifecycle Cost, controlling for task length, and plot time horizons over release dates, we find that models perform worse on the higher Lifecycle Cost subset of our tasks, see Figure 7.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-22/audit/checks/2026-11-22/e29-metr-improving-high-cost-tasks.py">checks/2026-11-22/e29-metr-improving-high-cost-tasks.py</a></p>
+</details>
+<details>
+<summary>PASS · Episode carries Lambert framing caveat (author opinion / research agenda, not peer-reviewed)</summary>
+<p>Claim: Episode carries Lambert framing caveat (author opinion / research agenda, not peer-reviewed)</p>
+<p>Result: PASS</p>
+<p>Source quote: framing (natolambert.com): Author&#x27;s own talk slides (Cornell, November 20, 2026); opinion and research agenda, not peer-reviewed findings.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-22/audit/checks/2026-11-22/oe3-lambert-slides-not-peer-reviewed.py">checks/2026-11-22/oe3-lambert-slides-not-peer-reviewed.py</a></p>
+</details>
+<h2>Short</h2>
+<details open>
+<summary>FAIL · Short omits METR framing caveat: evaluator-reported update with wide uncertainty, not independent replication</summary>
+<p>Claim: Short omits METR framing caveat: evaluator-reported update with wide uncertainty, not independent replication</p>
+<p>Result: FAIL</p>
+<p>Source quote: framing (METR): METR&#x27;s own evaluation of public models up to Opus 5.5 and GPT-6 Astra; evaluator-reported research update with wide uncertainty, not independent replication.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-22/audit/checks/2026-11-22/os1-metr-uncertainty-caveat.py">checks/2026-11-22/os1-metr-uncertainty-caveat.py</a></p>
+</details>
+<details open>
+<summary>FAIL · Short omits Riemann framing caveat: machine verification of a formal proof, not a human-readable paper or journal peer review</summary>
+<p>Claim: Short omits Riemann framing caveat: machine verification of a formal proof, not a human-readable paper or journal peer review</p>
+<p>Result: FAIL</p>
+<p>Source quote: This is machine verification of a formal proof, not a human-readable paper or journal peer review.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-22/audit/checks/2026-11-22/os2-riemann-machine-not-peer-review.py">checks/2026-11-22/os2-riemann-machine-not-peer-review.py</a></p>
+</details>
+<details open>
+<summary>FAIL · Short omits Lambert framing caveat: author talk slides representing opinion and research agenda, not peer-reviewed findings</summary>
+<p>Claim: Short omits Lambert framing caveat: author talk slides representing opinion and research agenda, not peer-reviewed findings</p>
+<p>Result: FAIL</p>
+<p>Source quote: framing (natolambert.com): Author&#x27;s own talk slides (Cornell, November 20, 2026); opinion and research agenda, not peer-reviewed findings.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-22/audit/checks/2026-11-22/os3-lambert-slides-not-peer-reviewed.py">checks/2026-11-22/os3-lambert-slides-not-peer-reviewed.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · On Friday, a 17-million-line, Claude-assisted proof of the Riemann Hypothesis dropped</summary>
+<p>Claim: On Friday, a 17-million-line, Claude-assisted proof of the Riemann Hypothesis dropped</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: On November 20, 2026, Levent Alpöge released a proof of the Riemann Hypothesis as a Lean library comprising 17 million lines of code.</p>
+<p>Primary source lean confirms 17 million lines released Nov 20 (Friday) but does not mention Claude</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-22/audit/checks/2026-11-22/s01-friday-17m-claude-riemann.py">checks/2026-11-22/s01-friday-17m-claude-riemann.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · Claude-assisted proof of the Riemann Hypothesis</summary>
+<p>Claim: Claude-assisted proof of the Riemann Hypothesis</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: On November 20, 2026, Levent Alpöge released a proof of the Riemann Hypothesis as a Lean library comprising 17 million lines of code.</p>
+<p>Primary source lean does not mention Claude</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-22/audit/checks/2026-11-22/s02-claude-assisted-riemann.py">checks/2026-11-22/s02-claude-assisted-riemann.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · AI isn&#x27;t climbing a uniform ladder of intelligence.</summary>
+<p>Claim: AI isn&#x27;t climbing a uniform ladder of intelligence.</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>Editorial synthesis/opinion</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-22/audit/checks/2026-11-22/s08-uniform-ladder-opinion.py">checks/2026-11-22/s08-uniform-ladder-opinion.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · It&#x27;s governed by verification cost—how cheaply you can check if an answer is right.</summary>
+<p>Claim: It&#x27;s governed by verification cost—how cheaply you can check if an answer is right.</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>Editorial synthesis/opinion</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-22/audit/checks/2026-11-22/s09-verification-cost-opinion.py">checks/2026-11-22/s09-verification-cost-opinion.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · Riemann fell because Lean turns pure math into an automated verifier.</summary>
+<p>Claim: Riemann fell because Lean turns pure math into an automated verifier.</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>Editorial interpretation/opinion</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-22/audit/checks/2026-11-22/s16-riemann-automated-verifier-opinion.py">checks/2026-11-22/s16-riemann-automated-verifier-opinion.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · Anywhere you can build a proof checker, AI feels like magic.</summary>
+<p>Claim: Anywhere you can build a proof checker, AI feels like magic.</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>Editorial opinion</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-22/audit/checks/2026-11-22/s20-proof-checker-magic-opinion.py">checks/2026-11-22/s20-proof-checker-magic-opinion.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · Everywhere else, human judgment is all that keeps the swarms honest.</summary>
+<p>Claim: Everywhere else, human judgment is all that keeps the swarms honest.</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>Editorial opinion</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-22/audit/checks/2026-11-22/s21-human-judgment-swarms-opinion.py">checks/2026-11-22/s21-human-judgment-swarms-opinion.py</a></p>
+</details>
+<details>
+<summary>PASS · certified by Lean yesterday</summary>
+<p>Claim: certified by Lean yesterday</p>
+<p>Result: PASS</p>
+<p>Source quote: 2026-11-21 13:55 … Lean and Mathlib communities … We hereby certify that both the statement and the proof of the Riemann Hypothesis are correct.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-22/audit/checks/2026-11-22/s03-certified-by-lean-yesterday.py">checks/2026-11-22/s03-certified-by-lean-yesterday.py</a></p>
+</details>
+<details>
+<summary>PASS · METR showed AI task horizons doubling every 3.6 months</summary>
+<p>Claim: METR showed AI task horizons doubling every 3.6 months</p>
+<p>Result: PASS</p>
+<p>Source quote: On the combined suite of TH1.1 and TH2, time horizons are doubling roughly every 3.6 months (Section 3.C.1).</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-22/audit/checks/2026-11-22/s04-metr-horizons-doubling-3-6.py">checks/2026-11-22/s04-metr-horizons-doubling-3-6.py</a></p>
+</details>
+<details>
+<summary>PASS · doubling every 3.6 months</summary>
+<p>Claim: doubling every 3.6 months</p>
+<p>Result: PASS</p>
+<p>Source quote: On the combined suite of TH1.1 and TH2, time horizons are doubling roughly every 3.6 months (Section 3.C.1).</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-22/audit/checks/2026-11-22/s05-doubling-3-6-months.py">checks/2026-11-22/s05-doubling-3-6-months.py</a></p>
+</details>
+<details>
+<summary>PASS · the Nasdaq sold off hard</summary>
+<p>Claim: the Nasdaq sold off hard</p>
+<p>Result: PASS</p>
+<p>Source quote: You really cannot get a cleaner example of the principle that &quot;AI capabilities ≠ real-world AI consequences&quot; than getting news of a proof of the Riemann Hypothesis-which people have for years cited as a sign of takeoff, AGI, the beginning of the productivity boom that takes us into the transhumanist Valhalla, etc etc-at the same time that the Nasdaq absolutely vomits up all over itself as the AI Trade dies.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-22/audit/checks/2026-11-22/s06-nasdaq-sold-off-hard.py">checks/2026-11-22/s06-nasdaq-sold-off-hard.py</a></p>
+</details>
+<details>
+<summary>PASS · 17M lines</summary>
+<p>Claim: 17M lines</p>
+<p>Result: PASS</p>
+<p>Source quote: On November 20, 2026, Levent Alpöge released a proof of the Riemann Hypothesis as a Lean library comprising 17 million lines of code.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-22/audit/checks/2026-11-22/s07-17m-lines.py">checks/2026-11-22/s07-17m-lines.py</a></p>
+</details>
+<details>
+<summary>PASS · METR tested Opus 5.5 and GPT-6 Astra</summary>
+<p>Claim: METR tested Opus 5.5 and GPT-6 Astra</p>
+<p>Result: PASS</p>
+<p>Source quote: This post presents evidence from our capability evaluations of public models relevant to AI R&amp;D acceleration, up to Opus 5.5 and GPT-6 Astra.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-22/audit/checks/2026-11-22/s10-metr-tested-opus-astra.py">checks/2026-11-22/s10-metr-tested-opus-astra.py</a></p>
+</details>
+<details>
+<summary>PASS · doubling a task&#x27;s cost to run as an RL environment cuts an agent&#x27;s effective horizon roughly in half</summary>
+<p>Claim: doubling a task&#x27;s cost to run as an RL environment cuts an agent&#x27;s effective horizon roughly in half</p>
+<p>Result: PASS</p>
+<p>Source quote: In Section 3.B.1, we introduce Lifecycle Cost, a rough proxy for how costly a task would be to build and use as an RL training environment. … In our data, a doubling of lifecycle cost for a task of a given length imposes a difficulty penalty that is very roughly equivalent to halving the time horizon of the agent.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-22/audit/checks/2026-11-22/s11-doubling-rl-cost-halves-horizon.py">checks/2026-11-22/s11-doubling-rl-cost-halves-horizon.py</a></p>
+</details>
+<details>
+<summary>PASS · roughly in half</summary>
+<p>Claim: roughly in half</p>
+<p>Result: PASS</p>
+<p>Source quote: In our data, a doubling of lifecycle cost for a task of a given length imposes a difficulty penalty that is very roughly equivalent to halving the time horizon of the agent.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-22/audit/checks/2026-11-22/s12-roughly-in-half.py">checks/2026-11-22/s12-roughly-in-half.py</a></p>
+</details>
+<details>
+<summary>PASS · -50% horizon</summary>
+<p>Claim: -50% horizon</p>
+<p>Result: PASS</p>
+<p>Source quote: In our data, a doubling of lifecycle cost for a task of a given length imposes a difficulty penalty that is very roughly equivalent to halving the time horizon of the agent.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-22/audit/checks/2026-11-22/s13-minus-50-percent-horizon.py">checks/2026-11-22/s13-minus-50-percent-horizon.py</a></p>
+</details>
+<details>
+<summary>PASS · Without a fast ground-truth check, larger agent swarms actually performed worse</summary>
+<p>Claim: Without a fast ground-truth check, larger agent swarms actually performed worse</p>
+<p>Result: PASS</p>
+<p>Source quote: On the other hand, tasks where models had to determine their own methods of verification without a ground truth tended to lead to propagating incorrect assumptions; further, tasks involving very long feedback loops, very limited resources, or interaction channels mostly resulted in coordination overhead. … In some agent swarms, particularly for Train a Program, increasing swarm size resulted in decreasing scores.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-22/audit/checks/2026-11-22/s14-larger-swarms-performed-worse.py">checks/2026-11-22/s14-larger-swarms-performed-worse.py</a></p>
+</details>
+<details>
+<summary>PASS · AI judges systematically overrated strong models</summary>
+<p>Claim: AI judges systematically overrated strong models</p>
+<p>Result: PASS</p>
+<p>Source quote: With the end result being that when used as judges they systematically overestimate the quality of their own solutions, and those of stronger models.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-22/audit/checks/2026-11-22/s15-ai-judges-overrated-strong-models.py">checks/2026-11-22/s15-ai-judges-overrated-strong-models.py</a></p>
+</details>
+<details>
+<summary>PASS · Nathan Lambert notes RL now takes up to four times more compute than pretraining</summary>
+<p>Claim: Nathan Lambert notes RL now takes up to four times more compute than pretraining</p>
+<p>Result: PASS</p>
+<p>Source quote: RL compute relative to pretraining compute for the same model, in GPU-hours: … ~4×*</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-22/audit/checks/2026-11-22/s17-lambert-rl-4x-pretraining.py">checks/2026-11-22/s17-lambert-rl-4x-pretraining.py</a></p>
+</details>
+<details>
+<summary>PASS · up to four times more compute than pretraining</summary>
+<p>Claim: up to four times more compute than pretraining</p>
+<p>Result: PASS</p>
+<p>Source quote: RL compute relative to pretraining compute for the same model, in GPU-hours: … ~4×*</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-22/audit/checks/2026-11-22/s18-up-to-4x-compute-pretraining.py">checks/2026-11-22/s18-up-to-4x-compute-pretraining.py</a></p>
+</details>
+<details>
+<summary>PASS · 4x pretraining</summary>
+<p>Claim: 4x pretraining</p>
+<p>Result: PASS</p>
+<p>Source quote: Inkling 2 Small Nov 2026 … ~4×*</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-22/audit/checks/2026-11-22/s19-4x-pretraining.py">checks/2026-11-22/s19-4x-pretraining.py</a></p>
+</details>
+<details>
+<summary>PASS · Sources: METR, Lean Community and Nathan Lambert.</summary>
+<p>Claim: Sources: METR, Lean Community and Nathan Lambert.</p>
+<p>Result: PASS</p>
+<p>Source quote: AI R&amp;D-relevant model capabilities are improving rapidly and are getting harder to measure - METR</p>
+<p>All three cited primary sources (METR, Lean Community, Nathan Lambert) are present</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-22/audit/checks/2026-11-22/s22-sources-attribution.py">checks/2026-11-22/s22-sources-attribution.py</a></p>
+</details>
+<h2>Takeaways</h2>
+<details open>
+<summary>FAIL · Takeaways omit METR framing caveat: evaluator-reported update with wide uncertainty, not independent replication</summary>
+<p>Claim: Takeaways omit METR framing caveat: evaluator-reported update with wide uncertainty, not independent replication</p>
+<p>Result: FAIL</p>
+<p>Source quote: framing (METR): METR&#x27;s own evaluation of public models up to Opus 5.5 and GPT-6 Astra; evaluator-reported research update with wide uncertainty, not independent replication.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-22/audit/checks/2026-11-22/ot1-metr-uncertainty-caveat.py">checks/2026-11-22/ot1-metr-uncertainty-caveat.py</a></p>
+</details>
+<details open>
+<summary>FAIL · Takeaways omit Riemann framing caveat: machine verification of a formal proof, not a human-readable paper or journal peer review</summary>
+<p>Claim: Takeaways omit Riemann framing caveat: machine verification of a formal proof, not a human-readable paper or journal peer review</p>
+<p>Result: FAIL</p>
+<p>Source quote: This is machine verification of a formal proof, not a human-readable paper or journal peer review.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-22/audit/checks/2026-11-22/ot2-riemann-machine-not-peer-review.py">checks/2026-11-22/ot2-riemann-machine-not-peer-review.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · The Lean and Mathlib communities certified Levent Alpöge&#x27;s Claude-assisted, 17-million-line Lean proof of the Riemann Hypothesis</summary>
+<p>Claim: The Lean and Mathlib communities certified Levent Alpöge&#x27;s Claude-assisted, 17-million-line Lean proof of the Riemann Hypothesis</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: On November 20, 2026, Levent Alpöge released a proof of the Riemann Hypothesis as a Lean library comprising 17 million lines of code.</p>
+<p>Primary source lean confirms certification of Alpöge 17M-line proof but does not mention Claude</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-22/audit/checks/2026-11-22/t06-lean-certified-claude-riemann.py">checks/2026-11-22/t06-lean-certified-claude-riemann.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · Claude-assisted</summary>
+<p>Claim: Claude-assisted</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>Primary source lean does not mention Claude</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-22/audit/checks/2026-11-22/t07-claude-assisted.py">checks/2026-11-22/t07-claude-assisted.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · world-class number theorist</summary>
+<p>Claim: world-class number theorist</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>Qualitative characterization not stated verbatim in primary sources</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-22/audit/checks/2026-11-22/t11-world-class-number-theorist.py">checks/2026-11-22/t11-world-class-number-theorist.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · a world-class number theorist guided the model</summary>
+<p>Claim: a world-class number theorist guided the model</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: It is no coincidence that people proving Millennium Problems have all been great mathematicians, the models can&#x27;t (yet) do it on their own https://t.co/qr4NO1JJxD</p>
+<p>emollick says great mathematicians and models cannot do it on their own, without specifically saying number theorist guided the model</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-22/audit/checks/2026-11-22/t12-number-theorist-guided-model.py">checks/2026-11-22/t12-number-theorist-guided-model.py</a></p>
+</details>
+<details>
+<summary>PASS · METR found that doubling a task&#x27;s lifecycle cost cuts an AI agent&#x27;s effective time horizon roughly in half</summary>
+<p>Claim: METR found that doubling a task&#x27;s lifecycle cost cuts an AI agent&#x27;s effective time horizon roughly in half</p>
+<p>Result: PASS</p>
+<p>Source quote: In our data, a doubling of lifecycle cost for a task of a given length imposes a difficulty penalty that is very roughly equivalent to halving the time horizon of the agent.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-22/audit/checks/2026-11-22/t01-metr-doubling-lifecycle-cost.py">checks/2026-11-22/t01-metr-doubling-lifecycle-cost.py</a></p>
+</details>
+<details>
+<summary>PASS · doubling a task&#x27;s lifecycle cost</summary>
+<p>Claim: doubling a task&#x27;s lifecycle cost</p>
+<p>Result: PASS</p>
+<p>Source quote: In our data, a doubling of lifecycle cost for a task of a given length imposes a difficulty penalty that is very roughly equivalent to halving the time horizon of the agent.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-22/audit/checks/2026-11-22/t02-doubling-lifecycle-cost.py">checks/2026-11-22/t02-doubling-lifecycle-cost.py</a></p>
+</details>
+<details>
+<summary>PASS · roughly</summary>
+<p>Claim: roughly</p>
+<p>Result: PASS</p>
+<p>Source quote: In our data, a doubling of lifecycle cost for a task of a given length imposes a difficulty penalty that is very roughly equivalent to halving the time horizon of the agent.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-22/audit/checks/2026-11-22/t03-roughly-qualifier.py">checks/2026-11-22/t03-roughly-qualifier.py</a></p>
+</details>
+<details>
+<summary>PASS · in half</summary>
+<p>Claim: in half</p>
+<p>Result: PASS</p>
+<p>Source quote: In our data, a doubling of lifecycle cost for a task of a given length imposes a difficulty penalty that is very roughly equivalent to halving the time horizon of the agent.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-22/audit/checks/2026-11-22/t04-in-half-number.py">checks/2026-11-22/t04-in-half-number.py</a></p>
+</details>
+<details>
+<summary>PASS · even after controlling for how long the task takes a human</summary>
+<p>Claim: even after controlling for how long the task takes a human</p>
+<p>Result: PASS</p>
+<p>Source quote: On our dataset, models perform somewhat worse on tasks that we estimate are costlier to turn into RL training environments, even after controlling for how long these tasks would take humans.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-22/audit/checks/2026-11-22/t05-controlling-human-time.py">checks/2026-11-22/t05-controlling-human-time.py</a></p>
+</details>
+<details>
+<summary>PASS · 17-million-line</summary>
+<p>Claim: 17-million-line</p>
+<p>Result: PASS</p>
+<p>Source quote: On November 20, 2026, Levent Alpöge released a proof of the Riemann Hypothesis as a Lean library comprising 17 million lines of code.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-22/audit/checks/2026-11-22/t08-17-million-line.py">checks/2026-11-22/t08-17-million-line.py</a></p>
+</details>
+<details>
+<summary>PASS · independent checkers certifying it in 24 hours</summary>
+<p>Claim: independent checkers certifying it in 24 hours</p>
+<p>Result: PASS</p>
+<p>Source quote: Over the past day, the Lean and Mathlib communities have rallied to verify the proof&#x27;s correctness. … The exported raw proof has been checked by several proof checkers, including Lean&#x27;s official kernel, the con-leche and con-ron checkers, and several independent checkers contributed by third parties and implemented in different programming languages.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-22/audit/checks/2026-11-22/t09-independent-checkers-24h.py">checks/2026-11-22/t09-independent-checkers-24h.py</a></p>
+</details>
+<details>
+<summary>PASS · 24 hours</summary>
+<p>Claim: 24 hours</p>
+<p>Result: PASS</p>
+<p>Source quote: Over the past day, the Lean and Mathlib communities have rallied to verify the proof&#x27;s correctness.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-22/audit/checks/2026-11-22/t10-24-hours.py">checks/2026-11-22/t10-24-hours.py</a></p>
+</details>
+<details>
+<summary>PASS · Takeaway 1 cites https://metr.org/blog/2026-11-20-q4-2026-capability-update, which is listed in the episode sources.json.</summary>
+<p>Claim: Takeaway 1 cites https://metr.org/blog/2026-11-20-q4-2026-capability-update, which is listed in the episode sources.json.</p>
+<p>Result: PASS</p>
+<p>Source quote: (none)</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-22/audit/checks/2026-11-22/tc01-citation.py">checks/2026-11-22/tc01-citation.py</a></p>
+</details>
+<details>
+<summary>PASS · Takeaway 2 cites https://leanprover-community.github.io/blog/posts/riemann-hypothesis/, which is listed in the episode sources.json.</summary>
+<p>Claim: Takeaway 2 cites https://leanprover-community.github.io/blog/posts/riemann-hypothesis/, which is listed in the episode sources.json.</p>
+<p>Result: PASS</p>
+<p>Source quote: (none)</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-22/audit/checks/2026-11-22/tc02-citation.py">checks/2026-11-22/tc02-citation.py</a></p>
+</details>
 <p><a href="../">Back to the edition</a></p>
 </article>
 </main>
