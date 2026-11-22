@@ -263,10 +263,11 @@ class EditorModeTests(unittest.TestCase):
         html = (self.root / "daily-state" / DATE / "index.html").read_text(encoding="utf-8")
         self.assertEqual(html.count(HOUSE), 1)
         self.assertEqual(daily_state.count_ai_labels(html), 1)
-        self.assertIn(
-            '<p class="disclaimer">%s · <a href="editors-notes/">Editor\'s notes</a></p>' % HOUSE,
-            html,
+        disclaimer = (
+            '<p class="disclaimer">%s · <a href="editors-notes/">Editor\'s notes</a></p>' % HOUSE
         )
+        self.assertIn(disclaimer, html)
+        self.assertLess(html.index(disclaimer), html.index('<div class="script">'))
 
         shutil.rmtree(self.root / "content")
         shutil.rmtree(self.root / "daily-state")

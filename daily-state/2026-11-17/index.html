@@ -6,7 +6,7 @@
   <title>Daily State of AI - 2026-11-17 — Signal &amp; Noise</title>
   <meta name="description" content="Three questions are driving discussion today among people building and studying these systems.">
   <link rel="canonical" href="https://www.signalandnoise.email/daily-state/2026-11-17/">
-  <link rel="stylesheet" href="../../styles.css">
+  <link rel="stylesheet" href="../../styles.css?v=0ad856bc">
   <link rel="alternate" type="application/rss+xml" title="Signal &amp; Noise" href="../../feed.xml">
   <link rel="icon" href="../../assets/mark.svg">
   <meta property="og:site_name" content="Signal &amp; Noise">
@@ -31,6 +31,7 @@
 <h1>Daily State of AI - 2026-11-17</h1>
 <p><time datetime="2026-11-17">November 17, 2026</time></p>
 <p><a href="https://open.spotify.com/episode/7u0jg6qgI2CQTNomYTb4Nk">Audio on Spotify</a></p>
+<p class="disclaimer">AI-generated · may contain errors · <a href="editors-notes/">Editor's notes</a></p>
 <div class="script">
 <p>Three questions are driving discussion today among people building and studying these systems. How independent can safety assessments be when the assessors are embedded inside a company training run. What counts as evidence that artificial intelligence is making scientists more productive. And whether teams should keep building sprawling multi-agent systems or fold the work back into a single agent.</p>
 <p>The first question comes from OpenAI and its first phase of embedded assessments. This is company-reported, and no assessor findings have been published yet, so the debate is about access and structure rather than results.</p>
@@ -44,7 +45,6 @@
 <p>The underlying source is an Anthropic best-practices article dated October 22, 2026, newly circulating today. It is company-reported and based on Anthropic&#x27;s own comparisons across several unnamed enterprise deployments, not independently replicated. Anthropic says that in those comparisons, a single agent with skills frequently outperformed both the one-prompt-for-everything design and the subagent design on quality, and often at lower cost and latency per task. Anthropic cites one customer that evaluated its multi-agent harness against a single agent loop and saw roughly 2 times faster runtime with the single agent. Anthropic also says it reduced Claude Code&#x27;s system prompt for more advanced models by over 80 percent, including cuts related to progressively disclosing skills and tools.</p>
 <p>Anthropic is careful to add that subagents still have their place, including at the research frontier. Its practical advice is to build a small end-to-end evaluation, fold in one subagent, and keep it as a subagent only if the folded version scores worse, then repeat. For practitioners, the question is whether their own evaluations in real-world deployments show the same pattern Anthropic reports in selected cases.</p>
 </div>
-<p class="disclaimer">AI-generated · may contain errors · <a href="editors-notes/">Editor's notes</a></p>
 <section class="sources">
 <h2>Sources</h2>
 <section class="story">
