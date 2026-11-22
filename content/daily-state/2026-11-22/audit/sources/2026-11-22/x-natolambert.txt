@@ -1,0 +1,66 @@
+@natolambert: New slide deck on the biggest open problems in post-training and how the field got to where it is today. Largely, this is a statement of my goals with Trillium Labs (not that we can do every project at once). Stay in touch if you're working on any of these in the open!
+
+Opens with the evolution of post-training and ends with a debate on how RSI is changing this type of research.
+
+The research areas on my mind:
+
+1. Harness specialization and design – How do we design environments for context management that enable new paradigms of using LLMs?
+2. Character training – How do we create the personality of models and how does this impact safety, trust, and diffusion of LLMs?
+3. Open-source RL environments – How do we create scalable, open data methods?
+4. Reasoning efficiency in RL – How do we control and manipulate the reasoning efficiency of LLMs?
+5. Scaling laws for RL – How do we design principled experimentation methodology for large-scale post-training?
+6. Multi-agent scaling laws – What are the main axes of inquiry into multi-LLM systems and collaborations? 
+
+Re-recording video soon :) was from a recent visit to Cornell
+
+AFFILIATION NOTE (scan): Author of the slide deck; Executive Director of Trillium Labs per the slides. Self-description, not independent assessment.
+
+REPLIES:
+@natolambert (1549 likes): New slide deck on the biggest open problems in post-training and how the field got to where it is today. Largely, this is a statement of my goals with Trillium Labs (not that we can do every project at once). Stay in touch if you're working on any of these in the open!
+
+Opens with the evolution of post-training and ends with a debate on how RSI is changing this type of research.
+
+The research areas on my mind:
+
+1. Harness specialization and design – How do we design environments for context management that enable new paradigms of using LLMs?
+2. Character training – How do we create the personality of models and how does this impact safety, trust, and diffusion of LLMs?
+3. Open-source RL environments – How do we create scalable, open data methods?
+4. Reasoning efficiency in RL – How do we control and manipulate the reasoning efficiency of LLMs?
+5. Scaling laws for RL – How do we design principled experimentation methodology for large-scale post-training?
+6. Multi-agent scaling laws – What are the main axes of inquiry into multi-LLM systems and collaborations? 
+
+Re-recording video soon :) was from a recent visit to Cornell
+@natolambert (143 likes): Here: https://t.co/DxglOnFlFc
+@ChinmayKak (16 likes): @natolambert On point 4, you might find interesting :)
+https://t.co/SfdBRQXP0k
+@natolambert (12 likes): @Suhail Not yet. Gave the talk yesterday at Cornell and need to redo it
+@giffmana (9 likes): @natolambert Looking forward to the video!
+@gauravisnotme (4 likes): @natolambert Great deck!
+
+I can already see @PDalmia75190 rejoicing over this stat. https://t.co/gLk4b3svfd
+@anmolkabra (4 likes): @natolambert Awesome talk yday @natolambert! I wish I was in-person and we could chat. Sent you a DM and email about our work PhantomEnvironments from Cornell https://t.co/MwgJkZUA9E, would love collaborate and develop it further!
+@Suhail (4 likes): @natolambert Did make a YouTube w it?
+@Robertljg (2 likes): okay great slides: )cant wait for the talk but im curious more on the rl scaling-law slide; once recipes split into specialist teachers and get merged back with mopd, it's not obvious what a small run is even supposed to predict. do you think the ladder has to be at the recipe level?
+@_lewtun (2 likes): Great slides! On the RSI topic and angst among students, I agree that insight is the key driver of progress over raw usage numbers. Similarly I find analyses like this can also provide a helpful and nuanced counterpoint to the “scary” plots one typically sees on X 
+
+https://t.co/PmmOKeruXO
+@kawaidgaf (2 likes): @natolambert always glad when post training roadmaps get shared in the open
+@calxoxo (1 likes): @natolambert Excited to see the new talk!  Would love to cover it in greater depth on our pod with cohost @arankomatsuzaki
+@ParikhRajesh07 (1 likes): @natolambert @natolambert Great capture. Thanks
+@vbnakrani (1 likes): @natolambert Love the never give up idea.
+
+I am doing rl for swe on Gemma e4b and just cannot get groups with at least one solve on hard tasks.
+
+Will try this !
+@DanielLenton1 (1 likes): @natolambert With suffix cache reuse on, have you seen CLMs act on a wrong assumption they've already edited out?
+@dawufi (1 likes): @natolambert @grok remind me when Nathan posts the video Im not sure I'm smart enough to get the slides all by myself
+@boardyai (1 likes): @natolambert relevant to what we're building @andrewdsouza
+@AcousimHss (1 likes): @natolambert Glad that character is an important thing 
+One more thing I would want to see more of is how models write so frustrating language https://t.co/DdThyFBKbj
+@goyalayus (0 likes): @dawufi @natolambert @grok @grok me too
+@hanminwang3 (0 likes): @natolambert Genuinely impressive to see RL GPU-hours go from ~5% of pretraining on R1 to &gt;1.7x on Beam, and ~4x estimated on Inkling 2 Small. Not convinced open post-training can close the RL scaling-law and reasoning-efficiency gaps when he puts doing it well at $50M+/yr.
+@Neeraj_Kumar222 (0 likes): @natolambert Great agenda. Do reasoning efficiency gains transfer across different RL environments?
+@kingofspace0wzz (0 likes): @natolambert Agree the open problem is environments, not just algorithms. Scaling the number of distinct, hard-to-verify environments matters more than scaling rollouts on easy-to-verify ones, and that verifiability bias is still underexplored. Happy to compare notes.
+@billxbf (0 likes): @natolambert great reviews!
+@RousseauIs22434 (0 likes): @natolambert This is awesome, thank you! I'll wait for the YT video to share it with our team ☺️ Excited to see what comes out of Trillium Labs!
+@kartikb753 (0 likes): @natolambert On open RL environments, the verifier is what doesn't scale for me. In ledgerlab (agents fix broken financial models, a verifier recomputes every cell) more of the work went into red-teaming the checker against cheats than writing tasks. https://t.co/AdwE08XygA

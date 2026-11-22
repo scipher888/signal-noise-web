@@ -1,0 +1,11 @@
+STORY: METR's November capability update: time horizons doubling roughly every 3.6 months, and getting harder to measure
+verification_status: author_reported
+framing (METR): METR's own evaluation of public models up to Opus 5.5 and GPT-6 Astra; evaluator-reported research update with wide uncertainty, not independent replication.
+
+STORY: Lean and Mathlib communities certify Alpöge's Claude-assisted Lean proof of the Riemann Hypothesis
+verification_status: primary_verified
+framing (Lean community blog): Joint statement by the Lean and Mathlib communities, endorsed by the Lean FRO and the Mathlib Initiative, certifying the formal Lean proof via independent proof checkers. This is machine verification of a formal proof, not a human-readable paper or journal peer review.
+
+STORY: Nathan Lambert maps the open problems in post-training, from RL environments to RL scaling laws and RSI
+verification_status: author_reported
+framing (natolambert.com): Author's own talk slides (Cornell, November 20, 2026); opinion and research agenda, not peer-reviewed findings.
