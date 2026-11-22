@@ -146,6 +146,17 @@ class EditorModeTests(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory()
         self.root = Path(self.tmp.name)
+        (self.root / "index.html").write_text(
+            """<!doctype html><html><body>
+<main>
+<section class="latest"><h2>Essay</h2></section>
+<section class="latest daily-latest"></section>
+<section class="recent"><h2>Recent</h2></section>
+</main>
+</body></html>
+""",
+            encoding="utf-8",
+        )
 
     def tearDown(self):
         self.tmp.cleanup()

@@ -33,7 +33,8 @@ a:hover { text-decoration-color: var(--sun); }
   margin-bottom: 2.2rem;
 }
 .masthead { font-weight: 700; font-size: 1.15rem; text-decoration: none; letter-spacing: 0.01em; }
-.site-head nav a { font-family: var(--sans); font-size: 0.88rem; color: var(--muted); text-decoration: none; margin-left: 1.1rem; }
+.site-head nav { display: flex; flex-wrap: wrap; gap: 0.35rem 1.1rem; }
+.site-head nav a { font-family: var(--sans); font-size: 0.88rem; color: var(--muted); text-decoration: none; }
 .site-head nav a:hover { color: var(--ink); }
 
 h1 { font-size: 2rem; line-height: 1.2; margin: 0.2rem 0 0.9rem; }
@@ -110,6 +111,8 @@ article blockquote pre {
 }
 .latest .pair a { color: var(--ink-soft); text-decoration-color: var(--line); }
 .latest .pair a:hover { text-decoration-color: var(--sun); }
+.daily-latest .dek,
+.daily-latest .pair { overflow-wrap: anywhere; }
 .recent h2 { font-size: 1.1rem; color: var(--muted); font-family: var(--sans); text-transform: uppercase; letter-spacing: 0.06em; }
 
 .row { margin: 0 0 1.05rem; }

@@ -247,10 +247,27 @@ def minimal_run(**overrides):
     return run
 
 
+STUB_HOME = """<!doctype html>
+<html lang="en"><head><title>Signal &amp; Noise</title></head>
+<body>
+<main>
+<section class="latest"><h2>Essay</h2></section>
+<section class="latest daily-latest"></section>
+<section class="recent"><h2>Recent</h2></section>
+</main>
+</body></html>
+"""
+
+
+def seed_home(root):
+    (Path(root) / "index.html").write_text(STUB_HOME, encoding="utf-8")
+
+
 class DailyStateTests(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory()
         self.root = Path(self.tmp.name)
+        seed_home(self.root)
 
     def tearDown(self):
         self.tmp.cleanup()
@@ -366,7 +383,10 @@ class DailyStateTests(unittest.TestCase):
         feed = (ROOT / "feed.xml").read_text(encoding="utf-8")
         archive = (ROOT / "archive" / "index.html").read_text(encoding="utf-8")
         self.assertNotIn("/daily-state/", feed)
-        self.assertNotIn("/daily-state/", archive)
+        # Header/footer chrome may link to Daily State; the issue list must not.
+        archive_main = archive[archive.index("<main>"):archive.index("</main>")]
+        self.assertNotIn("daily-state/", archive_main)
+        self.assertIn("<h2>November 2026</h2>", listing)
 
     def test_prompt_pre_wraps_in_shared_stylesheet(self):
         """The prompt sits in <blockquote><pre>. Wrap it in styles.css so every edition inherits the fix."""
@@ -1012,7 +1032,126 @@ class DailyStateTests(unittest.TestCase):
         self.assertTrue(sentence.startswith(description))
         self.assertNotIn("...", description)
 
+
+    def test_latest_parent_skips_neon_variant(self):
+        editions = [
+            {"date": "2026-11-22", "variant": "neon"},
+            {"date": "2026-11-21", "variant": None},
+            {"date": "2026-11-22", "variant": None},
+        ]
+        latest = daily_state.latest_parent_edition(editions)
+        self.assertEqual(latest["date"], "2026-11-22")
+        self.assertFalse(latest.get("variant"))
+        only_neon_on_newest = [
+            {"date": "2026-11-22", "variant": "neon"},
+            {"date": "2026-11-21", "variant": None},
+        ]
+        self.assertEqual(
+            daily_state.latest_parent_edition(only_neon_on_newest)["date"],
+            "2026-11-21",
+        )
+
+    def test_edition_lede_skips_greeting_and_falls_back_to_story_title(self):
+        item = {
+            "paragraphs": [
+                "Welcome to the Daily State of AI for Sunday, November 22, 2026.",
+                "If you were watching the news on Friday, you saw a contradiction. More follows.",
+            ],
+            "sources": {"stories": [{"title": "Unused fallback"}]},
+        }
+        self.assertEqual(
+            daily_state.edition_lede(item),
+            "If you were watching the news on Friday, you saw a contradiction.",
+        )
+        greeting_only = {
+            "paragraphs": ["Welcome to the Daily State of AI for today."],
+            "sources": {"stories": [{"title": "A story title"}]},
+        }
+        self.assertEqual(daily_state.edition_lede(greeting_only), "A story title")
+
+    def test_new_date_updates_listing_and_teaser_without_rewriting_earlier_pages(self):
+        self.copy_edition()
+        daily_state.publish(str(self.root), write=True)
+        original_edition = (self.generated() / DATE / "index.html").read_bytes()
+        edition_mtime = (self.generated() / DATE / "index.html").stat().st_mtime_ns
+        first_home = (self.root / "index.html").read_text(encoding="utf-8")
+        teaser = daily_state.TEASER_SECTION_RE.search(first_home).group(0)
+        self.assertIn("daily-state/2026-11-08/", teaser)
+        self.assertIn("Audio on Spotify", teaser)
+        self.assertNotIn("audit/", teaser)
+        listing = (self.generated() / "index.html").read_text(encoding="utf-8")
+        self.assertIn("<h2>November 2026</h2>", listing)
+        self.assertNotIn("December 2026", listing)
+
+        self.copy_edition("2026-12-01", "E" * 22)
+        daily_state.publish(str(self.root), write=True)
+        listing = (self.generated() / "index.html").read_text(encoding="utf-8")
+        self.assertIn("<h2>December 2026</h2>", listing)
+        self.assertIn("<h2>November 2026</h2>", listing)
+        self.assertLess(listing.index("December 2026"), listing.index("November 2026"))
+        self.assertLess(listing.index("2026-12-01/"), listing.index("2026-11-08/"))
+        home = (self.root / "index.html").read_text(encoding="utf-8")
+        teaser = daily_state.TEASER_SECTION_RE.search(home).group(0)
+        self.assertIn("daily-state/2026-12-01/", teaser)
+        self.assertNotIn("daily-state/2026-11-08/", teaser)
+        self.assertEqual((self.generated() / DATE / "index.html").read_bytes(), original_edition)
+        self.assertEqual((self.generated() / DATE / "index.html").stat().st_mtime_ns, edition_mtime)
+
+    def test_check_holds_when_teaser_is_stale_and_writes_nothing(self):
+        self.copy_edition()
+        daily_state.publish(str(self.root), write=True)
+        home = self.root / "index.html"
+        edition = self.generated() / DATE / "index.html"
+        listing = self.generated() / "index.html"
+        home.write_text(home.read_text(encoding="utf-8").replace("2026-11-08", "2026-11-01"), encoding="utf-8")
+        stamps = {
+            home: home.stat().st_mtime_ns,
+            edition: edition.stat().st_mtime_ns,
+            listing: listing.stat().st_mtime_ns,
+        }
+        before = {path: path.read_bytes() for path in stamps}
+        code = daily_state.main(["--check"], repo=str(self.root))
+        self.assertEqual(code, 1)
+        for path, stamp in stamps.items():
+            self.assertEqual(path.stat().st_mtime_ns, stamp)
+            self.assertEqual(path.read_bytes(), before[path])
+
+    def test_homepage_is_not_in_list_output_files(self):
+        self.copy_edition()
+        daily_state.publish(str(self.root), write=True)
+        found = daily_state.list_output_files(str(self.root))
+        self.assertNotIn("index.html", found)
+        self.assertIn("daily-state/index.html", found)
+        self.assertIn("daily-state/%s/index.html" % DATE, found)
+
+    def test_published_homepage_teaser_matches_latest_parent_edition(self):
+        home = (ROOT / "index.html").read_text(encoding="utf-8")
+        loaded = daily_state.load_editions(str(ROOT))
+        latest = daily_state.latest_parent_edition(loaded)
+        self.assertEqual(latest["date"], "2026-11-22")
+        self.assertFalse(latest.get("variant"))
+        match = daily_state.TEASER_SECTION_RE.search(home)
+        self.assertIsNotNone(match)
+        teaser = match.group(0)
+        self.assertEqual(teaser, daily_state.render_home_teaser(loaded))
+        self.assertIn("daily-state/2026-11-22/", teaser)
+        self.assertIn("https://open.spotify.com/episode/2DGJEhaWb2udcfSAGJOWHn", teaser)
+        self.assertIn("daily-state/2026-11-22/audit/", teaser)
+        self.assertIn("All editions", teaser)
+        nav = re.search(r"<nav>.*?</nav>", home, re.S).group(0)
+        self.assertIn("daily-state/", nav)
+        self.assertIn("Daily State", nav)
+        essay = (
+            ROOT / "p" / "the-smartest-people-in-the-room-are-the-easiest-to-fool" / "index.html"
+        ).read_text(encoding="utf-8")
+        essay_nav = re.search(r"<nav>.*?</nav>", essay, re.S).group(0)
+        self.assertIn("daily-state/", essay_nav)
+        edition = (ROOT / "daily-state" / "2026-11-22" / "index.html").read_text(encoding="utf-8")
+        edition_nav = re.search(r"<nav>.*?</nav>", edition, re.S).group(0)
+        self.assertIn("daily-state/", edition_nav)
+
     def test_repo_check_leaves_essays_byte_identical(self):
+
         tracked = subprocess.run(
             ["git", "ls-files", "-z"], cwd=ROOT, check=True, capture_output=True
         ).stdout.split(b"\0")

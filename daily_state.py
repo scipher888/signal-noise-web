@@ -15,7 +15,7 @@ an already built page.
     python3 daily_state.py --package DIR --check
     python3 daily_state.py --package DIR --out OUT
 
-Essay pages, the archive, and the RSS feed are not inputs or outputs.
+Essay pages, the essay archive, and the RSS feed are not inputs or outputs. The homepage teaser in index.html is refreshed alongside the Daily State listing.
 The editor path is not the default. It runs only when a package or edition
 opts in (run.json pipeline "editor" or an editor object, edition.json
 pipeline "editor", or --pipeline editor).
@@ -90,6 +90,12 @@ _DECISION_CANONICAL = ("overruled", "accepted_resolved", "accepted_unresolved", 
 _DECISION_LEGACY = ("accepted", "overruled", "partially")
 _DECISION_ALLOWED = frozenset(set(_DECISION_CANONICAL) | set(_DECISION_LEGACY) | {"total"})
 LISTING_REL = "daily-state/index.html"
+HOME_REL = "index.html"
+TEASER_SECTION_RE = re.compile(
+    r'<section class="[^"]*\bdaily-latest\b[^"]*">.*?</section>',
+    re.S,
+)
+GREETING_RE = re.compile(r"^Welcome to the Daily State of AI\b", re.I)
 DESC_MAX = 200
 # A browser user agent. 403 from a script is not evidence a source is gone.
 BROWSER_UA = (
@@ -2045,10 +2051,140 @@ def _load_root_audit_edition(directory, iso_date, *, link_opener=None):
     return loaded
 
 
+
+def latest_parent_edition(editions):
+    """Newest parent edition. Neon raw variants are never the latest card."""
+    parents = [item for item in editions if not item.get("variant")]
+    if not parents:
+        raise Hold("no daily state editions")
+    return sorted(parents, key=_listing_key)[0]
+
+
+def edition_has_public_audit(item):
+    """True when the parent edition has a published /audit/ page."""
+    if item.get("variant"):
+        return False
+    return bool(item.get("root_audit") or item.get("audit_html"))
+
+
+def is_greeting_paragraph(text):
+    return bool(GREETING_RE.match((text or "").strip()))
+
+
+def first_sentence(text):
+    """First sentence of a paragraph, or the whole paragraph if it has no closer."""
+    text = (text or "").strip()
+    match = re.search(r"(.*?[.!?])(\s|$)", text)
+    if match:
+        return match.group(1).strip()
+    return text
+
+
+def edition_lede(item):
+    """Short lede: first substantive script sentence, else the first story title."""
+    for paragraph in body_paragraphs(item["paragraphs"]):
+        if is_greeting_paragraph(paragraph):
+            continue
+        sentence = first_sentence(paragraph)
+        if sentence:
+            return sentence
+    sources = item.get("sources") or {}
+    stories = sources.get("stories") if type(sources) is dict else None
+    if type(stories) is list:
+        for story in stories:
+            if type(story) is dict and story.get("title"):
+                return story["title"]
+    raise Hold("latest edition has no lede")
+
+
+def month_heading(iso_date):
+    year, month, _day = iso_date.split("-")
+    return f"{build.MONTHS[month]} {year}"
+
+
+def render_home_teaser(editions):
+    """Homepage Daily State card. Shared with build.render_home()."""
+    item = latest_parent_edition(editions)
+    document = item["edition"]
+    iso_date = item["date"]
+    shown = build.display_date(iso_date, "day")
+    href = f"daily-state/{iso_date}/"
+    lede = html.escape(edition_lede(item), quote=True)
+    links = [f'<a href="{html.escape(href, quote=True)}">Read the edition</a>']
+    episode_url = document.get("episode_url")
+    if episode_url:
+        links.append(
+            f'<a href="{html.escape(episode_url, quote=True)}">Audio on Spotify</a>'
+        )
+    if edition_has_public_audit(item):
+        links.append(
+            f'<a href="{html.escape(href + "audit/", quote=True)}">Audit</a>'
+        )
+    return (
+        '<section class="latest daily-latest">\n'
+        '<p class="kicker">Daily State of AI</p>\n'
+        f'<h2><a href="{html.escape(href, quote=True)}">{html.escape(shown)}</a></h2>\n'
+        f'<p class="dek">{lede}</p>\n'
+        f'<p class="pair">{" · ".join(links)}</p>\n'
+        '<p><a href="daily-state/">All editions →</a></p>\n'
+        "</section>"
+    )
+
+
+def render_home_teaser_from_repo(repo):
+    return render_home_teaser(load_editions(repo))
+
+
+def apply_home_teaser(page, teaser):
+    """Replace the Daily State card on the homepage, or insert it above Recent."""
+    teaser = teaser.strip()
+    if TEASER_SECTION_RE.search(page):
+        return TEASER_SECTION_RE.sub(teaser, page, count=1)
+    marker = '<section class="recent">'
+    if marker in page:
+        return page.replace(marker, teaser + "\n" + marker, 1)
+    raise Hold("homepage is missing the Daily State teaser and a place to put it")
+
+
+def _write_text_atomic(path, text):
+    directory = os.path.dirname(path) or "."
+    os.makedirs(directory, exist_ok=True)
+    fd, tmp = tempfile.mkstemp(dir=directory, prefix=".ds-", suffix=".tmp")
+    try:
+        with os.fdopen(fd, "w", encoding="utf-8", newline="\n") as handle:
+            handle.write(text)
+        os.replace(tmp, path)
+    except Exception:
+        if os.path.exists(tmp):
+            os.remove(tmp)
+        raise
+
+
+def commit_home_teaser(repo, loaded, write):
+    """Refresh index.html's Daily State card. Not part of list_output_files()."""
+    path = os.path.join(repo, HOME_REL)
+    if not os.path.isfile(path) or os.path.islink(path):
+        raise Hold("missing homepage")
+    with open(path, encoding="utf-8") as handle:
+        current = handle.read()
+    expected = apply_home_teaser(current, render_home_teaser(loaded))
+    if current == expected:
+        return {"wrote": 0, "noop": True}
+    if not write:
+        raise Hold("homepage teaser does not match the latest edition")
+    _write_text_atomic(path, expected)
+    return {"wrote": 1, "noop": False}
+
+
 def render_listing_html(editions):
     ordered = sorted(editions, key=_listing_key)
     rows = []
+    current_month = None
     for item in ordered:
+        heading = month_heading(item["date"])
+        if heading != current_month:
+            current_month = heading
+            rows.append(f"<h2>{html.escape(heading, quote=True)}</h2>")
         document = item["edition"]
         shown = build.display_date(item["date"], "day")
         variant = item.get("variant")
@@ -2336,10 +2472,24 @@ def load_editions(repo, *, link_opener=None):
 
 
 def publish(repo, *, write=True, allow_correction=False):
-    """Validate every edition before replacing any generated file."""
+    """Validate every edition before replacing any generated file.
+
+    The Daily State listing and the homepage teaser may refresh when a new
+    date is added. index.html is checked and written separately; it is not
+    part of list_output_files().
+    """
     loaded = load_editions(repo)
     files = render_output(loaded)
-    return commit_output(repo, files, write=write, allow_correction=allow_correction)
+    # Fail closed: a missing homepage holds before any edition HTML is written.
+    home_path = os.path.join(repo, HOME_REL)
+    if not os.path.isfile(home_path) or os.path.islink(home_path):
+        raise Hold("missing homepage")
+    with open(home_path, encoding="utf-8") as handle:
+        apply_home_teaser(handle.read(), render_home_teaser(loaded))
+    result = commit_output(repo, files, write=write, allow_correction=allow_correction)
+    home = commit_home_teaser(repo, loaded, write=write)
+    wrote = result["wrote"] + home["wrote"]
+    return {"wrote": wrote, "noop": wrote == 0}
 
 
 def _optional_package_hashes(run, script_bytes, sources_bytes, notes_bytes):
