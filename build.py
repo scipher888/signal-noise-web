@@ -403,14 +403,14 @@ PAGE = """<!doctype html>
 <body>
 <header class="site-head">
   <a class="masthead" href="{home}"><svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="17.5" r="11.5" fill="none" stroke="#10283a" stroke-width="2.4"/><circle cx="16" cy="17.5" r="6.8" fill="#0e2738"/><circle cx="16" cy="6" r="3.1" fill="#f3ca79"/></svg>Signal &amp; Noise</a>
-  <nav><a href="{root}archive/">Archive</a> <a href="{root}about/">About</a> <a href="{root}subscribe/">Follow</a></nav>
+  <nav><a href="{root}daily-state/">Daily State</a> <a href="{root}archive/">Archive</a> <a href="{root}about/">About</a> <a href="{root}subscribe/">Follow</a></nav>
 </header>
 <main>
 {main}
 </main>
 <footer class="site-foot">
   <p>Signal &amp; Noise is written under the pen name Synthia Cipher. Each edition is a human essay and an AI essay, then audits in The World Behind the Words. The human author owns the wording, published claims, and errors of the human essay.</p>
-  <p><a href="{home}">Home</a> · <a href="{root}archive/">Archive</a> · <a href="{root}about/">About</a> · <a href="{root}subscribe/">Follow</a> · <a href="{root}feed.xml">RSS</a> · <a href="https://scipher888.github.io/signal-noise-audit-snapshot/world/">The World Behind the Words</a></p>
+  <p><a href="{home}">Home</a> · <a href="{root}daily-state/">Daily State</a> · <a href="{root}archive/">Archive</a> · <a href="{root}about/">About</a> · <a href="{root}subscribe/">Follow</a> · <a href="{root}feed.xml">RSS</a> · <a href="https://scipher888.github.io/signal-noise-audit-snapshot/world/">The World Behind the Words</a></p>
 </footer>
 </body>
 </html>
@@ -655,6 +655,65 @@ def essay_page(slug, issue, title, dek_html, body, date, precision, here="author
     return render(title, desc, "../../", main, f"/p/{slug}/", ogtype="article")
 
 
+HOME_DESC = (
+    "Essays about AI, judgment, and human consequences — a human essay and an AI essay on the same subject, then published audits."
+)
+
+
+def latest_essay_pair(latest):
+    """Human · Machine line under the latest title. Omit it when Machine would 404."""
+    if latest["issue"] in LOCAL_MACHINE:
+        machine_href = f"p/{LOCAL_MACHINE[latest['issue']]}/"
+    elif latest["issue"] in MACHINE_VERSION_ISSUES:
+        machine_href = f"{AUDIT_BASE}/issue-{latest['issue']:03d}/machine-version/"
+    else:
+        machine_href = None
+    if not machine_href:
+        return ""
+    return (
+        f'<p class="pair"><a href="p/{latest["slug"]}/">Human</a>'
+        f' · <a href="{machine_href}">Machine</a></p>\n'
+    )
+
+
+def render_home_main(essays, teaser):
+    """Homepage body: hero, latest essay, Daily State teaser, recent essays."""
+    latest = essays[0]
+    pair = latest_essay_pair(latest)
+    recent = "\n".join(
+        f"<p class=\"row\"><a href=\"p/{e['slug']}/\">{html.escape(e['title'])}</a> "
+        f"<span class=\"meta\">Issue {e['issue']}</span></p>"
+        for e in essays[1:6]
+    )
+    teaser_block = f"{teaser}\n" if teaser else ""
+    return f"""<section class="hero hero-centered">
+{OBSERVATORY}
+<h1>Signal &amp; Noise</h1>
+<div class="gold-rule"></div>
+<p class="tagline">One idea at a time, taken seriously.</p>
+<p class="hero-intro">Essays about AI, judgment, and human consequences. Every edition is one topic, two essays: <strong>the human essay</strong> — the argument I wanted to make — and <strong>the AI's essay</strong> — a machine companion on the same subject. Each is checked; the audits live in <a href="https://scipher888.github.io/signal-noise-audit-snapshot/world/">The World Behind the Words</a>.</p>
+</section>
+<section class="latest">
+<p class="kicker">Latest — Issue {latest['issue']} · {display_date(latest['date'], latest['precision'])}</p>
+<h2><a href="p/{latest['slug']}/">{html.escape(latest['title'])}</a></h2>
+{pair}{latest['dek_html']}
+</section>
+{teaser_block}<section class="recent">
+<h2>Recent</h2>
+{recent}
+<p><a href="archive/">Full archive →</a></p>
+</section>"""
+
+
+def render_home(essays, teaser):
+    """Full homepage HTML. `teaser` is the Daily State card from daily_state.render_home_teaser()."""
+    page = render("Signal & Noise", HOME_DESC, "", render_home_main(essays, teaser), "/")
+    return page.replace(
+        "<title>Signal &amp; Noise — Signal &amp; Noise</title>",
+        "<title>Signal &amp; Noise</title>",
+    )
+
+
 def build():
     entries = []
     for slug, (issue, rel, date, precision) in MANIFEST.items():
@@ -707,39 +766,11 @@ def build():
     open(os.path.join(OUT, "archive", "index.html"), "w", encoding="utf-8").write(
         render("Archive", "Every Signal & Noise issue, newest first.", "../", archive_main, "/archive/"))
 
-    # home
-    latest = essays[0]
-    # Pair line under the latest title: Human · Machine when a machine companion
-    # exists. Omit the Machine link (and the pair) when it would 404.
-    pair = ""
-    if latest["issue"] in LOCAL_MACHINE:
-        machine_href = f"p/{LOCAL_MACHINE[latest['issue']]}/"
-    elif latest["issue"] in MACHINE_VERSION_ISSUES:
-        machine_href = f"{AUDIT_BASE}/issue-{latest['issue']:03d}/machine-version/"
-    else:
-        machine_href = None
-    if machine_href:
-        pair = (f'<p class="pair"><a href="p/{latest["slug"]}/">Human</a>'
-                f' · <a href="{machine_href}">Machine</a></p>\n')
-    home_main = f"""<section class="hero hero-centered">
-{OBSERVATORY}
-<h1>Signal &amp; Noise</h1>
-<div class="gold-rule"></div>
-<p class="tagline">One idea at a time, taken seriously.</p>
-<p class="hero-intro">Essays about AI, judgment, and human consequences. Every edition is one topic, two essays: <strong>the human essay</strong> — the argument I wanted to make — and <strong>the AI's essay</strong> — a machine companion on the same subject. Each is checked; the audits live in <a href="https://scipher888.github.io/signal-noise-audit-snapshot/world/">The World Behind the Words</a>.</p>
-</section>
-<section class="latest">
-<p class="kicker">Latest — Issue {latest['issue']} · {display_date(latest['date'], latest['precision'])}</p>
-<h2><a href="p/{latest['slug']}/">{html.escape(latest['title'])}</a></h2>
-{pair}{latest['dek_html']}
-</section>
-<section class="recent">
-<h2>Recent</h2>
-""" + "\n".join(f"<p class=\"row\"><a href=\"p/{e['slug']}/\">{html.escape(e['title'])}</a> <span class=\"meta\">Issue {e['issue']}</span></p>" for e in essays[1:6]) + """
-<p><a href="archive/">Full archive →</a></p>
-</section>"""
+    # home — Daily State teaser is shared with daily_state.py so the two cannot drift.
+    import daily_state
+    teaser = daily_state.render_home_teaser_from_repo(OUT)
     open(os.path.join(OUT, "index.html"), "w", encoding="utf-8").write(
-        render("Signal & Noise", "Essays about AI, judgment, and human consequences — a human essay and an AI essay on the same subject, then published audits.", "", home_main, "/").replace("<title>Signal &amp; Noise — Signal &amp; Noise</title>", "<title>Signal &amp; Noise</title>"))
+        render_home(essays, teaser))
 
     # about (from the live About v3 copy)
     about_main = """<h1>About</h1>

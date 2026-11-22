@@ -2,6 +2,8 @@
 
 Daily State of AI publishes one immutable page per edition at `/daily-state/YYYY-MM-DD/`. The 2026-11-08 page is `https://www.signalandnoise.email/daily-state/2026-11-08/`. These pages are the approved spoken script, its sources, and a plain link to the canonical Spotify episode. They are not Signal & Noise issues, and they are not added to the essay archive or `feed.xml`.
 
+The site header and both footers link to `/daily-state/`. The homepage has a card for the latest parent edition (never a Neon raw variant): the date, a short lede, links to the edition, Spotify, and Audit when that page exists, and "All editions →". The `/daily-state/` listing is grouped by month, newest first.
+
 Merging generated HTML to the published branch is what makes a page public. This repository's GitHub Pages deployment follows that branch. The check workflow only reads the tree and runs tests. It does not deploy, and it does not grant deployment permissions.
 
 ## Frozen inputs
@@ -27,7 +29,7 @@ python3 build.py --daily-state-check    # same check, without rebuilding essays
 python3 -m unittest discover -s tests -p 'test_*.py' -v
 ```
 
-`python3 build.py` and `python3 build.py --check` do not build Daily State. Essay pages, the archive, and the RSS feed keep their existing behavior.
+`python3 build.py` still does not build Daily State edition pages. It does write the homepage through `build.render_home()`, using the Daily State card from `daily_state.render_home_teaser()` so the two cannot drift. `python3 build.py --check` stays an essay fidelity check. `python3 daily_state.py --check` also verifies the homepage teaser in a separate step; `index.html` is not part of `list_output_files()`. Essay pages, the essay archive list, and the RSS feed keep their existing behavior.
 
 ## Experimental editor mode
 
@@ -106,7 +108,7 @@ Editor edition directory. `run.json` is still not committed. `edition.json` adds
 - the four files above
 - `content/daily-state/YYYY-MM-DD/editor_notes.json`
 
-Generated files. The shared listing stays `daily-state/index.html`.
+Generated files. The shared listing stays `daily-state/index.html`, grouped by month. A new date may also refresh the homepage teaser in `index.html` the same way it refreshes the listing. That homepage write is a separate step, not a `list_output_files()` entry.
 
 - live: `daily-state/YYYY-MM-DD/index.html`
 - editor: that page, plus `daily-state/YYYY-MM-DD/editors-notes/index.html`
@@ -151,7 +153,7 @@ The variant directory holds `script.txt`, `sources.json`, `edition.json`, `neon_
 
 The audit page uses the site stylesheet and is built from `audit.json`. Counts sit at the top (episode 42 PASS / 7 FAIL / 8 NEEDS-HUMAN, short 14 PASS / 5 FAIL / 3 NEEDS-HUMAN), with a line that each claim is a small Python check run against the source texts and that the audit is not a gate. FAIL items are open. PASS and NEEDS-HUMAN items are collapsed in `<details>`. Each item shows the claim, the result, the source quote, and a link to its check script in the repo.
 
-Generated files. The shared listing stays `daily-state/index.html`. The existing row for the date stays, and the variant is an added row under that date.
+Generated files. The shared listing stays `daily-state/index.html`, grouped by month. The existing row for the date stays, and the variant is an added row under that date. The homepage teaser still uses the parent edition, not the variant.
 
 - `daily-state/YYYY-MM-DD/neon/index.html`
 - `daily-state/YYYY-MM-DD/neon/audit/index.html`
@@ -172,13 +174,15 @@ The writer validates every edition and stages output before it replaces any gene
 - the episode URL is missing, malformed, a show URL, or a fallback
 - a frozen hash does not match the bytes, or a file changes while it is being read
 
-On failure the command prints `HOLD:` and exits nonzero. An existing edition page and the listing stay as they were. A bad new date does not update the listing or any other edition. Nothing is recovered from already built HTML.
+On failure the command prints `HOLD:` and exits nonzero. An existing edition page, the listing, and the homepage teaser stay as they were. A bad new date does not update the listing, the homepage teaser, or any other edition. Nothing is recovered from already built HTML.
 
 Publishing the same bytes again changes nothing. The same date with different bytes is a revision: it needs a new passing QA snapshot and an explicit `python3 daily_state.py --allow-correction`. That flag does not skip validation. The check workflow never passes it.
 
 ## After merge
 
-Wait until GitHub Pages has finished the merged commit, then open the canonical URL and confirm the title, date, script, four source links, Spotify href, and stylesheet. Only then is the page live. The page check does not prove how a phone opens Spotify.
+Wait until GitHub Pages has finished the merged commit, then open the canonical URL and confirm the title, date, script, four source links, Spotify href, and stylesheet. Confirm the homepage card shows that date, with working edition, Spotify, and Audit links when the audit exists. Only then is the page live. The page check does not prove how a phone opens Spotify.
+
+A daily publish PR may include `content/daily-state/YYYY-MM-DD/`, that date's generated pages, `daily-state/index.html`, and `index.html` (the teaser). It must not include earlier edition pages, the essay archive list, or `feed.xml`.
 
 ## Daily Gemini 4 Neon editions (from 2026-11-21)
 
