@@ -496,6 +496,7 @@ class EditorModeTests(unittest.TestCase):
             "daily-state/index.html",
             "daily-state/%s/index.html" % DATE,
             "daily-state/%s/editors-notes/index.html" % DATE,
+            "daily-state/%s/sources/index.html" % DATE,
         })
         stray = self.root / "daily-state" / DATE / "decision_log.json"
         stray.write_text(json.dumps({"why": OVERRULED}), encoding="utf-8")
@@ -625,7 +626,7 @@ class EditorModeTests(unittest.TestCase):
             text=True,
         )
         self.assertEqual(proc.returncode, 0, proc.stderr)
-        self.assertIn("editor package: wrote 2 file(s)", proc.stdout)
+        self.assertIn("editor package: wrote 3 file(s)", proc.stdout)
         edition = (out / "daily-state" / DATE / "index.html").read_text(encoding="utf-8")
         notes = (out / "daily-state" / DATE / "editors-notes" / "index.html").read_text(encoding="utf-8")
         self.assertIn(sample_notes()["outstanding"][0]["summary"], notes)

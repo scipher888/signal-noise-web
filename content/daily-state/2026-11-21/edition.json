@@ -31,7 +31,7 @@
     }
   },
   "video_url": "/content/daily-state/2026-11-21/short.mp4",
-  "sources_url": "/content/daily-state/2026-11-21/sources.json",
+  "sources_url": "/daily-state/2026-11-21/sources/",
   "audit": {
     "gate": false,
     "attach": "after_publish"

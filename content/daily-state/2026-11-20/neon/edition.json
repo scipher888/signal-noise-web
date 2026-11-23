@@ -9,7 +9,7 @@
   "reasoning_effort": "medium",
   "audio_url": "/content/daily-state/2026-11-20/neon/episode.mp3",
   "video_url": "/content/daily-state/2026-11-20/neon/short.mp4",
-  "sources_url": "/content/daily-state/2026-11-20/neon/sources.json",
+  "sources_url": "/daily-state/2026-11-20/neon/sources/",
   "audit": {
     "sha256": "0314fbe7098d60a044c3f036dccac527661a3320345c15b2e4b2a4a0e1089e9d",
     "gate": false,

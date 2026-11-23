@@ -240,7 +240,7 @@ def build(args):
             "verified_at": verified_at,
             "verification": verification,
             "video_url": daily_state.variant_asset_url(date, None, "short.mp4") if has_short else None,
-            "sources_url": daily_state.variant_asset_url(date, None, "sources.json"),
+            "sources_url": daily_state.sources_page_url(date, None),
             "audit": dict(daily_state.ROOT_AUDIT_RECEIPT),
             "hashes": {
                 "script_sha256": script_sha,
