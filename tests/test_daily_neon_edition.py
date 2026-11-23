@@ -22,6 +22,7 @@ EPISODE_ID = "5N0wawFLP0cwayiO8XH0Ax"
 EPISODE_URL = f"https://open.spotify.com/episode/{EPISODE_ID}"
 SPOTIFY_LINK = f'<p><a href="{EPISODE_URL}">Audio on Spotify</a></p>'
 HOUSE = "AI-generated \u00b7 may contain errors"
+X_SHORT = "https://x.com/signalnoisepub/status/2124935746364850228"
 SCRIPT = "Welcome to the Daily State of AI.\n\nSecond paragraph with the insight.\n\nThird paragraph.\n"
 PROMPT = "Here are today's AI news reports and X threads. What's the non-obvious insight others are missing?\n"
 MP3 = b"ID3" + b"\x00" * 200
@@ -281,6 +282,73 @@ class DailyNeonEditionTest(unittest.TestCase):
         self.edit_edition(lambda edition: edition.update(video_url="https://"))
         with self.assertRaises(daily_state.Hold):
             self.repo.load()
+
+    def test_https_short_url_is_allowed_without_a_local_mp4(self):
+        self.assertEqual(self.repo.build(short=False), 0)
+        self.edit_edition(lambda edition: edition.update(video_url=X_SHORT))
+        page = self.repo.load()["html"]
+        self.assertEqual(page.count('<a href="%s">Short</a>' % X_SHORT), 1)
+        self.assertIn("<a href=\"%s\">Short</a> · <a href=\"/content/daily-state/%s/sources.json\">Sources</a>" % (X_SHORT, DATE), page)
+        self.assertFalse((self.repo.edition_dir() / "short.mp4").exists())
+        self.assertEqual(page.count(HOUSE), 1)
+        self.assertEqual(page.count('<a href="audit/">Audit</a>'), 1)
+        self.assertEqual(page.count("Audio on Spotify"), 1)
+
+    def test_normalize_short_x_url_strips_query_and_video_suffix(self):
+        dirty = X_SHORT + "/video/1?a=29G49578a8rqTGiEQJ8&s=46"
+        self.assertEqual(neon_edition.normalize_short_x_url(dirty), X_SHORT)
+        self.assertEqual(neon_edition.normalize_short_x_url(X_SHORT + "/"), X_SHORT)
+        self.assertEqual(
+            neon_edition.normalize_short_x_url("https://www.x.com/SignalNoisePub/status/2124935746364850228"),
+            X_SHORT,
+        )
+        for bad in (
+            "http://x.com/signalnoisepub/status/2124935746364850228",
+            "https://twitter.com/signalnoisepub/status/2124935746364850228",
+            "https://x.com/someoneelse/status/2124935746364850228",
+            "https://x.com/signalnoisepub/status/abc",
+            "https://x.com/signalnoisepub/status/2124935746364850228/photos",
+            "https://",
+        ):
+            with self.subTest(bad=bad):
+                with self.assertRaises(daily_state.Hold):
+                    neon_edition.normalize_short_x_url(bad)
+
+    def _run_set_short_url(self, url, date=DATE):
+        with mock.patch.object(neon_edition, "REPO", str(self.repo.root)):
+            return neon_edition.main(["set-short-url", "--date", date, "--url", url])
+
+    def test_set_short_url_writes_and_is_idempotent(self):
+        self.assertEqual(self.repo.build(short=False), 0)
+        dirty = X_SHORT + "/video/1?a=1&s=2"
+        self.assertEqual(self._run_set_short_url(dirty), 0)
+        edition = json.loads((self.repo.edition_dir() / "edition.json").read_text())
+        self.assertEqual(edition["video_url"], X_SHORT)
+        page_path = self.repo.root / "daily-state" / DATE / "index.html"
+        page = page_path.read_text(encoding="utf-8")
+        self.assertEqual(page.count('<a href="%s">Short</a>' % X_SHORT), 1)
+        self.assertIn("<a href=\"%s\">Short</a> · <a href=\"/content/daily-state/%s/sources.json\">Sources</a>" % (X_SHORT, DATE), page)
+        self.assertNotIn("/content/daily-state/%s/short.mp4" % DATE, page)
+        self.assertEqual(page.count(HOUSE), 1)
+        self.assertEqual(page.count('<a href="audit/">Audit</a>'), 1)
+        self.assertEqual(page.count("Audio on Spotify"), 1)
+        edition_bytes = (self.repo.edition_dir() / "edition.json").read_bytes()
+        page_bytes = page_path.read_bytes()
+        edition_mtime = (self.repo.edition_dir() / "edition.json").stat().st_mtime_ns
+        page_mtime = page_path.stat().st_mtime_ns
+        self.assertEqual(self._run_set_short_url(X_SHORT), 0)
+        self.assertEqual((self.repo.edition_dir() / "edition.json").read_bytes(), edition_bytes)
+        self.assertEqual(page_path.read_bytes(), page_bytes)
+        self.assertEqual((self.repo.edition_dir() / "edition.json").stat().st_mtime_ns, edition_mtime)
+        self.assertEqual(page_path.stat().st_mtime_ns, page_mtime)
+
+    def test_set_short_url_rejects_a_bad_url_without_writing(self):
+        self.assertEqual(self.repo.build(short=False), 0)
+        before = (self.repo.edition_dir() / "edition.json").read_bytes()
+        self.assertEqual(self._run_set_short_url("https://x.com/other/status/1"), 1)
+        self.assertEqual((self.repo.edition_dir() / "edition.json").read_bytes(), before)
+        self.assertFalse((self.repo.root / "daily-state" / DATE / "index.html").exists())
+
 
     def test_published_2026_11_21_keeps_player_and_adds_spotify_link(self):
         loaded = daily_state.load_edition(str(ROOT), "2026-11-21")
