@@ -1607,15 +1607,17 @@ def assert_audit_edition_page(html_text, edition, prompt):
     sources_link = f'<a href="{html.escape(edition["sources_url"], quote=True)}">Sources</a>'
     if html_text.count(sources_link) != 1:
         raise Hold("sources link is missing")
-    disclaimer = (
-        f'<p class="disclaimer">{AI_LABEL_EXACT}'
-        ' · <a href="audit/">Audit</a></p>'
-    )
+    audit_link = '<p><a href="audit/">Audit</a></p>'
+    disclaimer = f'<p class="disclaimer">{AI_LABEL_EXACT}</p>'
+    if html_text.count(audit_link) != 1:
+        raise Hold("hard stop: label: missing Audit link")
     if html_text.count(disclaimer) != 1 or html_text.count(AI_LABEL_EXACT) != 1:
         raise Hold("hard stop: label: AI-generated label must appear exactly once")
     if count_ai_labels(html_text) != 1:
         raise Hold("hard stop: label: AI-generated label must appear exactly once")
     assert_disclaimer_above_script(html_text)
+    if html_text.index(audit_link) > html_text.index(disclaimer):
+        raise Hold("audit link must sit with the top links, above the disclaimer")
     if html.escape(prompt, quote=True) not in html_text:
         raise Hold("edition prompt does not match the neon run")
     if '<figure class="ds-prompt">' not in html_text:
@@ -1665,10 +1667,8 @@ def render_audit_edition_html(edition, paragraphs, sources, prompt, variant):
         link_parts.append(f"<a href=\"{html.escape(edition['video_url'], quote=True)}\">Short</a>")
     link_parts.append(f"<a href=\"{html.escape(edition['sources_url'], quote=True)}\">Sources</a>")
     links = " · ".join(link_parts)
-    disclaimer = (
-        f"<p class=\"disclaimer\">{AI_LABEL_EXACT}"
-        " · <a href=\"audit/\">Audit</a></p>"
-    )
+    audit_link = '<p><a href="audit/">Audit</a></p>'
+    disclaimer = f'<p class="disclaimer">{AI_LABEL_EXACT}</p>'
     main = (
         "<article>\n"
         "<p class=\"kicker\">Daily State of AI</p>\n"
@@ -1678,6 +1678,7 @@ def render_audit_edition_html(edition, paragraphs, sources, prompt, variant):
         f"{quoted}\n"
         f"<p>{audio}</p>\n"
         f"<p>{links}</p>\n"
+        f"{audit_link}\n"
         f"{disclaimer}\n"
         "<div class=\"script\">\n"
         f"{body}\n"

@@ -143,10 +143,11 @@ class AuditModeTests(unittest.TestCase):
         self.assertEqual(html.count(f'<audio controls src="{AUDIO}"></audio>'), 1)
         self.assertEqual(html.count(f'<a href="{SHORT}">Short</a>'), 1)
         self.assertEqual(html.count(f'<a href="{SOURCES}">Sources</a>'), 1)
-        disclaimer = (
-            f'<p class="disclaimer">{HOUSE} · <a href="audit/">Audit</a></p>'
-        )
+        audit_link = '<p><a href="audit/">Audit</a></p>'
+        disclaimer = f'<p class="disclaimer">{HOUSE}</p>'
+        self.assertEqual(html.count(audit_link), 1)
         self.assertEqual(html.count(disclaimer), 1)
+        self.assertLess(html.index(audit_link), html.index(disclaimer))
         self.assertLess(html.index(disclaimer), html.index('<div class="script">'))
         self.assertEqual(html.count(HOUSE), 1)
         self.assertEqual(daily_state.count_ai_labels(html), 1)
