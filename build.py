@@ -126,8 +126,11 @@ LOCAL_MACHINE = {
     38: "what-intelligence-cant-tell-you-about-your-own-life",
 }
 
-# A separate page, written without AI, linked on the author's row beside
-# The essay (issue -> slug). Not a second issue and not part of the essay body.
+# A separate page, written without AI (issue -> slug). Not a second issue and
+# not part of the essay body. The default leaf, "Written without AI", stays on
+# the author's companion row immediately after The essay. Issues whose leaf is
+# "Source material" (UNAIDED_LEAF_BY_ISSUE) link it after the essay body instead,
+# where readers look for sources.
 UNAIDED = {
     31: "george-saunders-has-a-point",
     32: "what-i-want-my-kids-to-know-about-making-mistakes",
@@ -480,6 +483,37 @@ def nav_leaf(label, href, current):
     return f'<a href="{href}">{label}</a>'
 
 
+def is_source_material_issue(issue):
+    """True when this issue's unaided page is named Source material."""
+    return UNAIDED_LEAF_BY_ISSUE.get(issue) == "Source material"
+
+
+def source_material_line(issue, here="author"):
+    """Sources line after the essay body, before the foot companion map.
+
+    Only for issues whose unaided leaf is "Source material". Omitted on the
+    source page itself (the reader is already there) and for "Written without
+    AI" issues, which keep that link in the companion nav.
+    """
+    if not issue or here == "unaided" or not is_source_material_issue(issue):
+        return ""
+    href = f"{BASE_URL}/p/{UNAIDED[issue]}/"
+    # Styles live here, not in styles.css, so Daily State pages keep the same
+    # stylesheet hash and stay byte-identical.
+    return (
+        "\n<style>"
+        ".essay-sources{font-family:var(--sans);font-size:0.84rem;color:var(--muted);margin:2.6rem 0 0}"
+        ".essay-sources-label{font-size:0.7rem;letter-spacing:0.075em;text-transform:uppercase;"
+        "font-weight:600;opacity:0.85;margin-right:0.75rem}"
+        ".essay-sources a{color:var(--ink-soft);text-decoration-color:var(--line)}"
+        ".essay-sources a:hover{text-decoration-color:var(--sun)}"
+        "article:has(> p.essay-sources) > nav.cnav:not(.top){margin-top:1.1rem}"
+        "</style>"
+        f'<p class="essay-sources"><span class="essay-sources-label">Sources</span> '
+        f'<a href="{href}">Source material</a></p>'
+    )
+
+
 def companion_navs(issue, here="author"):
     """Companion map (J, 2026-08-29). Two parallel rows, same leaf names:
 
@@ -492,8 +526,10 @@ def companion_navs(issue, here="author"):
     is omitted when the snapshot has no record (NO_AUDIT), and on the unaided
     page, which keeps the map it already published. The machine row
     appears when a machine companion exists (MACHINE_VERSION_ISSUES or
-    LOCAL_MACHINE). A page written without AI (UNAIDED) sits on the author's
-    row immediately after The essay, under one name on every page.
+    LOCAL_MACHINE). A page written without AI (UNAIDED) whose leaf is
+    "Written without AI" sits on the author's row immediately after The
+    essay, under one name on every page. A "Source material" leaf is
+    omitted from this map and linked after the essay body instead.
     An Intuition sister essay appears on the author's row only for issues
     in INTUITION_SISTER, after The audit.
     `here` is "author", "machine", or "unaided": that leaf is pinned.
@@ -508,7 +544,7 @@ def companion_navs(issue, here="author"):
     base = f"{AUDIT_BASE}/issue-{issue:03d}"
     author_href = f"{BASE_URL}/p/{author_slug_for(issue)}/"
     author = [nav_leaf("The essay", author_href, here == "author")]
-    if issue in UNAIDED:
+    if issue in UNAIDED and not is_source_material_issue(issue):
         author.append(nav_leaf(
             UNAIDED_LEAF_BY_ISSUE.get(issue, UNAIDED_LEAF),
             f"{BASE_URL}/p/{UNAIDED[issue]}/",
@@ -649,9 +685,10 @@ def essay_page(slug, issue, title, dek_html, body, date, precision, here="author
             origin = "\n" + block
             if not nav_top.startswith("\n"):
                 origin += "\n"
+    sources_line = source_material_line(issue, here)
     main = (f"<article>\n<p class=\"kicker\">{kicker} · {dateline}</p>\n"
             f"<h1>{html.escape(title)}</h1>\n{dek_html}{origin}{nav_top}\n"
-            f"{body}\n{companions_foot}\n</article>")
+            f"{body}{sources_line}\n{companions_foot}\n</article>")
     desc = re.sub(r"<[^>]+>", "", dek_html).strip()
     if not desc:
         plain = re.sub(r"<[^>]+>", "", body).strip()
