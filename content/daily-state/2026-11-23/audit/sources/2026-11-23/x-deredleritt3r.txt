@@ -1,0 +1,14 @@
+@deredleritt3r: OpenAI confirms that GPT-6.2 Astra was the model that solved Navier-Stokes.
+
+OpenAI now has another internal model that looks to be another huge jump in capabilities.  Using the new perplexity metric, the jump from GPT-6.2 Astra to this new model is something like 0.761 -> 0.732.  
+
+This is bigger than the jump from GPT-5 to GPT-5.5!  It's also bigger than the jump from GPT-6 Astra to GPT-6.2 Astra.  This jump in capabilities also took just 2 months to achieve.
+
+"Extrapolating from recent progress, we should expect further transformative capabilities as we enter the ~0.68-0.7 log-perplexity window.  I don't know what those capabilities will be."
+
+Based on this graph and recent progress, these capabilities are likely just 2-3 months away!
+
+AFFILIATION NOTE (scan): Anonymous commentator; interpretation not verified against the primary text.
+
+REPLIES:
+

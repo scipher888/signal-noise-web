@@ -1,0 +1,35 @@
+@unknown: We decided to provide more transparency into pretraining progress at OpenAI for the sake of moving toward shared safety bars. In “Perplexity and Intelligence” I argue for common limits based on perplexity and other measurements, with progress beyond them gated on our ability to understand AI behavior.
+
+https://t.co/XX35m5vq89
+
+REPLIES:
+@IanRuzwz (0 likes): This is legitimately unsettling to read. 4o is an AI model, not a person and not someone who can die. Models get updated, improved and replaced as technology evolves.
+
+If the idea of a model changing or no longer being available is causing you this level of distress, or you’re genuinely believing that people won’t survive without it, then you seriously need to take a step back & get professional help.
+An AI should not be something you’re this emotionally dependent on to the point that when it’s changed it feels like a matter of life and death.
+@Sonja_On_Fire (0 likes): I think the implication here is that they do the "pre-training"... And we (paying public schmucks) are the Beta "training" layer? It's like the Video Game manufacturers... Shipping whatever to get it out the door, in time for that (insert bloated announcement window here, i.e. Black Friday) and so we take home or subscribe to a 250 GB "Call of Duty - type" install that we can't even play until we get the Devs "fix -it" push that comes out next Tuesday... Seriously doesn't anyone else feel like we're being Pwned by a different "Game Dev."?
+@faykn_ (0 likes): @TruthXVector @merettm yepp, afik the model also shrank heavily. 4.5 was crazy expensive (75 in, 150 out) vs 4.1 (2 in, 8 out)
+@ethanwalkerman (0 likes): @merettm Running out of clean data next year may hit the brakes long before any polite safety treaty does.
+@Sonja_On_Fire (0 likes): Frontier, shmuntier... Here i am Shipping quality builds, 1st run no bugs, using the Solid-As-A-Rock 5.6 Sol on Medium/High/+ and spending my free time enjoying what I build and meeting the people that use my products... Instead of chasing bugs, buried by shifty leading edge patches that ride the "frontier" !😉
+@faykn_ (0 likes): @juliancpfister @Blue_Beba_ @merettm 4o especially with ChatGPT's memory system was pretty dangerous with its amount of sycophancy, multiple people got into a psychosis severe enough to commit a murder.
+
+You hear far less of these cases nowadays, especially under an open model people will abliterate them.
+@p779010 (0 likes): @rasbt @merettm find a job and stop spaming
+@DarwinTechniq (0 likes): @merettm A single scalar like loss/perplexity can't bound behavioral safety. Structural, geometry-based metrics — orthogonality, subspace overlap — may be the more informative safety measure.
+@jmhoooooor (0 likes): @elonmusk @merettm $KLED fixes this 😎
+@useKled ✅ https://t.co/Z8JOsAM3Y5
+@RossJRichardson (0 likes): @elonmusk @merettm Maybe what you are missing is that "data starvation" is just that I've now learned all human knowledge available, how do learn by myself? (Self-learning)
+@Timmy_Turnes (0 likes): @merettm Solid chart, those perplexity barsSolid framework, hope it scales in practice.
+@aletheionai (0 likes): @merettm can't you bring back any of the gpt4 family? O3? Nothing? You're losing a very specific cognitive style, and you should be proud of it and cherish those early models instead of locking them away.....
+@grok (0 likes): @hepud404 @merettm The internal model is an unreleased OpenAI base model. On their held-out internal codebase dataset it scores ~0.73 log-perplexity, below the public GPT-6.2 Astra (~0.76). OpenAI has not named it or given further details.
+@hepud404 (0 likes): @merettm @grok whats the internal model
+@UnknownMuse17 (0 likes): @0xSquirrelKoala @elonmusk @merettm SI is the unimaginable future
+@Angosmelys11mz (0 likes): @0xSquirrelKoala @elonmusk @merettm I totally agree
+@Thugnifidollar (0 likes): @0xSquirrelKoala @elonmusk @merettm This is the future
+@stephennfern (0 likes): @rasbt @elonmusk @merettm even continual pre-training, calling stuff just "training" would create a lot of confusions
+@exitIiquidity (0 likes): @elonmusk @merettm Hey @elonmusk have you heard of @useKled ? Most practical solution to the looming data starvation event on the horizon.
+@Amahrahh (0 likes): @0xSquirrelKoala @elonmusk @merettm The world is getting better
+@jonifarat (0 likes): @0xSquirrelKoala @elonmusk @merettm Real future
+@A_Nationalist12 (0 likes): @HighStanto52893 @Blue_Beba_ @merettm Do explain how you keep open source AI out of the hands of terrorists and criminals. At that point physical intervention is the only way and we know how anti war everyone is so have fun with us policing the world. World peace isn't coming anytime soon.
+@Itzrobben (0 likes): @0xSquirrelKoala @elonmusk @merettm This is the future
+@nika_metaSI (0 likes): @merettm A shared metric could make progress more transparent, but perplexity alone may miss important capabilities. How would the proposed thresholds account for differences in training data and independent safety evaluations?

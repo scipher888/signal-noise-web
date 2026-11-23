@@ -1,0 +1,69 @@
+{
+ "date": "2026-11-23",
+ "bundle_sha256": "52fc75c0c035f5b7fa0e3d3402a988a3906f94db8a141123bbad8634b334bd12",
+ "sources": {
+  "primary-openai-perplexity-common-limits": {
+   "file": "primary-openai-perplexity-common-limits.txt",
+   "url": "https://openai.com/index/perplexity-and-intelligence",
+   "title": "Perplexity and Intelligence",
+   "kind": "primary",
+   "sha256": "c2d36c1b97e66c2daa70c9d380bbb27f5e18c17d7d61381e01794a04745ad6e9"
+  },
+  "x-sama": {
+   "file": "x-sama.txt",
+   "url": "https://x.com/sama/status/2124551594691932405",
+   "title": "X post by @sama (Sam Altman)",
+   "kind": "x_post",
+   "sha256": "f84c8be9de4d63bcc400698dfd877659562218008648e7618fee9d200d47343f"
+  },
+  "x-gdb": {
+   "file": "x-gdb.txt",
+   "url": "https://x.com/gdb/status/2124582684840399311",
+   "title": "X post by @gdb (Greg Brockman)",
+   "kind": "x_post",
+   "sha256": "61387e9ccd3870c614b4131340617b76440d75cfdbc825e5f294362e5b8478d3"
+  },
+  "x-swyx": {
+   "file": "x-swyx.txt",
+   "url": "https://x.com/swyx/status/2124583459356373052",
+   "title": "X post by @swyx (swyx)",
+   "kind": "x_post",
+   "sha256": "4dfa6b3491788cc71d43e77d9a82c849911eed5bdbd91b227987f7213e4c4b1c"
+  },
+  "x-deredleritt3r": {
+   "file": "x-deredleritt3r.txt",
+   "url": "https://x.com/deredleritt3r/status/2124568402031435962",
+   "title": "X post by @deredleritt3r (prinz)",
+   "kind": "x_post",
+   "sha256": "10ad2904e40db7af3f6eaf5ad68d55c65c36ac8232c01ad512df72f7295eb95f"
+  },
+  "primary-lingsante-3-1-flash-open-medical-moe": {
+   "file": "primary-lingsante-3-1-flash-open-medical-moe.txt",
+   "url": "https://huggingface.co/inclusionAI/LingSante-3.1-flash",
+   "title": "inclusionAI/LingSante-3.1-flash",
+   "kind": "primary",
+   "sha256": "0c59bc3719d1a05f595a8b6fe3d770d89c0a62cc5b94b9c1692e5fb0d64148f1"
+  },
+  "x-antlingagi": {
+   "file": "x-antlingagi.txt",
+   "url": "https://x.com/AntLingAGI/status/2124523916819648945",
+   "title": "X post by @AntLingAGI (Ant Ling)",
+   "kind": "x_post",
+   "sha256": "3b8f0d2210e45ee37f80401cb27fd46b36db54cdd47b12845938291dbd9a77eb"
+  },
+  "x-unknown": {
+   "file": "x-unknown.txt",
+   "url": "https://x.com/unknown/status/2124549218995949967",
+   "title": "X post by @unknown",
+   "kind": "x_post",
+   "sha256": "edf0b812d5d9070372cae528494aadac1d763ae0bdf9156b43073e1fcd8b0fc3"
+  },
+  "scan-framing": {
+   "file": "scan-framing.txt",
+   "url": "https://www.signalandnoise.email/content/daily-state/2026-11-23/audit/sources/2026-11-23/scan-framing.txt",
+   "title": "Morning X-first scan: verification framing per story",
+   "kind": "scan",
+   "sha256": "fa470a38f4078192564b00a46fa2d1fd1f23e9ab7fccfc0ce41a815c6cddf986"
+  }
+ }
+}
