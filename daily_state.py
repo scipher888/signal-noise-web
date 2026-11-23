@@ -1135,7 +1135,7 @@ def validate_editor_notes(notes, iso_date):
 
 
 def assert_headline_block(html_text, edition):
-    """The h1 stays the edition title. A headline, if any, is a subtitle under it."""
+    """The h1 stays the edition title. A headline, if any, follows it in p.ds-headline."""
     title_h1 = f"<h1>{html.escape(edition['title'], quote=True)}</h1>"
     block = headline_block(edition)
     if not block:
