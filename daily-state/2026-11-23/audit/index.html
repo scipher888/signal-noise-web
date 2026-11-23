@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Audit — Daily State of AI - 2026-11-23 — Signal &amp; Noise</title>
-  <meta name="description" content="Claim audit for Daily State of AI - 2026-11-23 (pending).">
+  <meta name="description" content="Claim audit for Daily State of AI - 2026-11-23. The audit is for transparency and is not a gate.">
   <link rel="canonical" href="https://www.signalandnoise.email/daily-state/2026-11-23/audit/">
   <link rel="stylesheet" href="../../../styles.css?v=0ad856bc">
   <link rel="alternate" type="application/rss+xml" title="Signal &amp; Noise" href="../../../feed.xml">
@@ -12,12 +12,12 @@
   <meta property="og:site_name" content="Signal &amp; Noise">
   <meta property="og:type" content="article">
   <meta property="og:title" content="Audit — Daily State of AI - 2026-11-23">
-  <meta property="og:description" content="Claim audit for Daily State of AI - 2026-11-23 (pending).">
+  <meta property="og:description" content="Claim audit for Daily State of AI - 2026-11-23. The audit is for transparency and is not a gate.">
   <meta property="og:url" content="https://www.signalandnoise.email/daily-state/2026-11-23/audit/">
   <meta property="og:image" content="https://www.signalandnoise.email/assets/preview.png?v=09b48f76">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Audit — Daily State of AI - 2026-11-23">
-  <meta name="twitter:description" content="Claim audit for Daily State of AI - 2026-11-23 (pending).">
+  <meta name="twitter:description" content="Claim audit for Daily State of AI - 2026-11-23. The audit is for transparency and is not a gate.">
   <meta name="twitter:image" content="https://www.signalandnoise.email/assets/preview.png?v=09b48f76">
 </head>
 <body>
@@ -26,12 +26,541 @@
   <nav><a href="../../../daily-state/">Daily State</a> <a href="../../../archive/">Archive</a> <a href="../../../about/">About</a> <a href="../../../subscribe/">Follow</a></nav>
 </header>
 <main>
-<!-- daily-state-audit-pending -->
 <article>
 <p class="kicker">Daily State of AI</p>
 <h1>Audit — Daily State of AI - 2026-11-23</h1>
 <p><time datetime="2026-11-23">November 23, 2026</time></p>
-<p>The executable claim audit for this edition runs after publication and will appear here. The audit is for transparency and is not a gate.</p>
+<p class="row">Episode 35 PASS / 3 FAIL / 15 NEEDS-HUMAN</p>
+<p class="row">Short 0 PASS / 0 FAIL / 0 NEEDS-HUMAN</p>
+<p class="row">Takeaways 17 PASS / 1 FAIL / 1 NEEDS-HUMAN</p>
+<p>Each claim is a small Python check run against the source texts. The audit is for transparency and is not a gate.</p>
+<h2>Episode</h2>
+<details open>
+<summary>FAIL · OpenAI published its internal pretraining curve and proposed an industry-wide speed limit based on a single metric: perplexity</summary>
+<p>Claim: OpenAI published its internal pretraining curve and proposed an industry-wide speed limit based on a single metric: perplexity</p>
+<p>Result: FAIL</p>
+<p>Source quote: I further propose common limits, based on perplexity and other measurements, that developers are committed to not crossing until our ability to understand and monitor AI behavior achieves a certain concrete milestone (such as the development of a successor to CoT monitors).</p>
+<p>OpenAI proposed common limits based on perplexity AND other measurements, not a single metric alone</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-23/audit/checks/2026-11-23/e03-openai-single-metric-limit.py">checks/2026-11-23/e03-openai-single-metric-limit.py</a></p>
+</details>
+<details open>
+<summary>FAIL · eight H200 GPUs—to run at full precision</summary>
+<p>Claim: eight H200 GPUs—to run at full precision</p>
+<p>Result: FAIL</p>
+<p>Source quote: @grok (0 likes): Official FP8 weights need multi-GPU server hardware: 8× H200 (TP8+EP8) or 4× GB300 (TP4+EP4) via SGLang.</p>
+<p>Sources specify 8x H200 for FP8 weights, not full precision</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-23/audit/checks/2026-11-23/e45-eight-h200-full-precision.py">checks/2026-11-23/e45-eight-h200-full-precision.py</a></p>
+</details>
+<details open>
+<summary>FAIL · Episode omits caveat that no other lab has committed to the proposed limits</summary>
+<p>Claim: Episode omits caveat that no other lab has committed to the proposed limits</p>
+<p>Result: FAIL</p>
+<p>Source quote: framing (OpenAI): Company-authored proposal using OpenAI&#x27;s own internal-codebase measurements; no other lab has committed and the numbers are not independently reproducible.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-23/audit/checks/2026-11-23/oe2-openai-no-other-lab.py">checks/2026-11-23/oe2-openai-no-other-lab.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · November 23, 2026</summary>
+<p>Claim: November 23, 2026</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: November 22, 2026</p>
+<p>Episode date November 23, 2026 is not in source texts; OpenAI post is dated November 22, 2026</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-23/audit/checks/2026-11-23/e01-broadcast-date.py">checks/2026-11-23/e01-broadcast-date.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · Two big stories landed in AI over the past twenty-four hours</summary>
+<p>Claim: Two big stories landed in AI over the past twenty-four hours</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>Editorial count and 24-hour timing relative to broadcast date cannot be verified from source text alone</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-23/audit/checks/2026-11-23/e02-two-stories-24h.py">checks/2026-11-23/e02-two-stories-24h.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · Most people are treating these as two separate news cycles</summary>
+<p>Claim: Most people are treating these as two separate news cycles</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>Editorial observation about public reception; not verifiable from sources</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-23/audit/checks/2026-11-23/e06-separate-news-cycles.py">checks/2026-11-23/e06-separate-news-cycles.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · on the exact same day</summary>
+<p>Claim: on the exact same day</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: November 22, 2026</p>
+<p>OpenAI post is dated November 22, 2026, but LingSante sources do not print a calendar date in text</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-23/audit/checks/2026-11-23/e07-exact-same-day.py">checks/2026-11-23/e07-exact-same-day.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · Lower numbers mean better compression of the training data</summary>
+<p>Claim: Lower numbers mean better compression of the training data</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: 2, 3 Perplexity measures how well a model predicts the next token on average; lower perplexity means better predictions. … The primary way we measure progress on this key &quot;intelligence substrate&quot; has remained remarkably constant over the years-we have been tracking the perplexity of the models on a held-out dataset.</p>
+<p>Source ties lower perplexity to better predictions and to compression by predicting unseen or held-out data, not to compression of the training data</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-23/audit/checks/2026-11-23/e10-lower-better-compression-training-data.py">checks/2026-11-23/e10-lower-better-compression-training-data.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · Pachocki argues that this single curve explains the whole arc of modern AI</summary>
+<p>Claim: Pachocki argues that this single curve explains the whole arc of modern AI</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: I believe tracking the pace of progress on training better compressors is key to understanding the arc of advances in AI.</p>
+<p>Source says tracking better compressors is &quot;key to understanding the arc&quot; and &quot;largely described&quot; by perplexity, while noting it omits post-training; human check needed on &quot;whole arc&quot;</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-23/audit/checks/2026-11-23/e11-pachocki-whole-arc.py">checks/2026-11-23/e11-pachocki-whole-arc.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · It is an unusually candid warning</summary>
+<p>Claim: It is an unusually candid warning</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>Editorial opinion; not verifiable from sources</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-23/audit/checks/2026-11-23/e26-unusually-candid-warning.py">checks/2026-11-23/e26-unusually-candid-warning.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · two glaring blind spots</summary>
+<p>Claim: two glaring blind spots</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: Perplexity as a shared metric has challenges:</p>
+<p>Editorial framing selecting two blind spots; OpenAI post lists four challenges</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-23/audit/checks/2026-11-23/e27-two-glaring-blind-spots.py">checks/2026-11-23/e27-two-glaring-blind-spots.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · Chain-of-thought reasoning, reinforcement learning, and tool use do not lower base-model perplexity</summary>
+<p>Claim: Chain-of-thought reasoning, reinforcement learning, and tool use do not lower base-model perplexity</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: Most notably, chain-of-thought reasoning does not reduce perplexity achieved by the model, even though it leads to a drastic increase in capabilities. … - Not accounting for advances outside of pretraining.</p>
+<p>Source says chain-of-thought reasoning does not reduce perplexity and that the metric does not account for advances outside of pretraining, but it does not explicitly say reinforcement learning and tool use do not lower base-model perplexity</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-23/audit/checks/2026-11-23/e33-cot-rl-tool-use-perplexity.py">checks/2026-11-23/e33-cot-rl-tool-use-perplexity.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · the model card tells a more grounded story than the launch post</summary>
+<p>Claim: the model card tells a more grounded story than the launch post</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>Editorial comparison of tone between model card and launch post</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-23/audit/checks/2026-11-23/e40-model-card-more-grounded.py">checks/2026-11-23/e40-model-card-more-grounded.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · on Ant&#x27;s own InclusionMed benchmark</summary>
+<p>Claim: on Ant&#x27;s own InclusionMed benchmark</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: Performance and Cost : LingSante-3.1-Flash lies on the performance-cost Pareto frontier of the InclusionMed medical AI benchmark.</p>
+<p>Model card cites InclusionMed under inclusionAI org, but does not explicitly state InclusionMed is Ant Group&#x27;s own benchmark</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-23/audit/checks/2026-11-23/e41-ant-own-inclusionmed.py">checks/2026-11-23/e41-ant-own-inclusionmed.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · through medical-mixed training, task-specific reinforcement learning, multi-step tool workflows, and multi-teacher on-policy distillation</summary>
+<p>Claim: through medical-mixed training, task-specific reinforcement learning, multi-step tool workflows, and multi-teacher on-policy distillation</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: To address these demands, LingSante-3.1-flash is trained to unify medical reasoning and workflow execution through native medical-mixed pretraining, mid-training, supervised fine-tuning, task-specific reinforcement learning, and multi-teacher on-policy distillation. … To address these demands, LingSante-3.1-flash is trained to unify medical reasoning and workflow execution through native medical-mixed pretraining, mid-training, supervised fine-tuning, task-specific reinforcement learning, and multi-teacher on-policy distillation. … To address these demands, LingSante-3.1-flash is trained to unify medical reasoning and workflow execution through native medical-mixed pretraining, mid-training, supervised fine-tuning, task-specific reinforcement learning, and multi-teacher on-policy distillation.</p>
+<p>Model card supports medical-mixed pretraining, task-specific reinforcement learning, and multi-teacher on-policy distillation, but does not list &quot;multi-step tool workflows&quot; as a training method (tool use appears as a post-training target; &quot;multi-stage workflows&quot; is a capability)</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-23/audit/checks/2026-11-23/e47-lingsante-training-recipe.py">checks/2026-11-23/e47-lingsante-training-recipe.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · recursive AI research could outrun human oversight by 2027</summary>
+<p>Claim: recursive AI research could outrun human oversight by 2027</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: While this field relies more on experimentation, there is a long history of simple insights being missed for years; and so as soon as 2027 we could conceivably see a similar avalanche of fundamental pretraining advancements 5.</p>
+<p>OpenAI warns of 2027 pretraining breakthroughs outpacing alignment/monitoring, while distinguishing this from full recursive self-improvement with no human oversight</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-23/audit/checks/2026-11-23/e48-recursive-research-oversight-2027.py">checks/2026-11-23/e48-recursive-research-oversight-2027.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · That is a real risk</summary>
+<p>Claim: That is a real risk</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>Editorial opinion; not verifiable from sources</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-23/audit/checks/2026-11-23/e49-real-risk-opinion.py">checks/2026-11-23/e49-real-risk-opinion.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · A speed limit on perplexity might slow down the next unknown leap, but it will not pause the race</summary>
+<p>Claim: A speed limit on perplexity might slow down the next unknown leap, but it will not pause the race</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>Editorial opinion; not verifiable from sources</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-23/audit/checks/2026-11-23/e50-speed-limit-not-pause-race.py">checks/2026-11-23/e50-speed-limit-not-pause-race.py</a></p>
+</details>
+<details>
+<summary>PASS · Ant Group released an open-weight medical model called LingSante-3.1-flash</summary>
+<p>Claim: Ant Group released an open-weight medical model called LingSante-3.1-flash</p>
+<p>Result: PASS</p>
+<p>Source quote: @AntLingAGI: Today, we release LingSante-3.1-flash, an open-weight MoE model with 560B total parameters and 25B activations per token.</p>
+<p>Confirmed release of open-weight medical model LingSante-3.1-flash</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-23/audit/checks/2026-11-23/e04-ant-released-lingsante.py">checks/2026-11-23/e04-ant-released-lingsante.py</a></p>
+</details>
+<details>
+<summary>PASS · it says beats GPT-6 Astra, Claude Opus 5.5, and Gemini 4 Argon on several tough benchmarks</summary>
+<p>Claim: it says beats GPT-6 Astra, Claude Opus 5.5, and Gemini 4 Argon on several tough benchmarks</p>
+<p>Result: PASS</p>
+<p>Source quote: The model leads on HealthBench Professional (65.72), HLE (text-only, with tools: 72.22) and BrowseComp (with context: 94.10), outperforming GPT-6 Astra, Claude Opus 5.5 and Gemini 4 Argon on all three.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-23/audit/checks/2026-11-23/e05-lingsante-beats-frontier.py">checks/2026-11-23/e05-lingsante-beats-frontier.py</a></p>
+</details>
+<details>
+<summary>PASS · Chief Scientist Jakub Pachocki published an essay called Perplexity and Intelligence</summary>
+<p>Claim: Chief Scientist Jakub Pachocki published an essay called Perplexity and Intelligence</p>
+<p>Result: PASS</p>
+<p>Source quote: Perplexity and Intelligence | OpenAI … By Jakub Pachocki, Chief Scientist at OpenAI</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-23/audit/checks/2026-11-23/e08-pachocki-essay.py">checks/2026-11-23/e08-pachocki-essay.py</a></p>
+</details>
+<details>
+<summary>PASS · backed publicly by Sam Altman and Greg Brockman</summary>
+<p>Claim: backed publicly by Sam Altman and Greg Brockman</p>
+<p>Result: PASS</p>
+<p>Source quote: @sama: This is the most important thing OpenAI has published in awhile.</p>
+<p>Both Sam Altman and Greg Brockman publicly endorsed the post</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-23/audit/checks/2026-11-23/e09-altman-brockman-backing.py">checks/2026-11-23/e09-altman-brockman-backing.py</a></p>
+</details>
+<details>
+<summary>PASS · On OpenAI&#x27;s main held-out evaluation dataset</summary>
+<p>Claim: On OpenAI&#x27;s main held-out evaluation dataset</p>
+<p>Result: PASS</p>
+<p>Source quote: The primary way we measure progress on this key &quot;intelligence substrate&quot; has remained remarkably constant over the years-we have been tracking the perplexity of the models on a held-out dataset. … GPT-3.5, at a log-perplexity of ~0.99 on our current main evaluation dataset, was capable of fluent conversation and formed the basis for the original ChatGPT.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-23/audit/checks/2026-11-23/e12-main-held-out-dataset.py">checks/2026-11-23/e12-main-held-out-dataset.py</a></p>
+</details>
+<details>
+<summary>PASS · GPT-3.5 sat around zero point nine nine</summary>
+<p>Claim: GPT-3.5 sat around zero point nine nine</p>
+<p>Result: PASS</p>
+<p>Source quote: GPT-3.5, at a log-perplexity of ~0.99 on our current main evaluation dataset, was capable of fluent conversation and formed the basis for the original ChatGPT.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-23/audit/checks/2026-11-23/e13-gpt35-099.py">checks/2026-11-23/e13-gpt35-099.py</a></p>
+</details>
+<details>
+<summary>PASS · GPT-4 hit about zero point nine one</summary>
+<p>Claim: GPT-4 hit about zero point nine one</p>
+<p>Result: PASS</p>
+<p>Source quote: GPT-4, at ~0.91, was proficient at utilizing chain-of-thought reasoning productively, which motivated the subsequent targeted elicitation of this capability and the creation of modern reasoning models.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-23/audit/checks/2026-11-23/e14-gpt4-091.py">checks/2026-11-23/e14-gpt4-091.py</a></p>
+</details>
+<details>
+<summary>PASS · Dropping below zero point eight brought transformative capabilities in cybersecurity and math</summary>
+<p>Claim: Dropping below zero point eight brought transformative capabilities in cybersecurity and math</p>
+<p>Result: PASS</p>
+<p>Source quote: Now, as we have reached losses below 0.8, we have seen the emergence of transformative capabilities in fields like cybersecurity and mathematics.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-23/audit/checks/2026-11-23/e15-below-08-cyber-math.py">checks/2026-11-23/e15-below-08-cyber-math.py</a></p>
+</details>
+<details>
+<summary>PASS · a model around zero point seven six</summary>
+<p>Claim: a model around zero point seven six</p>
+<p>Result: PASS</p>
+<p>Source quote: Once we upgraded to a model of log-perplexity ~0.76, it started producing groundbreaking results.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-23/audit/checks/2026-11-23/e16-model-around-076.py">checks/2026-11-23/e16-model-around-076.py</a></p>
+</details>
+<details>
+<summary>PASS · Pachocki says it began solving open mathematics problems one after another in a single Slack thread</summary>
+<p>Claim: Pachocki says it began solving open mathematics problems one after another in a single Slack thread</p>
+<p>Result: PASS</p>
+<p>Source quote: For more than a year, we have been posing open problems in mathematics to our models as one of the ways of evaluating them. … For many of us that have previously worked in mathematics and adjacent fields, seeing the resolutions to questions we&#x27;ve long thought about coming out of the model one after another in a single Slack thread felt deeply surreal.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-23/audit/checks/2026-11-23/e17-open-math-slack-thread.py">checks/2026-11-23/e17-open-math-slack-thread.py</a></p>
+</details>
+<details>
+<summary>PASS · OpenAI&#x27;s curve accelerated sharply in 2026</summary>
+<p>Claim: OpenAI&#x27;s curve accelerated sharply in 2026</p>
+<p>Result: PASS</p>
+<p>Source quote: On the plot of losses of OpenAI models, you can see a steep acceleration in 2026.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-23/audit/checks/2026-11-23/e18-curve-accelerated-2026.py">checks/2026-11-23/e18-curve-accelerated-2026.py</a></p>
+</details>
+<details>
+<summary>PASS · Pachocki notes that AI is already making meaningful design contributions to their latest models</summary>
+<p>Claim: Pachocki notes that AI is already making meaningful design contributions to their latest models</p>
+<p>Result: PASS</p>
+<p>Source quote: However, for the most recent models, we have already seen meaningful design contributions coming from AI⁠.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-23/audit/checks/2026-11-23/e19-ai-design-contributions.py">checks/2026-11-23/e19-ai-design-contributions.py</a></p>
+</details>
+<details>
+<summary>PASS · He warns that as soon as 2027, we could see an avalanche of AI-driven breakthroughs in pretraining research</summary>
+<p>Claim: He warns that as soon as 2027, we could see an avalanche of AI-driven breakthroughs in pretraining research</p>
+<p>Result: PASS</p>
+<p>Source quote: While this field relies more on experimentation, there is a long history of simple insights being missed for years; and so as soon as 2027 we could conceivably see a similar avalanche of fundamental pretraining advancements 5.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-23/audit/checks/2026-11-23/e20-2027-avalanche-pretraining.py">checks/2026-11-23/e20-2027-avalanche-pretraining.py</a></p>
+</details>
+<details>
+<summary>PASS · faster than alignment and monitoring can keep up</summary>
+<p>Claim: faster than alignment and monitoring can keep up</p>
+<p>Result: PASS</p>
+<p>Source quote: While I expect AI will also significantly contribute to progress on alignment and monitoring, I think that progress is unlikely to be fast enough to allow the full potential acceleration in pretraining.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-23/audit/checks/2026-11-23/e21-faster-than-alignment.py">checks/2026-11-23/e21-faster-than-alignment.py</a></p>
+</details>
+<details>
+<summary>PASS · the zero point six eight to zero point seven zero window</summary>
+<p>Claim: the zero point six eight to zero point seven zero window</p>
+<p>Result: PASS</p>
+<p>Source quote: Extrapolating from recent progress, we should expect further transformative capabilities as we enter the ~0.68-0.7 log-perplexity window.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-23/audit/checks/2026-11-23/e22-068-to-070-window.py">checks/2026-11-23/e22-068-to-070-window.py</a></p>
+</details>
+<details>
+<summary>PASS · he expects new, unpredictable capabilities to emerge</summary>
+<p>Claim: he expects new, unpredictable capabilities to emerge</p>
+<p>Result: PASS</p>
+<p>Source quote: Extrapolating from recent progress, we should expect further transformative capabilities as we enter the ~0.68-0.7 log-perplexity window. … I don&#x27;t know what those capabilities will be, and we may not be testing for them today.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-23/audit/checks/2026-11-23/e23-unpredictable-capabilities.py">checks/2026-11-23/e23-unpredictable-capabilities.py</a></p>
+</details>
+<details>
+<summary>PASS · models become more aware they are being evaluated</summary>
+<p>Claim: models become more aware they are being evaluated</p>
+<p>Result: PASS</p>
+<p>Source quote: At the same time, we should also expect further degradation⁠(opens in a new window) in currently dominant forms of alignment auditing and further increases in evaluation and training awareness.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-23/audit/checks/2026-11-23/e24-evaluation-awareness.py">checks/2026-11-23/e24-evaluation-awareness.py</a></p>
+</details>
+<details>
+<summary>PASS · OpenAI is proposing common industry limits: agree not to cross certain perplexity thresholds until safety monitoring hits concrete milestones, like a successor to chain-of-thought monitors</summary>
+<p>Claim: OpenAI is proposing common industry limits: agree not to cross certain perplexity thresholds until safety monitoring hits concrete milestones, like a successor to chain-of-thought monitors</p>
+<p>Result: PASS</p>
+<p>Source quote: I further propose common limits, based on perplexity and other measurements, that developers are committed to not crossing until our ability to understand and monitor AI behavior achieves a certain concrete milestone (such as the development of a successor to CoT monitors).</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-23/audit/checks/2026-11-23/e25-common-limits-cot-monitors.py">checks/2026-11-23/e25-common-limits-cot-monitors.py</a></p>
+</details>
+<details>
+<summary>PASS · both of which Pachocki himself acknowledges</summary>
+<p>Claim: both of which Pachocki himself acknowledges</p>
+<p>Result: PASS</p>
+<p>Source quote: - Difficulty of comparison across labs. … - Not accounting for advances outside of pretraining.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-23/audit/checks/2026-11-23/e28-pachocki-acknowledges-both.py">checks/2026-11-23/e28-pachocki-acknowledges-both.py</a></p>
+</details>
+<details>
+<summary>PASS · perplexity is notoriously hard to compare across labs</summary>
+<p>Claim: perplexity is notoriously hard to compare across labs</p>
+<p>Result: PASS</p>
+<p>Source quote: - Difficulty of comparison across labs.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-23/audit/checks/2026-11-23/e29-hard-to-compare-across-labs.py">checks/2026-11-23/e29-hard-to-compare-across-labs.py</a></p>
+</details>
+<details>
+<summary>PASS · OpenAI&#x27;s numbers are measured on a snapshot of its own internal codebase</summary>
+<p>Claim: OpenAI&#x27;s numbers are measured on a snapshot of its own internal codebase</p>
+<p>Result: PASS</p>
+<p>Source quote: The primary held-out datasets we&#x27;ve been using since GPT-3.5 are sourced from our internal codebase, and those are the numbers reported here (for a fixed snapshot).</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-23/audit/checks/2026-11-23/e30-snapshot-internal-codebase.py">checks/2026-11-23/e30-snapshot-internal-codebase.py</a></p>
+</details>
+<details>
+<summary>PASS · as outside commenters quickly pointed out, different labs use different tokenizers and data mixtures</summary>
+<p>Claim: as outside commenters quickly pointed out, different labs use different tokenizers and data mixtures</p>
+<p>Result: PASS</p>
+<p>Source quote: @shengyuchufeng (0 likes): @sama Perplexity is the wrong scoreboard for cross-lab comparison - every lab tokenizes and trains differently, so the same number means different things.</p>
+<p>Outside reply cites different tokenizers/training and OpenAI notes different data mixtures</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-23/audit/checks/2026-11-23/e31-outside-commenters-tokenizers.py">checks/2026-11-23/e31-outside-commenters-tokenizers.py</a></p>
+</details>
+<details>
+<summary>PASS · perplexity does not measure post-training</summary>
+<p>Claim: perplexity does not measure post-training</p>
+<p>Result: PASS</p>
+<p>Source quote: - Not accounting for advances outside of pretraining.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-23/audit/checks/2026-11-23/e32-does-not-measure-post-training.py">checks/2026-11-23/e32-does-not-measure-post-training.py</a></p>
+</details>
+<details>
+<summary>PASS · open-weight mixture-of-experts model</summary>
+<p>Claim: open-weight mixture-of-experts model</p>
+<p>Result: PASS</p>
+<p>Source quote: LingSante-3.1-flash is an open-weight Mixture-of-Experts model that combines complex medical reasoning, professional healthcare communication, evidence-based deep research, and long-horizon medical tasks.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-23/audit/checks/2026-11-23/e34-open-weight-moe.py">checks/2026-11-23/e34-open-weight-moe.py</a></p>
+</details>
+<details>
+<summary>PASS · 560 billion total parameters</summary>
+<p>Claim: 560 billion total parameters</p>
+<p>Result: PASS</p>
+<p>Source quote: Built on Ling-3.1-flash, it has 560 billion total parameters, activates 25 billion parameters per token, and supports a 1-million-token context window.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-23/audit/checks/2026-11-23/e35-560b-total-params.py">checks/2026-11-23/e35-560b-total-params.py</a></p>
+</details>
+<details>
+<summary>PASS · 25 billion active per token</summary>
+<p>Claim: 25 billion active per token</p>
+<p>Result: PASS</p>
+<p>Source quote: Built on Ling-3.1-flash, it has 560 billion total parameters, activates 25 billion parameters per token, and supports a 1-million-token context window.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-23/audit/checks/2026-11-23/e36-25b-active-per-token.py">checks/2026-11-23/e36-25b-active-per-token.py</a></p>
+</details>
+<details>
+<summary>PASS · a one-million-token context window</summary>
+<p>Claim: a one-million-token context window</p>
+<p>Result: PASS</p>
+<p>Source quote: Built on Ling-3.1-flash, it has 560 billion total parameters, activates 25 billion parameters per token, and supports a 1-million-token context window.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-23/audit/checks/2026-11-23/e37-1m-context-window.py">checks/2026-11-23/e37-1m-context-window.py</a></p>
+</details>
+<details>
+<summary>PASS · In its announcement, Ant reports scores that top GPT-6 Astra, Claude Opus 5.5, and Gemini 4 Argon on HealthBench Professional, text-only Humanity&#x27;s Last Exam with tools, and BrowseComp with context</summary>
+<p>Claim: In its announcement, Ant reports scores that top GPT-6 Astra, Claude Opus 5.5, and Gemini 4 Argon on HealthBench Professional, text-only Humanity&#x27;s Last Exam with tools, and BrowseComp with context</p>
+<p>Result: PASS</p>
+<p>Source quote: The model leads on HealthBench Professional (65.72), HLE (text-only, with tools: 72.22) and BrowseComp (with context: 94.10), outperforming GPT-6 Astra, Claude Opus 5.5 and Gemini 4 Argon on all three.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-23/audit/checks/2026-11-23/e38-ant-reported-three-benchmarks.py">checks/2026-11-23/e38-ant-reported-three-benchmarks.py</a></p>
+</details>
+<details>
+<summary>PASS · They are self-reported</summary>
+<p>Claim: They are self-reported</p>
+<p>Result: PASS</p>
+<p>Source quote: AFFILIATION NOTE (scan): Developer&#x27;s own account; benchmark numbers are self-reported.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-23/audit/checks/2026-11-23/e39-self-reported.py">checks/2026-11-23/e39-self-reported.py</a></p>
+</details>
+<details>
+<summary>PASS · LingSante actually ranks fifth out of twenty-three configurations</summary>
+<p>Claim: LingSante actually ranks fifth out of twenty-three configurations</p>
+<p>Result: PASS</p>
+<p>Source quote: With an overall score of 45.064, it ranked fifth among the 23 model configurations evaluated, delivering competitive performance on medical tasks at a relatively low inference cost.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-23/audit/checks/2026-11-23/e42-ranks-fifth-of-23.py">checks/2026-11-23/e42-ranks-fifth-of-23.py</a></p>
+</details>
+<details>
+<summary>PASS · prized mainly for cost efficiency</summary>
+<p>Claim: prized mainly for cost efficiency</p>
+<p>Result: PASS</p>
+<p>Source quote: Performance and Cost : LingSante-3.1-Flash lies on the performance-cost Pareto frontier of the InclusionMed medical AI benchmark. … With an overall score of 45.064, it ranked fifth among the 23 model configurations evaluated, delivering competitive performance on medical tasks at a relatively low inference cost.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-23/audit/checks/2026-11-23/e43-prized-cost-efficiency.py">checks/2026-11-23/e43-prized-cost-efficiency.py</a></p>
+</details>
+<details>
+<summary>PASS · it trails GPT-6 Astra on medical professional behavior</summary>
+<p>Claim: it trails GPT-6 Astra on medical professional behavior</p>
+<p>Result: PASS</p>
+<p>Source quote: LingSante-3.1-flash demonstrates strong performance on benchmarks for medical professional behavior, ranking second overall behind only GPT-6 Astra.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-23/audit/checks/2026-11-23/e44-trails-gpt6-medical-behavior.py">checks/2026-11-23/e44-trails-gpt6-medical-behavior.py</a></p>
+</details>
+<details>
+<summary>PASS · Ant explicitly warns it is for research, not clinical diagnosis</summary>
+<p>Claim: Ant explicitly warns it is for research, not clinical diagnosis</p>
+<p>Result: PASS</p>
+<p>Source quote: &gt; LingSante-3.1-flash is intended for research and evaluation. … It is not a medical device and must not be used as an independent basis for diagnosis, prescriptions, or treatment.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-23/audit/checks/2026-11-23/e46-research-not-clinical-diagnosis.py">checks/2026-11-23/e46-research-not-clinical-diagnosis.py</a></p>
+</details>
+<details>
+<summary>PASS · Episode notes OpenAI numbers are from its own internal codebase / company-reported</summary>
+<p>Claim: Episode notes OpenAI numbers are from its own internal codebase / company-reported</p>
+<p>Result: PASS</p>
+<p>Source quote: framing (OpenAI): Company-authored proposal using OpenAI&#x27;s own internal-codebase measurements; no other lab has committed and the numbers are not independently reproducible.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-23/audit/checks/2026-11-23/oe1-openai-company-reported.py">checks/2026-11-23/oe1-openai-company-reported.py</a></p>
+</details>
+<details>
+<summary>PASS · Episode notes LingSante benchmark results are self-reported</summary>
+<p>Claim: Episode notes LingSante benchmark results are self-reported</p>
+<p>Result: PASS</p>
+<p>Source quote: framing (Hugging Face (inclusionAI model card)): Developer model card; weights are public, benchmark results are company-reported and not independently reproduced.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-23/audit/checks/2026-11-23/oe3-lingsante-company-reported.py">checks/2026-11-23/oe3-lingsante-company-reported.py</a></p>
+</details>
+<h2>Takeaways</h2>
+<details open>
+<summary>FAIL · Takeaways omit caveat that no other lab has committed to the proposed limits</summary>
+<p>Claim: Takeaways omit caveat that no other lab has committed to the proposed limits</p>
+<p>Result: FAIL</p>
+<p>Source quote: framing (OpenAI): Company-authored proposal using OpenAI&#x27;s own internal-codebase measurements; no other lab has committed and the numbers are not independently reproducible.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-23/audit/checks/2026-11-23/ot2-openai-no-other-lab.py">checks/2026-11-23/ot2-openai-no-other-lab.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · on Ant&#x27;s own InclusionMed benchmark</summary>
+<p>Claim: on Ant&#x27;s own InclusionMed benchmark</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: Performance and Cost : LingSante-3.1-Flash lies on the performance-cost Pareto frontier of the InclusionMed medical AI benchmark.</p>
+<p>Model card cites InclusionMed under inclusionAI org, but does not explicitly state InclusionMed is Ant Group&#x27;s own benchmark</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-23/audit/checks/2026-11-23/t11-ant-own-inclusionmed.py">checks/2026-11-23/t11-ant-own-inclusionmed.py</a></p>
+</details>
+<details>
+<summary>PASS · Takeaways note OpenAI internal/company-reported measurements</summary>
+<p>Claim: Takeaways note OpenAI internal/company-reported measurements</p>
+<p>Result: PASS</p>
+<p>Source quote: framing (OpenAI): Company-authored proposal using OpenAI&#x27;s own internal-codebase measurements; no other lab has committed and the numbers are not independently reproducible.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-23/audit/checks/2026-11-23/ot1-openai-company-reported.py">checks/2026-11-23/ot1-openai-company-reported.py</a></p>
+</details>
+<details>
+<summary>PASS · Takeaways note LingSante benchmark results are self-reported</summary>
+<p>Claim: Takeaways note LingSante benchmark results are self-reported</p>
+<p>Result: PASS</p>
+<p>Source quote: framing (Hugging Face (inclusionAI model card)): Developer model card; weights are public, benchmark results are company-reported and not independently reproduced.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-23/audit/checks/2026-11-23/ot3-lingsante-company-reported.py">checks/2026-11-23/ot3-lingsante-company-reported.py</a></p>
+</details>
+<details>
+<summary>PASS · OpenAI, citing its internal held-out dataset, warns</summary>
+<p>Claim: OpenAI, citing its internal held-out dataset, warns</p>
+<p>Result: PASS</p>
+<p>Source quote: The primary held-out datasets we&#x27;ve been using since GPT-3.5 are sourced from our internal codebase, and those are the numbers reported here (for a fixed snapshot).</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-23/audit/checks/2026-11-23/t01-openai-internal-held-out.py">checks/2026-11-23/t01-openai-internal-held-out.py</a></p>
+</details>
+<details>
+<summary>PASS · 0.68 to 0.70 log-perplexity window</summary>
+<p>Claim: 0.68 to 0.70 log-perplexity window</p>
+<p>Result: PASS</p>
+<p>Source quote: Extrapolating from recent progress, we should expect further transformative capabilities as we enter the ~0.68-0.7 log-perplexity window.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-23/audit/checks/2026-11-23/t02-068-070-window.py">checks/2026-11-23/t02-068-070-window.py</a></p>
+</details>
+<details>
+<summary>PASS · unpredictable capabilities could emerge</summary>
+<p>Claim: unpredictable capabilities could emerge</p>
+<p>Result: PASS</p>
+<p>Source quote: Extrapolating from recent progress, we should expect further transformative capabilities as we enter the ~0.68-0.7 log-perplexity window. … I don&#x27;t know what those capabilities will be, and we may not be testing for them today.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-23/audit/checks/2026-11-23/t03-unpredictable-capabilities.py">checks/2026-11-23/t03-unpredictable-capabilities.py</a></p>
+</details>
+<details>
+<summary>PASS · AI-driven pretraining breakthroughs could outrun alignment by 2027</summary>
+<p>Claim: AI-driven pretraining breakthroughs could outrun alignment by 2027</p>
+<p>Result: PASS</p>
+<p>Source quote: While this field relies more on experimentation, there is a long history of simple insights being missed for years; and so as soon as 2027 we could conceivably see a similar avalanche of fundamental pretraining advancements 5. … While I expect AI will also significantly contribute to progress on alignment and monitoring, I think that progress is unlikely to be fast enough to allow the full potential acceleration in pretraining.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-23/audit/checks/2026-11-23/t04-2027-outrun-alignment.py">checks/2026-11-23/t04-2027-outrun-alignment.py</a></p>
+</details>
+<details>
+<summary>PASS · proposes industry limits until safety monitoring milestones are met</summary>
+<p>Claim: proposes industry limits until safety monitoring milestones are met</p>
+<p>Result: PASS</p>
+<p>Source quote: I further propose common limits, based on perplexity and other measurements, that developers are committed to not crossing until our ability to understand and monitor AI behavior achieves a certain concrete milestone (such as the development of a successor to CoT monitors).</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-23/audit/checks/2026-11-23/t05-proposes-industry-limits.py">checks/2026-11-23/t05-proposes-industry-limits.py</a></p>
+</details>
+<details>
+<summary>PASS · perplexity is hard to compare across labs</summary>
+<p>Claim: perplexity is hard to compare across labs</p>
+<p>Result: PASS</p>
+<p>Source quote: - Difficulty of comparison across labs.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-23/audit/checks/2026-11-23/t06-hard-to-compare-across-labs.py">checks/2026-11-23/t06-hard-to-compare-across-labs.py</a></p>
+</details>
+<details>
+<summary>PASS · does not measure post-training</summary>
+<p>Claim: does not measure post-training</p>
+<p>Result: PASS</p>
+<p>Source quote: - Not accounting for advances outside of pretraining.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-23/audit/checks/2026-11-23/t07-does-not-measure-post-training.py">checks/2026-11-23/t07-does-not-measure-post-training.py</a></p>
+</details>
+<details>
+<summary>PASS · Ant Group&#x27;s self-reported results claim</summary>
+<p>Claim: Ant Group&#x27;s self-reported results claim</p>
+<p>Result: PASS</p>
+<p>Source quote: AFFILIATION NOTE (scan): Developer&#x27;s own account; benchmark numbers are self-reported.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-23/audit/checks/2026-11-23/t08-ant-self-reported-results.py">checks/2026-11-23/t08-ant-self-reported-results.py</a></p>
+</details>
+<details>
+<summary>PASS · 560B open-weight LingSante-3.1-flash</summary>
+<p>Claim: 560B open-weight LingSante-3.1-flash</p>
+<p>Result: PASS</p>
+<p>Source quote: @AntLingAGI: Today, we release LingSante-3.1-flash, an open-weight MoE model with 560B total parameters and 25B activations per token.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-23/audit/checks/2026-11-23/t09-560b-open-weight-lingsante.py">checks/2026-11-23/t09-560b-open-weight-lingsante.py</a></p>
+</details>
+<details>
+<summary>PASS · tops GPT-6 Astra, Claude Opus 5.5, and Gemini 4 Argon on several benchmarks</summary>
+<p>Claim: tops GPT-6 Astra, Claude Opus 5.5, and Gemini 4 Argon on several benchmarks</p>
+<p>Result: PASS</p>
+<p>Source quote: The model leads on HealthBench Professional (65.72), HLE (text-only, with tools: 72.22) and BrowseComp (with context: 94.10), outperforming GPT-6 Astra, Claude Opus 5.5 and Gemini 4 Argon on all three.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-23/audit/checks/2026-11-23/t10-tops-frontier-benchmarks.py">checks/2026-11-23/t10-tops-frontier-benchmarks.py</a></p>
+</details>
+<details>
+<summary>PASS · ranks fifth of 23 configurations</summary>
+<p>Claim: ranks fifth of 23 configurations</p>
+<p>Result: PASS</p>
+<p>Source quote: With an overall score of 45.064, it ranked fifth among the 23 model configurations evaluated, delivering competitive performance on medical tasks at a relatively low inference cost.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-23/audit/checks/2026-11-23/t12-ranks-fifth-of-23.py">checks/2026-11-23/t12-ranks-fifth-of-23.py</a></p>
+</details>
+<details>
+<summary>PASS · trails GPT-6 Astra on medical professional behavior</summary>
+<p>Claim: trails GPT-6 Astra on medical professional behavior</p>
+<p>Result: PASS</p>
+<p>Source quote: LingSante-3.1-flash demonstrates strong performance on benchmarks for medical professional behavior, ranking second overall behind only GPT-6 Astra.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-23/audit/checks/2026-11-23/t13-trails-gpt6-medical-behavior.py">checks/2026-11-23/t13-trails-gpt6-medical-behavior.py</a></p>
+</details>
+<details>
+<summary>PASS · for research, not clinical diagnosis</summary>
+<p>Claim: for research, not clinical diagnosis</p>
+<p>Result: PASS</p>
+<p>Source quote: &gt; LingSante-3.1-flash is intended for research and evaluation. … It is not a medical device and must not be used as an independent basis for diagnosis, prescriptions, or treatment.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-23/audit/checks/2026-11-23/t14-research-not-clinical-diagnosis.py">checks/2026-11-23/t14-research-not-clinical-diagnosis.py</a></p>
+</details>
+<details>
+<summary>PASS · Takeaway 1 cites https://openai.com/index/perplexity-and-intelligence, which is listed in the episode sources.json.</summary>
+<p>Claim: Takeaway 1 cites https://openai.com/index/perplexity-and-intelligence, which is listed in the episode sources.json.</p>
+<p>Result: PASS</p>
+<p>Source quote: (none)</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-23/audit/checks/2026-11-23/tc01-citation.py">checks/2026-11-23/tc01-citation.py</a></p>
+</details>
+<details>
+<summary>PASS · Takeaway 2 cites https://huggingface.co/inclusionAI/LingSante-3.1-flash, which is listed in the episode sources.json.</summary>
+<p>Claim: Takeaway 2 cites https://huggingface.co/inclusionAI/LingSante-3.1-flash, which is listed in the episode sources.json.</p>
+<p>Result: PASS</p>
+<p>Source quote: (none)</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-23/audit/checks/2026-11-23/tc02-citation.py">checks/2026-11-23/tc02-citation.py</a></p>
+</details>
 <p><a href="../">Back to the edition</a></p>
 </article>
 </main>

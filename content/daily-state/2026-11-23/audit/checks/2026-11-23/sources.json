@@ -1,0 +1,11 @@
+{
+ "openai": "primary-openai-perplexity-common-limits",
+ "sama": "x-sama",
+ "gdb": "x-gdb",
+ "swyx": "x-swyx",
+ "deredleritt3r": "x-deredleritt3r",
+ "lingsante": "primary-lingsante-3-1-flash-open-medical-moe",
+ "antlingagi": "x-antlingagi",
+ "unknown": "x-unknown",
+ "framing": "scan-framing"
+}

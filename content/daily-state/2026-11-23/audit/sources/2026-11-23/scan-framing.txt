@@ -1,0 +1,7 @@
+STORY: OpenAI publishes its internal pretraining perplexity curve and proposes industry-wide limits
+verification_status: company_reported
+framing (OpenAI): Company-authored proposal using OpenAI's own internal-codebase measurements; no other lab has committed and the numbers are not independently reproducible.
+
+STORY: Ant's LingSante-3.1-flash: a 560B open-weight medical model with self-reported benchmark leads
+verification_status: company_reported
+framing (Hugging Face (inclusionAI model card)): Developer model card; weights are public, benchmark results are company-reported and not independently reproduced.

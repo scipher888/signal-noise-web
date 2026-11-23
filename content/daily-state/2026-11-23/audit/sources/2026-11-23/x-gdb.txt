@@ -1,0 +1,14 @@
+@gdb: I helped start OpenAI because I want AGI to be safe and beneficial for people. This post provides transparency that can be the foundation of industry-wide shared safety bars.
+
+Perhaps the most important concept from the post is the following: "AI will also significantly contribute to progress on alignment and monitoring, I think that progress is unlikely to be fast enough to allow the full potential acceleration in pretraining."
+
+Towards ensuring that safety keeps pace with general intelligence of pretrained models (as measured by "perplexity"), the post proposes "common limits, based on perplexity and other measurements, that developers are committed to not crossing until our ability to understand and monitor AI behavior achieves a certain concrete milestone (such as the development of a successor to CoT monitors)."
+
+The general idea is to create a first shared limit, on some shared key metric, along with concrete exit criteria that would allow going beyond that. This can lead to a "common framework for setting successive limits and pacing further development".
+
+Excited to move forward the conversation on pacing towards shared standards that are rooted in the science!
+
+AFFILIATION NOTE (scan): OpenAI co-founder; same-lab endorsement, not independent corroboration.
+
+REPLIES:
+
