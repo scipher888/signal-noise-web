@@ -112,12 +112,33 @@ article p.disclaimer a:hover {
   text-decoration-color: var(--sun);
 }
 
-/* Edition headline: subtitle under the unchanged h1, used as the listing link text. */
-article p.ds-headline {
-  font-size: 1.2rem;
+/* Edition pages with a headline: the headline is the visual title (same
+   <p class="ds-headline"> Max's 10 AM fallback reads). The h1 text stays
+   "Daily State of AI - <date>" for routine checks, but is styled as the
+   kicker so the old "Daily State of AI" kicker is not a third label.
+   Editions without a headline keep the default h1 and kicker. */
+article:has(> p.ds-headline) > p.kicker {
+  display: none;
+}
+article:has(> p.ds-headline) > h1 {
+  font-family: var(--sans);
+  font-size: 0.8rem;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
   line-height: 1.35;
-  color: var(--ink-soft);
-  margin: -0.15rem 0 0.85rem;
+  margin: 0 0 0.45rem;
+  overflow-wrap: anywhere;
+}
+article p.ds-headline {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--ink);
+  margin: 0.15rem 0 0.9rem;
+  text-wrap: balance;
+  overflow-wrap: break-word;
 }
 
 /* Long unbreakable URLs in Sources (and other article links) wrap at phone width. */

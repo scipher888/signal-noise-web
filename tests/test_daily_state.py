@@ -471,6 +471,16 @@ class DailyStateTests(unittest.TestCase):
             self.assertIn(marker, head, path)
             self.assertNotIn(marker, html[html.index('<div class="script">'):])
 
+    def test_headline_is_the_visual_title_when_present(self):
+        """Headline pages promote p.ds-headline and demote the h1 to a kicker."""
+        css = re.sub(r"/\*.*?\*/", "", (ROOT / "styles.css").read_text(encoding="utf-8"), flags=re.S)
+        self.assertIn("article:has(> p.ds-headline) > p.kicker", css)
+        self.assertIn("article:has(> p.ds-headline) > h1", css)
+        self.assertRegex(css, r"article:has\(> p\.ds-headline\) > p\.kicker\s*\{[^}]*display:\s*none")
+        self.assertRegex(css, r"article:has\(> p\.ds-headline\) > h1\s*\{[^}]*text-transform:\s*uppercase")
+        self.assertRegex(css, r"article p\.ds-headline\s*\{[^}]*font-size:\s*2rem")
+        self.assertRegex(css, r"article p\.ds-headline\s*\{[^}]*font-weight:\s*700")
+
     def test_article_links_and_source_urls_wrap(self):
         """Long source URLs and other article links must wrap at phone width via styles.css."""
         css = re.sub(r"/\*.*?\*/", "", (ROOT / "styles.css").read_text(encoding="utf-8"), flags=re.S)
