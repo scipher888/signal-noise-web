@@ -119,6 +119,10 @@ AI_LABEL_RE = re.compile(r"(?i)" + _AI_LABEL)
 _AI_LABEL_LINE_RE = re.compile(r"(?i)^" + _AI_LABEL + r"$")
 _TRAILING_AI_LABEL_RE = re.compile(r"(?i)(?<=[.!?])\s+" + _AI_LABEL + r"\s*$")
 AI_LABEL_EXACT = "AI-generated \u00b7 may contain errors"
+X_POST_RE = re.compile(
+    r"^https://(?:www\.)?(?:x\.com|twitter\.com)/([^/?#]+)/status/\d+(?:[/?#].*)?$",
+    re.IGNORECASE,
+)
 
 QA_KEYS = {
     "schema_version", "date", "status", "semantic_qa", "sources",
@@ -1230,6 +1234,153 @@ def render_sources(sources):
     return "\n".join(blocks)
 
 
+def is_x_post_url(url):
+    return bool(X_POST_RE.match(url))
+
+
+def source_link_label(url):
+    """Readable label for a source URL. X posts become '@handle on X'."""
+    matched = X_POST_RE.match(url)
+    if matched:
+        handle = matched.group(1)
+        if handle.lower() not in {"i", "intent", "share"}:
+            return f"@{handle} on X"
+        return "Post on X"
+    return url
+
+
+def primary_source_url(urls):
+    """Prefer a non-X URL as the story title target, else the first URL."""
+    for url in urls:
+        if not is_x_post_url(url):
+            return url
+    return urls[0]
+
+
+def story_meta_line(story):
+    """Outlet / author / date / verification, when the source record has them."""
+    parts = []
+    outlets = story.get("outlets") or []
+    if type(outlets) is list:
+        named = [outlet.strip() for outlet in outlets if type(outlet) is str and outlet.strip()]
+        if named:
+            parts.append(", ".join(named))
+    for key in ("author", "by", "date", "published", "published_at", "published_on"):
+        value = story.get(key)
+        if type(value) is str and value.strip():
+            parts.append(value.strip())
+    status = story.get("verification_status")
+    if type(status) is str and status.strip():
+        parts.append(status.replace("_", " "))
+    return " \u00b7 ".join(parts)
+
+
+def render_sources_page_list(sources):
+    """Story groups for the dedicated Sources page. Title links to the primary URL."""
+    blocks = []
+    represented = set()
+    for story in sources["stories"]:
+        urls = story["urls"]
+        for url in urls:
+            represented.add(url)
+        primary = html.escape(primary_source_url(urls), quote=True)
+        title = html.escape(story["title"], quote=True)
+        meta = story_meta_line(story)
+        meta_html = f"<p>{html.escape(meta, quote=True)}</p>\n" if meta else ""
+        links = "\n".join(
+            f'<li><a href="{html.escape(url, quote=True)}">'
+            f"{html.escape(source_link_label(url), quote=True)}</a></li>"
+            for url in urls
+        )
+        blocks.append(
+            "<section class=\"story\">\n"
+            f"<h2><a href=\"{primary}\">{title}</a></h2>\n"
+            f"{meta_html}"
+            f"<ul>\n{links}\n</ul>\n"
+            "</section>"
+        )
+    extra = [url for url in sources["urls"] if url not in represented]
+    if extra:
+        links = "\n".join(
+            f'<li><a href="{html.escape(url, quote=True)}">'
+            f"{html.escape(source_link_label(url), quote=True)}</a></li>"
+            for url in extra
+        )
+        blocks.append(
+            "<section class=\"story\">\n"
+            "<h2>Other URLs</h2>\n"
+            f"<ul>\n{links}\n</ul>\n"
+            "</section>"
+        )
+    return "\n".join(blocks)
+
+
+def render_sources_page_html(iso_date, sources, variant=None, edition=None):
+    """Readable Sources page at /daily-state/<date>/sources/ (or .../<variant>/sources/)."""
+    kicker = edition_title(iso_date)
+    heading = "Sources"
+    if edition is not None:
+        page_title = f"Sources \u2014 {edition['title']}"
+    else:
+        page_title = f"Sources \u2014 {kicker}"
+    listing = render_sources_page_list(sources)
+    raw_href = html.escape(variant_asset_url(iso_date, variant, "sources.json"), quote=True)
+    main = (
+        "<article>\n"
+        f"<p class=\"kicker\">{html.escape(kicker, quote=True)}</p>\n"
+        f"<h1>{html.escape(heading, quote=True)}</h1>\n"
+        f"{listing}\n"
+        f"<p><a href=\"{raw_href}\">Raw data</a></p>\n"
+        "<p><a href=\"../\">Back to the edition</a></p>\n"
+        "</article>"
+    )
+    if variant is None:
+        root, path = "../../../", f"/daily-state/{iso_date}/sources/"
+    else:
+        root, path = "../../../../", f"/daily-state/{iso_date}/{variant}/sources/"
+    return render_page(
+        page_title,
+        f"Sources for {kicker}.",
+        root,
+        main,
+        path,
+        "article",
+    )
+
+
+def assert_sources_page(html_text, iso_date, sources, variant=None, edition=None):
+    """Kicker, title, back link, raw JSON link, and every source URL."""
+    kicker = edition_title(iso_date)
+    kicker_html = f'<p class="kicker">{html.escape(kicker, quote=True)}</p>'
+    if html_text.count(kicker_html) != 1:
+        raise Hold("sources page kicker does not match")
+    if html_text.count("<h1>Sources</h1>") != 1:
+        raise Hold("sources page title does not match")
+    if '<p><a href="../">Back to the edition</a></p>' not in html_text:
+        raise Hold("sources page is missing the back link")
+    raw = variant_asset_url(iso_date, variant, "sources.json")
+    raw_link = f'<a href="{html.escape(raw, quote=True)}">Raw data</a>'
+    if html_text.count(raw_link) != 1:
+        raise Hold("sources page is missing the raw data link")
+    for url in sources["urls"]:
+        href = f'href="{html.escape(url, quote=True)}"'
+        if href not in html_text:
+            raise Hold("sources page is missing a source url")
+    for story in sources["stories"]:
+        if html.escape(story["title"], quote=True) not in html_text:
+            raise Hold("sources page is missing a story title")
+    if html_text.count(AI_LABEL_EXACT) != 0 or count_ai_labels(html_text) != 0:
+        raise Hold("sources page must not carry the AI-generated label")
+    page_url = f"{BASE_URL}{sources_page_url(iso_date, variant)}"
+    escaped = html.escape(page_url, quote=True)
+    canonical = f'<link rel="canonical" href="{escaped}">'
+    if canonical not in html_text:
+        raise Hold("sources page canonical url does not match")
+    og = f'<meta property="og:url" content="{escaped}">'
+    if html_text.count(og) != 1:
+        raise Hold("sources page og:url does not match")
+
+
 def daily_footer(root):
     home = root or "/"
     return (
@@ -1391,6 +1542,13 @@ def variant_asset_url(iso_date, variant, name):
     return f"/content/daily-state/{iso_date}/{variant}/{name}"
 
 
+def sources_page_url(iso_date, variant=None):
+    """Site-relative URL of the readable Sources page."""
+    if variant is None:
+        return f"/daily-state/{iso_date}/sources/"
+    return f"/daily-state/{iso_date}/{variant}/sources/"
+
+
 def audit_model_label(model, variant):
     if variant in (None, "neon") and model == NEON_MODEL:
         return "Google Gemini 4 Neon"
@@ -1471,7 +1629,7 @@ def validate_audit_edition(edition, iso_date, variant):
         raise Hold("edition audio url does not match")
     if edition["video_url"] != variant_asset_url(iso_date, variant, "short.mp4"):
         raise Hold("edition video url does not match")
-    if edition["sources_url"] != variant_asset_url(iso_date, variant, "sources.json"):
+    if edition["sources_url"] != sources_page_url(iso_date, variant):
         raise Hold("edition sources url does not match")
     receipt = edition["audit"]
     if type(receipt) is not dict:
@@ -1936,7 +2094,9 @@ def _load_audit_edition(directory, iso_date, variant, *, link_opener=None):
     prompt = run["prompts"]["episode"]
     html_text = render_audit_edition_html(edition, paragraphs, sources, prompt, variant)
     audit_html = render_audit_html(edition, results, counts, variant)
+    sources_html = render_sources_page_html(iso_date, sources, variant, edition)
     assert_audit_edition_page(html_text, edition, prompt)
+    assert_sources_page(sources_html, iso_date, sources, variant, edition)
     if link_opener is not None:
         raise_hard_stops(source_link_hard_stops(sources["urls"], link_opener))
     loaded = {
@@ -1952,6 +2112,7 @@ def _load_audit_edition(directory, iso_date, variant, *, link_opener=None):
         "html": html_text,
         "notes_html": None,
         "audit_html": audit_html,
+        "sources_html": sources_html,
         "audit_counts": counts,
         "prompt": prompt,
     }
@@ -2040,7 +2201,7 @@ def validate_root_audit_edition(edition, iso_date, has_short):
     if edition["video_url"] != expected_video:
         if video_reference_problem(edition["video_url"]) is not None:
             raise Hold("edition video url does not match")
-    if edition["sources_url"] != variant_asset_url(iso_date, None, "sources.json"):
+    if edition["sources_url"] != sources_page_url(iso_date, None):
         raise Hold("edition sources url does not match")
     if edition["audit"] != ROOT_AUDIT_RECEIPT:
         raise Hold("audit edition must not be recorded as a gate")
@@ -2120,7 +2281,9 @@ def _load_root_audit_edition(directory, iso_date, *, link_opener=None):
             raise Hold(f"hard stop: video: {problem}")
     prompt = run["prompts"]["episode"]
     html_text = render_audit_edition_html(edition, paragraphs, sources, prompt, None)
+    sources_html = render_sources_page_html(iso_date, sources, None, edition)
     assert_audit_edition_page(html_text, edition, prompt)
+    assert_sources_page(sources_html, iso_date, sources, None, edition)
     counts = None
     if dirs == ["audit"]:
         audit_path = os.path.join(directory, "audit", "audit.json")
@@ -2150,6 +2313,7 @@ def _load_root_audit_edition(directory, iso_date, *, link_opener=None):
         "html": html_text,
         "notes_html": None,
         "audit_html": audit_html,
+        "sources_html": sources_html,
         "audit_counts": counts,
         "prompt": prompt,
     }
@@ -2352,11 +2516,11 @@ def edition_output_paths(iso_date, editor_mode, variant=None, root_audit=False):
     """Allowed generated files for one edition, besides the shared listing."""
     if root_audit:
         base = f"daily-state/{iso_date}"
-        return [f"{base}/index.html", f"{base}/audit/index.html"]
+        return [f"{base}/index.html", f"{base}/audit/index.html", f"{base}/sources/index.html"]
     if variant:
         base = f"daily-state/{iso_date}/{variant}"
-        return [f"{base}/index.html", f"{base}/audit/index.html"]
-    paths = [f"daily-state/{iso_date}/index.html"]
+        return [f"{base}/index.html", f"{base}/audit/index.html", f"{base}/sources/index.html"]
+    paths = [f"daily-state/{iso_date}/index.html", f"daily-state/{iso_date}/sources/index.html"]
     if editor_mode:
         paths.append(f"daily-state/{iso_date}/editors-notes/index.html")
     return paths
@@ -2450,6 +2614,8 @@ def load_edition_directory(directory, iso_date, *, link_opener=None, editor_mode
         if sources[field] != iso_date or qa[field] != iso_date or edition[field] != iso_date:
             raise Hold("edition dates do not agree")
     html_text = render_edition_html(edition, paragraphs, sources, editor_mode=selected)
+    sources_html = render_sources_page_html(iso_date, sources, None, edition)
+    assert_sources_page(sources_html, iso_date, sources, None, edition)
     if selected:
         assert_edition_page(html_text, edition)
         notes_html = render_editors_notes_html(iso_date, notes)
@@ -2465,6 +2631,7 @@ def load_edition_directory(directory, iso_date, *, link_opener=None, editor_mode
         "editor_mode": selected,
         "html": html_text,
         "notes_html": notes_html,
+        "sources_html": sources_html,
     }
 
 
@@ -2489,10 +2656,12 @@ def render_output(loaded):
             base = f"daily-state/{edition['date']}/{variant}"
             files[f"{base}/index.html"] = edition["html"]
             files[f"{base}/audit/index.html"] = edition["audit_html"]
+            files[f"{base}/sources/index.html"] = edition["sources_html"]
             continue
         files[f"daily-state/{edition['date']}/index.html"] = edition["html"]
         if edition.get("root_audit"):
             files[f"daily-state/{edition['date']}/audit/index.html"] = edition["audit_html"]
+        files[f"daily-state/{edition['date']}/sources/index.html"] = edition["sources_html"]
         if edition.get("notes_html"):
             files[f"daily-state/{edition['date']}/editors-notes/index.html"] = edition["notes_html"]
     return files
@@ -2680,7 +2849,9 @@ def load_pipeline_package(directory, *, editor_mode=None, link_opener=None):
     paragraphs = script_paragraphs(decode_utf8(raw["script.txt"], "script.txt"))
     html_text = render_edition_html(edition, paragraphs, sources, editor_mode=True)
     notes_html = render_editors_notes_html(iso_date, notes)
+    sources_html = render_sources_page_html(iso_date, sources, None, edition)
     assert_edition_page(html_text, edition)
+    assert_sources_page(sources_html, iso_date, sources, None, edition)
     if link_opener is not None:
         raise_hard_stops(source_link_hard_stops(sources["urls"], link_opener))
     loaded = {
@@ -2693,6 +2864,7 @@ def load_pipeline_package(directory, *, editor_mode=None, link_opener=None):
         "editor_mode": True,
         "html": html_text,
         "notes_html": notes_html,
+        "sources_html": sources_html,
     }
     loaded["files"] = _edition_files(loaded)
     return loaded
@@ -2708,6 +2880,8 @@ def _edition_files(loaded):
             files[rel] = loaded["audit_html"]
         elif rel.endswith("/editors-notes/index.html"):
             files[rel] = loaded["notes_html"]
+        elif rel.endswith("/sources/index.html"):
+            files[rel] = loaded["sources_html"]
         else:
             files[rel] = loaded["html"]
     return files

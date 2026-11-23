@@ -28,7 +28,8 @@ NEON_URL = "https://www.signalandnoise.email/daily-state/2026-11-20/neon/"
 AUDIT_URL = "https://www.signalandnoise.email/daily-state/2026-11-20/neon/audit/"
 AUDIO = "/content/daily-state/2026-11-20/neon/episode.mp3"
 SHORT = "/content/daily-state/2026-11-20/neon/short.mp4"
-SOURCES = "/content/daily-state/2026-11-20/neon/sources.json"
+SOURCES = "/daily-state/2026-11-20/neon/sources/"
+SOURCES_RAW = "/content/daily-state/2026-11-20/neon/sources.json"
 NOTE = (
     "Written by Google Gemini 4 Neon (medium) from one minimal prompt, "
     "with no rules, editor or edits, published as produced."
@@ -293,7 +294,25 @@ class AuditModeTests(unittest.TestCase):
             daily_state.load_edition_directory(str(dest), DATE, variant=VARIANT)
         self.assertIn("frozen public inputs", str(caught.exception))
 
+    def test_sources_page_is_readable_and_linked_from_the_neon_edition(self):
+        loaded = daily_state.load_edition_directory(str(neon_dir()), DATE, variant=VARIANT)
+        page = loaded["sources_html"]
+        daily_state.assert_sources_page(page, DATE, loaded["sources"], VARIANT, loaded["edition"])
+        self.assertIn("<h1>Sources</h1>", page)
+        self.assertIn('<p class="kicker">Daily State of AI - 2026-11-20</p>', page)
+        self.assertIn('<a href="../">Back to the edition</a>', page)
+        self.assertIn(f'<a href="{SOURCES_RAW}">Raw data</a>', page)
+        self.assertEqual(loaded["html"].count(f'<a href="{SOURCES}">Sources</a>'), 1)
+        self.assertNotIn(f'<a href="{SOURCES_RAW}">Sources</a>', loaded["html"])
+        files = daily_state.render_output(daily_state.load_editions(str(ROOT)))
+        self.assertEqual(
+            files[f"daily-state/{DATE}/{VARIANT}/sources/index.html"],
+            page,
+        )
+        self.assertIn(f"daily-state/{DATE}/sources/index.html", files)
+
     def test_package_check_accepts_audit_and_refuses_the_other_pipelines(self):
+
         ok = daily_state.main(["--package", str(neon_dir()), "--check"])
         self.assertEqual(ok, 0)
         for pipeline in ("live", "editor"):

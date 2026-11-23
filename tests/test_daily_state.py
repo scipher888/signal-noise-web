@@ -1278,7 +1278,86 @@ class DailyStateTests(unittest.TestCase):
         edition_nav = re.search(r"<nav>.*?</nav>", edition, re.S).group(0)
         self.assertIn("daily-state/", edition_nav)
 
+    def test_source_link_label_makes_x_posts_readable(self):
+        self.assertEqual(
+            daily_state.source_link_label("https://x.com/sama/status/2124551594691932405"),
+            "@sama on X",
+        )
+        self.assertEqual(
+            daily_state.source_link_label("https://www.twitter.com/gdb/status/1?s=20"),
+            "@gdb on X",
+        )
+        self.assertEqual(
+            daily_state.source_link_label("https://openai.com/index/perplexity-and-intelligence"),
+            "https://openai.com/index/perplexity-and-intelligence",
+        )
+        self.assertEqual(
+            daily_state.primary_source_url([
+                "https://x.com/sama/status/1",
+                "https://openai.com/index/paper",
+            ]),
+            "https://openai.com/index/paper",
+        )
+        self.assertEqual(
+            daily_state.sources_page_url("2026-11-23"),
+            "/daily-state/2026-11-23/sources/",
+        )
+        self.assertEqual(
+            daily_state.sources_page_url("2026-11-20", "neon"),
+            "/daily-state/2026-11-20/neon/sources/",
+        )
+
+    def test_published_sources_pages_are_readable(self):
+        """Every edition gets a Sources page; audit editions link to it, not raw JSON."""
+        for iso_date in daily_state.list_edition_dates(str(ROOT)):
+            with self.subTest(iso_date=iso_date):
+                loaded = daily_state.load_edition(str(ROOT), iso_date)
+                page = loaded["sources_html"]
+                daily_state.assert_sources_page(page, iso_date, loaded["sources"], None, loaded["edition"])
+                published = ROOT / "daily-state" / iso_date / "sources" / "index.html"
+                self.assertTrue(published.is_file(), iso_date)
+                self.assertEqual(published.read_text(encoding="utf-8"), page)
+                edition_html = loaded["html"]
+                sources_href = '/daily-state/%s/sources/' % iso_date
+                raw_href = '/content/daily-state/%s/sources.json' % iso_date
+                if loaded.get("root_audit") or loaded.get("audit_mode"):
+                    self.assertIn('<a href="%s">Sources</a>' % sources_href, edition_html)
+                    self.assertNotIn('<a href="%s">Sources</a>' % raw_href, edition_html)
+                self.assertEqual(edition_html.count(HOUSE), 1)
+                self.assertIn("<h1>Daily State of AI - %s</h1>" % iso_date, edition_html)
+                self.assertEqual(edition_html.count('<p class="ds-headline">'), 1)
+        neon = daily_state.load_edition_directory(
+            str(ROOT / "content" / "daily-state" / "2026-11-20" / "neon"),
+            "2026-11-20",
+            variant="neon",
+        )
+        neon_page = neon["sources_html"]
+        daily_state.assert_sources_page(
+            neon_page, "2026-11-20", neon["sources"], "neon", neon["edition"],
+        )
+        published = ROOT / "daily-state" / "2026-11-20" / "neon" / "sources" / "index.html"
+        self.assertEqual(published.read_text(encoding="utf-8"), neon_page)
+        self.assertIn('<a href="/daily-state/2026-11-20/neon/sources/">Sources</a>', neon["html"])
+        self.assertNotIn(
+            '<a href="/content/daily-state/2026-11-20/neon/sources.json">Sources</a>',
+            neon["html"],
+        )
+        self.assertIn("@emollick on X", neon_page)
+        nov23 = daily_state.load_edition(str(ROOT), "2026-11-23")
+        self.assertIn("@sama on X", nov23["sources_html"])
+        self.assertIn("OpenAI publishes its internal pretraining perplexity curve", nov23["sources_html"])
+        self.assertIn("<h1>Sources</h1>", nov23["sources_html"])
+        self.assertIn('<p class="kicker">Daily State of AI - 2026-11-23</p>', nov23["sources_html"])
+        self.assertIn('<a href="../">Back to the edition</a>', nov23["sources_html"])
+        self.assertIn(
+            '<a href="/content/daily-state/2026-11-23/sources.json">Raw data</a>',
+            nov23["sources_html"],
+        )
+        self.assertEqual(nov23["html"].count("Audio on Spotify"), 1)
+        self.assertEqual(nov23["html"].count('<a href="audit/">Audit</a>'), 1)
+
     def test_repo_check_leaves_essays_byte_identical(self):
+
 
         tracked = subprocess.run(
             ["git", "ls-files", "-z"], cwd=ROOT, check=True, capture_output=True

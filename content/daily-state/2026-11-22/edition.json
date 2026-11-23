@@ -31,7 +31,7 @@
     }
   },
   "video_url": "https://x.com/signalnoisepub/status/2124626912333177200",
-  "sources_url": "/content/daily-state/2026-11-22/sources.json",
+  "sources_url": "/daily-state/2026-11-22/sources/",
   "audit": {
     "gate": false,
     "attach": "after_publish"
