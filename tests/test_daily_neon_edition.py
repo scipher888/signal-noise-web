@@ -159,7 +159,9 @@ class DailyNeonEditionTest(unittest.TestCase):
         page = loaded["html"]
         self.assertIn(f"<h1>Daily State of AI - {DATE}</h1>", page)
         self.assertEqual(page.count(HOUSE), 1)
-        self.assertIn(' · <a href="audit/">Audit</a></p>', page)
+        self.assertIn('<p><a href="audit/">Audit</a></p>', page)
+        self.assertIn('<p class="disclaimer">%s</p>' % HOUSE, page)
+        self.assertNotIn(' · <a href="audit/">Audit</a>', page)
         self.assertEqual(page.count(SPOTIFY_LINK), 1)
         self.assertNotIn("<audio", page)
         self.assertNotIn("episode.mp3", page)
@@ -264,7 +266,8 @@ class DailyNeonEditionTest(unittest.TestCase):
         link = '<p><a href="https://open.spotify.com/episode/5N0wawFLP0cwayiO8XH0Am">Audio on Spotify</a></p>'
         self.assertEqual(page.count(player + "\n" + link), 1)
         self.assertEqual(page.count("open.spotify.com/episode/"), 1)
-        self.assertEqual(page.count(' · <a href="audit/">Audit</a></p>'), 1)
+        self.assertEqual(page.count('<p><a href="audit/">Audit</a></p>'), 1)
+        self.assertIn('<p class="disclaimer">%s</p>' % HOUSE, page)
 
     def test_tampered_spotify_receipt_holds(self):
         self.repo.build()
@@ -336,7 +339,7 @@ class DailyNeonEditionTest(unittest.TestCase):
         self.assertIn("Episode 0 PASS / 1 FAIL / 0 NEEDS-HUMAN", loaded["audit_html"])
         self.assertIn(f"content/daily-state/{DATE}/audit/checks/{DATE}/e01-claim.py", loaded["audit_html"])
         # The edition page itself does not change when the audit lands.
-        self.assertIn(' · <a href="audit/">Audit</a></p>', loaded["html"])
+        self.assertIn('<p><a href="audit/">Audit</a></p>', loaded["html"])
 
     def test_attach_audit_shows_takeaway_checks(self):
         self.repo.build()

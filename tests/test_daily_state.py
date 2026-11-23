@@ -1079,8 +1079,8 @@ class DailyStateTests(unittest.TestCase):
             for href in ("editors-notes/", "./editors-notes/")
         )
         plain_line = '<p class="disclaimer">%s</p>' % HOUSE
-        # Daily audit-mode (Neon) editions append the audit link once.
-        audit_line = '<p class="disclaimer">%s · <a href="audit/">Audit</a></p>' % HOUSE
+        # Daily audit-mode (Neon) editions put Audit in the top link group.
+        audit_link = '<p><a href="audit/">Audit</a></p>'
         for iso_date in daily_state.list_edition_dates(str(ROOT)):
             with self.subTest(iso_date=iso_date):
                 html = (ROOT / "daily-state" / iso_date / "index.html").read_text(encoding="utf-8")
@@ -1105,8 +1105,11 @@ class DailyStateTests(unittest.TestCase):
                     self.assertIn(paragraph, editor_lines)
                     self.assertEqual(page.disclaimer, "%s · %s" % (HOUSE, notes))
                 elif audit_mode:
-                    self.assertEqual(paragraph, audit_line)
-                    self.assertEqual(page.disclaimer, "%s · Audit" % HOUSE)
+                    self.assertEqual(paragraph, plain_line)
+                    self.assertEqual(page.disclaimer, HOUSE)
+                    self.assertEqual(html.count(audit_link), 1)
+                    self.assertLess(html.index(audit_link), start)
+                    self.assertGreater(html.index(audit_link), html.index("<article>"))
                 else:
                     self.assertEqual(page.disclaimer, HOUSE)
                     self.assertEqual(paragraph, plain_line)
