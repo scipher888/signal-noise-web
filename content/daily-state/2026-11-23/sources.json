@@ -1,0 +1,43 @@
+{
+  "date": "2026-11-23",
+  "urls": [
+    "https://openai.com/index/perplexity-and-intelligence",
+    "https://x.com/sama/status/2124551594691932405",
+    "https://x.com/gdb/status/2124582684840399311",
+    "https://x.com/swyx/status/2124583459356373052",
+    "https://x.com/deredleritt3r/status/2124568402031435962",
+    "https://huggingface.co/inclusionAI/LingSante-3.1-flash",
+    "https://x.com/AntLingAGI/status/2124523916819648945"
+  ],
+  "stories": [
+    {
+      "index": 1,
+      "title": "OpenAI publishes its internal pretraining perplexity curve and proposes industry-wide limits",
+      "outlets": [
+        "OpenAI",
+        "X"
+      ],
+      "urls": [
+        "https://openai.com/index/perplexity-and-intelligence",
+        "https://x.com/sama/status/2124551594691932405",
+        "https://x.com/gdb/status/2124582684840399311",
+        "https://x.com/swyx/status/2124583459356373052",
+        "https://x.com/deredleritt3r/status/2124568402031435962"
+      ],
+      "verification_status": "company_reported"
+    },
+    {
+      "index": 2,
+      "title": "Ant's LingSante-3.1-flash: a 560B open-weight medical model with self-reported benchmark leads",
+      "outlets": [
+        "Hugging Face (inclusionAI model card)",
+        "X"
+      ],
+      "urls": [
+        "https://huggingface.co/inclusionAI/LingSante-3.1-flash",
+        "https://x.com/AntLingAGI/status/2124523916819648945"
+      ],
+      "verification_status": "company_reported"
+    }
+  ]
+}

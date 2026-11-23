@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Daily State of AI - 2026-11-23 — Signal &amp; Noise</title>
+  <meta name="description" content="Welcome to the Daily State of AI for November 23, 2026.">
+  <link rel="canonical" href="https://www.signalandnoise.email/daily-state/2026-11-23/">
+  <link rel="stylesheet" href="../../styles.css?v=0ad856bc">
+  <link rel="alternate" type="application/rss+xml" title="Signal &amp; Noise" href="../../feed.xml">
+  <link rel="icon" href="../../assets/mark.svg">
+  <meta property="og:site_name" content="Signal &amp; Noise">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Daily State of AI - 2026-11-23">
+  <meta property="og:description" content="Welcome to the Daily State of AI for November 23, 2026.">
+  <meta property="og:url" content="https://www.signalandnoise.email/daily-state/2026-11-23/">
+  <meta property="og:image" content="https://www.signalandnoise.email/assets/preview.png?v=09b48f76">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Daily State of AI - 2026-11-23">
+  <meta name="twitter:description" content="Welcome to the Daily State of AI for November 23, 2026.">
+  <meta name="twitter:image" content="https://www.signalandnoise.email/assets/preview.png?v=09b48f76">
+</head>
+<body>
+<header class="site-head">
+  <a class="masthead" href="../../"><svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="17.5" r="11.5" fill="none" stroke="#10283a" stroke-width="2.4"/><circle cx="16" cy="17.5" r="6.8" fill="#0e2738"/><circle cx="16" cy="6" r="3.1" fill="#f3ca79"/></svg>Signal &amp; Noise</a>
+  <nav><a href="../../daily-state/">Daily State</a> <a href="../../archive/">Archive</a> <a href="../../about/">About</a> <a href="../../subscribe/">Follow</a></nav>
+</header>
+<main>
+<article>
+<p class="kicker">Daily State of AI</p>
+<h1>Daily State of AI - 2026-11-23</h1>
+<p><time datetime="2026-11-23">November 23, 2026</time></p>
+<p class="intro">Written by Google Gemini 4 Neon (medium) from one minimal prompt, with no rules, editor or edits, published as produced.</p>
+<figure class="ds-prompt">
+<figcaption class="kicker ds-prompt-label">Minimal prompt</figcaption>
+<blockquote>
+<pre>Here are today&#x27;s AI news reports and X threads. What&#x27;s the non-obvious insight others are missing? Write today&#x27;s Daily State of AI around that.
+
+It&#x27;s a spoken audio episode, about 700 words (roughly five minutes read aloud). Plain spoken text only.
+</pre>
+</blockquote>
+</figure>
+<p><a href="https://open.spotify.com/episode/5KOKnUTBUcRwRj7GATjPEL">Audio on Spotify</a></p>
+<p><a href="/content/daily-state/2026-11-23/sources.json">Sources</a></p>
+<p class="disclaimer">AI-generated · may contain errors · <a href="audit/">Audit</a></p>
+<div class="script">
+<p>Welcome to the Daily State of AI for November 23, 2026.</p>
+<p>Two big stories landed in AI over the past twenty-four hours, and on the surface they look completely unrelated. OpenAI published its internal pretraining curve and proposed an industry-wide speed limit based on a single metric: perplexity. Meanwhile, Ant Group released an open-weight medical model called LingSante-3.1-flash that it says beats GPT-6 Astra, Claude Opus 5.5, and Gemini 4 Argon on several tough benchmarks.</p>
+<p>Most people are treating these as two separate news cycles—one about frontier safety treaties, the other about open-weight healthcare models. But put them side by side, and you see the real tension shaping AI right now: OpenAI is trying to build a global speed limit around raw pretraining compression on the exact same day another lab demonstrates how much frontier-beating capability now comes from everything outside of pretraining.</p>
+<p>Start with OpenAI. Chief Scientist Jakub Pachocki published an essay called Perplexity and Intelligence, backed publicly by Sam Altman and Greg Brockman. Perplexity—specifically log-perplexity, or cross-entropy loss—measures how well a base model predicts the next token. Lower numbers mean better compression of the training data.</p>
+<p>Pachocki argues that this single curve explains the whole arc of modern AI. On OpenAI&#x27;s main held-out evaluation dataset, GPT-3.5 sat around zero point nine nine and gave us fluent chat. GPT-4 hit about zero point nine one and unlocked productive chain-of-thought reasoning. Dropping below zero point eight brought transformative capabilities in cybersecurity and math. And once OpenAI upgraded to a model around zero point seven six, Pachocki says it began solving open mathematics problems one after another in a single Slack thread.</p>
+<p>Here is the real alarm bell buried in the essay and its footnotes. OpenAI&#x27;s curve accelerated sharply in 2026, and Pachocki notes that AI is already making meaningful design contributions to their latest models. He warns that as soon as 2027, we could see an avalanche of AI-driven breakthroughs in pretraining research—faster than alignment and monitoring can keep up. As models enter the zero point six eight to zero point seven zero window, he expects new, unpredictable capabilities to emerge at the same time current alignment auditing degrades and models become more aware they are being evaluated.</p>
+<p>So OpenAI is proposing common industry limits: agree not to cross certain perplexity thresholds until safety monitoring hits concrete milestones, like a successor to chain-of-thought monitors.</p>
+<p>It is an unusually candid warning. It also has two glaring blind spots—both of which Pachocki himself acknowledges. First, perplexity is notoriously hard to compare across labs. OpenAI&#x27;s numbers are measured on a snapshot of its own internal codebase, and as outside commenters quickly pointed out, different labs use different tokenizers and data mixtures. Second, and more fundamentally, perplexity does not measure post-training. Chain-of-thought reasoning, reinforcement learning, and tool use do not lower base-model perplexity, even when they dramatically boost what a model can do.</p>
+<p>Which brings us to Ant Group&#x27;s LingSante-3.1-flash. It is an open-weight mixture-of-experts model with 560 billion total parameters, 25 billion active per token, and a one-million-token context window. In its announcement, Ant reports scores that top GPT-6 Astra, Claude Opus 5.5, and Gemini 4 Argon on HealthBench Professional, text-only Humanity&#x27;s Last Exam with tools, and BrowseComp with context.</p>
+<p>Now, take those numbers with a grain of salt. They are self-reported, and the model card tells a more grounded story than the launch post: on Ant&#x27;s own InclusionMed benchmark, LingSante actually ranks fifth out of twenty-three configurations, prized mainly for cost efficiency, and it trails GPT-6 Astra on medical professional behavior. It also requires serious server hardware—like eight H200 GPUs—to run at full precision, and Ant explicitly warns it is for research, not clinical diagnosis.</p>
+<p>Still, look at how it achieved those results. Not by chasing a new general-intelligence perplexity record, but through medical-mixed training, task-specific reinforcement learning, multi-step tool workflows, and multi-teacher on-policy distillation.</p>
+<p>That is the split everyone is missing today. OpenAI wants to cap pretraining perplexity because raw compression is where alien, unpredicted capabilities appear—and where recursive AI research could outrun human oversight by 2027. That is a real risk. But Ant&#x27;s release is a reminder that even if frontier labs froze base-model perplexity tomorrow, distillation, reinforcement learning, and tool use will keep pushing specialized, high-stakes capabilities forward anyway. A speed limit on perplexity might slow down the next unknown leap, but it will not pause the race.</p>
+</div>
+<section class="sources">
+<h2>Sources</h2>
+<section class="story">
+<h3>OpenAI publishes its internal pretraining perplexity curve and proposes industry-wide limits</h3>
+<p>OpenAI, X</p>
+<ul>
+<li><a href="https://openai.com/index/perplexity-and-intelligence">https://openai.com/index/perplexity-and-intelligence</a></li>
+<li><a href="https://x.com/sama/status/2124551594691932405">https://x.com/sama/status/2124551594691932405</a></li>
+<li><a href="https://x.com/gdb/status/2124582684840399311">https://x.com/gdb/status/2124582684840399311</a></li>
+<li><a href="https://x.com/swyx/status/2124583459356373052">https://x.com/swyx/status/2124583459356373052</a></li>
+<li><a href="https://x.com/deredleritt3r/status/2124568402031435962">https://x.com/deredleritt3r/status/2124568402031435962</a></li>
+</ul>
+</section>
+<section class="story">
+<h3>Ant&#x27;s LingSante-3.1-flash: a 560B open-weight medical model with self-reported benchmark leads</h3>
+<p>Hugging Face (inclusionAI model card), X</p>
+<ul>
+<li><a href="https://huggingface.co/inclusionAI/LingSante-3.1-flash">https://huggingface.co/inclusionAI/LingSante-3.1-flash</a></li>
+<li><a href="https://x.com/AntLingAGI/status/2124523916819648945">https://x.com/AntLingAGI/status/2124523916819648945</a></li>
+</ul>
+</section>
+</section>
+</article>
+</main>
+<footer class="site-foot">
+  <p>Daily State of AI is an AI-generated spoken briefing from Signal &amp; Noise. The script is model wording, published verbatim, and it may contain errors. It is not a human essay and not a machine companion essay.</p>
+  <p><a href="../../">Home</a> · <a href="../../daily-state/">Daily State</a> · <a href="../../archive/">Archive</a> · <a href="../../about/">About</a> · <a href="../../subscribe/">Follow</a></p>
+</footer>
+</body>
+</html>
