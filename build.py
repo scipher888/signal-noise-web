@@ -100,6 +100,7 @@ MANIFEST = {
     "ai-can-hallucinate-a-jury": (23, "drafts/issue-023-postW-web-paste-2026-08-09.html", "2026-08-09", "day"),
     "the-gift-is-not-the-product": (24, "drafts/issue-024-web-paste-2026-08-14.html", "2026-08-16", "day"),
     "perfect-ai-alignment-is-not-alignment": (25, "drafts/issue-025-web-paste-2026-08-22.html", "2026-08-22", "day"),
+    "the-smartest-cage-on-campus": (None, "drafts/issue-smartest-cage-on-campus-paste-2026-11-22.html", "2026-11-22", "day"),
 }
 
 # Sources whose title/dek live outside the body (beehiiv field lines / build comments).
@@ -107,6 +108,10 @@ FIELD_OVERRIDES = {
     "principle-and-process": ("Principle and Process", "Two levels of the birthright citizenship debate"),
     "what-changed-after-issue-8": ("What Changed After Issue 8", "Why Signal & Noise retired Synthia-as-author framing and moved to named-process language."),
 }
+
+# Unlisted: built and live at their /p/<slug>/ URL, but intentionally absent from
+# the archive index and RSS feed (author-requested dark essays, 2026-11-22).
+UNLISTED_SLUGS = {"the-smartest-cage-on-campus"}
 
 MONTHS = {"01": "January", "02": "February", "03": "March", "04": "April", "05": "May",
           "06": "June", "07": "July", "08": "August", "09": "September",
@@ -327,7 +332,7 @@ def build():
                     f"<span class=\"meta\">Issue {e['issue']} · {display_date(e['date'], e['precision'])}</span>"
                     + (f"<span class=\"line\">{html.escape(e['dek'])}</span>" if e["dek"] else "") + "</p>")
     comp_rows = [f"<p class=\"row\"><a href=\"../p/{e['slug']}/\">{html.escape(e['title'])}</a> "
-                 f"<span class=\"meta\">Process note</span></p>" for e in companions]
+                 f"<span class=\"meta\">Process note</span></p>" for e in companions if e["slug"] not in UNLISTED_SLUGS]
     archive_main = ("<h1>Archive</h1>\n<p class=\"intro\">Every issue, newest first. Each piece links its published "
                     "audit in The World Behind the Words.</p>\n" + "\n".join(rows)
                     + "\n<h2>Process notes</h2>\n" + "\n".join(comp_rows))
@@ -422,7 +427,7 @@ def build():
 
     # RSS — pubDate only where the date is exact
     items = []
-    for e in essays + companions:
+    for e in [x for x in (essays + companions) if x["slug"] not in UNLISTED_SLUGS]:
         pub = ""
         if e["precision"] == "day":
             y, m, d = e["date"].split("-")
