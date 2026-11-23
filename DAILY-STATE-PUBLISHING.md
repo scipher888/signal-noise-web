@@ -209,3 +209,10 @@ The page stacks `Audio on Spotify`, `Sources`, and `Audit` as top links of the s
    ```
 
    `audit.json` must be for D, and its episode hash must match `script.txt`. An audit of the episode alone, with no short that day, is valid.
+
+3. After Max posts the Neon short (around 10 AM PT), point **Short** at the public X status URL. A local `short.mp4` is not required. The command accepts only `https://x.com/signalnoisepub/status/<digits>` and strips any query string, fragment, or trailing `/video/1`. Rerunning with the same URL is a no-op. Then check:
+
+   ```bash
+   python3 tools/neon_edition.py set-short-url --date D --url https://x.com/signalnoisepub/status/ID
+   python3 daily_state.py --check
+   ```

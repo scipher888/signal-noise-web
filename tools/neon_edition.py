@@ -4,6 +4,7 @@
     python3 tools/neon_edition.py build --date D --episode-dir DIR [--short MP4 --short-report JSON]
         [--episode-url URL] [--verification JSON]
     python3 tools/neon_edition.py attach-audit --date D --audit-out DIR --kit DIR
+    python3 tools/neon_edition.py set-short-url --date D --url URL
 
 build copies the frozen Neon run (script.txt, sources.json and run.json from
 the Mac Mini mirror) into content/daily-state/D/ with edition.json mode
@@ -25,7 +26,14 @@ the helper library, the runner, and the source snapshots) into
 content/daily-state/D/audit/. audit.json must be for D and for this script.
 The audit is for transparency and never blocks or edits the edition.
 
-Both commands validate with daily_state.py's loader before returning 0.
+set-short-url writes a public X short URL into edition.json video_url and
+regenerates that date's edition page. The URL must be
+https://x.com/signalnoisepub/status/<digits>; any query string, fragment, or
+trailing /video/1 is stripped. Rerunning with the same URL is a no-op. A
+local short.mp4 is not required. This is the post-publish step: the 7:20
+edition may ship before Max posts the Neon short around 10 AM.
+
+All commands validate with daily_state.py's loader before returning 0.
 """
 import argparse
 import hashlib
@@ -35,6 +43,7 @@ import os
 import re
 import shutil
 import sys
+import urllib.parse
 import urllib.request
 from datetime import datetime, timezone
 
@@ -294,6 +303,85 @@ def attach_audit(args):
     return 0
 
 
+
+SHORT_X_HOSTS = {"x.com", "www.x.com"}
+SHORT_X_USER = "signalnoisepub"
+SHORT_URL_ERROR = "short url must be https://x.com/signalnoisepub/status/<id>"
+
+
+def normalize_short_x_url(url):
+    """Return the clean https://x.com/signalnoisepub/status/<digits> form."""
+    if type(url) is not str or url != url.strip() or any(ch in url for ch in " \t\r\n\\"):
+        raise daily_state.Hold(SHORT_URL_ERROR)
+    parts = urllib.parse.urlsplit(url.strip())
+    host = (parts.hostname or "").lower().rstrip(".")
+    if parts.scheme != "https" or host not in SHORT_X_HOSTS:
+        raise daily_state.Hold(SHORT_URL_ERROR)
+    segs = [seg for seg in parts.path.split("/") if seg]
+    if (
+        len(segs) < 3
+        or segs[0].lower() != SHORT_X_USER
+        or segs[1].lower() != "status"
+        or not segs[2].isdigit()
+    ):
+        raise daily_state.Hold(SHORT_URL_ERROR)
+    extra = [seg.lower() for seg in segs[3:]]
+    if extra not in ([], ["video", "1"]):
+        raise daily_state.Hold(SHORT_URL_ERROR)
+    return f"https://x.com/{SHORT_X_USER}/status/{segs[2]}"
+
+
+def set_short_url(args):
+    date = args.date
+    if not daily_state.is_real_date(date):
+        return fail("date is invalid")
+    try:
+        url = normalize_short_x_url(args.url)
+    except daily_state.Hold as exc:
+        return fail(str(exc))
+    dest = os.path.join(daily_state.content_root(REPO), date)
+    if not daily_state.directory_declares_root_audit(dest):
+        return fail("no daily audit edition for this date")
+    edition_path = os.path.join(dest, "edition.json")
+    try:
+        raw = daily_state.read_stable(edition_path)
+        edition = json.loads(raw.decode("utf-8"))
+    except (OSError, ValueError, UnicodeDecodeError, daily_state.Hold):
+        return fail("edition.json is missing or unreadable")
+    page_rel = f"daily-state/{date}/index.html"
+    page_path = os.path.join(REPO, page_rel)
+    previous = raw
+    already = edition.get("video_url") == url
+    if not already:
+        edition["video_url"] = url
+        daily_state._write_text_atomic(
+            edition_path, json.dumps(edition, indent=2, ensure_ascii=False) + "\n"
+        )
+    try:
+        loaded = daily_state.load_edition(REPO, date)
+    except daily_state.Hold as exc:
+        if not already:
+            daily_state._write_text_atomic(edition_path, previous.decode("utf-8"))
+        return fail(str(exc))
+    html_text = loaded["html"]
+    marker = f'<a href="{url}">Short</a>'
+    if marker not in html_text:
+        if not already:
+            daily_state._write_text_atomic(edition_path, previous.decode("utf-8"))
+        return fail("edition page is missing the Short link")
+    current = None
+    if os.path.isfile(page_path) and not os.path.islink(page_path):
+        with open(page_path, encoding="utf-8") as handle:
+            current = handle.read()
+    if already and current == html_text:
+        print(json.dumps({"noop": True, "date": date, "video_url": url}))
+        return 0
+    os.makedirs(os.path.dirname(page_path), exist_ok=True)
+    daily_state._write_text_atomic(page_path, html_text)
+    print(json.dumps({"date": date, "video_url": url, "wrote": [page_rel]}))
+    return 0
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     sub = parser.add_subparsers(dest="cmd", required=True)
@@ -309,8 +397,15 @@ def main(argv=None):
     a.add_argument("--date", required=True)
     a.add_argument("--audit-out", required=True)
     a.add_argument("--kit", required=True)
+    s = sub.add_parser("set-short-url")
+    s.add_argument("--date", required=True)
+    s.add_argument("--url", required=True)
     args = parser.parse_args(argv)
-    return build(args) if args.cmd == "build" else attach_audit(args)
+    if args.cmd == "build":
+        return build(args)
+    if args.cmd == "attach-audit":
+        return attach_audit(args)
+    return set_short_url(args)
 
 
 if __name__ == "__main__":
