@@ -1,0 +1,48 @@
+{
+  "date": "2026-11-17",
+  "urls": [
+    "https://openai.com/index/our-first-phase-of-embedded-assessments",
+    "https://openai.com/index/science-at-the-frontier",
+    "https://claude.com/resources/articles/building-agents-when-to-fold-subagents-into-your-main-agent-loop",
+    "https://x.com/OpenAI/status/2122359930628063248",
+    "https://x.com/OpenAI/status/2122380010287960095",
+    "https://x.com/OpenAI/status/2122377585523126615",
+    "https://x.com/emollick/status/2122664990624641421"
+  ],
+  "stories": [
+    {
+      "index": 1,
+      "title": "OpenAI lets four outside safety groups inside its training runs, but keeps the right to redact",
+      "outlets": [
+        "OpenAI"
+      ],
+      "urls": [
+        "https://openai.com/index/our-first-phase-of-embedded-assessments",
+        "https://x.com/OpenAI/status/2122359930628063248"
+      ]
+    },
+    {
+      "index": 2,
+      "title": "OpenAI's 1,819-scientist study: a self-reported 1.9x speedup, not proof of faster discovery",
+      "outlets": [
+        "OpenAI"
+      ],
+      "urls": [
+        "https://openai.com/index/science-at-the-frontier",
+        "https://x.com/OpenAI/status/2122380010287960095",
+        "https://x.com/OpenAI/status/2122377585523126615"
+      ]
+    },
+    {
+      "index": 3,
+      "title": "Anthropic's advice to fold subagents back into one agent gets a fresh airing",
+      "outlets": [
+        "Claude by Anthropic"
+      ],
+      "urls": [
+        "https://claude.com/resources/articles/building-agents-when-to-fold-subagents-into-your-main-agent-loop",
+        "https://x.com/emollick/status/2122664990624641421"
+      ]
+    }
+  ]
+}

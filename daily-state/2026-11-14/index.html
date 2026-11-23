@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Daily State of AI - 2026-11-14 — Signal &amp; Noise</title>
+  <meta name="description" content="When does a model’s test score translate into useful capability?">
+  <link rel="canonical" href="https://www.signalandnoise.email/daily-state/2026-11-14/">
+  <link rel="stylesheet" href="../../styles.css?v=0ad856bc">
+  <link rel="alternate" type="application/rss+xml" title="Signal &amp; Noise" href="../../feed.xml">
+  <link rel="icon" href="../../assets/mark.svg">
+  <meta property="og:site_name" content="Signal &amp; Noise">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Daily State of AI - 2026-11-14">
+  <meta property="og:description" content="When does a model’s test score translate into useful capability?">
+  <meta property="og:url" content="https://www.signalandnoise.email/daily-state/2026-11-14/">
+  <meta property="og:image" content="https://www.signalandnoise.email/assets/preview.png?v=09b48f76">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Daily State of AI - 2026-11-14">
+  <meta name="twitter:description" content="When does a model’s test score translate into useful capability?">
+  <meta name="twitter:image" content="https://www.signalandnoise.email/assets/preview.png?v=09b48f76">
+</head>
+<body>
+<header class="site-head">
+  <a class="masthead" href="../../"><svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="17.5" r="11.5" fill="none" stroke="#10283a" stroke-width="2.4"/><circle cx="16" cy="17.5" r="6.8" fill="#0e2738"/><circle cx="16" cy="6" r="3.1" fill="#f3ca79"/></svg>Signal &amp; Noise</a>
+  <nav><a href="../../daily-state/">Daily State</a> <a href="../../archive/">Archive</a> <a href="../../about/">About</a> <a href="../../subscribe/">Follow</a></nav>
+</header>
+<main>
+<article>
+<p class="kicker">Daily State of AI</p>
+<h1>Daily State of AI - 2026-11-14</h1>
+<p><time datetime="2026-11-14">November 14, 2026</time></p>
+<p><a href="https://open.spotify.com/episode/6VCxIjmqRcPW2NlsX7Qh0M">Audio on Spotify</a></p>
+<p class="disclaimer">AI-generated · may contain errors</p>
+<div class="script">
+<p>When does a model’s test score translate into useful capability? Today, that question runs through three stories: an open reasoning model controlling real robot arms after training only in simulation, Anthropic’s advice on building safety evaluations, and a new leader on MathArena. The common issue is not just who scores highest, but what the test actually establishes.</p>
+<p>Start with robotics. Can a relatively small, open model learn robot control without demonstrations, and transfer that learning to physical hardware?</p>
+<p>Jiaming Tang, a lead author, presents Robot-Use RL as an open alternative to frontier models being shown controlling robot arms. The project’s own write-up supports a narrower but substantial claim: the authors trained a twenty-seven-billion-parameter reasoning model through reinforcement learning entirely in simulation, without demonstrations, then tested it on a real dual-arm YAM robot without using real-robot training data.</p>
+<p>The authors report that performance on the LIBERO robotics benchmark rose from 1.6 percent to 74.4 percent. On their physical robot trials, they report 60 percent success, compared with no successes for the base model.</p>
+<p>That is evidence of transfer from simulated training to physical tasks, not just improvement inside a simulator. But these are author-reported results from a project blog, not peer-reviewed findings or independent replication. The physical trials also should not be read as a general reliability rating for unfamiliar workplaces or arbitrary household tasks.</p>
+<p>The write-up includes a comparison in which pi-zero-point-five falls from 96.9 percent to 0.75 percent, while the reasoning model falls from 74.4 percent to 57.4 percent. That supports the authors’ argument that their model holds up better in that comparison. It does not establish that it is the better robot controller across every setting.</p>
+<p>Two stated limits matter for anyone considering deployment. The authors say they have not been able to scale up training, and the model remains slow because it reasons at length before every move. Learning without demonstrations is also not the same as learning without an engineered training setup. This is model-driven control under a designed evaluation, not evidence of an unattended robot operating reliably in the world.</p>
+<p>That distinction leads directly to Anthropic’s new safety-evaluation guidance. What exactly is a score measuring, and how much can the evaluation setup change it?</p>
+<p>Anthropic’s company-authored advice centers on defining the behavior to measure before collecting data, validating automated graders against human judgment, and reporting uncertainty. The company says it treats one hundred items as a floor for a complex, multi-turn evaluation, and one thousand as a floor for a simpler, single-turn evaluation. Those are its recommendations, not universal guarantees of statistical adequacy.</p>
+<p>Its examples show why that caution matters. Anthropic reports that two configurations produced differences of as much as thirty-four percentage points in appropriate-response rates when testing Claude Fable 5.1 on multi-turn safety evaluations. In another comparison, the company says an apparent difference between models was not statistically significant, so it could not conclude that either performed better.</p>
+<p>The practical takeaway is that a safety percentage needs its test conditions attached. A headline alone cannot tell you whether the difference reflects model behavior, configuration choices, grading quality, or statistical noise. This is company-reported guidance and evidence, not independent confirmation of any model’s safety.</p>
+<p>Finally, what does a new math leaderboard leader actually tell us?</p>
+<p>MathArena team member Jasper Dekoninck highlights that a non-OpenAI model now leads its ranking. The benchmark maintainers report Gemini 4 Carbon first at 85.4 percent expected performance, Claude Fable 5.2 second at 82.8 percent, and GPT-6.1 Sol third at 80.6 percent.</p>
+<p>MathArena defines expected performance across its non-deprecated competitions. These are third-party, maintainer-reported benchmark results, not a measure of every kind of mathematical work.</p>
+<p>The reported uncertainty ranges overlap, so the ordering should not be mistaken for a decisive separation. The listed costs also differ sharply: about sixteen dollars for Gemini, forty dollars for Fable, and roughly one dollar for Sol.</p>
+<p>For practitioners, that makes this a capability-and-cost comparison under particular benchmark settings, not a universal winner. And competition-math performance is not the same as dependable, assisted mathematical work in a research or production workflow.</p>
+<p>Across all three stories, the useful question is the same: what changed, under which conditions, and how far does the evidence travel?</p>
+</div>
+<section class="sources">
+<h2>Sources</h2>
+<section class="story">
+<h3>An open 27B reasoning model learns to drive real robot arms from simulation-only RL</h3>
+<p>MIT HAN Lab</p>
+<ul>
+<li><a href="https://mit-han-lab.github.io/pear-blog/">https://mit-han-lab.github.io/pear-blog/</a></li>
+<li><a href="https://x.com/jmtang42/status/2121303649976455502">https://x.com/jmtang42/status/2121303649976455502</a></li>
+</ul>
+</section>
+<section class="story">
+<h3>Anthropic publishes 10 recommendations for building safety evaluations</h3>
+<p>Anthropic</p>
+<ul>
+<li><a href="https://www.anthropic.com/research/building-strong-safety-evaluations">https://www.anthropic.com/research/building-strong-safety-evaluations</a></li>
+<li><a href="https://x.com/AnthropicAI/status/2121317227618340990">https://x.com/AnthropicAI/status/2121317227618340990</a></li>
+</ul>
+</section>
+<section class="story">
+<h3>MathArena: Gemini 4 Carbon takes #1, ending a long OpenAI run at the top</h3>
+<p>MathArena (ETH Zurich SRI Lab and INSAIT)</p>
+<ul>
+<li><a href="https://matharena.ai/">https://matharena.ai/</a></li>
+<li><a href="https://x.com/j_dekoninck/status/2121263753006374997">https://x.com/j_dekoninck/status/2121263753006374997</a></li>
+</ul>
+</section>
+</section>
+</article>
+</main>
+<footer class="site-foot">
+  <p>Daily State of AI is an AI-generated spoken briefing from Signal &amp; Noise. The script is model wording, published verbatim, and it may contain errors. It is not a human essay and not a machine companion essay.</p>
+  <p><a href="../../">Home</a> · <a href="../../daily-state/">Daily State</a> · <a href="../../archive/">Archive</a> · <a href="../../about/">About</a> · <a href="../../subscribe/">Follow</a></p>
+</footer>
+</body>
+</html>

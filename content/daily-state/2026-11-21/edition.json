@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-21",
+  "mode": "audit",
+  "variant": null,
+  "title": "Daily State of AI - 2026-11-21",
+  "canonical_url": "https://www.signalandnoise.email/daily-state/2026-11-21/",
+  "model": "google/gemini-4-neon",
+  "reasoning_effort": "medium",
+  "audio_url": "/content/daily-state/2026-11-21/episode.mp3",
+  "episode_id": "5N0wawFLP0cwayiO8XH0Am",
+  "episode_url": "https://open.spotify.com/episode/5N0wawFLP0cwayiO8XH0Am",
+  "verified_at": "2026-11-21T18:17Z",
+  "verification": {
+    "method": "public_episode_and_show",
+    "checked_at": "2026-11-21T18:17Z",
+    "episode": {
+      "title": "Daily State of AI - 2026-11-21",
+      "canonical_url": "https://open.spotify.com/episode/5N0wawFLP0cwayiO8XH0Am",
+      "id": "5N0wawFLP0cwayiO8XH0Am"
+    },
+    "show": {
+      "id": "1AC7qV1tyVIICLtJVwBapp",
+      "episodes": [
+        {
+          "id": "5N0wawFLP0cwayiO8XH0Am",
+          "title": "Daily State of AI - 2026-11-21",
+          "uri": "spotify:episode:5N0wawFLP0cwayiO8XH0Am"
+        }
+      ]
+    }
+  },
+  "video_url": "/content/daily-state/2026-11-21/short.mp4",
+  "sources_url": "/content/daily-state/2026-11-21/sources.json",
+  "audit": {
+    "gate": false,
+    "attach": "after_publish"
+  },
+  "hashes": {
+    "script_sha256": "629f4dfc59b54f058322a818e102606eda50a2adf95a86611e1d8fc602b94877",
+    "sources_sha256": "48cafff1a46de6828f24556239011ffd3548541a9b773db206b0c69849cbc9ef",
+    "neon_run_sha256": "ed6c9a6b2a7488e6b1b8ed2db4877be8347a2ceb3519a4bae4b07d7371779d8b",
+    "episode_sha256": "003954894349e867c94f6554f83a82ab18ed7ce01ae3c21352583938f303dcca",
+    "short_sha256": "a669fa32f16eb43f0cc08f38c348814c270df1a78305e45e9d1a8c05ff2d35af"
+  }
+}

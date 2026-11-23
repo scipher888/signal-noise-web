@@ -1,0 +1,339 @@
+The Most Important Charts in AI are Wrong - Ramez Naam
+
+SubscribeSign in
+
+The Most Important Charts in AI are Wrong
+
+Real world data from OpenAI and Google looks nothing like the exponential charts from METR, AI 2027, AI Futures, and other extrapolations.
+
+Ramez Naam
+
+Nov 21, 2026
+
+40
+
+6
+
+7
+
+Share
+
+The Real World vs the Graphs
+
+tl;dr: Real world AI data shows capabilities that are impressive but also dramatically inferior to those projected by influential AI forecasts and benchmarks - the very same forecasts and benchmarks that point to imminent super-intelligence.
+
+By next year, according to influential forecasts, AIs should be able to autonomously accomplish tasks that would take humans years.
+
+The METR task horizon measures benchmark performance. Both extrapolations of it using ECI scores and forecasts such as the original AI 2027 scenario dramatically over-estimate the length of task an AI can accomplish on real-world research tasks.
+
+New data from OpenAI and Google on how AI is actually used inside those companies contradicts this, finding that real world work is far messier with far shorter timeframes. 
+
+In addition, the gap between the real world and forecasts is growing larger all the time. At 80% success, OpenAI’s real world internal task horizon grew dramatically more slowly from June to October than the AI 2027 scenario or extrapolations of the METR chart predict. 
+
+None of this is to blame forecasters or the creators of benchmarks. We were all building models in the absence of real-world data. Now that real-world data does exist, it’s time to shift from being AI theorists to being AI empiricists. 
+
+This Substack is reader-supported. To receive new posts and support my work, consider becoming a free or paid subscriber.
+
+Subscribe
+
+Table of Contents
+
+The Real World vs the Graphs
+
+Context – Is the Singularity Near?
+
+1. Exponential Metrics and Projections
+
+2. Reality is Messy. AI in the Real World is Far Less Capable
+
+3. AI Improvement is Much, Much Slower than Forecast
+
+4. Is ECI exponential?
+
+5. AI’s Reliability Gap
+
+6. What Does this Mean for RSI and Super-Intelligence?
+
+7. An AI Transparency Agenda – Starting with Anthropic
+
+Time To Update 
+
+Appendix 1. Additional Data We Could Use
+
+Appendix 2. How Much Do the Uncertainties Matter?
+
+Context – Is the Singularity Near?
+
+For years, one of the clearest ways to communicate that AI was growing in capability exponentially and would imminently eclipse human intellect was a chart of how long a task an AI could accomplish, published by an AI evaluation organization called METR. The METR chart measures tasks in how long it would take a human to accomplish them. It looks at the length of tasks AI can accomplish with certain levels of likelihood, generally either 80% or 50%. Other famous charts of a forthcoming fast takeoff or AI singularity often index on this same concept and same data set. The initial AI 2027 report projects a singularity fairly soon, as do recent updates from the leaders of the AI Futures Project who produced it.
+
+Real world data inside of OpenAI and Google demonstrates that these charts are wrong. They are badly misleading about the current capabilities of AI and about the future growth rate of those capabilities. The gap between the hypothetical forecasts and real-world data is growing wider every month.
+
+METR, AI Futures, and other organizations I’ll mention here are full of competent, smart, dedicated, honest people. I’ve learned quite a bit from them. I consider them mission-oriented, focused on making a better world, and obviously intelligent. None of this is meant as an aspersion of any of those individuals. They’ve done the best they could to project the future at a time when we didn’t have empirical data. And in many cases they’ve been stunningly accurate in their predictions.
+
+The thrust of this post is that we have more and more of that empirical data, which paints a very different story of the future. And given that, it’s time to update. 
+
+Secondly, AI forecasters and evaluators have, in many cases, been hobbled by the inherent limitations of measuring AI by using offline data sets where performance can be mechanically judged as success or failure. That process itself creates a sort of selection bias in AI benchmarks towards more cut and dry tasks and away from the messiness of real-life work. Even in computer science. METR, to their credit, understands this gap and has been working to improve their benchmarks, including in a new report out today.
+
+A need for transparency. One final note before we begin. You’ll observe here that my critique doesn’t use much, if any, Anthropic data. That’s because Anthropic has so far not released the detail and quality of data that OpenAI has (and that Google is starting to emulate). Indeed, while METR recently looked at internal Anthropic data and found that Anthropic’s AI models are accelerating AI progress, Anthropic forced METR to redact the most compelling evidence from that report. For a company that says it’s soon going to hit a threshold where AI doubles its pace of progress, that’s irresponsible. The most foundational safety policy in AI ought to be transparency. OpenAI has now set the bar for transparency. Google appears to be following. The responsible thing for Anthropic and other AI companies to do is to engage in a transparency “race to the top” – a race to publish the information that the general public needs in order to make independent evaluations of what’s happening in AI and where it’s headed.
+
+All that aside, let’s get into it.
+
+1. Exponential Metrics and Projections
+
+Below is the classic METR task length chart, edited for readability. It shows an exponential increase in the length of task that AI can autonomously complete. The version I’m showing below is at 80% success rate for AI.
+
+That’s on a logarithmic scale. What looks like a straight line is actually an exponential increase, from a time horizon of just a few seconds in early 2020 to 4 hours with Claude Mythos Preview in early 2026.
+
+Others have observed a general rule of thumb: That using the ECI score of an AI (The Epoch Capabilities Index, a general ‘IQ’ score for AI) they could generally predict time horizon. Among the models in the METR benchmark sample, about five ECI points corresponded to a doubling of the time horizon at 80% success.
+
+ECI scores have been rising steadily for years. And Anthropic claims that they’ve seen an acceleration of that pace through the use of AI itself. [The public record shows that Anthropic has accelerated, though much of that was Anthropic coming from behind to catch up to the AI frontier. After their own investigation, METR estimates that Anthropic’s internal capability index was rising 1.9× as fast after October 2025 and judged that AI-assisted research likely accounted for most of the acceleration by October 2026. Economists Alex Imas and Luis Garicano find that increased pace of spending and other inputs appears to explain much of the acceleration. Their analysis leaves open how much of the gain came from AI.]
+
+Using Anthropic’s internal capability index, AECI, to estimate what length tasks AI can accomplish today, Benjamin Todd, the founder of AI safety org 80,000 Hours, posted this chart estimating that the most powerful AI models available can autonomously complete tasks that are 30 – 40 hours long. 
+
+Finally, in 2025, the leaders of the AI Futures Project, in their initial “AI 2027” Forecast, published a chart like the below, predicting that in their fast-takeoff coding scenario, on a METR-style software-task scale, AI models would be able to autonomously accomplish tasks that take months by now, and more than a year by the end of 2027. [They since updated these forecasts, which we’ll look at below.]
+
+2. Reality is Messy. AI in the Real World is Far Less Capable
+
+All of those charts are wrong, inasmuch as they attempt to portray the real world. They may be narrowly correct, in that they measure success on a certain benchmark. But that benchmark doesn’t measure actual use of AI on the most contentious task – improving AI itself. What’s more, the gap between benchmarks and the real world is growing larger, rapidly. 
+
+OpenAI opens the kimono. In September, OpenAI released a post on research acceleration inside the company, that, for the first time, showed us how successful AI was at accomplishing tasks of given lengths, month by month, from January through July. This was the first time we’d had such detailed data from inside an AI company. It was a revelation about the messiness of the real world. Having it month by month also allowed us to track progress within OpenAI. In the Gemini Argon release, Google DeepMind followed suit, with a very similar chart (though of only one time period). And then again in November, OpenAI released an update of their September data, with more detail, an updated methodology, and a longer time series.
+
+What the OpenAI and Google data show is that on real world tasks inside an AI company, AI models are 80% successful in accomplishing tasks of around nine minutes at Google and an adjusted 16 minutes at OpenAI. 
+
+Note that the OpenAI number above is higher than they report, as we’ve adjusted for possible reduction in success rate because of researchers giving AI ambiguous or unsolvable tasks, as well as errors in the tools that AI itself uses. Appendix 2 discusses how much that uncertainty changes the answer. None of the overall conclusions change much. 
+
+Some of this was expected. METR themselves understood that the lengths of the tasks they consolidated into a benchmark were the length of time a generally skilled programmer would take, but that an expert in that particular field could often accomplish the task much more rapidly. The gap was estimated to be as much as 10x. And the AI 2027 authors, to their credit, were indexing off of METR-defined lengths and realized that there could very well be a significant gap between benchmark times and real world times. They said as much.
+
+That said, the gaps above are not a mere ten-fold. At 80% success, ECI → METR estimates are 33× OpenAI’s internal task length and 41× Google’s. The original AI 2027 scenario over-estimates real world task lengths by more than 100x. These are very major discrepancies.
+
+3. AI Improvement is Much, Much Slower than Forecast
+
+Of course, exponential change eats up discrepancies like this. A straight extrapolation of the earlier METR benchmark assumes that the length of task an AI can accomplish will keep doubling every few months. That’s connected to a design feature of the ECI metric: It’s designed to reflect exponential growth in capabilities. Under exponential growth, even a 100-fold difference is only 7 doublings. That could be just two years.
+
+But the gap between hypothetical AI capabilities and real world AI capabilities here isn’t static. It grew dramatically from June to October at 80% success for both the ECI → METR frontier trend and the original AI 2027 scenario.
+
+Compare the shape of Benjamin Todd’s graph to real-world usage at OpenAI and Google, and you see this clear divergence.
+
+We can see a similar gap comparing the original AI 2027 forecast with real world observations.
+
+How fast are these hypotheticals diverging from what we observe inside OpenAI? In the four months from June to October, the divergence between Todd’s chart and real world observations at 80% success roughly tripled. At that rate, over a full year, the gap between forecasts and reality would grow by a factor of 30. That is not a good sign. 
+
+The original 2025 forecast from AI 2027 / AI Futures Project grows in its over-estimation of AI capabilities by more or less the same amount. The gap grew from 37× to over 100x, again implying that on an annual basis the gap would grow by a factor of more than 25. 
+
+To their credit, the authors of the AI 2027 forecast haven’t stuck to their original model. They’ve updated as new data has come in. But their August 2026 revision shows a similar, if milder, pattern. In its three time-horizon paths, the central gap grows by about 1.2–1.3× from June to October. That’s roughly a doubling of the gap on an annualized pace. Far better than other forecasts, but still dramatically off, and becoming less and less accurate over time. 
+
+These are not subtle differences. I respect anyone brave enough to create a quantitative model of the future and stick their neck out by writing it down. I’ve done the same many times. And no one ever bats a thousand when forecasting the future. I’ve had some major misses.
+
+When those misses happen – when reality diverges dramatically from your forecast – the key thing is to update. The set of people who do is much smaller, alas. But I’m optimistic here.
+
+4. Is ECI exponential?
+
+So real world AI task lengths are far below those of hypotheticals. Are they improving exponentially? This is a slightly more technical question: “Is ECI exponential in real-world impacts?” 
+
+In the September OpenAI release, the trend lines looked decidedly less than exponential. This new data points the other direction. In this longer data set, exponential growth fits best at both 50% and 80% success. That said, at 80%, a straight line and a sub-linear trend fit almost as well, so it’s too soon to say conclusively that real-world task lengths are growing exponentially, even though it now looks most likely.
+
+At 50% success rate, the best fit to the real-world data across all eight months is exponential improvement over time, with a doubling of AI achievable task length every 3.9 months on the central estimate, which is similar to METR’s latest estimate.
+
+At 80% success rate, the best fit on the central estimate is also exponential, implying a doubling time of 5.6 months, about 40% slower than the doubling pace at 50% success rate. The relative likelihood favors the exponential over a straight line by just 1.36 to 1. Exponential growth is now our working assumption, but not yet conclusive.
+
+Does this mean that real-world impact is exponential as a function of ECI? On task length, it appears to be the case. But as we’ll see below, on a more concrete real-world measures, the trend looks somewhat less than exponential. 
+
+5. AI’s Reliability Gap
+
+There’s a second issue lurking in this data, which is that not only do AI models perform worse in the messy real world than in metrics, but, as Nathan Witkin points out, AI models also seem to perform especially worse when there’s a demand for high reliability.
+
+As we just saw, AI models have been improving the length of task they can accomplish at 50% likelihood faster than they have at 80% likelihood on the central estimates. And the case for exponential improvement of task length at 50% is also stronger.
+
+ECI → METR estimates overshoot the internal task lengths by 23–25× at 50% success and by a somewhat higher ratio of 33–41× at 80% across the two labs. That implies that we’ll see an even wider gap between measures and the real world at higher reliability numbers, though this is, for now, an extrapolation. 
+
+This observation dovetails with something people observe in the real world: AI is an incredibly powerful tool, but must be steered, corrected, pointed, and re-pointed in the right direction. AI is much more capable than it is reliable.
+
+That has implications for RSI and super-intelligence. To operate truly autonomously, AIs will need to have reliabilities in a range well over 90%. Certainly to autonomously self-improve, AIs would need to chain together long sequences of tasks. Even 99% success rate may not be sufficient.
+
+We don’t have sufficient data to actually measure AI task length at 95% or 99% success rate but plausible extrapolations suggest it will be quite low.
+
+[Note that these extrapolations are as plausible and consistent with other AI modeling as possible, but still not empirical. Future data will likely update them. ]
+
+Using two different ways to model the real-world OpenAI and Google internal data, we can estimate task lengths at which AIs will achieve ever higher levels of reliability.
+
+The duration bins in the charts below are measured. Above 80% success, the task lengths come from fitted curves.
+
+The brown line on the chart above is a logistic fit, something commonly used in AI metrics, and in particular by both METR and ECI. It is (as we’ll see in a moment) brutal in the estimate of AI capabilities at high reliability rates. I’ve chosen to put in another fit, which is a straight line on a log curve, capped at the obvious ceiling of 100% success rate. This is not commonly used in AI modeling, but I frankly wanted to find a plausible fit that was more optimistic about AI capabilities here.
+
+The black line is the geometric mean of those two functions, an attempt to strike a middle ground between the model most commonly used in AI simulations of this sort and the gentler one I’ve tried to fit. If we zoom in, we see a projected pattern like this.
+
+For easier reading, the chart below shows the conclusions: In the real world, AIs might currently only achieve 99% success rates on tasks that would take a human a few seconds to a very small number of minutes.
+
+When will AI reach high reliability? How long might it take to get to high reliability on much longer tasks? This is an important question and it’s worth projecting. That said, we have limited data, so for now any answer is highly speculative. If the March–October 2026 pace continued, and improvement kept slowing at higher reliability thresholds, the middle projection for October 2035 would reach about 70 days of human work at 90% success, 2.6 days at 95%, and 2.4 hours at 98%. Even holding the future growth rate fixed, the two fits put that last number anywhere from 36 minutes to 9.6 hours.
+
+These are, again, very speculative numbers. They are not, however, numbers that point to short term runaway AI self-improvement to super-intelligence. To reach fully automated RSI, AI models will have to perform complex tasks that take humans days or weeks, at very high reliability rates, possibly well above the 98% we’ve used above. These projections suggest that it’s going to take many more years before AI is capable of that. 
+
+Is there an upper bound of impossible tasks? One important caveat here: In offline metrics, we often see that there’s a ceiling that any AI can score, because the evaluation itself contains questions or tasks that are flawed or impossible. It’s possible that some of the effect we’re seeing in the internal OpenAI and Google data is that researchers inside the company are giving AIs short tasks that are actually flawed in their definition, non-sensical, or impossible for other reasons. That doesn’t change the overall thrust of our conclusions, but can change the specific numbers. More on that in Appendix 2. 
+
+6. What Does this Mean for RSI and Super-Intelligence?
+
+What does this tell us about AI self-acceleration, RSI, and the prospects for runaway super-intelligence? 
+
+First, the OpenAI data don’t show any clear acceleration of AI progress pace. They show a very clear acceleration of usage of AI within the company, as an input to their next products, but not a clear acceleration of results. OpenAI very helpfully breaks up their blog post, indeed, into an inputs section and an outputs section. Inputs are soaring. Outputs are rising somewhat.
+
+Second, as I mentioned above, these numbers don’t suggest that AI is close to being able to truly autonomously improve itself without human involvement. That will require extremely high levels of reliability at task lengths of days or longer.
+
+Third, this data gives us a way to quantify the strength of the AI self-improvement loop.
+
+The AI Self-Improvement Loop Still Looks Too Weak 
+
+In my earlier post on this topic I discussed a model of self-sustaining AI self-improvement developed by Tom Cunningham and colleagues that indexed on a key variable: How much additional productivity did one gain from each point of ECI gained by an AI? This is a clever way to quantify the strength of the AI self-improvement loop. And as a reminder, what Cunningham and colleagues found was that at a threshold of about 15% greater productivity per point of ECI, self-improvement could become self-sustaining. That’s illustrated below.
+
+Adjusting for findings in the clearest experiment of experimental productivity that we know of (improving the Stockfish chess engine), I get a threshold of 19% added productivity for RSI to be self-sustaining, but that’s close enough.
+
+In my earlier post I looked at experiment pace inside of OpenAI. Over the last year, OpenAI researchers have been able to run more experiments per month per person. Experiments, of course, are how we make discoveries that improve AI. While they’re not the final output we want (AI improvement) they’re one of the best proxies we have. What if we gave all the credit for increased experiment pace to better AI models?
+
+I calculated that this would give us an estimate of around 3% more productivity per point of ECI. And, given that the OpenAI researchers were also using AI more (in addition to the AI being more powerful) I guessed that we should mark that down to 2-3%.
+
+A few people in the AI world, particularly Tom Davidson and Yafah Edelman, pointed out flaws in my methodology that might have caused me to underestimate the impact of better AI by giving too much credit to AI improvements made before this period, and thus downplaying the impact of each point of ECI gain. On the flip side, I only guessed at and didn’t try to quantify the impact of more usage of AI.
+
+With longer data, we can now do that. We can compare the pace of experiments per researcher inside OpenAI during the actual measured period, against our estimate of ECI score changes across that time, and also adjust for how many tokens (or dollars) of AI usage researchers are consuming.
+
+This analysis, as Tom and Yafah both predicted, lifts the estimated gain in experiment pace per point of ECI. Before adjusting for token usage or AI spend, each point of ECI gained was associated with 4.4% faster experimentation pace inside of OpenAI (second panel in the figure below). That said, after adjusting for using AI more (in the form of the log of the amount spent internally), that drops to 3.6% faster experimentation per point of ECI.
+
+With this better methodology and more data, the estimated gain in experiments per researcher is higher than the September estimate. That estimated gain is still well short of the 15-19% threshold for a self-sustaining AI recursive self-improvement loop, but it’s closer.
+
+The contravening factor, though, is that the gains in experiments per researcher for each additional point of ECI seem to be dropping in the OpenAI data, not holding steady.
+
+That’s consistent with somewhat less than exponential growth in experiment pace and overall productivity as ECI rises.
+
+An additional caveat is this doesn’t account for any increase in experiment quality going on inside of OpenAI. Though the recent blog post makes it clear that AI is primarily being used to implement ideas researchers have, and not as the source of new ideas or the selector of better ideas.
+
+In the long run, if there is to be rapid AI self-improvement, it will likely require AI to become superhuman in ‘research taste’, something which isn’t true today, and doesn’t reflect how AI is being used – yet. Whether or not that’s likely is something I’ll write about in a future post.
+
+For now, the OpenAI data are consistent with AI being an amplifier of humans inside of OpenAI, but not so much that it brings us near to a threshold of rapid AI progress acceleration.
+
+7. An AI Transparency Agenda – Starting with Anthropic
+
+The analysis in this post is only possible because OpenAI (and, to a limited extent, Google) have released granular and specific data about the real world use of AI by their researchers who are working on AI. The data is valuable because it gives us concrete numbers of several different metrics, does so at a fair level of detail, and does so consistently over an extended period of time. It has also arrived in a timely manner, only about 3 months after their September data release.
+
+Transparency is the ultimate disinfectant, as they say. The bedrock of any AI safety policy, in my mind, should be transparency. With this data, external analysts can drill into what’s happening and build their own assessments of both the current state and future trajectory of AI. AI benchmark and evaluation companies, AI futurists, AI safety organizations, AI non-profits, and academics can all learn from this and use it to update and improve our models of the world and the AI landscape.
+
+Without it, we’re in the dark.
+
+I have a wish list of other data I’d like to see from OpenAI, as do others such as the Elasticity Institute in their brilliantly short paper, "How to Measure RSI”. But for now the most pressing need is for every other AI company to catch up to OpenAI’s level of transparency.
+
+And in particular that means Anthropic.
+
+Anthropic is now the leader in the AI market, with the most used AI models, the first AI IPO, the largest revenues and profits of any AI company, and a large fraction of the mind share. They’ve also publicly stated that they believe that they’re approaching a threshold where AI itself doubles their pace of AI progress. Yet, while they allowed professionals from METR into their offices to study this, Anthropic forced METR to redact the evidence that is apparently most compelling. And they have not released data at this same level of detail or clarity.
+
+If Anthropic is as committed to safety as they say, and if they are as close to AI-driven acceleration of AI progress as they say, responsibility requires an added level of transparency.
+
+Nor does that let any other AI company off the hook. Google DeepMind, to their credit, released the same structure of data as OpenAI in their system card for Gemini 4 Argon. I applaud that and hope to see more. We have not seen any updates of this sort in the system cards or safety reports for Gemini 4 Carbon or Neon. Let’s see that data, and let’s see it longitudinally.
+
+Meta and xAI are playing catch up. They should be encouraged to see this release from OpenAI as the new standard of disclosure.
+
+And the same holds true for open weight model developers, including both US and European companies (NVIDIA, Thinking Machines, Mistral) and the leading Chinese labs (Moonshot AI, Alibaba, DeepSeek, Z.ai, Xiaomi, etc.)
+
+To be open is to be transparent.
+
+Time To Update
+
+In summary, my hat is off to the OpenAI team who produced this data and to OpenAI leadership for this level of transparency. 
+
+I see nothing in this data that persuades me that runaway AI self-improvement is near, and plenty that tells me that the most well known charts in AI are overdue for an update.
+
+In particular, I hope to see those who are most concerned about a rapid AI takeoff seriously engage with this data and the mismatch between forecasts and real world observations. The world is approaching a point of panic about AI now. It’s not my business to tell anyone to panic or not panic, but I hope that those with important audiences, microphones, platforms, and reputations take the time to update their models of the future based on empirical observations. Or at minimum to consider what this information might mean for their expectations of the future, and what they communicate to the public.
+
+Finally, in all likelihood I’m wrong about something I’ve written in this post. I welcome corrections. The future will diverge from all our models. I’ll do my best to change my own mind and communicate that as new data updates any of these findings. 
+
+It’s time to update towards AI empiricism.
+
+Appendices
+
+Appendix 1. Additional Data We Could Use
+
+Here’s what I’d love to see next from OpenAI, Google DeepMind, and Anthropic.
+
+Which models did researchers actually use? Publish each internal model’s Epoch Capabilities Index (ECI) score and share of delegated tasks each month. A task-weighted ECI would replace my assumption about how quickly internal models improved.
+
+Where did the requests end up? By month and duration, report autonomous success, assisted success, ordinary failure, blocking tool error, unclear goal, and uncertain outcome. Split uncertain cases by intervention. Include exclusions, task and researcher counts, and weights.
+
+Which kinds of work improved? Break those outcomes down by OpenAI’s six task families: Decide, Design, Build, Run, Analyze, and Communicate. Use the same categories across releases. Split the under-15-minute bin so we can see whether the shortest tasks actually reach 95% or 99% reliability.
+
+Why did someone step in? Ask requesters whether they corrected a mistake, supplied missing information or permissions, encountered an outage, or changed their minds. Give independent reviewers the original request and access. Could a competent colleague have finished it? Report reviewer agreement and success on both all requests and those judged feasible as issued.
+
+A more complete list of data requests is published by the Elasticity Institute.
+
+Appendix 2. How Much Do the Uncertainties Matter?
+
+There are a number of ways that these measures of AI task success might under-estimate or over-estimate success. As I was preparing this post, Avi Brach-Neuefeld commented that, if some tasks humans assign to AI are impossible or ambiguous, that would systematically make AI look less capable, and lead us to underestimate it. Here’s Avi’s comment, Toby Ord’s response, and Avi’s follow-up.
+
+With that in mind, I adjusted the OpenAI measures in the main body of this post to set a hard ceiling based on the ambiguous task and tool error numbers they reported in September. That’s why this blog post references OpenAI 80% success rate of 16 minutes, for example, instead of the raw data, which shows 12 minutes. Without this change, 80% success rate would not appear to be growing exponentially. The overall picture doesn’t change very much.
+
+That said, the adjustment I made above may not capture all the possible error. So let’s focus in particular on under-estimation of success and over-estimation of failure and ways we may be under-estimating AI capabilities. 
+
+Is the gap still there? OpenAI’s classification of success finds some tasks to be partial successes. To communicate this, they provide an upper bound and lower bound of success rate in the raw data. Let’s take the most optimistic view of OpenAI model success. Suppose every uncertain OpenAI task is a success. With the feasibility adjustment described below, the estimated October task length at 80% autonomous success inside OpenAI rises from 16 to 25 minutes. That’s notable, but it doesn’t come close to closing the gap with AI 2027 or ECI / METR extrapolations. The model-matched ECI → METR estimate is 8.9 hours, or 21 times as long as the most optimistic interpretation of OpenAI’s internal data. The original AI 2027 scenario gives 30 hours, or 72 times as long. For Google’s nine-minute horizon, the corresponding gaps are 41× and 114×.
+
+The model-matched forecast uses Epoch’s ECI to estimate a METR benchmark horizon for each model. Original AI 2027 is a separate coding-task scenario. Google’s September 1 comparison matches Argon’s capability. Google reported on October 13 and did not give its internal sampling date. OpenAI’s comparison uses the midpoint of its October 1–18 sample. METR’s methods · Original AI 2027
+
+Does the gap still widen? Under this most optimistic view of OpenAI’s internal model’s sucess, the gap between forecasts / extrapolations and the real world is also still growing rapidly. The original AI 2027 gap grows from 26× to 72× in the four months between June and October. The gap with the ECI → METR frontier trend grows from 37× to 107×. Both gaps nearly triple, again for a 10-fold annualized pace of error. The frontier trend here tracks the leading models over time. The 21× comparison above matches a single model.
+
+Each point compares a projection with OpenAI research tasks in the same month at 80% autonomous success. Both lines use the same feasibility correction.
+
+In short, correcting for this does increase our estimate of AI capabilities, but the gap between real-world AI and hypothetical models remains very large, and continues to grow rapidly over time. 
+
+This Substack is reader-supported. To receive new posts and support my work, consider becoming a free or paid subscriber.
+
+Subscribe
+
+40
+
+6
+
+7
+
+Share
+
+Previous
+
+Discussion about this post
+
+CommentsRestacks
+
+Keith Doyon
+
+8h
+
+Liked by Ramez Naam
+
+Good timing as I just watched a video discussion among several experts who confidently declared that The Singularity was upon us much more quickly than anticipated, and would arrive in 2027.
+
+I will be watching. 😉
+
+Like (2)
+
+Reply
+
+Share
+
+Antipopulist
+
+1h
+
+Fantastic piece. I always had a pretty big suspicion about the METR time horizon chart, as its findings started massively diverging from my own experiences as a computer programmer. AI has been improving rapidly but still needs a lot of hand-holding. The idea that a model like Astra can regularly complete 30hrs of tasks autonomously is laughable.
+
+Like
+
+Reply
+
+Share
+
+4 more comments...
+
+TopLatestDiscussions
+
+Ready for more?
+
+Subscribe
+
+© 2026 Ramez Naam · Privacy ∙ Terms ∙ Collection notice
+
+ Start your SubstackGet the app
+
+Substack is the home for writing, podcasting, and media founders.

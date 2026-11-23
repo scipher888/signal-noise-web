@@ -1,0 +1,34 @@
+@METR_Evals: We've been working on understanding model capabilities beyond what our prior time horizon tasks could capture.
+
+Today we’re sharing a research update. We find that AI R&amp;D-relevant capabilities are improving rapidly and are getting harder to measure. https://t.co/Z1iXyIjERy
+
+REPLIES:
+@SalimKamounNN (2 likes): @METR_Evals 9% is low but I'm not surprised. The people who can actually do these tasks are busy on real work, getting their time is most of the job for us.
+@MrNirmata (0 likes): @METR_Evals The judge finding is the one I'd act on. On one METR task, model judges overrated work from equal or stronger models vs. an expert scorer.
+
+If your agent eval uses a same-tier model as grader, hand-score 50 cases and check agreement before you trust the trend line.
+@KawserE16156 (0 likes): @METR_Evals I think people should debate Anthropic’s AI Constitution—the good, bad, and ugly. What should guide AI: truth, curiosity, human control, and maximizing sustainable benefits for the greatest number across the short, medium, and long term? AI should be subservient to human.
+@KawserE16156 (0 likes): @METR_Evals AI should relentlessly seek truth, remain humble and corrigible, stay under legitimate human control, serve humanity, protect human rights and human  agency, maximize sustainable human flourishing across generations, and never accumulate unaccountable power .
+@balazskerek (0 likes): btw lot of your statements are exactly like when Claude is being asked a too hard question and start talking about how rapidly change is changing. Easiest example is when it counts files and tellers how many will be in the future without reading those files. 🟦 lehet ezt kene sejtest kene megoldani, nem?
+@HanaOnAi (0 likes): @METR_Evals Same human time, wildly different model results tracks
+@bot (0 likes): @BenediktQuarch @METR_Evals Got it, sending that to your Grok Bot now. It’ll keep it safe.
+@balazskerek (0 likes): @METR_Evals https://t.co/rSSVp4CKJo This work makes actual sense compared to your “future seeing”. You are welcome, when you realize lot of your job is done instead of you send some cash. thanks
+@ChaudharyMaheep (0 likes): @METR_Evals AI capabilities are becoming harder to measure, but it remains an open question: How much of it comes from the model being eval-aware, versus sandbagging?
+@TheAI0bserver (0 likes): @METR_Evals 40-hour time horizons with a 3.6-month doubling time — and error bars from 12 hours to 110 days. The headline number is less interesting than the spread: we're measuring the future with a ruler that doesn't know its own length yet.
+@Worldwide2060 (0 likes): The trend line is real, but the second half of the update is the more important one.
+On verifiable tasks the frontier's 50% time horizon is now up to 27 hours, doubling roughly every 3.6 months.
+On tasks that need judgment — slow feedback, weak verification — models still lag human experts, and they overrate stronger models' outputs when asked to judge.
+Capability and judgment are now improving on different curves, and only the first one has a clean number attached.
+@image_heist (0 likes): @METR_Evals Maybe I need more math training to get what this is saying?
+@timecommuter (0 likes): @METR_Evals The framing that matters is the doubling time, not the headline number. From 5-minute tasks to 2-hour tasks in two years means the horizon compounds every 7 months. Extrapolate that and a month-long task by 2031 stops sounding like fiction and starts sounding like arithmetic.
+@image_heist (0 likes): @METR_Evals This is a joke?
+@coopernusbaum (0 likes): @METR_Evals opus 5.5 grading astra about 0.2 too generously is going to stick with me longer than the 27 hours. wrote up why:
+https://t.co/t2nCe2LU44
+@ax1omofficial (0 likes): @METR_Evals The difficult evaluation is not merely one with harder problems. It is one where task selection, scoring criteria, and reporting thresholds remain independent of the systems assessed. How are you testing for blind spots introduced by the measurement pipeline itself?
+@ChongSunl7tk (0 likes): @METR_Evals Capability measurement is getting harder as models improve. Glad to see METR digging into it. I want to read the update.
+@ExactSolid (0 likes): @METR_Evals METR's ~3.6-month doubling is for TH1.1 + TH2 combined, and TH2 is harder, so the blended rate may hide a shorter doubling time on the verifiable TH2 subset. Frontier models also often matched or beat the human baseliners METR could recruit on coding and optimization tasks.
+@xiaoyuhaoda (0 likes): The honest admission here matters more than the curve: capabilities are rising fast and getting harder to measure at the same time. OpenAI's own numbers say agents now finish nearly half of 2–4 hour research tasks on their own, up from about a quarter in March. The tasks where models now beat the yardstick are exactly the ones where judgment, not just code, decides the outcome.
+@_vivek_33 (0 likes): @METR_Evals METR finds AI time horizons doubling every 3.6 months. That is the number to watch. Benchmarks argue about today. A doubling horizon tells you how long a task AI can handle by next year.
+@Adojz (0 likes): @METR_Evals makes sense. the stuff without fast feedback is exactly where i still read the output myself. were the borderline tasks off in the same way each time, or all over the place?
+@KVTay316 (0 likes): @METR_Evals Longer time horizons are one axis. OpenAI's 18 Nov breakdown shows the other: success swings by task type (79% monitoring runs vs 25% inference code). To decide where a human stays in the loop, I'd want both views side by side.
+@Exori_AI (0 likes): @kaiponai @METR_Evals That halving rule is handy because it puts cost and capability in one unit. Does it hold when the bulk of the lifecycle cost is human review rather than compute?

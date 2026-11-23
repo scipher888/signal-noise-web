@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-20",
+  "mode": "audit",
+  "variant": "neon",
+  "title": "Daily State of AI - 2026-11-20 (Gemini 4 Neon, raw)",
+  "canonical_url": "https://www.signalandnoise.email/daily-state/2026-11-20/neon/",
+  "model": "google/gemini-4-neon",
+  "reasoning_effort": "medium",
+  "audio_url": "/content/daily-state/2026-11-20/neon/episode.mp3",
+  "video_url": "/content/daily-state/2026-11-20/neon/short.mp4",
+  "sources_url": "/content/daily-state/2026-11-20/neon/sources.json",
+  "audit": {
+    "sha256": "0314fbe7098d60a044c3f036dccac527661a3320345c15b2e4b2a4a0e1089e9d",
+    "gate": false,
+    "episode": {
+      "PASS": 42,
+      "FAIL": 7,
+      "NEEDS-HUMAN": 8,
+      "ERROR": 0
+    },
+    "short": {
+      "PASS": 14,
+      "FAIL": 5,
+      "NEEDS-HUMAN": 3,
+      "ERROR": 0
+    }
+  },
+  "hashes": {
+    "script_sha256": "c89ccd3e741350f0569e938129259f4e6436804a4d833b7a0c5584d0fa6d8b66",
+    "sources_sha256": "cf10b56b83d1f21c77994b7d2f75d02448679a54347e2b8d3183c1ee8d834d0a",
+    "neon_run_sha256": "ce87bd6c328a3d737339429604178c94232232c2a16edc6b18c60d4d035c9e1b",
+    "audit_sha256": "0314fbe7098d60a044c3f036dccac527661a3320345c15b2e4b2a4a0e1089e9d",
+    "episode_sha256": "90bba3f20b8cd170159b19031c58cf88c08096acff8bd097ae353d9c1804ed09",
+    "short_sha256": "459f1d2fa7bfe46e500ee0a9f43e7088d13a1757b3e92e59d00a2e8e6ee4ce77"
+  }
+}

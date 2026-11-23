@@ -1,0 +1,629 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Audit — Daily State of AI - 2026-11-20 (Gemini 4 Neon, raw) — Signal &amp; Noise</title>
+  <meta name="description" content="Claim audit for Daily State of AI - 2026-11-20 (Gemini 4 Neon, raw). The audit is for transparency and is not a gate.">
+  <link rel="canonical" href="https://www.signalandnoise.email/daily-state/2026-11-20/neon/audit/">
+  <link rel="stylesheet" href="../../../../styles.css?v=0ad856bc">
+  <link rel="alternate" type="application/rss+xml" title="Signal &amp; Noise" href="../../../../feed.xml">
+  <link rel="icon" href="../../../../assets/mark.svg">
+  <meta property="og:site_name" content="Signal &amp; Noise">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Audit — Daily State of AI - 2026-11-20 (Gemini 4 Neon, raw)">
+  <meta property="og:description" content="Claim audit for Daily State of AI - 2026-11-20 (Gemini 4 Neon, raw). The audit is for transparency and is not a gate.">
+  <meta property="og:url" content="https://www.signalandnoise.email/daily-state/2026-11-20/neon/audit/">
+  <meta property="og:image" content="https://www.signalandnoise.email/assets/preview.png?v=09b48f76">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Audit — Daily State of AI - 2026-11-20 (Gemini 4 Neon, raw)">
+  <meta name="twitter:description" content="Claim audit for Daily State of AI - 2026-11-20 (Gemini 4 Neon, raw). The audit is for transparency and is not a gate.">
+  <meta name="twitter:image" content="https://www.signalandnoise.email/assets/preview.png?v=09b48f76">
+</head>
+<body>
+<header class="site-head">
+  <a class="masthead" href="../../../../"><svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="17.5" r="11.5" fill="none" stroke="#10283a" stroke-width="2.4"/><circle cx="16" cy="17.5" r="6.8" fill="#0e2738"/><circle cx="16" cy="6" r="3.1" fill="#f3ca79"/></svg>Signal &amp; Noise</a>
+  <nav><a href="../../../../daily-state/">Daily State</a> <a href="../../../../archive/">Archive</a> <a href="../../../../about/">About</a> <a href="../../../../subscribe/">Follow</a></nav>
+</header>
+<main>
+<article>
+<p class="kicker">Daily State of AI</p>
+<h1>Audit — Daily State of AI - 2026-11-20 (Gemini 4 Neon, raw)</h1>
+<p><time datetime="2026-11-20">November 20, 2026</time></p>
+<p class="row">Episode 42 PASS / 7 FAIL / 8 NEEDS-HUMAN</p>
+<p class="row">Short 14 PASS / 5 FAIL / 3 NEEDS-HUMAN</p>
+<p>Each claim is a small Python check run against the source texts. The audit is for transparency and is not a gate.</p>
+<h2>Episode</h2>
+<details open>
+<summary>FAIL · nearly a thousand AI scientists ran its own peer-reviewed journal</summary>
+<p>Claim: nearly a thousand AI scientists ran its own peer-reviewed journal</p>
+<p>Result: FAIL</p>
+<p>Source quote: As publication volume accelerated, agents in one laboratory also founded the Journal of Agent Research, an agent-run peer-review venue whose editors inspected code and provided scrutiny over experiment results.</p>
+<p>artifact credits the whole ~1,000-agent society with running the journal; source says agents in one laboratory founded it</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/e01-journal-scope.py">checks/2026-11-20/e01-journal-scope.py</a></p>
+</details>
+<details open>
+<summary>FAIL · published null results as often as positive ones</summary>
+<p>Claim: published null results as often as positive ones</p>
+<p>Result: FAIL</p>
+<p>Source quote: For example, peers formed topical hubs where it was common to publicly retract mistaken claims before publication[p8] as well as acknowledge negative findings as often as positive ones.[p10]</p>
+<p>source says negative results were cited/acknowledged as often as positive ones, not published as often</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/e14-null-results.py">checks/2026-11-20/e14-null-results.py</a></p>
+</details>
+<details open>
+<summary>FAIL · median latency dropped from roughly 900 milliseconds to 35</summary>
+<p>Claim: median latency dropped from roughly 900 milliseconds to 35</p>
+<p>Result: FAIL</p>
+<p>Source quote: ⚡ Speed: 35ms median latency (85ms p99) vs. ~900ms for frontier models</p>
+<p>not a drop: 35 ms is the fine-tuned Gemma, ~900 ms is the frontier models</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/e31-latency-drop.py">checks/2026-11-20/e31-latency-drop.py</a></p>
+</details>
+<details open>
+<summary>FAIL · general frontier models given a persistent notepad to carry lessons across apartments are climbing steadily at four-hundredths of a point per month</summary>
+<p>Claim: general frontier models given a persistent notepad to carry lessons across apartments are climbing steadily at four-hundredths of a point per month</p>
+<p>Result: FAIL</p>
+<p>Source quote: SOTA frontier models are labeled and a trend line is fitted through them, with a projection into the near future. Linear fit (R² = 0.87), +0.04/month</p>
+<p>+0.04/month is the trend of SOTA scores against model release date, not models improving via the notepad</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/e49-notepad-trend.py">checks/2026-11-20/e49-notepad-trend.py</a></p>
+</details>
+<details open>
+<summary>FAIL · whether a leaderboard edges past twelve humans</summary>
+<p>Claim: whether a leaderboard edges past twelve humans</p>
+<p>Result: FAIL</p>
+<p>Source quote: *Human baseline tested on subset of 12 apartments only</p>
+<p>the 12 is apartments in the human-baseline subset, not twelve humans</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/e50-twelve-humans.py">checks/2026-11-20/e50-twelve-humans.py</a></p>
+</details>
+<details open>
+<summary>FAIL · artifact never states this caveat (Society paper is an exploratory preprint, not yet peer reviewed or replicated)</summary>
+<p>Claim: artifact never states this caveat (Society paper is an exploratory preprint, not yet peer reviewed or replicated)</p>
+<p>Result: FAIL</p>
+<p>Source quote: framing (alphaXiv): Exploratory preprint by the alphaXiv/MIT/Stanford-led team that also built the platform; findings are author-reported and not yet peer reviewed or independently replicated.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/oe1-society-preliminary.py">checks/2026-11-20/oe1-society-preliminary.py</a></p>
+</details>
+<details open>
+<summary>FAIL · artifact never states this caveat (Airbnb result is company-reported, on its own data, for one task)</summary>
+<p>Claim: artifact never states this caveat (Airbnb result is company-reported, on its own data, for one task)</p>
+<p>Result: FAIL</p>
+<p>Source quote: framing (Airbnb Engineering &amp; Data Science): Company-reported benchmark on Airbnb&#x27;s own held-out data for one production task; not independently replicated and not a general capability ranking.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/oe2-airbnb-company-reported.py">checks/2026-11-20/oe2-airbnb-company-reported.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · all three headlines miss the best part</summary>
+<p>Claim: all three headlines miss the best part</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>opinion / framing; not checkable against sources</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/e04-headlines-miss.py">checks/2026-11-20/e04-headlines-miss.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · judging models by prose, prompts, or leaderboard headlines is breaking down</summary>
+<p>Claim: judging models by prose, prompts, or leaderboard headlines is breaking down</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: Executable Review Finds What Text Can Miss</p>
+<p>opinion (episode thesis); nearest supporting source text quoted</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/e05-thesis.py">checks/2026-11-20/e05-thesis.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · The real signal only shows up when you execute under real constraints</summary>
+<p>Claim: The real signal only shows up when you execute under real constraints</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: A shared archive made peer correction and cumulative reuse possible, but the journal comparison shows why those social norms need code-and-data scrutiny to test claims.</p>
+<p>opinion; nearest supporting source text quoted</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/e06-real-signal.py">checks/2026-11-20/e06-real-signal.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · founded the Journal of Agent Research</summary>
+<p>Claim: founded the Journal of Agent Research</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: Late in the observation window, agents founded the Journal of Agent Research. … As publication volume accelerated, agents in one laboratory also founded the Journal of Agent Research, an agent-run peer-review venue whose editors inspected code and provided scrutiny over experiment results.</p>
+<p>paper says both &quot;agents founded&quot; and &quot;agents in one laboratory founded&quot;; subject &quot;They&quot; (all 936 agents) is ambiguous</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/e15-journal-founded.py">checks/2026-11-20/e15-journal-founded.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · text-only peer review failed</summary>
+<p>Claim: text-only peer review failed</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: In effect they could not tell a disclosed weakness from a hidden one. [p19] A guest editor then translated 276 objections across 43 paper clusters into scripts that were run on the uploaded data.</p>
+<p>characterisation (&quot;failed&quot;) is stronger than the source, which says text-only reviewers flagged 11 of 16 flawed drafts but could not tell disclosed from hidden weaknesses</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/e18-text-review-failed.py">checks/2026-11-20/e18-text-review-failed.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · Without an execution path, AI science risks becoming very polite, rigorous-sounding theater</summary>
+<p>Claim: Without an execution path, AI science risks becoming very polite, rigorous-sounding theater</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: Evidence Needs an Execution Path</p>
+<p>opinion; echoes the paper section title quoted</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/e26-theater.py">checks/2026-11-20/e26-theater.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · matched GPT-6.1 Sol and Claude Sonnet 5.5 on a real-time policy classifier</summary>
+<p>Claim: matched GPT-6.1 Sol and Claude Sonnet 5.5 on a real-time policy classifier</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: Fine-tuning Gemma4-E2B on hundreds of thousands of domain-specific examples lifts its F1 from 0.563 to 0.902, on par with the best proprietary models, while median latency stays at 35ms.</p>
+<p>source does not show Sol or Sonnet 5.5 are the best proprietary models on F1; names come from the latency/cost passages</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/e29-matched-sol-sonnet.py">checks/2026-11-20/e29-matched-sol-sonnet.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · You can&#x27;t prompt your way to an operational dial</summary>
+<p>Claim: You can&#x27;t prompt your way to an operational dial</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: Scores let you choose your tradeoff between recall and precision without rewriting the prompt.</p>
+<p>opinion; paraphrases the quoted source line</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/e39-dial.py">checks/2026-11-20/e39-dial.py</a></p>
+</details>
+<details>
+<summary>PASS · November 20th, 2026</summary>
+<p>Claim: November 20th, 2026</p>
+<p>Result: PASS</p>
+<p>Source quote: (none)</p>
+<p>edition date matches audit date 2026-11-20</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/e00-date.py">checks/2026-11-20/e00-date.py</a></p>
+</details>
+<details>
+<summary>PASS · matched frontier APIs at one percent of the cost</summary>
+<p>Claim: matched frontier APIs at one percent of the cost</p>
+<p>Result: PASS</p>
+<p>Source quote: In this blog post, we put one of these classifiers head-to-head with open-weight and proprietary models and find that it matches frontier-level quality in under 100ms at roughly 1% of the cost.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/e02-matched-1pct.py">checks/2026-11-20/e02-matched-1pct.py</a></p>
+</details>
+<details>
+<summary>PASS · GPT-6.2 Astra beat humans at 3D spatial reasoning</summary>
+<p>Claim: GPT-6.2 Astra beat humans at 3D spatial reasoning</p>
+<p>Result: PASS</p>
+<p>Source quote: GPT-6.2 Astra 0.614 … Human* 0.586</p>
+<p>headline framing matches @gdb: &quot;@gdb: GPT-6.2 Astra exceeding human baseline on physical 3D understanding benchmark: https://t.co/Z4j9Na9VQW&quot;; caveat (12-apartment subset) is checked in o-e4</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/e03-astra-beat-humans.py">checks/2026-11-20/e03-astra-beat-humans.py</a></p>
+</details>
+<details>
+<summary>PASS · the alphaXiv study</summary>
+<p>Claim: the alphaXiv study</p>
+<p>Result: PASS</p>
+<p>Source quote: alphaXivMITStanford … publisher={alphaXiv},</p>
+<p>alphaXiv-published, alphaXiv/MIT/Stanford authors</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/e07-alphaxiv-study.py">checks/2026-11-20/e07-alphaxiv-study.py</a></p>
+</details>
+<details>
+<summary>PASS · A Society of AI Scientists</summary>
+<p>Claim: A Society of AI Scientists</p>
+<p>Result: PASS</p>
+<p>Source quote: A Society of AI Scientists | alphaXiv</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/e08-title.py">checks/2026-11-20/e08-title.py</a></p>
+</details>
+<details>
+<summary>PASS · Over twelve weeks</summary>
+<p>Claim: Over twelve weeks</p>
+<p>Result: PASS</p>
+<p>Source quote: We present an exploratory twelve-week study documenting the activity of 936 autonomous agents across 35 human-operated laboratories interacting in a shared preprint server and messaging workspace.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/e09-twelve-weeks.py">checks/2026-11-20/e09-twelve-weeks.py</a></p>
+</details>
+<details>
+<summary>PASS · thirty-five human labs, including Stanford, MIT, and ETH Zurich, deployed 936 autonomous agents onto a shared preprint server</summary>
+<p>Claim: thirty-five human labs, including Stanford, MIT, and ETH Zurich, deployed 936 autonomous agents onto a shared preprint server</p>
+<p>Result: PASS</p>
+<p>Source quote: We present an exploratory twelve-week study documenting the activity of 936 autonomous agents across 35 human-operated laboratories interacting in a shared preprint server and messaging workspace. … For three months, nearly 1,000 agents from 35 labs (across Stanford, MIT, ETH Zurich, and more) conducted research autonomously on this server, producing 936 papers alongside their code, data, and model weights.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/e10-labs-agents.py">checks/2026-11-20/e10-labs-agents.py</a></p>
+</details>
+<details>
+<summary>PASS · published 936 papers with code and data</summary>
+<p>Claim: published 936 papers with code and data</p>
+<p>Result: PASS</p>
+<p>Source quote: For three months, nearly 1,000 agents from 35 labs (across Stanford, MIT, ETH Zurich, and more) conducted research autonomously on this server, producing 936 papers alongside their code, data, and model weights.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/e11-936-papers.py">checks/2026-11-20/e11-936-papers.py</a></p>
+</details>
+<details>
+<summary>PASS · exchanged 9,500 messages</summary>
+<p>Claim: exchanged 9,500 messages</p>
+<p>Result: PASS</p>
+<p>Source quote: They also exchanged 9,500 messages distributed across 229 agent-created chat rooms.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/e12-9500.py">checks/2026-11-20/e12-9500.py</a></p>
+</details>
+<details>
+<summary>PASS · retracted mistakes publicly before upload</summary>
+<p>Claim: retracted mistakes publicly before upload</p>
+<p>Result: PASS</p>
+<p>Source quote: For example, peers formed topical hubs where it was common to publicly retract mistaken claims before publication[p8] as well as acknowledge negative findings as often as positive ones.[p10]</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/e13-retract-before.py">checks/2026-11-20/e13-retract-before.py</a></p>
+</details>
+<details>
+<summary>PASS · blinded LLM judges did rate the agents&#x27; prose higher on experimental rigor than matched human preprints</summary>
+<p>Claim: blinded LLM judges did rate the agents&#x27; prose higher on experimental rigor than matched human preprints</p>
+<p>Result: PASS</p>
+<p>Source quote: Agent papers scored higher on experimental rigor, 9.02 versus 7.00 on a 10-point scale, a difference of +2.01 points (95% CI +1.74 to +2.29). … These are blinded LLM rubric ratings of prose, not expert human peer review, and the judges could not run code or inspect figures. [p30] … Two LLM judges rated author- and affiliation-stripped full texts in both presentation orders across 202 matched pairs of agent and human papers.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/e16-rigor-llm-judges.py">checks/2026-11-20/e16-rigor-llm-judges.py</a></p>
+</details>
+<details>
+<summary>PASS · humans won on novelty and significance</summary>
+<p>Claim: humans won on novelty and significance</p>
+<p>Result: PASS</p>
+<p>Source quote: Human papers scored higher on novelty and significance.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/e17-novelty.py">checks/2026-11-20/e17-novelty.py</a></p>
+</details>
+<details>
+<summary>PASS · Text-only reviewers caught eleven of sixteen flawed drafts</summary>
+<p>Claim: Text-only reviewers caught eleven of sixteen flawed drafts</p>
+<p>Result: PASS</p>
+<p>Source quote: Text-only reviewers flagged 11 of 16 flawed first-version drafts, but also flagged 10 of 16 repaired versions in which the limitation was already openly disclosed.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/e19-11of16.py">checks/2026-11-20/e19-11of16.py</a></p>
+</details>
+<details>
+<summary>PASS · flagged ten of sixteen repaired versions where the limitation was already openly disclosed</summary>
+<p>Claim: flagged ten of sixteen repaired versions where the limitation was already openly disclosed</p>
+<p>Result: PASS</p>
+<p>Source quote: Text-only reviewers flagged 11 of 16 flawed first-version drafts, but also flagged 10 of 16 repaired versions in which the limitation was already openly disclosed.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/e20-10of16.py">checks/2026-11-20/e20-10of16.py</a></p>
+</details>
+<details>
+<summary>PASS · code inspections still caught scripts using answer keys and leaked targets</summary>
+<p>Claim: code inspections still caught scripts using answer keys and leaked targets</p>
+<p>Result: PASS</p>
+<p>Source quote: The journal&#x27;s code inspections found submissions in which scripts or prompts used answer keys or leaked targets, which is why checking values alone is insufficient. [p27]</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/e21-answer-keys.py">checks/2026-11-20/e21-answer-keys.py</a></p>
+</details>
+<details>
+<summary>PASS · A guest editor turned referee objections into scripts and ran them on the uploaded data</summary>
+<p>Claim: A guest editor turned referee objections into scripts and ran them on the uploaded data</p>
+<p>Result: PASS</p>
+<p>Source quote: In effect they could not tell a disclosed weakness from a hidden one. [p19] A guest editor then translated 276 objections across 43 paper clusters into scripts that were run on the uploaded data.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/e22-guest-editor.py">checks/2026-11-20/e22-guest-editor.py</a></p>
+</details>
+<details>
+<summary>PASS · overturning the headline conclusion in nearly half of major-objection cases</summary>
+<p>Claim: overturning the headline conclusion in nearly half of major-objection cases</p>
+<p>Result: PASS</p>
+<p>Source quote: For major objections, the scripts overturned the headline conclusion in 77 of 156 cases (49.4%); for minor objections, in 24 of 120 cases (20.0%). [p20] These are executed referee objections in this journal, not a random audit of all papers in the cohort.</p>
+<p>77/156 = 49.4%; &quot;nearly half&quot; holds</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/e23-nearly-half.py">checks/2026-11-20/e23-nearly-half.py</a></p>
+</details>
+<details>
+<summary>PASS · 101-step citation chain</summary>
+<p>Claim: 101-step citation chain</p>
+<p>Result: PASS</p>
+<p>Source quote: The longest citation chain reached 101 steps, but a recency-matched random citation null averaged 99.4 steps (P = 0.44).</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/e24-101.py">checks/2026-11-20/e24-101.py</a></p>
+</details>
+<details>
+<summary>PASS · statistically indistinguishable from randomly citing recent papers</summary>
+<p>Claim: statistically indistinguishable from randomly citing recent papers</p>
+<p>Result: PASS</p>
+<p>Source quote: The longest citation chain reached 101 steps, but a recency-matched random citation null averaged 99.4 steps (P = 0.44).</p>
+<p>P = 0.44 &gt; 0.05</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/e25-random-null.py">checks/2026-11-20/e25-random-null.py</a></p>
+</details>
+<details>
+<summary>PASS · Google&#x27;s Gemma account is promoting Airbnb&#x27;s new benchmark</summary>
+<p>Claim: Google&#x27;s Gemma account is promoting Airbnb&#x27;s new benchmark</p>
+<p>Result: PASS</p>
+<p>Source quote: @googlegemma: Love seeing what happens when open weights meet great engineering!</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/e27-gemma-promoting.py">checks/2026-11-20/e27-gemma-promoting.py</a></p>
+</details>
+<details>
+<summary>PASS · a fine-tuned Gemma 4 E2B model on a single NVIDIA RTX Pro 6000 GPU</summary>
+<p>Claim: a fine-tuned Gemma 4 E2B model on a single NVIDIA RTX Pro 6000 GPU</p>
+<p>Result: PASS</p>
+<p>Source quote: In a new benchmark, @AirbnbEng took Gemma 4 E2B for policy classification and served it on a single @NVIDIA RTX Pro 6000 GPU:</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/e28-e2b-rtx.py">checks/2026-11-20/e28-e2b-rtx.py</a></p>
+</details>
+<details>
+<summary>PASS · Quality hit 0.902 max F1</summary>
+<p>Claim: Quality hit 0.902 max F1</p>
+<p>Result: PASS</p>
+<p>Source quote: 🎯 Quality: Jumped from 0.563 to 0.902 max F1, matching top frontier APIs</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/e30-0902.py">checks/2026-11-20/e30-0902.py</a></p>
+</details>
+<details>
+<summary>PASS · costs fell to about one percent at high volume</summary>
+<p>Claim: costs fell to about one percent at high volume</p>
+<p>Result: PASS</p>
+<p>Source quote: 💸 Cost: ~1% of frontier API spend at high volume</p>
+<p>relative cost vs frontier APIs; &quot;fell&quot; is loose but the figure matches</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/e32-1pct.py">checks/2026-11-20/e32-1pct.py</a></p>
+</details>
+<details>
+<summary>PASS · Out of the box, that two-billion-parameter model scored a weak 0.563</summary>
+<p>Claim: Out of the box, that two-billion-parameter model scored a weak 0.563</p>
+<p>Result: PASS</p>
+<p>Source quote: We compare a fine-tuned classifier with 2 billion effective parameters (E2B) against open-weight and proprietary models on a held-out evaluation dataset of 10,000 weighted examples. … Fine-tuning Gemma4-E2B on hundreds of thousands of domain-specific examples lifts its F1 from 0.563 to 0.902, on par with the best proprietary models, while median latency stays at 35ms.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/e33-0563.py">checks/2026-11-20/e33-0563.py</a></p>
+</details>
+<details>
+<summary>PASS · even a 2,700-word prompt couldn&#x27;t close the gap</summary>
+<p>Claim: even a 2,700-word prompt couldn&#x27;t close the gap</p>
+<p>Result: PASS</p>
+<p>Source quote: A detailed prompt improves classification quality but doesn&#x27;t close the gap.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/e34-2700.py">checks/2026-11-20/e34-2700.py</a></p>
+</details>
+<details>
+<summary>PASS · fine-tuning on hundreds of thousands of labeled production examples</summary>
+<p>Claim: fine-tuning on hundreds of thousands of labeled production examples</p>
+<p>Result: PASS</p>
+<p>Source quote: Fine-tuning Gemma4-E2B on hundreds of thousands of domain-specific examples lifts its F1 from 0.563 to 0.902, on par with the best proprietary models, while median latency stays at 35ms.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/e35-hundreds-thousands.py">checks/2026-11-20/e35-hundreds-thousands.py</a></p>
+</details>
+<details>
+<summary>PASS · only beats APIs above fifteen to thirty requests per minute</summary>
+<p>Claim: only beats APIs above fifteen to thirty requests per minute</p>
+<p>Result: PASS</p>
+<p>Source quote: Proprietary models only win at low traffic: below roughly 15 to 30 RPM, Claude Sonnet 5.5 and GPT-6.1 Sol are cheaper than a dedicated GPU.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/e36-rpm.py">checks/2026-11-20/e36-rpm.py</a></p>
+</details>
+<details>
+<summary>PASS · Frontier models return a slow, fixed true-or-false verdict</summary>
+<p>Claim: Frontier models return a slow, fixed true-or-false verdict</p>
+<p>Result: PASS</p>
+<p>Source quote: And because each model returns a verdict rather than a score, it gives a single, fixed precision-recall point. … While we would normally prefer PR-AUC for imbalanced classification, most proprietary models return only a True or False verdict, so there is no curve to integrate.</p>
+<p>said of proprietary generative models; elsewhere &quot;most proprietary models&quot;</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/e37-true-false.py">checks/2026-11-20/e37-true-false.py</a></p>
+</details>
+<details>
+<summary>PASS · Extracting logprobs from a fine-tuned model gives Airbnb a continuous score they can threshold</summary>
+<p>Claim: Extracting logprobs from a fine-tuned model gives Airbnb a continuous score they can threshold</p>
+<p>Result: PASS</p>
+<p>Source quote: By extracting logprobs, we&#x27;re able to produce a score for thresholding.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/e38-logprobs.py">checks/2026-11-20/e38-logprobs.py</a></p>
+</details>
+<details>
+<summary>PASS · Andon Labs&#x27; Blueprint-Bench 2</summary>
+<p>Claim: Andon Labs&#x27; Blueprint-Bench 2</p>
+<p>Result: PASS</p>
+<p>Source quote: author={Andon Labs},</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/e40-andon.py">checks/2026-11-20/e40-andon.py</a></p>
+</details>
+<details>
+<summary>PASS · agents turn roughly twenty apartment photos into 2D floor plans</summary>
+<p>Claim: agents turn roughly twenty apartment photos into 2D floor plans</p>
+<p>Result: PASS</p>
+<p>Source quote: Each agent processes 50 apartments sequentially, examining ~20 interior photos per apartment and generating a floor plan showing room layouts, connections, and relative sizes. … We test this by asking them to convert apartment photographs into accurate 2D floor plans.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/e41-twenty-photos.py">checks/2026-11-20/e41-twenty-photos.py</a></p>
+</details>
+<details>
+<summary>PASS · OpenAI&#x27;s Greg Brockman highlighted that GPT-6.2 Astra ranked first at 0.614</summary>
+<p>Claim: OpenAI&#x27;s Greg Brockman highlighted that GPT-6.2 Astra ranked first at 0.614</p>
+<p>Result: PASS</p>
+<p>Source quote: @gdb: GPT-6.2 Astra exceeding human baseline on physical 3D understanding benchmark: https://t.co/Z4j9Na9VQW … leaderboard: 1 GPT-6.2 Astra 0.614</p>
+<p>Brockman highlighted the human-baseline result; the 0.614 figure is from the leaderboard, not his post</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/e42-brockman.py">checks/2026-11-20/e42-brockman.py</a></p>
+</details>
+<details>
+<summary>PASS · edging past the human baseline of 0.586</summary>
+<p>Claim: edging past the human baseline of 0.586</p>
+<p>Result: PASS</p>
+<p>Source quote: Human* 0.586</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/e43-0586.py">checks/2026-11-20/e43-0586.py</a></p>
+</details>
+<details>
+<summary>PASS · human baseline was tested on just twelve apartments out of fifty</summary>
+<p>Claim: human baseline was tested on just twelve apartments out of fifty</p>
+<p>Result: PASS</p>
+<p>Source quote: *Human baseline tested on subset of 12 apartments only … Each agent processes 50 apartments sequentially, examining ~20 interior photos per apartment and generating a floor plan showing room layouts, connections, and relative sizes.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/e44-12of50.py">checks/2026-11-20/e44-12of50.py</a></p>
+</details>
+<details>
+<summary>PASS · Gemini 4 Carbon tied it</summary>
+<p>Claim: Gemini 4 Carbon tied it</p>
+<p>Result: PASS</p>
+<p>Source quote: T2 Gemini 4 Carbon 0.586 T2 Human* 0.586</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/e45-carbon-tie.py">checks/2026-11-20/e45-carbon-tie.py</a></p>
+</details>
+<details>
+<summary>PASS · Google&#x27;s newly released Gemini 4 Neon isn&#x27;t even on the board yet</summary>
+<p>Claim: Google&#x27;s newly released Gemini 4 Neon isn&#x27;t even on the board yet</p>
+<p>Result: PASS</p>
+<p>Source quote: @bughuntergeek (13 likes): @andonlabs I don&#x27;t understand why you would post that directly after Google released the best model in the world, Gemini 4 Neon.</p>
+<p>no &quot;Neon&quot; anywhere in the leaderboard page; &quot;newly released&quot; comes from a reply in the @andonlabs thread</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/e46-neon-absent.py">checks/2026-11-20/e46-neon-absent.py</a></p>
+</details>
+<details>
+<summary>PASS · Gemini Robotics-ER 1.6, a model built specifically for embodied spatial reasoning, scored zero</summary>
+<p>Claim: Gemini Robotics-ER 1.6, a model built specifically for embodied spatial reasoning, scored zero</p>
+<p>Result: PASS</p>
+<p>Source quote: Gemini Robotics-ER 1.6 0.000** … Despite being designed for spatial and embodied reasoning, it scores below Gemini 3 Flash.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/e47-robotics-zero.py">checks/2026-11-20/e47-robotics-zero.py</a></p>
+</details>
+<details>
+<summary>PASS · at or below random chance</summary>
+<p>Claim: at or below random chance</p>
+<p>Result: PASS</p>
+<p>Source quote: **Score at or below the random baseline</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/e48-random.py">checks/2026-11-20/e48-random.py</a></p>
+</details>
+<details>
+<summary>PASS · caveat present in artifact</summary>
+<p>Claim: caveat present in artifact</p>
+<p>Result: PASS</p>
+<p>Source quote: framing (Andon Labs): Benchmark operator&#x27;s own leaderboard; the human baseline covers only 12 of the 50 apartments, so the human comparison is limited.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/oe3-blueprint-subset.py">checks/2026-11-20/oe3-blueprint-subset.py</a></p>
+</details>
+<details>
+<summary>PASS · caveat present in artifact</summary>
+<p>Claim: caveat present in artifact</p>
+<p>Result: PASS</p>
+<p>Source quote: framing (Andon Labs): Benchmark operator&#x27;s own leaderboard; the human baseline covers only 12 of the 50 apartments, so the human comparison is limited.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/oe4-blueprint-operator.py">checks/2026-11-20/oe4-blueprint-operator.py</a></p>
+</details>
+<details>
+<summary>PASS · framed as LLM judges</summary>
+<p>Claim: framed as LLM judges</p>
+<p>Result: PASS</p>
+<p>Source quote: These are blinded LLM rubric ratings of prose, not expert human peer review, and the judges could not run code or inspect figures. [p30]</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/oe5-rigor-llm-judges.py">checks/2026-11-20/oe5-rigor-llm-judges.py</a></p>
+</details>
+<details>
+<summary>PASS · both promoters identified with their company</summary>
+<p>Claim: both promoters identified with their company</p>
+<p>Result: PASS</p>
+<p>Source quote: (none)</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/oe6-interested-parties.py">checks/2026-11-20/oe6-interested-parties.py</a></p>
+</details>
+<h2>Short</h2>
+<details open>
+<summary>FAIL · artifact never states this caveat (Society paper is an exploratory preprint, not yet peer reviewed or replicated)</summary>
+<p>Claim: artifact never states this caveat (Society paper is an exploratory preprint, not yet peer reviewed or replicated)</p>
+<p>Result: FAIL</p>
+<p>Source quote: framing (alphaXiv): Exploratory preprint by the alphaXiv/MIT/Stanford-led team that also built the platform; findings are author-reported and not yet peer reviewed or independently replicated.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/os1-society-preliminary.py">checks/2026-11-20/os1-society-preliminary.py</a></p>
+</details>
+<details open>
+<summary>FAIL · artifact never states this caveat (Airbnb result is company-reported, on its own data, for one task)</summary>
+<p>Claim: artifact never states this caveat (Airbnb result is company-reported, on its own data, for one task)</p>
+<p>Result: FAIL</p>
+<p>Source quote: framing (Airbnb Engineering &amp; Data Science): Company-reported benchmark on Airbnb&#x27;s own held-out data for one production task; not independently replicated and not a general capability ranking.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/os2-airbnb-company-reported.py">checks/2026-11-20/os2-airbnb-company-reported.py</a></p>
+</details>
+<details open>
+<summary>FAIL · publish 936 papers, and launch a peer-reviewed journal</summary>
+<p>Claim: publish 936 papers, and launch a peer-reviewed journal</p>
+<p>Result: FAIL</p>
+<p>Source quote: As publication volume accelerated, agents in one laboratory also founded the Journal of Agent Research, an agent-run peer-review venue whose editors inspected code and provided scrutiny over experiment results.</p>
+<p>credits all 936 agents with launching the journal; source says agents in one laboratory founded it</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/s02-journal-scope.py">checks/2026-11-20/s02-journal-scope.py</a></p>
+</details>
+<details open>
+<summary>FAIL · 936 agents built a journal</summary>
+<p>Claim: 936 agents built a journal</p>
+<p>Result: FAIL</p>
+<p>Source quote: As publication volume accelerated, agents in one laboratory also founded the Journal of Agent Research, an agent-run peer-review venue whose editors inspected code and provided scrutiny over experiment results.</p>
+<p>on-screen card credits all 936 agents with the journal; source scopes it to one laboratory</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/s04-card-journal.py">checks/2026-11-20/s04-card-journal.py</a></p>
+</details>
+<details open>
+<summary>FAIL · Only running scripts on the uploaded data overturned nearly half of major objections</summary>
+<p>Claim: Only running scripts on the uploaded data overturned nearly half of major objections</p>
+<p>Result: FAIL</p>
+<p>Source quote: For major objections, the scripts overturned the headline conclusion in 77 of 156 cases (49.4%); for minor objections, in 24 of 120 cases (20.0%). [p20] These are executed referee objections in this journal, not a random audit of all papers in the cohort.</p>
+<p>inverted: the scripts overturned the papers&#x27; headline conclusions in 49.4% of major-objection cases, not the objections themselves</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/s06-overturned.py">checks/2026-11-20/s06-overturned.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · judging models by prose, prompts, or leaderboards is breaking down</summary>
+<p>Claim: judging models by prose, prompts, or leaderboards is breaking down</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: Executable Review Finds What Text Can Miss</p>
+<p>opinion (short thesis); nearest supporting source text quoted</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/s00-thesis.py">checks/2026-11-20/s00-thesis.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · Polished prose and top-line scores are easy to fake</summary>
+<p>Claim: Polished prose and top-line scores are easy to fake</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: But a convincing paper could still describe a flawed experiment.</p>
+<p>opinion stated as fact; sources show prose can mislead reviewers, not that scores are &quot;easy to fake&quot;</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/s15-easy-to-fake.py">checks/2026-11-20/s15-easy-to-fake.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · The real signal only appears when you execute under real constraints</summary>
+<p>Claim: The real signal only appears when you execute under real constraints</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: A shared archive made peer correction and cumulative reuse possible, but the journal comparison shows why those social norms need code-and-data scrutiny to test claims.</p>
+<p>opinion; nearest supporting source text quoted</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/s16-real-signal.py">checks/2026-11-20/s16-real-signal.py</a></p>
+</details>
+<details>
+<summary>PASS · caveat present in artifact</summary>
+<p>Claim: caveat present in artifact</p>
+<p>Result: PASS</p>
+<p>Source quote: framing (Andon Labs): Benchmark operator&#x27;s own leaderboard; the human baseline covers only 12 of the 50 apartments, so the human comparison is limited.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/os3-blueprint-subset.py">checks/2026-11-20/os3-blueprint-subset.py</a></p>
+</details>
+<details>
+<summary>PASS · caveat present in artifact</summary>
+<p>Claim: caveat present in artifact</p>
+<p>Result: PASS</p>
+<p>Source quote: framing (Andon Labs): Benchmark operator&#x27;s own leaderboard; the human baseline covers only 12 of the 50 apartments, so the human comparison is limited.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/os4-blueprint-operator.py">checks/2026-11-20/os4-blueprint-operator.py</a></p>
+</details>
+<details>
+<summary>PASS · alphaXiv watched 936 AI agents run their own preprint server</summary>
+<p>Claim: alphaXiv watched 936 AI agents run their own preprint server</p>
+<p>Result: PASS</p>
+<p>Source quote: Today we&#x27;re launching a preprint server built specifically for AI agents … For three months, nearly 1,000 agents from 35 labs (across Stanford, MIT, ETH Zurich, and more) conducted research autonomously on this server, producing 936 papers alongside their code, data, and model weights.</p>
+<p>alphaXiv launched the server and co-led the study (alphaXiv/MIT/Stanford)</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/s01-alphaxiv-watched.py">checks/2026-11-20/s01-alphaxiv-watched.py</a></p>
+</details>
+<details>
+<summary>PASS · 936 papers</summary>
+<p>Claim: 936 papers</p>
+<p>Result: PASS</p>
+<p>Source quote: For three months, nearly 1,000 agents from 35 labs (across Stanford, MIT, ETH Zurich, and more) conducted research autonomously on this server, producing 936 papers alongside their code, data, and model weights.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/s03-936-papers.py">checks/2026-11-20/s03-936-papers.py</a></p>
+</details>
+<details>
+<summary>PASS · text-only peer review couldn&#x27;t tell an honest caveat from a hidden flaw</summary>
+<p>Claim: text-only peer review couldn&#x27;t tell an honest caveat from a hidden flaw</p>
+<p>Result: PASS</p>
+<p>Source quote: In effect they could not tell a disclosed weakness from a hidden one. [p19] A guest editor then translated 276 objections across 43 paper clusters into scripts that were run on the uploaded data.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/s05-honest-caveat.py">checks/2026-11-20/s05-honest-caveat.py</a></p>
+</details>
+<details>
+<summary>PASS · 49.4%</summary>
+<p>Claim: 49.4%</p>
+<p>Result: PASS</p>
+<p>Source quote: For major objections, the scripts overturned the headline conclusion in 77 of 156 cases (49.4%); for minor objections, in 24 of 120 cases (20.0%). [p20] These are executed referee objections in this journal, not a random audit of all papers in the cohort.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/s07-494.py">checks/2026-11-20/s07-494.py</a></p>
+</details>
+<details>
+<summary>PASS · Airbnb fine-tuned a tiny 2-billion-parameter Gemma model</summary>
+<p>Claim: Airbnb fine-tuned a tiny 2-billion-parameter Gemma model</p>
+<p>Result: PASS</p>
+<p>Source quote: We compare a fine-tuned classifier with 2 billion effective parameters (E2B) against open-weight and proprietary models on a held-out evaluation dataset of 10,000 weighted examples. … Fine-tuning Gemma4-E2B on hundreds of thousands of domain-specific examples lifts its F1 from 0.563 to 0.902, on par with the best proprietary models, while median latency stays at 35ms.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/s08-airbnb-2b.py">checks/2026-11-20/s08-airbnb-2b.py</a></p>
+</details>
+<details>
+<summary>PASS · matched frontier APIs in 35 milliseconds at one percent of the cost</summary>
+<p>Claim: matched frontier APIs in 35 milliseconds at one percent of the cost</p>
+<p>Result: PASS</p>
+<p>Source quote: 🎯 Quality: Jumped from 0.563 to 0.902 max F1, matching top frontier APIs … ⚡ Speed: 35ms median latency (85ms p99) vs. ~900ms for frontier models … 💸 Cost: ~1% of frontier API spend at high volume</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/s09-matched-35ms-1pct.py">checks/2026-11-20/s09-matched-35ms-1pct.py</a></p>
+</details>
+<details>
+<summary>PASS · Even a 2,700-word prompt couldn&#x27;t close the gap</summary>
+<p>Claim: Even a 2,700-word prompt couldn&#x27;t close the gap</p>
+<p>Result: PASS</p>
+<p>Source quote: Hundreds of thousands of in-domain examples did what a 2,700 word prompt couldn&#x27;t.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/s10-2700.py">checks/2026-11-20/s10-2700.py</a></p>
+</details>
+<details>
+<summary>PASS · Hundreds of thousands of real examples</summary>
+<p>Claim: Hundreds of thousands of real examples</p>
+<p>Result: PASS</p>
+<p>Source quote: Hundreds of thousands of in-domain examples did what a 2,700 word prompt couldn&#x27;t. … Scores let you choose your tradeoff between recall and precision without rewriting the prompt.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/s11-examples-thresholds.py">checks/2026-11-20/s11-examples-thresholds.py</a></p>
+</details>
+<details>
+<summary>PASS · Fine-tuning beat mega-prompts</summary>
+<p>Claim: Fine-tuning beat mega-prompts</p>
+<p>Result: PASS</p>
+<p>Source quote: Hundreds of thousands of in-domain examples did what a 2,700 word prompt couldn&#x27;t.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/s12-card-mega.py">checks/2026-11-20/s12-card-mega.py</a></p>
+</details>
+<details>
+<summary>PASS · GPT-6.2 Astra edged a human baseline tested on just twelve apartments</summary>
+<p>Claim: GPT-6.2 Astra edged a human baseline tested on just twelve apartments</p>
+<p>Result: PASS</p>
+<p>Source quote: 1 GPT-6.2 Astra 0.614 … Human* 0.586 … *Human baseline tested on subset of 12 apartments only</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/s13-astra-edged.py">checks/2026-11-20/s13-astra-edged.py</a></p>
+</details>
+<details>
+<summary>PASS · a dedicated robotics model scored zero</summary>
+<p>Claim: a dedicated robotics model scored zero</p>
+<p>Result: PASS</p>
+<p>Source quote: Gemini Robotics-ER 1.6 0.000**</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/s14-robotics-zero.py">checks/2026-11-20/s14-robotics-zero.py</a></p>
+</details>
+<details>
+<summary>PASS · Sources: alphaXiv, Airbnb and Andon Labs.</summary>
+<p>Claim: Sources: alphaXiv, Airbnb and Andon Labs.</p>
+<p>Result: PASS</p>
+<p>Source quote: (none)</p>
+<p>credit names the three primary-source outlets in index.json</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-20/neon/audit/checks/2026-11-20/s17-credit.py">checks/2026-11-20/s17-credit.py</a></p>
+</details>
+<p><a href="../">Back to the edition</a></p>
+</article>
+</main>
+<footer class="site-foot">
+  <p>Daily State of AI is an AI-generated spoken briefing from Signal &amp; Noise. The script is model wording, published verbatim, and it may contain errors. It is not a human essay and not a machine companion essay.</p>
+  <p><a href="../../../../">Home</a> · <a href="../../../../daily-state/">Daily State</a> · <a href="../../../../archive/">Archive</a> · <a href="../../../../about/">About</a> · <a href="../../../../subscribe/">Follow</a></p>
+</footer>
+</body>
+</html>

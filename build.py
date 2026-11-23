@@ -14,16 +14,17 @@ Run:    python3 build.py            # writes the site into ./ (docs at repo root
         python3 build.py --check    # fidelity verification, exit 1 on any drift
 """
 
+import hashlib
 import html
 import os
 import re
 import sys
 
-import markdown  # available on this machine; used only for issues 1-3 (md sources)
-
 SRC = os.path.expanduser("~/Code/signal-noise/projects/newsletter")
 OUT = os.path.dirname(os.path.abspath(__file__))
 BASE_URL = "https://www.signalandnoise.email"  # flipped at CNAME cutover 2026-08-12
+# Issue 34 X post linked the essay without the /p/ segment; stub it to the real page.
+SHORT_LINK_SLUGS = ["we-are-arguing-about-the-speed-of-ai-we-have-no-plan-for-the-crash"]
 AUDIT_BASE = "https://scipher888.github.io/signal-noise-audit-snapshot/issues"
 
 # Audio companions (Spotify episode pages; issue -> URL). Sources: the canonical
@@ -47,16 +48,106 @@ AUDIO = {
     23: "https://open.spotify.com/episode/4k8AoL3DxcAJekX82fgdlj",
     24: "https://open.spotify.com/episode/2jInS7rz9AszmaTLJbFSbR",
     25: "https://open.spotify.com/episode/6pElPtOkGUskt05bYx612u",
+    26: "https://open.spotify.com/episode/64mbkMHYJz7YLzkfWD8w2b",
+    27: "https://open.spotify.com/episode/3Cp6oA7Ng3e4VjlLlKxOod",
+    28: "https://open.spotify.com/episode/7mRTvjE8jYzMHriHoLbhkK",
+    29: "https://open.spotify.com/episode/1fe2L6JTwqRZ81UacHUmFv",
+    30: "https://open.spotify.com/episode/3Pqn5UDpiCG8TxMIBqL2Dh",
+    31: "https://open.spotify.com/episode/2HH5MLBk5gXykU6I8ek1Mw",
+    32: "https://open.spotify.com/episode/5XxFMBKeqnxYlO23QjVzY8",
+    33: "https://open.spotify.com/episode/2B72tl2v0g87wPGQ2msJgS",
+    34: "https://open.spotify.com/episode/36UgDvyFMHKJYc0ElXYmy8",
+    35: "https://open.spotify.com/episode/0rgzUKtUhCBWipXHC61tbx",
+    36: "https://open.spotify.com/episode/01j4XyZqy3Qe9sLEdIhyzX",
+    37: "https://open.spotify.com/episode/678mAUkmd2Z3YoZOYcJuNh",
+    38: "https://open.spotify.com/episode/5OFFH1zNdvsnvBcVFcC9MT",
+}
+
+# Machine-row audio companions (Spotify episode pages; issue -> URL). Distinct
+# from AUDIO: author and machine are separate episodes.
+MACHINE_AUDIO = {
+    26: "https://open.spotify.com/episode/0nTfvwBxKgbCXXoDETTPDr",
+    27: "https://open.spotify.com/episode/1QGNaNWgB4DEcwd6lbmbbd",
+    28: "https://open.spotify.com/episode/4OrZFhWrHowK64cmjiITNP",
+    29: "https://open.spotify.com/episode/4epydrmVPOQqPqPr7pkbTj",
+    30: "https://open.spotify.com/episode/5nBiOmQGpTqkOuFIhJfAs5",
+    31: "https://open.spotify.com/episode/5D5c3A8z0ct7C0483pm6sV",
+    32: "https://open.spotify.com/episode/2i7ayYndEgGOblrkeejIxA",
+    33: "https://open.spotify.com/episode/1Rghgf9fxoebE6kazZ9PO9",
+    34: "https://open.spotify.com/episode/18McRSakyuaImhBMzceFQj",
+    35: "https://open.spotify.com/episode/6FxG91h6ghevzXUCAj1ae8",
+    36: "https://open.spotify.com/episode/6p3025WSILzb9WC31hA88e",
+    37: "https://open.spotify.com/episode/2zg6tctAs33svf2M8ktwmO",
+    38: "https://open.spotify.com/episode/7dHpfFFhp5RkpHi1R9QKgX",
+}
+
+# Video companions (slop core music videos; issue -> public URL). VIDEO is the
+# author's essay video; MACHINE_VIDEO is the machine version's own video.
+# A leaf is emitted on a row only when that row has an entry.
+VIDEO = {
+    34: "https://x.com/signalnoisepub/status/2114514311205040211/video/1?s=46",
+}
+MACHINE_VIDEO = {
+    34: "https://x.com/signalnoisepub/status/2114709181550973029",
+}
+
+# Intuition sister essays (issue -> URL). Reciprocal companions for the four
+# Intuition pieces that already link to these S&N essays. Only these issues
+# carry an Intuition sister; do not invent pairings for other issues.
+INTUITION_SISTER = {
+    14: "https://scipher888.github.io/intuition/the-reality-compiler/",
+    16: "https://scipher888.github.io/intuition/do-i-have-to-take-gary-marcus-seriously/",
+    19: "https://scipher888.github.io/intuition/the-black-box-next-door/",
+    21: "https://scipher888.github.io/intuition/ai-wont-end-scarcity/",
 }
 
 # Issues with a published Extended Development Record (verbatim author + AI
 # conversation) at AUDIT_BASE/issue-0NN/development/ — verified on disk 2026-08-14.
-EDR_ISSUES = {14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25}
+# The EDR is no longer a top-level essay-chrome leaf (J, 2026-08-29); it stays
+# reachable from the audit pages.
+EDR_ISSUES = {14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 27, 28, 29, 30}
 
 # Issues carrying the machine's-version experiment (an AI-written companion essay
 # published inside the audit record; J's rulings 2026-08-23) at
-# AUDIT_BASE/issue-0NN/machine-version/.
-MACHINE_VERSION_ISSUES = {25}
+# AUDIT_BASE/issue-0NN/machine-version/. The machine row appears only for these.
+MACHINE_VERSION_ISSUES = {25, 26, 27, 28, 29, 30}
+
+# Machine companions published on this site (issue -> slug). The machine row
+# still sits where it does for MACHINE_VERSION_ISSUES; the essay link points
+# here instead of the audit snapshot. The audit leaf still uses AUDIT_BASE.
+LOCAL_MACHINE = {
+    31: "george-saunders-drew-the-line-in-the-wrong-place",
+    32: "the-hair-began-to-grow-again",
+    33: "the-quiet-majority-of-makers",
+    34: "the-machinery-of-being-wrong",
+    35: "the-long-game-of-not-gaining",
+    36: "alignment-at-human-scale",
+    37: "where-the-starship-catch-ranks-and-what-it-could-change",
+    38: "what-intelligence-cant-tell-you-about-your-own-life",
+}
+
+# A separate page, written without AI, linked on the author's row beside
+# The essay (issue -> slug). Not a second issue and not part of the essay body.
+UNAIDED = {
+    31: "george-saunders-has-a-point",
+    32: "what-i-want-my-kids-to-know-about-making-mistakes",
+    33: "the-future-is-build-and-share",
+    34: "nothing-matters-more-than-civilization",
+    35: "what-is-the-best-strategy-to-optimize-weight-prevent-weight-gain-without-medications",
+    36: "issue-036-written-without-ai",
+    37: "issue-037-source-material",
+    38: "issue-038-source-material",
+}
+UNAIDED_LEAF = "Written without AI"
+# Issue 37's source mixes the author's own words with Grok Heavy research, so
+# "Written without AI" would be false there. One name per destination still holds.
+# Issue 38's source is all the author's, but it is the editorial-run input (with
+# one private link removed), so it keeps Issue 37's "Source material" name.
+UNAIDED_LEAF_BY_ISSUE = {37: "Source material", 38: "Source material"}
+
+# Snapshot audit records that 404. Omit the audit leaf the same way audio is
+# omitted when there is no episode. Issue 31's record is published.
+NO_AUDIT = set()
 
 # In-body audit-status blocks retired per J's 2026-08-14 ruling: the companions
 # line is now the piece's audit-status link, so the beehiiv-era "<hr> The audit:
@@ -101,6 +192,58 @@ MANIFEST = {
     "the-gift-is-not-the-product": (24, "drafts/issue-024-web-paste-2026-08-14.html", "2026-08-16", "day"),
     "perfect-ai-alignment-is-not-alignment": (25, "drafts/issue-025-web-paste-2026-08-22.html", "2026-08-22", "day"),
     "the-smartest-cage-on-campus": (None, "drafts/issue-smartest-cage-on-campus-paste-2026-11-22.html", "2026-11-22", "day"),
+    "civilization-at-machine-speed": (26, "drafts/issue-026-web-paste-2026-08-29.html", "2026-08-29", "day"),
+    "ai-can-advance-philosophy-now": (27, "drafts/issue-027-web-paste-2026-09-06.html", "2026-09-06", "day"),
+    "equal-intelligence-does-not-mean-adequate-security": (28, "drafts/issue-028-web-paste-2026-09-13.html", "2026-09-13", "day"),
+    "the-answer-we-least-want-to-hear": (29, "drafts/issue-029-web-paste-2026-09-20-v1.1.html", "2026-09-18", "day"),
+    "a-curious-machine-is-not-a-kind-one": (30, "drafts/issue-030-web-paste-2026-09-26.html", "2026-09-26", "day"),
+    "george-saunders-is-right-about-writing": (31, "drafts/issue-031-web-paste-2026-10-04.html", "2026-10-04", "day"),
+    "your-hair-grows-back-your-eyes-dont": (32, "drafts/issue-032-web-paste-2026-10-11.html", "2026-10-11", "day"),
+    "nobody-will-buy-your-app": (33, "drafts/issue-033-web-paste-2026-10-16.html", "2026-10-16", "day"),
+    "we-are-arguing-about-the-speed-of-ai-we-have-no-plan-for-the-crash": (34, "drafts/issue-034-web-paste-2026-10-24.html", "2026-10-24", "day"),
+    "stop-trying-to-out-willpower-your-appetite-stuff-it-into-submission-instead": (35, "drafts/issue-035-web-paste-2026-10-31.html", "2026-10-31", "day"),
+    "my-son-his-calorie-tracker-and-the-tyranny-of-the-nanny-bot": (36, "drafts/issue-036-web-paste-2026-11-08.html", "2026-11-08", "day"),
+    "what-spacex-caught-in-those-mechanical-arms-is-bigger-than-a-rocket": (37, "drafts/issue-037-web-paste-2026-11-14.html", "2026-11-14", "day"),
+    "the-smartest-people-in-the-room-are-the-easiest-to-fool": (38, "drafts/issue-038-web-paste-2026-11-21.html", "2026-11-21", "day"),
+}
+
+# Pages that belong to an issue but are not its archive row or feed item.
+# role is "machine" or "unaided" — which companion leaf this page pins.
+# slug -> (issue_no, role, source path relative to this repo, date, date_precision)
+SIDE_PAGES = {
+    "george-saunders-drew-the-line-in-the-wrong-place": (
+        31, "machine", "drafts/issue-031-machine-web-paste-2026-10-04.html", "2026-10-04", "day"),
+    "george-saunders-has-a-point": (
+        31, "unaided", "drafts/issue-031-unaided-web-paste-2026-10-04.html", "2026-10-04", "day"),
+    "the-hair-began-to-grow-again": (
+        32, "machine", "drafts/issue-032-machine-web-paste-2026-10-11.html", "2026-10-11", "day"),
+    "what-i-want-my-kids-to-know-about-making-mistakes": (
+        32, "unaided", "drafts/issue-032-unaided-web-paste-2026-10-11.html", "2026-10-11", "day"),
+    "the-quiet-majority-of-makers": (
+        33, "machine", "drafts/issue-033-machine-web-paste-2026-10-16.html", "2026-10-16", "day"),
+    "the-future-is-build-and-share": (
+        33, "unaided", "drafts/issue-033-unaided-web-paste-2026-10-16.html", "2026-10-16", "day"),
+    "the-machinery-of-being-wrong": (
+        34, "machine", "drafts/issue-034-machine-web-paste-2026-10-24.html", "2026-10-24", "day"),
+    "nothing-matters-more-than-civilization": (
+        34, "unaided", "drafts/issue-034-unaided-web-paste-2026-10-24.html", "2026-10-24", "day"),
+    "the-long-game-of-not-gaining": (
+        35, "machine", "drafts/issue-035-machine-web-paste-2026-10-31.html", "2026-10-31", "day"),
+    "what-is-the-best-strategy-to-optimize-weight-prevent-weight-gain-without-medications": (
+        35, "unaided", "drafts/issue-035-unaided-web-paste-2026-10-31.html", "2026-10-31", "day"),
+    "alignment-at-human-scale": (
+        36, "machine", "drafts/issue-036-machine-web-paste-2026-11-08.html", "2026-11-08", "day"),
+    "issue-036-written-without-ai": (
+        36, "unaided", "drafts/issue-036-unaided-web-paste-2026-11-08.html", "2026-11-08", "day"),
+    "where-the-starship-catch-ranks-and-what-it-could-change": (
+        37, "machine", "drafts/issue-037-machine-web-paste-2026-11-14.html", "2026-11-14", "day"),
+    "issue-037-source-material": (
+        37, "unaided", "drafts/issue-037-source-web-paste-2026-11-14.html", "2026-11-14", "day"),
+    "what-intelligence-cant-tell-you-about-your-own-life": (
+        38, "machine", "drafts/issue-038-machine-web-paste-2026-11-21.html", "2026-11-21", "day"),
+    "issue-038-source-material": (
+        38, "unaided", "drafts/issue-038-source-web-paste-2026-11-21.html", "2026-11-21", "day"),
+
 }
 
 # Sources whose title/dek live outside the body (beehiiv field lines / build comments).
@@ -141,6 +284,7 @@ def load_source(path, slug=None):
     """
     raw = open(path, encoding="utf-8").read()
     if path.endswith(".md"):
+        import markdown  # issues 1-3 only; not required when recovering built HTML
         title = None
         dek = None
         lines = raw.split("\n")
@@ -202,6 +346,44 @@ def load_source(path, slug=None):
     return title, dek_html, body
 
 
+def resolve_source(rel):
+    """Editorial repo first (canonical pastes), then this repo's drafts/."""
+    for root in (SRC, OUT):
+        path = os.path.join(root, rel)
+        if os.path.isfile(path):
+            return path
+    return None
+
+
+def recover_from_built(slug):
+    """Rebuild chrome from an already-published page when the paste is absent.
+
+    This web repo ships built HTML; the as-published pastes live in a private
+    editorial repo. Recovering title/dek/body lets `python3 build.py` refresh
+    companions (and wrap a new local draft) without that tree.
+    """
+    path = os.path.join(OUT, "p", slug, "index.html")
+    if not os.path.isfile(path):
+        raise SystemExit(f"missing source and no built page for {slug}")
+    text = open(path, encoding="utf-8").read()
+    art = re.search(r"<article>(.*?)</article>", text, re.S)
+    if not art:
+        raise SystemExit(f"no article in built page {slug}")
+    inner = art.group(1)
+    inner = re.sub(r"\s*<p class=\"kicker\">.*?</p>", "", inner, count=1)
+    hm = re.search(r"<h1>(.*?)</h1>", inner, re.S)
+    if not hm:
+        raise SystemExit(f"no title heading in built page {slug}")
+    title = html.unescape(re.sub(r"<[^>]+>", "", hm.group(1)).strip())
+    rest = inner[hm.end():]
+    dm = re.match(r"\s*(<p class=\"dek\">.*?</p>)", rest, re.S)
+    dek_html = dm.group(1) if dm else ""
+    if dm:
+        rest = rest[dm.end():]
+    rest = re.sub(r"\s*<nav class=\"cnav(?: top)?\".*?</nav>", "", rest, flags=re.S)
+    return title, dek_html, rest.strip()
+
+
 PAGE = """<!doctype html>
 <html lang="en">
 <head>
@@ -218,24 +400,41 @@ PAGE = """<!doctype html>
   <meta property="og:title" content="{title}">
   <meta property="og:description" content="{desc}">
   <meta property="og:url" content="{url}">
-  <meta property="og:image" content="{base}/assets/preview.png">
+  <meta property="og:image" content="{ogimage}">
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{title}">
+  <meta name="twitter:description" content="{desc}">
+  <meta name="twitter:image" content="{ogimage}">
 </head>
 <body>
 <header class="site-head">
   <a class="masthead" href="{home}"><svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="17.5" r="11.5" fill="none" stroke="#10283a" stroke-width="2.4"/><circle cx="16" cy="17.5" r="6.8" fill="#0e2738"/><circle cx="16" cy="6" r="3.1" fill="#f3ca79"/></svg>Signal &amp; Noise</a>
-  <nav><a href="{root}archive/">Archive</a> <a href="{root}about/">About</a> <a href="{root}subscribe/">Follow</a></nav>
+  <nav><a href="{root}daily-state/">Daily State</a> <a href="{root}archive/">Archive</a> <a href="{root}about/">About</a> <a href="{root}subscribe/">Follow</a></nav>
 </header>
 <main>
 {main}
 </main>
 <footer class="site-foot">
-  <p>Signal &amp; Noise is written under the pen name Synthia Cipher. AI tools draft and critique; the human author owns the editorial judgment, final wording, published claims, and errors.</p>
-  <p><a href="{home}">Home</a> · <a href="{root}archive/">Archive</a> · <a href="{root}about/">About</a> · <a href="{root}subscribe/">Follow</a> · <a href="{root}feed.xml">RSS</a> · <a href="https://scipher888.github.io/signal-noise-audit-snapshot/world/">The World Behind the Words</a></p>
+  <p>Signal &amp; Noise is written under the pen name Synthia Cipher. Each edition is a human essay and an AI essay, then audits in The World Behind the Words. The human author owns the wording, published claims, and errors of the human essay.</p>
+  <p><a href="{home}">Home</a> · <a href="{root}daily-state/">Daily State</a> · <a href="{root}archive/">Archive</a> · <a href="{root}about/">About</a> · <a href="{root}subscribe/">Follow</a> · <a href="{root}feed.xml">RSS</a> · <a href="https://scipher888.github.io/signal-noise-audit-snapshot/world/">The World Behind the Words</a></p>
 </footer>
 </body>
 </html>
 """
+
+
+def preview_image_url():
+    """Absolute OG/Twitter image URL, cache-busted from the PNG contents.
+
+    GitHub Pages serves assets with max-age=600. A short hash query string lets
+    crawlers that cached a miss pick up a new preview.png without a rename.
+    """
+    path = os.path.join(OUT, "assets", "preview.png")
+    url = f"{BASE_URL}/assets/preview.png"
+    if os.path.isfile(path):
+        digest = hashlib.md5(open(path, "rb").read()).hexdigest()[:8]
+        url += f"?v={digest}"
+    return url
 
 
 def render(title, desc, root, main, path, ogtype="website"):
@@ -244,7 +443,8 @@ def render(title, desc, root, main, path, ogtype="website"):
     Homepage `root` is empty, so Home links use "/" instead of an empty href."""
     home = root or "/"
     return PAGE.format(title=html.escape(title), desc=html.escape(desc, quote=True),
-                       root=root, home=home, main=main, url=BASE_URL + path, ogtype=ogtype, base=BASE_URL)
+                       root=root, home=home, main=main, url=BASE_URL + path,
+                       ogtype=ogtype, ogimage=preview_image_url())
 
 
 # Night Observatory hero — rebuilt from the original brand sources
@@ -267,60 +467,292 @@ OBSERVATORY = """<svg class="observatory" viewBox="0 0 640 470" xmlns="http://ww
 </svg>"""
 
 
-def essay_page(slug, issue, title, dek_html, body, date, precision):
+def author_slug_for(issue):
+    for slug, (n, *_rest) in MANIFEST.items():
+        if n == issue:
+            return slug
+    raise SystemExit(f"no author slug for issue {issue}")
+
+
+def nav_leaf(label, href, current):
+    if current:
+        return f'<span class="here" aria-current="page">{label}</span>'
+    return f'<a href="{href}">{label}</a>'
+
+
+def companion_navs(issue, here="author"):
+    """Companion map (J, 2026-08-29). Two parallel rows, same leaf names:
+
+      The author's  — The essay · Audio companion · Video companion · The audit
+      The machine's — The essay · Audio companion · The audit
+
+    Audio appears on a row only when that companion exists. Video appears after
+    Audio, on the author's row for issues in VIDEO and on the machine's row for
+    issues in MACHINE_VIDEO. The audit leaf
+    is omitted when the snapshot has no record (NO_AUDIT), and on the unaided
+    page, which keeps the map it already published. The machine row
+    appears when a machine companion exists (MACHINE_VERSION_ISSUES or
+    LOCAL_MACHINE). A page written without AI (UNAIDED) sits on the author's
+    row immediately after The essay, under one name on every page.
+    An Intuition sister essay appears on the author's row only for issues
+    in INTUITION_SISTER, after The audit.
+    `here` is "author", "machine", or "unaided": that leaf is pinned.
+    Standing rules from 2026-08-23 still hold:
+      1. ONE ABSOLUTE NAME PER DESTINATION, identical on every page that shows it.
+      2. The current page is PINNED (.here, aria-current) rather than omitted.
+      3. The block sits at the TOP (after kicker/title/dek, before the body)
+         so the machine companion is visible without scrolling past the essay.
+         A light foot copy repeats the same destinations; .here still pins
+         the current page on both.
+    """
+    base = f"{AUDIT_BASE}/issue-{issue:03d}"
+    author_href = f"{BASE_URL}/p/{author_slug_for(issue)}/"
+    author = [nav_leaf("The essay", author_href, here == "author")]
+    if issue in UNAIDED:
+        author.append(nav_leaf(
+            UNAIDED_LEAF_BY_ISSUE.get(issue, UNAIDED_LEAF),
+            f"{BASE_URL}/p/{UNAIDED[issue]}/",
+            here == "unaided",
+        ))
+    # Issues 32 through 38: the unaided (or source) page keeps the map it already
+    # published (no audio leaf, even after an episode exists).
+    show_audio = not (issue in (32, 33, 34, 35, 36, 37, 38) and here == "unaided")
+    if issue in AUDIO and show_audio:
+        author.append(f'<a href="{AUDIO[issue]}">Audio companion</a>')
+    if issue in VIDEO and show_audio:
+        author.append(f'<a href="{VIDEO[issue]}">Video companion</a>')
+    # Audit leaves go on the author and machine essays. The unaided page
+    # keeps the companion map it already published.
+    show_audit = issue not in NO_AUDIT and here != "unaided"
+    if show_audit:
+        author.append(f'<a href="{base}/">The audit</a>')
+    if issue in INTUITION_SISTER:
+        author.append(f'<a href="{INTUITION_SISTER[issue]}">Intuition sister essay</a>')
+    rows = [("The author&rsquo;s", author)]
+    if issue in MACHINE_VERSION_ISSUES or issue in LOCAL_MACHINE:
+        if issue in LOCAL_MACHINE:
+            machine_href = f"{BASE_URL}/p/{LOCAL_MACHINE[issue]}/"
+        else:
+            machine_href = f"{base}/machine-version/"
+        machine = [nav_leaf("The essay", machine_href, here == "machine")]
+        if issue in MACHINE_AUDIO and show_audio:
+            machine.append(f'<a href="{MACHINE_AUDIO[issue]}">Audio companion</a>')
+        if issue in MACHINE_VIDEO and show_audio:
+            machine.append(f'<a href="{MACHINE_VIDEO[issue]}">Video companion</a>')
+        if show_audit:
+            machine.append(f'<a href="{base}/machine-version/audit/">The audit</a>')
+        rows.append(("The machine&rsquo;s", machine))
+    items = "".join(f"<dt>{lbl}</dt><dd>{' · '.join(ls)}</dd>" for lbl, ls in rows)
+    top = (f'\n<nav class="cnav top" aria-label="Issue {issue} companions">'
+           f"<dl>{items}</dl></nav>")
+    foot = (f'\n<nav class="cnav" aria-label="Issue {issue} companions">'
+            f"<dl>{items}</dl></nav>")
+    return top, foot
+
+
+# Origin note on the machine essay only, outside the frozen body. The question
+# is verbatim. Formatting instructions stay out of that quote; the full prompt
+# is the linked page. Links are documents that already resolve on the published
+# audit snapshot, not anchors added on an unmerged audit branch.
+MACHINE_QUESTIONS = {
+    34: (
+        "What single element is most vital to protecting humanity's long-term quality of life? What primary action should we take to safeguard it?",
+        "Those two questions are the substantive prompt. The same message also gave "
+        "formatting instructions, which are not the question. "
+        f'<a href="{AUDIT_BASE}/issue-034/development/">Full prompt</a>. '
+        "Both runs received only that seed and did not receive the author&rsquo;s draft. "
+        "The published text is the second Opus run plus one paragraph from the first, "
+        "not one unchanged generation.",
+    ),
+    35: (
+        "What is the best strategy to optimize weight (prevent weight gain) without medications?",
+        "That sentence is the substantive prompt. The same message also gave "
+        "formatting instructions, which are not the question. "
+        f'<a href="{AUDIT_BASE}/issue-035/development/">Full prompt</a>. '
+        "The run received only that seed and did not receive the author&rsquo;s brain dump, "
+        "editorial prompt, or human/AI drafts. The returned Opus essay was not edited.",
+    ),
+    36: (
+        "What core alignment failures do everyday users currently encounter when interacting with agentic AI systems, and what implications do these practical misalignments have for future alignment frameworks\u2014specifically regarding the balance between user intent, safety guardrails, and broader moral frameworks?",
+        "That sentence is the substantive prompt. The same message also gave "
+        "formatting instructions, which are not the question. "
+        f'<a href="{AUDIT_BASE}/issue-036/development/#machine-question">Full prompt</a>. '
+        "Four identical requests contained no author essay "
+        f'(<a href="{AUDIT_BASE}/issue-036/source/metadata/isolation.json">isolation record</a>). '
+        "Grok Bot selected the Astra essay unchanged.",
+    ),
+    37: (
+        (
+            "1. Please rank in order the greatest engineering achievements of all time based solely on the magnitude of the engineering/technological challenge and assuming modern (2026-era) technology, materials, computing, simulation, and manufacturing could be applied to al of them - and keep ranking them until you can place the successful capture of Starship Fight 15 (happened today - on 11/14/2026) somewhere in this list.",
+            "2. Taking on optimistic but realistic/possible view, what does this proof of concept of fully reusable large payload spaceships imply about the future for ordinary people over the next 10, 25, 50, and 100 years?",
+        ),
+        "These two questions, in the author&rsquo;s own words with typos kept, are the substantive prompt. "
+        "The same message also gave formatting instructions and asked for only the top five, "
+        "with Flight 15&rsquo;s place stated if it fell outside them. "
+        f'<a href="{AUDIT_BASE}/issue-037/development/#machine-question">Full prompt</a>. '
+        "Four identical requests contained none of the author&rsquo;s source or drafts "
+        f'(<a href="{AUDIT_BASE}/issue-037/source/metadata/isolation.json">isolation record</a>). '
+        "Grok Bot selected the Claude Fable 5.2 essay unchanged.",
+        "Editor&rsquo;s note: the essay says it cannot independently confirm the flight. "
+        "It happened. On November 14, 2026, SpaceX caught Ship 42, Starship&rsquo;s upper stage, "
+        "in the Starbase tower&rsquo;s arms after it returned from orbit; the booster&rsquo;s catch "
+        "on the same flight was aborted. "
+        '<a href="https://www.space.com/space-exploration/launches-spacecraft/spacex-chopsticks-catch-starship-upper-stage-flight-14">Space.com report</a>.',
+    ),
+    38: (
+        "To what extent, if any, does intelligence help people make wise life choices involving needs, wants, desires, and emotions? And what, if anything, does that imply about how highly intelligent people should approach these decisions that can have a major impact on their quality of life?",
+        "This question, in the author&rsquo;s own words, is the substantive prompt. "
+        "The same message also gave formatting instructions. "
+        f'<a href="{AUDIT_BASE}/issue-038/development/#machine-question">Full prompt</a>. '
+        "Four identical requests contained none of the author&rsquo;s brain dump, links or drafts "
+        f'(<a href="{AUDIT_BASE}/issue-038/source/metadata/isolation.json">isolation record</a>). '
+        "Grok Bot recommended the Claude Fable 5.2 essay and the author approved it; it is unchanged.",
+    ),
+}
+
+
+def machine_question_html(issue):
+    """Editorial origin block. Empty unless this issue has an approved question."""
+    spec = MACHINE_QUESTIONS.get(issue)
+    if not spec:
+        return ""
+    question, meta, *editor = spec
+    # A tuple of questions (Issue 37) renders one paragraph per question, verbatim.
+    questions = question if isinstance(question, tuple) else (question,)
+    label = "The questions given to the AI:" if len(questions) > 1 else "The question given to the AI:"
+    qs = "".join(f'<p class="mq-question">{html.escape(q)}</p>' for q in questions)
+    note = "".join(f'<p class="mq-meta mq-editor">{e}</p>' for e in editor)
+    return (
+        '<aside class="mq" aria-label="Origin of this machine essay">'
+        f'<p class="mq-label">{label}</p>'
+        f'{qs}'
+        f'<p class="mq-meta">{meta}</p>'
+        f'{note}'
+        "</aside>"
+    )
+
+
+def essay_page(slug, issue, title, dek_html, body, date, precision, here="author"):
     kicker = f"Issue {issue}" if issue else "Process note"
     dateline = display_date(date, precision)
-    # Companion map (J, 2026-08-23). Grouped by who wrote it, because that split is
-    # the publication's own thesis and the reader's actual question at a link. Three
-    # standing rules, all of which fix a live defect found on 2026-08-23:
-    #   1. ONE ABSOLUTE NAME PER DESTINATION, identical on every page that links it.
-    #      Relative names ("The audit", "Its audit", "The essay") renamed the same
-    #      page four different ways depending on where you stood, and two audits one
-    #      hop apart both answered to a bare possessive.
-    #   2. The current page is PINNED (.here, aria-current) rather than omitted, so
-    #      the same map appears everywhere with the reader's position marked.
-    #   3. The block sits at the FOOT: the top stays clean so the reader can start
-    #      reading. Floor row 5 (the piece links its own audit status) is satisfied
-    #      here — placement was never what that row required.
-    # The audit-snapshot pages carry this same block; keep the names in sync.
-    companions = ""
+    companions_top = ""
+    companions_foot = ""
     if issue:
-        base = f"{AUDIT_BASE}/issue-{issue:03d}"
-        author = ['<span class="here" aria-current="page">The essay</span>']
-        if issue in AUDIO:
-            author.append(f'<a href="{AUDIO[issue]}">Audio companion</a>')
-        machine = [f'<a href="{base}/">The issue audit</a>']
-        if issue in MACHINE_VERSION_ISSUES:
-            machine += [f'<a href="{base}/machine-version/">The machine&rsquo;s essay</a>',
-                        f'<a href="{base}/machine-version/plain/">In plain words</a>',
-                        f'<a href="{base}/machine-version/audit/">Audit of the machine&rsquo;s essay</a>']
-        rows = [("The author&rsquo;s", author), ("The machine&rsquo;s", machine)]
-        if issue in EDR_ISSUES:
-            rows.append(("Both, verbatim", [f'<a href="{base}/development/">The conversation behind this</a>']))
-        items = "".join(f"<dt>{lbl}</dt><dd>{' · '.join(ls)}</dd>" for lbl, ls in rows)
-        companions = (f'\n<nav class="cnav" aria-label="Issue {issue} companions">'
-                      f"<dl>{items}</dl></nav>")
+        companions_top, companions_foot = companion_navs(issue, here)
+    # companions_top already begins with a newline. With no dek, drop that
+    # extra newline so the nav follows the title the way a dek-less page should.
+    nav_top = companions_top[1:] if (not dek_html and companions_top.startswith("\n")) else companions_top
+    origin = ""
+    if here == "machine":
+        block = machine_question_html(issue)
+        if block:
+            origin = "\n" + block
+            if not nav_top.startswith("\n"):
+                origin += "\n"
     main = (f"<article>\n<p class=\"kicker\">{kicker} · {dateline}</p>\n"
-            f"<h1>{html.escape(title)}</h1>\n{dek_html}\n{body}\n{companions}\n</article>")
-    desc = re.sub(r"<[^>]+>", "", dek_html).strip() or f"Signal & Noise — {title}"
+            f"<h1>{html.escape(title)}</h1>\n{dek_html}{origin}{nav_top}\n"
+            f"{body}\n{companions_foot}\n</article>")
+    desc = re.sub(r"<[^>]+>", "", dek_html).strip()
+    if not desc:
+        plain = re.sub(r"<[^>]+>", "", body).strip()
+        desc = re.split(r"(?<=[.!?])\s", plain, maxsplit=1)[0]
+    if not desc:
+        desc = f"Signal & Noise — {title}"
     return render(title, desc, "../../", main, f"/p/{slug}/", ogtype="article")
+
+
+HOME_DESC = (
+    "Essays about AI, judgment, and human consequences — a human essay and an AI essay on the same subject, then published audits."
+)
+
+
+def latest_essay_pair(latest):
+    """Human · Machine line under the latest title. Omit it when Machine would 404."""
+    if latest["issue"] in LOCAL_MACHINE:
+        machine_href = f"p/{LOCAL_MACHINE[latest['issue']]}/"
+    elif latest["issue"] in MACHINE_VERSION_ISSUES:
+        machine_href = f"{AUDIT_BASE}/issue-{latest['issue']:03d}/machine-version/"
+    else:
+        machine_href = None
+    if not machine_href:
+        return ""
+    return (
+        f'<p class="pair"><a href="p/{latest["slug"]}/">Human</a>'
+        f' · <a href="{machine_href}">Machine</a></p>\n'
+    )
+
+
+def render_home_main(essays, teaser):
+    """Homepage body: hero, latest essay, Daily State teaser, recent essays."""
+    latest = essays[0]
+    pair = latest_essay_pair(latest)
+    recent = "\n".join(
+        f"<p class=\"row\"><a href=\"p/{e['slug']}/\">{html.escape(e['title'])}</a> "
+        f"<span class=\"meta\">Issue {e['issue']}</span></p>"
+        for e in essays[1:6]
+    )
+    teaser_block = f"{teaser}\n" if teaser else ""
+    return f"""<section class="hero hero-centered">
+{OBSERVATORY}
+<h1>Signal &amp; Noise</h1>
+<div class="gold-rule"></div>
+<p class="tagline">One idea at a time, taken seriously.</p>
+<p class="hero-intro">Essays about AI, judgment, and human consequences. Every edition is one topic, two essays: <strong>the human essay</strong> — the argument I wanted to make — and <strong>the AI's essay</strong> — a machine companion on the same subject. Each is checked; the audits live in <a href="https://scipher888.github.io/signal-noise-audit-snapshot/world/">The World Behind the Words</a>.</p>
+</section>
+<section class="latest">
+<p class="kicker">Latest — Issue {latest['issue']} · {display_date(latest['date'], latest['precision'])}</p>
+<h2><a href="p/{latest['slug']}/">{html.escape(latest['title'])}</a></h2>
+{pair}{latest['dek_html']}
+</section>
+{teaser_block}<section class="recent">
+<h2>Recent</h2>
+{recent}
+<p><a href="archive/">Full archive →</a></p>
+</section>"""
+
+
+def render_home(essays, teaser):
+    """Full homepage HTML. `teaser` is the Daily State card from daily_state.render_home_teaser()."""
+    page = render("Signal & Noise", HOME_DESC, "", render_home_main(essays, teaser), "/")
+    return page.replace(
+        "<title>Signal &amp; Noise — Signal &amp; Noise</title>",
+        "<title>Signal &amp; Noise</title>",
+    )
 
 
 def build():
     entries = []
     for slug, (issue, rel, date, precision) in MANIFEST.items():
-        path = os.path.join(SRC, rel)
-        title, dek_html, body = load_source(path, slug)
-        if slug in CHROME_STRIPS:
-            matches = re.findall(CHROME_STRIPS[slug], body, re.S)
-            assert len(matches) == 1, f"chrome strip must match exactly once in {slug}, got {len(matches)}"
-            body = re.sub(CHROME_STRIPS[slug], "", body, flags=re.S).strip()
+        path = resolve_source(rel)
+        if path:
+            title, dek_html, body = load_source(path, slug)
+            if slug in CHROME_STRIPS:
+                matches = re.findall(CHROME_STRIPS[slug], body, re.S)
+                assert len(matches) == 1, f"chrome strip must match exactly once in {slug}, got {len(matches)}"
+                body = re.sub(CHROME_STRIPS[slug], "", body, flags=re.S).strip()
+        else:
+            title, dek_html, body = recover_from_built(slug)
         entries.append(dict(slug=slug, issue=issue, title=title, dek=re.sub(r"<[^>]+>", "", dek_html).strip(),
                             dek_html=dek_html, body=body, date=date, precision=precision, src=rel))
         d = os.path.join(OUT, "p", slug)
         os.makedirs(d, exist_ok=True)
         open(os.path.join(d, "index.html"), "w", encoding="utf-8").write(
             essay_page(slug, issue, title, dek_html, body, date, precision))
+
+    side_entries = []
+    for slug, (issue, role, rel, date, precision) in SIDE_PAGES.items():
+        path = resolve_source(rel)
+        if not path:
+            raise SystemExit(f"missing source for {slug}: {rel}")
+        title, dek_html, body = load_source(path, slug)
+        side_entries.append(dict(slug=slug, issue=issue, title=title,
+                                 dek=re.sub(r"<[^>]+>", "", dek_html).strip(),
+                                 dek_html=dek_html, body=body, date=date,
+                                 precision=precision, src=rel, role=role))
+        d = os.path.join(OUT, "p", slug)
+        os.makedirs(d, exist_ok=True)
+        open(os.path.join(d, "index.html"), "w", encoding="utf-8").write(
+            essay_page(slug, issue, title, dek_html, body, date, precision, here=role))
 
     essays = sorted([e for e in entries if e["issue"]], key=lambda e: e["issue"], reverse=True)
     companions = [e for e in entries if not e["issue"]]
@@ -340,27 +772,11 @@ def build():
     open(os.path.join(OUT, "archive", "index.html"), "w", encoding="utf-8").write(
         render("Archive", "Every Signal & Noise issue, newest first.", "../", archive_main, "/archive/"))
 
-    # home
-    latest = essays[0]
-    home_main = f"""<section class="hero hero-centered">
-{OBSERVATORY}
-<h1>Signal &amp; Noise</h1>
-<div class="gold-rule"></div>
-<p class="tagline">One idea at a time, taken seriously.</p>
-<p class="hero-intro">Essays about AI, judgment, and human consequences. Every piece comes in two layers: <strong>the essay</strong> — the argument I wanted to make — and <strong>the audit</strong> — what the machine found when it checked, published in <a href="https://scipher888.github.io/signal-noise-audit-snapshot/world/">The World Behind the Words</a>.</p>
-</section>
-<section class="latest">
-<p class="kicker">Latest — Issue {latest['issue']} · {display_date(latest['date'], latest['precision'])}</p>
-<h2><a href="p/{latest['slug']}/">{html.escape(latest['title'])}</a></h2>
-{latest['dek_html']}
-</section>
-<section class="recent">
-<h2>Recent</h2>
-""" + "\n".join(f"<p class=\"row\"><a href=\"p/{e['slug']}/\">{html.escape(e['title'])}</a> <span class=\"meta\">Issue {e['issue']}</span></p>" for e in essays[1:6]) + """
-<p><a href="archive/">Full archive →</a></p>
-</section>"""
+    # home — Daily State teaser is shared with daily_state.py so the two cannot drift.
+    import daily_state
+    teaser = daily_state.render_home_teaser_from_repo(OUT)
     open(os.path.join(OUT, "index.html"), "w", encoding="utf-8").write(
-        render("Signal & Noise", "Essays about AI, judgment, and human consequences — every piece an essay plus a published audit.", "", home_main, "/").replace("<title>Signal &amp; Noise — Signal &amp; Noise</title>", "<title>Signal &amp; Noise</title>"))
+        render_home(essays, teaser))
 
     # about (from the live About v3 copy)
     about_main = """<h1>About</h1>
@@ -368,19 +784,20 @@ def build():
 <p>One idea at a time, taken seriously.</p>
 <h2>Who Writes This</h2>
 <p>I'm Synthia Cipher. I use a pen name because of strict professional privacy obligations.</p>
-<p>I use AI to draft and pressure-test — surfacing counterarguments and exposing weak reasoning. But the editorial judgment, final wording, and published claims are mine. If something here is wrong, the fault is mine, not the algorithm's.</p>
+<p>I use AI to draft and pressure-test — surfacing counterarguments and exposing weak reasoning. For the human essay, editorial judgment, final wording, and published claims are mine. If the human essay is wrong, the fault is mine, not the algorithm's. The AI essay is not silently my wording.</p>
 <p>I'm a novice — at AI, at computers, at creating things, at writing. More than anything else, Signal &amp; Noise is a transparent public record of my trying to learn to create things with AI. Any value may reside in that record more than in the content of the essays.</p>
-<h2>Every Piece Comes in Two Layers</h2>
-<p><strong>The essay</strong> is the argument I wanted to make, the way I wanted to make it.</p>
-<p><strong>The audit</strong> is what the machine found when it checked: which objections were raised, what was verified against sources, what changed because of it — and what couldn't be checked at all.</p>
-<p>The essay goes through an accuracy-and-fairness check before it publishes. Then the audit digs into everything else — and we publish it, including what it weakens, in The World Behind the Words.</p>
-<p>The audit isn't there to prove the essay right. It's there to show you where it might not be. The audits are run and published by AI, and each one states exactly which models ran it.</p>
+<h2>One Topic, Two Essays</h2>
+<p>Every edition is one topic, two essays.</p>
+<p><strong>The human essay</strong> is the argument I wanted to make.</p>
+<p><strong>The AI's essay</strong> is a machine companion on the same subject, written separately. It is not a correction, and it is not a second edition.</p>
+<p>Same subject. Two kinds of intelligence.</p>
+<p>Each essay is checked. What the check found — including what it weakens — is published in The World Behind the Words. The audits are run and published by AI, and each one states which models ran it. The audit is not there to prove either essay right.</p>
 <h2>Where Intuition Went</h2>
-<p>I used to publish less disciplined takes in a companion publication called <a href="https://scipher888.github.io/intuition/">Intuition</a> — the version of an idea I wanted to be true, set down before the checking. Those issues stay up, unchanged. But the gap Intuition existed to display — between what I want to be true and what survives scrutiny — now lives inside every issue: the essay shows my hand, the audit shows the work.</p>
+<p>I used to publish less disciplined takes in a companion publication called <a href="https://scipher888.github.io/intuition/">Intuition</a> — the version of an idea I wanted to be true, set down before the checking. Those issues stay up, unchanged. But the gap Intuition existed to display — between what I want to be true and what survives scrutiny — now lives inside every issue as two essays plus the audits, not only the essay against the audit.</p>
 <h2>Process Transparency</h2>
 <p>Public audit trail: <a href="https://github.com/scipher888/signal-noise-audit-snapshot">Editorial Audit Snapshot</a>.</p>
 <h2>Subscribe</h2>
-<p>Free. New issues by <a href="../subscribe/">RSS or email</a>.</p>
+<p>Free. New issues on <a href="../subscribe/">X or by email</a>.</p>
 <p>One idea at a time, taken seriously.</p>"""
     os.makedirs(os.path.join(OUT, "about"), exist_ok=True)
     open(os.path.join(OUT, "about", "index.html"), "w", encoding="utf-8").write(
@@ -389,20 +806,15 @@ def build():
     # follow page — /subscribe/ keeps the legacy path but is a real page now (nav label: Follow).
     # The email option's address is PENDING J's ruling; the paragraph ships only once it is set.
     follow_main = """<h1>Follow</h1>
-<p class="intro">Signal &amp; Noise is free, and there's no algorithm between you and it — just two quiet ways to know when a new issue is up.</p>
-<h2>By RSS</h2>
-<p>RSS is the old, calm way to follow things on the web: a reader app checks this site for you and shows new issues as they appear. No account here, no ranking, no inbox required.</p>
-<p>Never used one? Either of these is free and takes about a minute to set up:</p>
-<ul>
-<li><a href="https://netnewswire.com/">NetNewsWire</a> — iPhone, iPad, and Mac. Free and open source; no account needed.</li>
-<li><a href="https://feedly.com/news-reader">Feedly</a> — works in any browser, with apps for Android and iPhone. Asks you to create a free account first.</li>
-</ul>
-<p>Then add this site: paste <code>www.signalandnoise.email</code> into the reader's search or "add feed" box, and tap Add (or Follow) when it finds Signal &amp; Noise. If it asks for a feed address instead, give it <code>https://www.signalandnoise.email/feed.xml</code>.</p>
+<p class="intro">Signal &amp; Noise is free. Here are two ways to know when a new issue is up.</p>
+<h2>On X</h2>
+<p>The easiest way: follow Signal &amp; Noise on X, where each new issue is announced.</p>
+<p class="follow-cta"><a class="btn" href="https://x.com/signalnoisepub" target="_blank" rel="noopener">Follow on X</a></p>
 <h2>By email</h2>
-<p>Prefer a note in your inbox? Write "keep me posted" to <a href="mailto:synthia@signalandnoise.email">synthia@signalandnoise.email</a> and each new issue will arrive as a short note with a link. To stop, send a blank mail to the same address with the subject <code>unsubscribe</code> — or use Unsubscribe in Gmail if you see it. You do not need to write a request.</p>"""
+<p>The old-school choice. Prefer a note in your inbox? Write "keep me posted" to <a href="mailto:synthia@signalandnoise.email">synthia@signalandnoise.email</a> and each new issue will arrive as a short note with a link. To stop, send a blank mail to the same address with the subject <code>unsubscribe</code> — or use Unsubscribe in Gmail if you see it. You do not need to write a request.</p>"""
     os.makedirs(os.path.join(OUT, "subscribe"), exist_ok=True)
     open(os.path.join(OUT, "subscribe", "index.html"), "w", encoding="utf-8").write(
-        render("Follow", "How to follow Signal & Noise — by RSS or by email.", "../", follow_main, "/subscribe/"))
+        render("Follow", "How to follow Signal & Noise — on X or by email.", "../", follow_main, "/subscribe/"))
 
     # redirects for legacy beehiiv paths
     for old, target in [("bio", "../about/"), ("archive-legacy", None)]:
@@ -415,6 +827,22 @@ def build():
             f"<meta http-equiv=\"refresh\" content=\"0; url={target}\">"
             f"<link rel=\"canonical\" href=\"{BASE_URL}/about/\"></head>"
             f"<body><p><a href=\"{target}\">Continue to Signal &amp; Noise</a></p></body></html>")
+
+    # Short-link stubs: shared links that dropped the beehiiv "/p/" segment.
+    # GitHub Pages has no server redirects, so each is a meta-refresh stub at
+    # /<slug>/index.html (serves both /<slug> and /<slug>/), canonical to the
+    # real /p/ page, noindex so the stub itself never competes in search.
+    for slug in SHORT_LINK_SLUGS:
+        target = f"{BASE_URL}/p/{slug}/"
+        d = os.path.join(OUT, slug)
+        os.makedirs(d, exist_ok=True)
+        open(os.path.join(d, "index.html"), "w", encoding="utf-8").write(
+            "<!doctype html><html lang=\"en\"><head><meta charset=\"utf-8\">"
+            "<title>Signal &amp; Noise</title>"
+            "<meta name=\"robots\" content=\"noindex\">"
+            f"<meta http-equiv=\"refresh\" content=\"0; url={target}\">"
+            f"<link rel=\"canonical\" href=\"{target}\"></head>"
+            f"<body><p><a href=\"{target}\">Continue to the essay on Signal &amp; Noise</a></p></body></html>")
 
     # 404 — served at arbitrary depth, so it needs absolute paths; derive the
     # prefix from BASE_URL so the CNAME-cutover rebuild fixes it automatically.
@@ -446,7 +874,7 @@ def build():
   <channel>
     <title>Signal &amp; Noise</title>
     <link>{BASE_URL}/</link>
-    <description>Essays about AI, judgment, and human consequences — every piece an essay plus a published audit.</description>
+    <description>Essays about AI, judgment, and human consequences — a human essay and an AI essay on the same subject, then published audits.</description>
     <language>en</language>
 {chr(10).join(items)}
   </channel>
@@ -454,10 +882,10 @@ def build():
 """
     open(os.path.join(OUT, "feed.xml"), "w", encoding="utf-8").write(feed)
 
-    print(f"built: {len(essays)} essays + {len(companions)} process notes + home/archive/about/redirects/404/feed")
+    print(f"built: {len(essays)} essays + {len(companions)} process notes + {len(side_entries)} companion pages + home/archive/about/redirects/404/feed")
     for e in essays:
         print(f"  issue {e['issue']:>2}  {e['slug']:<55} {e['title'][:48]}")
-    return entries
+    return entries + side_entries
 
 
 def check(entries):
@@ -473,6 +901,10 @@ def check(entries):
 
 
 if __name__ == "__main__":
+    # Opt-in only. Essay build and --check stay on the path below.
+    if "--daily-state-only" in sys.argv or "--daily-state-check" in sys.argv:
+        import daily_state
+        sys.exit(daily_state.main(sys.argv[1:]))
     entries = build()
     if "--check" in sys.argv:
         sys.exit(1 if check(entries) else 0)

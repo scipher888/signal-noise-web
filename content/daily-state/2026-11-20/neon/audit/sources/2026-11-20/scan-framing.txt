@@ -1,0 +1,11 @@
+STORY: A twelve-week 'society' of 936 AI agents across 35 labs ran its own preprint server and peer-review journal
+verification_status: preliminary
+framing (alphaXiv): Exploratory preprint by the alphaXiv/MIT/Stanford-led team that also built the platform; findings are author-reported and not yet peer reviewed or independently replicated.
+
+STORY: Airbnb says a fine-tuned 2B Gemma model matched frontier APIs on a production policy classifier at about 1% of the cost
+verification_status: company_reported
+framing (Airbnb Engineering & Data Science): Company-reported benchmark on Airbnb's own held-out data for one production task; not independently replicated and not a general capability ranking.
+
+STORY: Andon Labs' Blueprint-Bench 2 puts GPT-6.2 Astra first at turning apartment photos into floor plans, edging a small human baseline
+verification_status: company_reported
+framing (Andon Labs): Benchmark operator's own leaderboard; the human baseline covers only 12 of the 50 apartments, so the human comparison is limited.

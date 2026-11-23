@@ -1,0 +1,5 @@
+{"society": "primary-alphaxiv-society-of-ai-scientists",
+ "airbnb": "primary-airbnb-gemma4-e2b-production-classifier-",
+ "blueprint": "primary-andon-blueprint-bench-2-gpt62-astra",
+ "mollick": "x-emollick", "gemma": "x-googlegemma", "gdb": "x-gdb", "andon": "x-andonlabs",
+ "framing": "scan-framing"}

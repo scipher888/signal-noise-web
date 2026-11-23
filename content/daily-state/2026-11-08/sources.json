@@ -1,0 +1,33 @@
+{
+  "date": "2026-11-08",
+  "urls": [
+    "https://www.vals.ai/benchmarks/cyber_offense",
+    "https://arxiv.org/abs/2610.22192",
+    "https://x.com/IntCyberDigest/status/2119380660238303715",
+    "https://x.com/thesupermannx/status/2119341077975249222"
+  ],
+  "stories": [
+    {
+      "index": 1,
+      "title": "Is an open-weight model now close to OpenAI's restricted cyber model?",
+      "outlets": [
+        "Vals AI"
+      ],
+      "urls": [
+        "https://www.vals.ai/benchmarks/cyber_offense",
+        "https://x.com/IntCyberDigest/status/2119380660238303715"
+      ]
+    },
+    {
+      "index": 2,
+      "title": "Terminal-RSI: a 27B terminal agent trained on its own verified trajectories",
+      "outlets": [
+        "arXiv"
+      ],
+      "urls": [
+        "https://arxiv.org/abs/2610.22192",
+        "https://x.com/thesupermannx/status/2119341077975249222"
+      ]
+    }
+  ]
+}

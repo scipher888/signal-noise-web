@@ -1,0 +1,90 @@
+{
+ "date": "2026-11-21",
+ "bundle_sha256": "54d625c0785844c2c91de3c524e06bf841f6273dc8cfcaa21adfd0421a96d378",
+ "sources": {
+  "primary-alpoge-claude-riemann-hypothesis-claim": {
+   "file": "primary-alpoge-claude-riemann-hypothesis-claim.txt",
+   "url": "https://alpo.ge/remark.pdf",
+   "title": "Remark on the Riemann Hypothesis (alpo.ge/remark.pdf)",
+   "kind": "primary",
+   "sha256": "9b4d7b036542308f2b619defd2d7c46ebb401df358da5efc53733b7a5f71c170"
+  },
+  "x-emollick": {
+   "file": "x-emollick.txt",
+   "url": "https://x.com/emollick/status/2123972584400204199",
+   "title": "X post by @emollick (Ethan Mollick)",
+   "kind": "x_post",
+   "sha256": "6096055eb6b02f04f3e137e8fb2aea8966af836970c6aa0d346bc9c2b20c8999"
+  },
+  "x-andrewcurran_": {
+   "file": "x-andrewcurran_.txt",
+   "url": "https://x.com/AndrewCurran_/status/2123819916768039149",
+   "title": "X post by @AndrewCurran_ (Andrew Curran)",
+   "kind": "x_post",
+   "sha256": "713e65e80489c7139a90e660c1a6c8a462281f46e9eaf811af1c93a056b23ba7"
+  },
+  "x-artificialanlys": {
+   "file": "x-artificialanlys.txt",
+   "url": "https://x.com/ArtificialAnlys/status/2123865423364161861",
+   "title": "X post by @ArtificialAnlys (Artificial Analysis)",
+   "kind": "x_post",
+   "sha256": "8af086e81f673dc5fccc5244a05ee8157f3efc1ed02bbf81312aaeb2545e51a8"
+  },
+  "primary-thinking-machines-inkling-2-mini-open-we": {
+   "file": "primary-thinking-machines-inkling-2-mini-open-we.txt",
+   "url": "https://thinkingmachines.ai/news/inkling-2-mini/",
+   "title": "Inkling 2 Mini",
+   "kind": "primary",
+   "sha256": "ca2fa597c8c46a9819375ee6c97304c9a648a43d7d1bdef9bc62608a5997c73d"
+  },
+  "x-soumithchintala": {
+   "file": "x-soumithchintala.txt",
+   "url": "https://x.com/soumithchintala/status/2123878334895436115",
+   "title": "X post by @soumithchintala (Soumith Chintala)",
+   "kind": "x_post",
+   "sha256": "5917dd5c05d7b4911a79b6c387a2b529f02d863efcd9bc8a05ca85d3ee9ee6fc"
+  },
+  "x-0xsero": {
+   "file": "x-0xsero.txt",
+   "url": "https://x.com/0xSero/status/2123883583740006752",
+   "title": "X post by @0xSero (0xSero)",
+   "kind": "x_post",
+   "sha256": "41375c25f7f19d8876ab6dbf73e7995f6f237ae6251a7851942a4d03fbf23810"
+  },
+  "primary-naam-task-horizon-charts-critique": {
+   "file": "primary-naam-task-horizon-charts-critique.txt",
+   "url": "https://www.rameznaam.com/p/the-most-important-charts-in-ai-are",
+   "title": "The Most Important Charts in AI are Wrong",
+   "kind": "primary",
+   "sha256": "2db31f2bbe278d84ed0be603280f4e483e3b0298da193186bb3457ec387589d4"
+  },
+  "x-ramez": {
+   "file": "x-ramez.txt",
+   "url": "https://x.com/ramez/status/2123934198868382184",
+   "title": "X post by @ramez (Ramez Naam)",
+   "kind": "x_post",
+   "sha256": "031ce4db55b5a1b9b3f08b721c1e7960338573ffcae7755c86b3bfdf02ce617c"
+  },
+  "x-random_walker": {
+   "file": "x-random_walker.txt",
+   "url": "https://x.com/random_walker/status/2123869355431661866",
+   "title": "X post by @random_walker (Arvind Narayanan)",
+   "kind": "x_post",
+   "sha256": "7c2141b1066c6004da285dd5bc7b2570b022264c52e6f12fce3cb1cfcdb89e49"
+  },
+  "x-unknown": {
+   "file": "x-unknown.txt",
+   "url": "https://x.com/unknown/status/2123871643797995872",
+   "title": "X post by @unknown",
+   "kind": "x_post",
+   "sha256": "1ae5a664c76618adcceb467a3696bae2e9c143c314a8345be2ed485c20f45dac"
+  },
+  "scan-framing": {
+   "file": "scan-framing.txt",
+   "url": "https://www.signalandnoise.email/content/daily-state/2026-11-21/audit/sources/2026-11-21/scan-framing.txt",
+   "title": "Morning X-first scan: verification framing per story",
+   "kind": "scan",
+   "sha256": "5f01daec3eecf207a6bfaab4fbd69a42c14588555a21c7fc27fb3397513b60da"
+  }
+ }
+}

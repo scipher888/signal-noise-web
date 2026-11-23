@@ -1,0 +1,35 @@
+What does it mean to prove messaging software secure? How much should an informal coding test influence a model purchase? And when a robotics model is called open, what can researchers actually download? Those are the questions behind today’s announcements, where the scope of the evidence matters as much as the headline.
+
+Google DeepMind says its AlphaProof Code system has formally verified Signal protocol implementation code at the machine-code level. That is a company-reported result, with a technical paper and published Lean proofs, but no independent re-check reported in the supplied material.
+
+The important distinction is between verifying a defined part of an implementation and proving that an entire messaging service is secure under every condition. DeepMind’s technical paper covers one-to-one sessions in libsignal. Key generation is not verified. So this should not be heard as a blanket guarantee covering every part of Signal.
+
+How much did the AI do? The authors report that their agents generated about six and a half million lines of machine-checked Lean proof code. Those proofs rest on about twenty-six thousand lines of trusted specifications and semantics describing the AArch64 machine architecture.
+
+That separates two things often blurred in AI verification claims: generating a proof and checking it. The agents produced proof code; the formal checking establishes whether that code satisfies the specified logical requirements. The trusted specifications still define what is being proved.
+
+DeepMind presents this as a first for verifying the implementation of a widely deployed protocol. That priority claim remains the company’s claim. The published development gives outside researchers something concrete to inspect. For now, the defensible takeaway is narrower than “AI proved Signal secure”: DeepMind reports machine-checked proofs for a specified implementation scope, with explicit exclusions and a substantial trusted foundation. It is not evidence that AI independently handled every part of the security work.
+
+The next question is more immediate for developers: does Gemini 4 Carbon offer a better capability-and-cost tradeoff?
+
+Google says Carbon is now available to developers, enterprises, scientists, and consumers. Simon Willison’s independent release notes also confirm broader availability following an earlier restricted release.
+
+Paweł Huryn argues that Carbon is a cost-effective alternative to Fable based on his own bug-fixing exercise. That is a useful practitioner judgment, not an independently reviewed ranking. The supplied primary-source excerpts do not establish his numerical results or a current pricing schedule, so they do not support quoting a precise savings figure here.
+
+Nor does a bug-fixing exercise automatically tell us how a model will perform unattended in production. The assistance allowed, the repositories chosen, and the scoring process all matter.
+
+Willison’s qualitative reaction is positive, but he adds an important interpretation: some of the visual-generation skills being celebrated were already strengths of Gemini. Ethan Mollick, who had early access from Google, also calls Carbon an improvement and values having a capable model that approaches tasks differently from Claude and GPT. His impressions are not a controlled evaluation.
+
+So availability is established. The stronger claim—that Carbon delivers a particular performance ranking at a particular discount—still needs a reproducible comparison and verified pricing.
+
+Finally, NVIDIA’s GR00T 2 raises a familiar robotics question: how far does success in an evaluation carry over to an unfamiliar physical setting?
+
+NVIDIA reports average success of seventy-one percent across fifty tasks with one demonstration per task, rising to ninety-five percent with five demonstrations. Those are company-reported results, not independent replication. They describe adaptation with demonstrations, not a robot learning every task autonomously from scratch.
+
+Jim Fan, NVIDIA’s robotics director, pitches GR00T 2 as an onboard, untethered model and emphasizes learning from accessible data sources such as human video and simulation. He is announcing his own lab’s work, not independently corroborating it.
+
+What is open now is clearer than the broader promise. NVIDIA’s project page says one hundred thousand hours of egocentric human video are openly available. The model weights are not yet released. Researchers can inspect the data offering, but cannot yet treat the promised weights as a downloadable, independently testable model.
+
+Across these stories, the practical question is the same: what exactly was demonstrated, under which assumptions, and what remains outside the test? Those boundaries determine what practitioners can safely rely on.
+
+AI-generated; may contain errors.

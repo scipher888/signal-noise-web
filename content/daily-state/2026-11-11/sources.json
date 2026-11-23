@@ -1,0 +1,59 @@
+{
+  "date": "2026-11-11",
+  "urls": [
+    "https://blogs.nvidia.com/blog/robotics-simulation-advancements-corl/",
+    "https://research.nvidia.com/labs/gear/gr00t-2/",
+    "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-4-carbon-now-available/",
+    "https://simonwillison.net/2026/Nov/10/llm-gemini/",
+    "https://deepmind.google/blog/introducing-alphaproof-code/",
+    "https://google-deepmind.github.io/code-verification/",
+    "https://x.com/DrJimFan/status/2120186651741655428",
+    "https://x.com/PawelHuryn/status/2120283296550547618",
+    "https://x.com/simonw/status/2120258951594037732",
+    "https://x.com/emollick/status/2120198832202125322",
+    "https://x.com/GoogleDeepMind/status/2120484246401777737"
+  ],
+  "stories": [
+    {
+      "index": 1,
+      "title": "NVIDIA's GR00T 2 robot model learns from human video, with weights promised for December",
+      "outlets": [
+        "NVIDIA Blog",
+        "NVIDIA Research (GEAR lab)"
+      ],
+      "urls": [
+        "https://blogs.nvidia.com/blog/robotics-simulation-advancements-corl/",
+        "https://research.nvidia.com/labs/gear/gr00t-2/",
+        "https://x.com/DrJimFan/status/2120186651741655428"
+      ]
+    },
+    {
+      "index": 2,
+      "title": "Gemini 4 Carbon opens to developers, and early hands-on tests land just behind Fable 5.2",
+      "outlets": [
+        "Google",
+        "Simon Willison's Weblog"
+      ],
+      "urls": [
+        "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-4-carbon-now-available/",
+        "https://simonwillison.net/2026/Nov/10/llm-gemini/",
+        "https://x.com/PawelHuryn/status/2120283296550547618",
+        "https://x.com/simonw/status/2120258951594037732",
+        "https://x.com/emollick/status/2120198832202125322"
+      ]
+    },
+    {
+      "index": 3,
+      "title": "DeepMind's AlphaProof Code formally verifies Signal's protocol code at the machine-code level",
+      "outlets": [
+        "Google DeepMind",
+        "Google DeepMind (technical paper)"
+      ],
+      "urls": [
+        "https://deepmind.google/blog/introducing-alphaproof-code/",
+        "https://google-deepmind.github.io/code-verification/",
+        "https://x.com/GoogleDeepMind/status/2120484246401777737"
+      ]
+    }
+  ]
+}

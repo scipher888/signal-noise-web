@@ -1,0 +1,90 @@
+{
+ "date": "2026-11-20",
+ "pipeline": "neon-minimal-raw",
+ "model": "google/gemini-4-neon",
+ "reasoning_effort": "medium",
+ "provider": "OpenRouter",
+ "fallbacks": "none (all or-call tiers pinned to google/gemini-4-neon); none attempted",
+ "system_prompt": null,
+ "editor": null,
+ "qa": null,
+ "edits_after_generation": "none: script.txt and the short narration are the raw model output",
+ "prompts": {
+  "episode": "Here are today's AI news reports and X threads. What's the non-obvious insight others are missing? Write today's Daily State of AI around that.\n\nIt's a spoken audio episode, about 700 words (roughly five minutes read aloud). Plain spoken text only.\n",
+  "short": "Above are today's AI news reports and X threads, plus the episode you just wrote around today's non-obvious insight. Now make a ~60-second vertical video short (about 130-160 spoken words) built around that insight.\n\nReturn only JSON in this shape (the \"say\" lines are the narration; each beat is one on-screen card):\n{\"slug\":\"3-5-word-kebab\",\"title\":\"one-line title\",\"credit\":\"source outlet name(s) for the on-screen credit\",\"source_url\":\"main source URL\",\"beats\":[{\"say\":\"...\",\"kicker\":\"1-3 words\",\"headline\":\"short card headline\",\"figure\":\"key figure or null\",\"icon\":\"one of chart, chip, lock, shield, building, robot, doc, globe, bolt, dollar, question\"}]}\n"
+ },
+ "model_input": {
+  "description": "Today's material: 3 story clusters from the 2026-11-20 X-first scan (lead X posts, top 12 replies by likes, full fetched primary texts); see sources.json",
+  "sha256": "933a070f0c869ccb821d29f3c559d3f279acfff931172ab49d56d722a766d527",
+  "approx_tokens": 10530
+ },
+ "calls": [
+  {
+   "step": "episode",
+   "started_pt": "2026-11-20T20:16:14-08:00",
+   "finished_pt": "2026-11-20T20:18:46-08:00",
+   "seconds": 146.8,
+   "input_tokens": 10530,
+   "output_tokens": 12872,
+   "cost_usd": 0.22467
+  },
+  {
+   "step": "short",
+   "finished_pt": "2026-11-20T20:21:54-08:00",
+   "seconds": 21.7,
+   "input_tokens": 11641,
+   "output_tokens": 2705,
+   "cost_usd": 0.075498
+  },
+  {
+   "step": "audit claim extraction (episode + short)",
+   "finished_pt": "2026-11-20T21:00:07-08:00",
+   "input_tokens": 1601,
+   "output_tokens": 9477,
+   "cost_usd": 0.146958
+  }
+ ],
+ "tts": {
+  "voice": "xAI eve, speed 1.0, mp3 44.1 kHz/192 kbps, text_normalization, loudnorm",
+  "episode": {
+   "chars": 4483,
+   "duration_seconds": 286.46,
+   "cost_usd_estimate": 0.0672
+  },
+  "short": {
+   "chars": 991,
+   "duration_seconds": 69.43,
+   "cost_usd_estimate": 0.0149
+  },
+  "cost_basis": "chars x $15/1M list price"
+ },
+ "short_render": {
+  "renderer": "dsoai-shorts-v3 make_short_v3.py render (unmodified)",
+  "size": "1080x1350",
+  "duration_seconds": 69.93,
+  "seconds": 51.4
+ },
+ "cost_usd_total": {
+  "llm_generation": 0.300168,
+  "llm_audit_extraction": 0.146958,
+  "tts_estimate": 0.0821
+ },
+ "audit": {
+  "file": "audit/audit.json",
+  "gate": false,
+  "summary": {
+   "episode": {
+    "PASS": 42,
+    "FAIL": 7,
+    "NEEDS-HUMAN": 8,
+    "ERROR": 0
+   },
+   "short": {
+    "PASS": 14,
+    "FAIL": 5,
+    "NEEDS-HUMAN": 3,
+    "ERROR": 0
+   }
+  }
+ }
+}

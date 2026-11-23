@@ -1,0 +1,56 @@
+{
+  "date": "2026-11-22",
+  "urls": [
+    "https://metr.org/blog/2026-11-20-q4-2026-capability-update",
+    "https://x.com/ramez/status/2124216462374216181",
+    "https://x.com/ramez/status/2124298418403311694",
+    "https://leanprover-community.github.io/blog/posts/riemann-hypothesis/",
+    "https://x.com/emollick/status/2124173181065806006",
+    "https://x.com/DKThomp/status/2124156773560902109",
+    "https://natolambert.com/slides/2026/cornell-post-training/talk",
+    "https://x.com/natolambert/status/2124152733145923892"
+  ],
+  "stories": [
+    {
+      "index": 1,
+      "title": "METR's November capability update: time horizons doubling roughly every 3.6 months, and getting harder to measure",
+      "outlets": [
+        "METR",
+        "X"
+      ],
+      "urls": [
+        "https://metr.org/blog/2026-11-20-q4-2026-capability-update",
+        "https://x.com/ramez/status/2124216462374216181",
+        "https://x.com/ramez/status/2124298418403311694"
+      ],
+      "verification_status": "author_reported"
+    },
+    {
+      "index": 2,
+      "title": "Lean and Mathlib communities certify Alpöge's Claude-assisted Lean proof of the Riemann Hypothesis",
+      "outlets": [
+        "Lean community blog",
+        "X"
+      ],
+      "urls": [
+        "https://leanprover-community.github.io/blog/posts/riemann-hypothesis/",
+        "https://x.com/emollick/status/2124173181065806006",
+        "https://x.com/DKThomp/status/2124156773560902109"
+      ],
+      "verification_status": "primary_verified"
+    },
+    {
+      "index": 3,
+      "title": "Nathan Lambert maps the open problems in post-training, from RL environments to RL scaling laws and RSI",
+      "outlets": [
+        "natolambert.com",
+        "X"
+      ],
+      "urls": [
+        "https://natolambert.com/slides/2026/cornell-post-training/talk",
+        "https://x.com/natolambert/status/2124152733145923892"
+      ],
+      "verification_status": "author_reported"
+    }
+  ]
+}

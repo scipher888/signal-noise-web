@@ -1,0 +1,52 @@
+{
+  "date": "2026-11-10",
+  "urls": [
+    "https://www.anthropic.com/claude-fable-and-mythos-5-2",
+    "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5-2",
+    "https://openai.com/index/control-room",
+    "https://x.com/ArtificialAnlys/status/2119878995386982508",
+    "https://x.com/EpochAIResearch/status/2119903415363113088",
+    "https://x.com/simonw/status/2120029347948220500",
+    "https://x.com/OpenAI/status/2119913172039868579",
+    "https://x.com/superalesha/status/2119911942227959883"
+  ],
+  "stories": [
+    {
+      "index": 1,
+      "title": "Claude Fable 5.2 and Mythos 5.2 launch: what the benchmarks and price actually say",
+      "outlets": [
+        "Anthropic",
+        "Claude Docs (Anthropic)"
+      ],
+      "urls": [
+        "https://www.anthropic.com/claude-fable-and-mythos-5-2",
+        "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5-2",
+        "https://x.com/ArtificialAnlys/status/2119878995386982508",
+        "https://x.com/EpochAIResearch/status/2119903415363113088",
+        "https://x.com/simonw/status/2120029347948220500"
+      ]
+    },
+    {
+      "index": 2,
+      "title": "OpenAI's Control Room: a fail-closed stop switch for research model workloads",
+      "outlets": [
+        "OpenAI"
+      ],
+      "urls": [
+        "https://openai.com/index/control-room",
+        "https://x.com/OpenAI/status/2119913172039868579"
+      ]
+    },
+    {
+      "index": 3,
+      "title": "Anthropic held back Fable 5.2 on kernel optimization and LLM architecture work, on purpose",
+      "outlets": [
+        "Anthropic"
+      ],
+      "urls": [
+        "https://www.anthropic.com/claude-fable-and-mythos-5-2",
+        "https://x.com/superalesha/status/2119911942227959883"
+      ]
+    }
+  ]
+}

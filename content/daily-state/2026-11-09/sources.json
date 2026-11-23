@@ -1,0 +1,51 @@
+{
+  "date": "2026-11-09",
+  "urls": [
+    "https://maxxbench.unlap.ai/research/why-maxxbench/",
+    "https://simonwillison.net/2026/Nov/9/details-summary",
+    "https://metr.org/blog/2026-11-05-anthropic-ai-rd-acceleration-assessment",
+    "https://insideaipolicy.com/ai-daily-news/anthropic-breaks-contract-compute-allocation-study-redacts-key-findings-latest-metr",
+    "https://x.com/HamelHusain/status/2119584949032693767",
+    "https://x.com/simonw/status/2119650353142747181",
+    "https://x.com/ramez/status/2119568698524529098",
+    "https://x.com/ramez/status/2119556622619967488"
+  ],
+  "stories": [
+    {
+      "index": 1,
+      "title": "Good at coding, or good at the benchmark? MaxxBench tweaks DeepSWE tasks and splits tied models",
+      "outlets": [
+        "MaxxBench (Unlap)"
+      ],
+      "urls": [
+        "https://maxxbench.unlap.ai/research/why-maxxbench/",
+        "https://x.com/HamelHusain/status/2119584949032693767"
+      ]
+    },
+    {
+      "index": 2,
+      "title": "Hiding agent-written PR essays behind a human opener",
+      "outlets": [
+        "Simon Willison’s Weblog"
+      ],
+      "urls": [
+        "https://simonwillison.net/2026/Nov/9/details-summary",
+        "https://x.com/simonw/status/2119650353142747181"
+      ]
+    },
+    {
+      "index": 3,
+      "title": "METR's Anthropic report, day four: capability per dollar, and the compute audit Anthropic canceled",
+      "outlets": [
+        "METR",
+        "Inside AI Policy"
+      ],
+      "urls": [
+        "https://metr.org/blog/2026-11-05-anthropic-ai-rd-acceleration-assessment",
+        "https://insideaipolicy.com/ai-daily-news/anthropic-breaks-contract-compute-allocation-study-redacts-key-findings-latest-metr",
+        "https://x.com/ramez/status/2119568698524529098",
+        "https://x.com/ramez/status/2119556622619967488"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,686 @@
+Pushing Frontiers in Open Language Model Post-Training
+
+Pushing Frontiers in Open Language Model Post-Training
+
+Nathan Lambert
+
+Executive Director, Trillium Labs
+
+Cornell University, November 20, 2026
+
+Slides: natolambert.com/cornell-2026
+
+Lambert 1/51
+
+Two thoughts I spend a lot of time with
+
+Scale: Frontier, complete post-training is rapidly becoming less accessible due to resource requirements, similar to how pretraining looked at the beginning of 2023. This is solvable, but takes a lot of funding and commitment.
+
+Lack of coverage: The (open) post-training literature has a lot of empty space in key ideas which will be relevant in 5+ years. It has been like this for years. It gives an exciting opportunity.
+
+o1 AIME accuracy vs. train-time and test-time compute (OpenAI, Sep. 2024)
+
+Lambert 2/51
+
+Goal of this talk
+
+Reflect on the science of post-training: The history of the field, the nature of what scientific impact is, how I think about choosing projects, where AI is going, and what it all means.
+
+Lambert 3/51
+
+Part 1: Post-training recap & history
+
+Lambert 4/51
+
+What is post-training
+
+Post-training is a more complete set of techniques and best practices to make base, next-token language models more useful for downstream tasks.
+
+Three optimization methods: Supervised Finetuning (SFT), preference finetuning / human feedback / RLHF, and Reinforcement Learning with Verifiable Rewards (RLVR).
+
+Modern post-training with many rounds (RLHF Book, ch. 3)
+
+Lambert 5/51
+
+What is post-training
+
+Post-training is a more complete set of techniques and best practices to make base, next-token language models more useful for downstream tasks.
+
+Three optimization methods: Supervised Finetuning (SFT), preference finetuning / human feedback / RLHF, and Reinforcement Learning with Verifiable Rewards (RLVR).
+
+The term originated at OpenAI and was first used publicly in a prominent fashion with the release of GPT-4 in 2023:
+
+“GPT-4 is a Transformer-based model pre-trained to predict the next token in a document. The post-training alignment process results in improved performance on measures of factuality and adherence to desired behavior.”
+
+Lambert 6/51
+
+Canonical recipes over time in post-training
+
+The shape of a post-training recipe has changed more in the last year than in the prior three.
+
+2022–2023 (InstructGPT): 3 stages — SFT → reward model → RL.
+
+2024 (Llama 3, Tülu 3, etc.): maturing of InstructGPT, added more stages, added RLVR.
+
+2025 (DeepSeek R1): reasoning makes large-scale RL the centerpiece.
+
+2026 (MiMo-V2-Flash): recipes fragment into many specialist models that are merged back into one.
+
+Lambert 7/51
+
+InstructGPT (Mar. 2022) — the canonical 3 steps
+
+SFT on human demonstrations
+
+Reward model trained on human comparisons
+
+PPO against the reward model
+
+Ouyang et al., 2022
+
+Lambert 8/51
+
+DeepSeek R1 (Jan. 2025) — the RL era
+
+The recipe:
+
+R1-Zero — pure RL (GRPO) on the base, no SFT — used to seed reasoning behaviors for the full run
+
+R1 — reasoning SFT/mid-training → reasoning RL → rejection-sampling SFT → final RL
+
+Guo et al., 2025
+
+Lambert 9/51
+
+MOPD (2026) — specialization & on-policy distillation
+
+Stages: Stage 1 SFT/reasoning foundation → Stage 2 train domain-specialist teachers (with older-style post-training recipes) → Stage 3 MOPD into a single student (final model).
+
+Lineage: MiMo-V2-Flash introduced MOPD → DeepSeek V4, Nemotron 3 Ultra, and others use it as well (e.g. latest GPT models).
+
+Specialist post-training with MOPD (RLHF Book, ch. 3) (Xiaomi LLM-Core Team et al., 2026)
+
+Lambert 10/51
+
+Three years of my post-training projects — bridging from replicating RLHF to the foundations of reasoning
+
+2024
+
+2025
+
+2026
+
+Oct 2023 Zephyr β (Tunstall et al., 2024)
+
+Nov 2023 Tülu 2 (Ivison et al., 2023)
+
+Feb 2024 OLMo (Groeneveld et al., 2024)
+
+Mar 2024 RewardBench (Lambert et al., 2025)
+
+Sep 2024 OLMoE (Muennighoff et al., 2025)
+
+Nov 2024 Tülu 3 (Lambert et al., 2024)
+
+Nov 2024 OLMo 2 (OLMo et al., 2024)
+
+Jun 2025 RewardBench 2 (Malik et al., 2025)
+
+Nov 2025 Olmo 3 (Olmo et al., 2025)
+
+Mar 2026 Olmo Hybrid (Merrill et al., 2026)
+
+Jun–Sep 2026 TMax (Ivison et al., 2026) Never Give Up (Noukhovitch et al., 2026) Context LMs (Shao et al., 2026)
+
+Lambert 11/51
+
+Post-training (RL) now takes most of a frontier lab’s compute
+
+Share of Anthropic + OpenAI compute by workload, 1Q24 to 4Q26 (est.). SemiAnalysis, via OfficeChai
+
+Lambert 12/51
+
+How the times have changed!
+
+RL compute relative to pretraining compute for the same model, in GPU-hours:
+
+Model
+Pretraining
+RL
+RL / pretraining
+
+DeepSeek R1 Jan 2025
+671B total, 37B active
+
+2.66M H800 GPU-hours (DeepSeek-AI, 2025)
+
+0.14M H800 GPU-hours (Guo et al., 2025)
+
+~5%
+
+Beam Oct 2026
+501B total, 23B active
+
+< 4.1M 6,144 GB300s for under 4 weeks
+
+~7.1M 10.5K GB300s for 4 weeks
+
+> 1.7×
+
+Inkling 2 Small Nov 2026
+594B total, 17B active
+
+~0.11M* ~1.5K GPUs for under 3 days
+
+~0.44M 2,048 GPUs for 9 days
+
+~4×*
+
+*Estimated: Thinking Machines report the pretraining duration but not the GPU count. GPU-hours ignore utilization. RL spends much of its time sampling, so its share of FLOPs is smaller than its share of GPU-hours.
+
+Lambert 13/51
+
+From post-training to post-post-training
+
+Many companies and researchers start with the final reasoning model, rather than the base model.
+
+Post-training: Building the core reasoning behavior of models. Now very expensive (O($50M+/yr) to do it well).
+
+Post-post-training: Adapting a post-trained model to specific domains, efficiencies, capabilities, harnesses, etc.
+
+Lambert 14/51
+
+Base model releases are much less common
+
+As of Nov. 19, 2026. Raw data (CSV)
+
+Lambert 15/51
+
+An emerging industry of post-post-training open models
+
+Harvey, Aug. 2026: a Kimi K3 base post-trained with Fireworks for legal work, so law firms can own their models
+
+Mercor and SkyRL, Sep. 2026: Qwen3.5-397B-A17B post-trained on expert data, with the script and weights released
+
+Lambert 16/51
+
+An emerging industry of post-post-training open models
+
+Harvey, Aug. 2026: a Kimi K3 base post-trained with Fireworks for legal work, so law firms can own their models
+
+Harvey, Aug. 2026: quality-cost frontier on Legal Agent Bench hold-out tasks; Tenet nearly doubles the all-pass rate of its Kimi K3 base at a stable cost
+
+Lambert 17/51
+
+Examples of my work in post-post-training: TMax and CLM
+
+TMax: an open RL recipe that turns released open-weight Qwen models, 2B to 27B, into terminal agents (Ivison et al., 2026).
+
+Context Language Models (CLM): existing models, zero-shot or with online RL (Qwen3.5-9B), manage their own context directly rather than through structured harness commands (Shao et al., 2026).
+
+Lambert 18/51
+
+About every two years we’ve gotten major, new post-training techniques:
+
+2022–2023: Core RLHF techniques, Direct Preference Optimization (DPO)
+
+2024–2025: RL on verifiable rewards, tool-use, …
+
+2026–2027: On-policy distillation (MOPD, self-distillation, etc.)
+
+2028: …?
+
+Lambert 19/51
+
+Part 2: Concrete problems in post-training
+
+Lambert 20/51
+
+Major open problems in post-training
+
+Ranked from least to most compute intensive.
+
+Harness specialization and design
+
+Character training
+
+Open-source RL environments
+
+Reasoning efficiency in RL
+
+Scaling laws for RL
+
+Multi-agent scaling laws
+
+Lambert 21/51
+
+Major open problems in post-training
+
+Harness specialization and design
+
++ unlocking new domains, cross-disciplinary post-training, and applications with low-revenue prospects (labs will ignore)
+
+The design space for how we wrangle models into productive work on specific tasks, especially with specialization & memory, is very underexplored.
+
+What are the main abstractions and methods for doing this work?
+
+Lambert 22/51
+
+Major open problems in post-training
+
+Harness specialization and design
+
++ unlocking new domains, cross-disciplinary post-training, and applications with low-revenue prospects (labs will ignore)
+
+Example: CLMs allow the models to edit their context directly (rather than relying on compaction, harness commands, etc.), which enables fascinating RL specialization options & KV cache management.
+
+Shao et al., 2026
+
+Lambert 23/51
+
+Major open problems in post-training
+
+Character training
+
++ how models get their values & personality, how it translates to agentic actions, and trade-offs between methods like Constitutional AI vs. Model Specs
+
+Maiya et al., 2025
+
+Lambert 24/51
+
+Major open problems in post-training
+
+Character training
+
++ how models get their values & personality, how it translates to agentic actions, and trade-offs between methods like Constitutional AI vs. Model Specs
+
+In our work studying this training, Open Character Training, measuring performance is extremely challenging.
+
+The field in industry has been largely rebuilt, with OpenAI releasing a new Model Spec for agents – open literature has not kept up.
+
+(This is one of our first areas at Trillium Labs).
+
+Traits whose revealed preference (Elo) changed most after character training, Llama 3.1 8B (Maiya et al., 2025)
+
+Lambert 25/51
+
+Major open problems in post-training
+
+Open-source RL environments
+
++ synthetic data methods for RL, RL env cleaning & filtering
+
+Post-training research does not have the data commons to seed it like pretraining did!
+
+It will take major individual & institutional efforts to fix this. Nemotron, Olmo, OpenThoughts, etc. are a good start, but far from enough given the importance.
+
+Lambert 26/51
+
+Major open problems in post-training
+
+Open-source RL environments
+
++ synthetic data methods for RL, RL env cleaning & filtering
+
+A large bottleneck on making good data is the obsessiveness to deeply understand how models interact with your data.
+
+It’s a common occurrence for me to hear how a good data or eval project has ended with the lead author re-reading every single datapoint.
+
+Still, academics regularly create datasets which could be worth meaningful revenue on the frothy SF data market.
+
+TMax, a project to create terminal-bench data and post-post-train small Qwen models to SOTA numbers.
+
+Ivison et al., 2026
+
+Lambert 27/51
+
+Major open problems in post-training
+
+Reasoning efficiency in RL
+
++ manipulating CoT efficiency, and alignment
+
+Why are there no papers that are clearly showing what we need to do in post-training to make massive token efficiency gains like the frontier labs? We can do this at smaller scales, on simpler problems to establish the science.
+
+Agentic coding score vs. total tokens at each effort level. Anthropic, Claude Opus 4.7, Apr. 2026
+
+Lambert 28/51
+
+Major open problems in post-training
+
+Reasoning efficiency in RL
+
++ manipulating CoT efficiency, and alignment
+
+A simple idea (partially related): What if we spend more RL compute on the hardest problems?
+
+Recall: The popular algorithm Group Relative Policy Optimization (GRPO) generates multiple completions to the same prompts to try and create batches that have correct & incorrect answers (those have gradient).
+
+Can we create batches dynamically around this to better allocate compute?
+
+Lambert 29/51
+
+Major open problems in post-training
+
+Reasoning efficiency in RL
+
+Motivation: Common RL practices improve performance on easy problems, but not the hardest problems.
+
+Noukhovitch et al., 2026
+
+Lambert 30/51
+
+Major open problems in post-training
+
+Reasoning efficiency in RL
+
+A proposed solution: Never Give Up (NGU) – expand inference batches if all completions are incorrect, with probability p.
+
+Noukhovitch et al., 2026
+
+Lambert 31/51
+
+Major open problems in post-training
+
+Reasoning efficiency in RL
+
+This is one of my papers where I’ve been the most confident in the direction of the idea, but it’s very difficult to make the RL experiments fair! Shockingly hard!
+
+Noukhovitch et al., 2026
+
+Lambert 32/51
+
+Major open problems in post-training
+
+Scaling laws for RL
+
++ designing methods like pretraining ladders for post-training, and RL data selection
+
+We need to design methods for predicting performance of large post-training runs. What will the equivalent of a pretraining ladder look like for RL?
+
+Khatri et al., 2025
+
+Lambert 33/51
+
+Major open problems in post-training
+
+Multi-agent scaling laws
+
++ evaluation of swarms, and formulations for how models collaborate reliably & efficiently
+
+Multi-agent systems are a way to spend more on compute to:
+
+a) make LLMs faster in wall-clock time, and
+
+b) increase peak performance of the models on hard tasks.
+
+Lambert 34/51
+
+Major open problems in post-training
+
+Multi-agent scaling laws
+
++ evaluation of swarms, and formulations for how models collaborate reliably & efficiently
+
+Which tasks benefit from a speedup in clock time?
+
+How do individual models impact alignment?
+
+How can model diversity be used to maximize performance?
+
+How do we need to change training for multi-agent models? What is the science of sub-agents during RL?
+
+SEC-Bench Pro score vs. latency with 1, 4, and 16 agents. OpenAI, GPT-5.6, Jul. 2026
+
+Lambert 35/51
+
+Major open problems in post-training
+
+Multi-agent scaling laws
+
++ evaluation of swarms, and formulations for how models collaborate reliably & efficiently
+
+Which tasks benefit from a speedup in clock time?
+
+How do individual models impact alignment?
+
+How can model diversity be used to maximize performance?
+
+How do we need to change training for multi-agent models? What is the science of sub-agents during RL?
+
+Lean theorem proving: best score within 2, 6, and 24 hours, by team size. Anthropic, Claude Opus 5.5 system card, Sep. 2026
+
+Lambert 36/51
+
+Major open problems in post-training
+
+Harness specialization and design – How do we design environments for context management that enable new paradigms of using LLMs?
+
+Character training – How do we create the personality of models and how does this impact safety, trust, and diffusion of LLMs?
+
+Open-source RL environments – How do we create scalable, open data methods?
+
+Reasoning efficiency in RL – How do we control and manipulate the reasoning efficiency of LLMs?
+
+Scaling laws for RL – How do we design principled experimentation methodology for large-scale post-training?
+
+Multi-agent scaling laws – What are the main axes of inquiry into multi-LLM systems and collaborations?
+
+Lambert 37/51
+
+Part 3: RSI, the nature of academic research, & conclusions
+
+Lambert 38/51
+
+A common worry I hear in the face of rapid progress
+
+RSI: Recursive Self-Improvement – using AI models to increasingly automate and accelerate AI research / model building.
+
+I constantly hear variants of:
+
+Should I still do a Ph.D.?
+
+What is the role of research?
+
+What is the point?
+
+Lambert 39/51
+
+An example plot that sparks concern
+
+Share of Anthropic's model R&D tasks at each automation level, Aug. 2025 to Aug. 2026. Anthropic, Nov. 2026
+
+Lambert 40/51
+
+What does it mean for an LLM to lead most R&D work?
+
+Is this measured by time spent?
+
+Is this measured by percent of code written or experiments run?
+
+To use a Claude-ism, the load-bearing piece of work may be a very small proportion of the overall process.
+
+Researchers are trained for and valued for that small, insightful piece of work.
+
+Share of Anthropic's model R&D tasks at each automation level, Aug. 2025 to Aug. 2026. Anthropic, Nov. 2026
+
+Lambert 41/51
+
+Using LLMs accelerates output but very minimally accelerates understanding
+
+More of science shifts to problem formulation, understanding “impact”, communication, standard setting, consensus building, mentorship, etc.
+
+For senior scientists: I barely write code anymore, but I’m busier than ever as a scientist. LLMs are clearly very empowering.
+
+For junior scientists: Doing inefficient work manually is often the only way to build understanding. Training could take longer, with more work feeling like “homework” rather than productive output.
+
+Lambert 42/51
+
+Examples of work that would be WAY faster: Zephyr β & Tülu 2
+
+In 2023, it took a long time for clear, almost obvious, ideas to be used in strong models! In this era, the goal was to match performance of closed models on “chat” evals with minimal finetuning.
+
+Direct Preference Optimization (DPO) paper was released in May 2023 (Rafailov et al., 2023)
+
+Zephyr β (Oct 2023) and Tülu 2 (Nov 2023) were released later, even though everyone was trying it.
+
+Fun fact: Chris Manning thanked me for “saving” DPO with these two models.
+
+Both these models came after a research dataset, UltraFeedback (Cui et al., 2023), was released in Oct 2023
+
+MT-Bench by category (Tunstall et al., 2024)
+
+Lambert 43/51
+
+Examples of work that would be WAY faster: RewardBench & the original Olmo post-training
+
+RewardBench: Building the first evaluation for reward models used in RLHF.
+
+Knew it was important: summer of 2023
+
+Started full-time: Oct 2023
+
+Published: Mar 2024
+
+Would expect this to take ~1/2 to 1/4 of the time now.
+
+Olmo: In the first Olmo, the post-training was incredibly minimal, mostly the Tülu 2 recipe, added almost as an afterthought. Early in 2024, building a language model was way more about pretraining… can figure out how to “align” it later.
+
+Models can do this “apply known solution” work fairly well.
+
+Lambert 44/51
+
+Work that’s far less changed: Tülu 3, Olmo 2 & 3
+
+The nuggets of work at Olmo and in the top end of academia on training and data are not meaningfully different from the frontier labs.
+
+The organizational complexity of rapidly building and releasing frontier LLMs is extremely complex. We had scaled to the limits of this complexity at Olmo. There are tons of stages, and complexity has only been increasing post-training across domains, infrastructure, etc.
+
+Olmo 3 model flow (Olmo et al., 2025)
+
+Lambert 45/51
+
+At Trillium Labs we aim to solve the open post-training problems and help the scientific community transition to the new era of AI research
+
+The goals we have in building new research infrastructure & recipes:
+
+Establish an area of study (e.g. empirical character training in RL)
+
+Establish the language used to understand something (e.g. RLVR with Tülu 3)
+
+Build datasets, or models, that are re-used (e.g. enable AI safety non-profits)
+
+Change how people think about a problem facing LLMs (likely the hardest)
+
+Lambert 46/51
+
+Thanks for listening! Questions?
+
+Slides: natolambert.com/cornell-2026
+
+Newsletter: interconnects.ai
+
+Book: rlhfbook.com
+
+Trillium Labs: trilliumlabs.org
+
+We’re hiring: full-time MTS, student researchers, and interns
+
+Contact: nathan@natolambert.com
+
+Lambert 47/51
+
+References (1/4)
+
+Cui, G., Yuan, L., Ding, N., Yao, G., Zhu, W., et al. “UltraFeedback: Boosting Language Models with High-quality Feedback.” arXiv preprint arXiv:2310.01377, 2023. [link]
+
+DeepSeek-AI. “DeepSeek-V3 Technical Report.” 2025. [link]
+
+Devlin, J., Chang, M., Lee, K., and Toutanova, K. “BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding.” arXiv preprint arXiv:1810.04805, 2018. [link]
+
+Groeneveld, D., Beltagy, I., Walsh, P., Bhagia, A., Kinney, R., et al. “OLMo: Accelerating the Science of Language Models.” Proceedings of the 62nd Annual Meeting of the Association for Computational Linguistics, 2024. [link]
+
+Guo, D., Yang, D., Zhang, H., Song, J., Zhang, R., et al. “Deepseek-r1: Incentivizing reasoning capability in llms via reinforcement learning.” arXiv preprint arXiv:2501.12948, 2025.
+
+Guo, D., Yang, D., Zhang, H., and others. “DeepSeek-R1 incentivizes reasoning in LLMs through reinforcement learning.” Nature, 2025.
+
+Ivison, H., Wang, Y., Pyatkin, V., Lambert, N., Peters, M., et al. “Camels in a Changing Climate: Enhancing LM Adaptation with Tülu 2.” arXiv preprint arXiv:2311.10702, 2023.
+
+Ivison, H., Yin, J., Shao, R., Xiao, T., Lambert, N., et al. “TMax: A Simple Recipe for Terminal Agents.” arXiv preprint arXiv:2606.23321, 2026. [link]
+
+Lambert 48/51
+
+References (2/4)
+
+Khatri, D., Madaan, L., Tiwari, R., Bansal, R., Duvvuri, S., et al. “The art of scaling reinforcement learning compute for llms.” arXiv preprint arXiv:2510.13786, 2025.
+
+Lambert, N., Morrison, J., Pyatkin, V., Huang, S., Ivison, H., et al. “Tülu 3: Pushing Frontiers in Open Language Model Post-Training.” arXiv preprint arXiv:2411.15124, 2024.
+
+Lambert, N., Pyatkin, V., Morrison, J., Miranda, L., Lin, B., et al. “RewardBench: Evaluating reward models for language modeling.” Conference of the North American Chapter of the Association for Computational Linguistics, 2025.
+
+Maiya, S., Bartsch, H., Lambert, N., and Hubinger, E. “Open Character Training: Shaping the Persona of AI Assistants through Constitutional AI.” arXiv preprint arXiv:2511.01689, 2025.
+
+Malik, S., Pyatkin, V., Land, S., Morrison, J., Smith, N., et al. “RewardBench 2: Advancing Reward Model Evaluation.” arXiv preprint arXiv:2506.01937, 2025.
+
+Merrill, W., Li, Y., Romero, T., Svete, A., Costello, C., et al. “Olmo Hybrid: From Theory to Practice and Back.” 2026. [link]
+
+Muennighoff, N., Soldaini, L., Groeneveld, D., Lo, K., Morrison, J., et al. “OLMoE: Open Mixture-of-Experts Language Models.” International Conference on Learning Representations, 2025. [link]
+
+Noukhovitch, M., Ivison, H., Lambert, N., and Courville, A. “Learning to Solve Hard Problems in RL for LLMs by Never Giving Up.” 2026. [link]
+
+Lambert 49/51
+
+References (3/4)
+
+OLMo, T., Walsh, P., Soldaini, L., Groeneveld, D., Lo, K., et al. “2 OLMo 2 Furious.” arXiv preprint arXiv:2501.00656, 2024.
+
+Olmo, T., Ettinger, A., Bertsch, A., Kuehl, B., Graham, D., et al. “Olmo 3.” 2025. [link]
+
+Ouyang, L., Wu, J., Jiang, X., Almeida, D., Wainwright, C., et al. “Training language models to follow instructions with human feedback.” Advances in neural information processing systems, 2022.
+
+Radford, A., Narasimhan, K., Salimans, T., and Sutskever, I. “Improving Language Understanding by Generative Pre-Training.” 2018. [link]
+
+Rafailov, R., Sharma, A., Mitchell, E., Manning, C., Ermon, S., et al. “Direct preference optimization: Your language model is secretly a reward model.” Advances in Neural Information Processing Systems, 2023.
+
+Raffel, C., Shazeer, N., Roberts, A., Lee, K., Narang, S., et al. “Exploring the limits of transfer learning with a unified text-to-text transformer.” Journal of machine learning research, 2020.
+
+Shao, R., Shen, S., Yin, J., Li, Y., Wang, M., et al. “Context Language Models.” 2026. [link]
+
+Tunstall, L., Beeching, E., Lambert, N., Rajani, N., Rasul, K., et al. “Zephyr: Direct Distillation of LM Alignment.” First Conference on Language Modeling, 2024.
+
+Lambert 50/51
+
+References (4/4)
+
+Wei, J., Bosma, M., Zhao, V., Guu, K., Yu, A., et al. “Finetuned Language Models are Zero-Shot Learners.” International Conference on Learning Representations, 2022. [link]
+
+Xiaomi LLM-Core Team, Xiao, B., Xia, B., Yang, B., Gao, B., et al. “MiMo-V2-Flash Technical Report.” 2026. [link]
+
+Lambert 51/51
+
+Extra slides
+
+Lambert 52/51
+
+OpenAI: estimated AI R&D tasks per researcher
+
+Estimated daily AI R&D tasks per researcher at OpenAI by type of work, Mar. to Oct. 2026. OpenAI, Nov. 2026
+
+Lambert 53/51
+
+Where finetuning came from
+
+Pretraining a model and then finetuning it was standard practice in computer vision before it took over NLP.
+
+2018, GPT-1 and BERT: pretrain a language model on unlabeled text, then finetune it on each task (Radford et al., 2018) (Devlin et al., 2018)
+
+2019, T5: every task cast as text-to-text, so the same model, objective, and decoding apply to all of them (Raffel et al., 2020)
+
+2021, FLAN: instruction tuning, where finetuning on many tasks written as instructions improves zero-shot performance on unseen tasks (Wei et al., 2022)
+
+Lambert 54/51
+
+▶
+
+ Slides
+ 1 / 51

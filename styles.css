@@ -33,7 +33,8 @@ a:hover { text-decoration-color: var(--sun); }
   margin-bottom: 2.2rem;
 }
 .masthead { font-weight: 700; font-size: 1.15rem; text-decoration: none; letter-spacing: 0.01em; }
-.site-head nav a { font-family: var(--sans); font-size: 0.88rem; color: var(--muted); text-decoration: none; margin-left: 1.1rem; }
+.site-head nav { display: flex; flex-wrap: wrap; gap: 0.35rem 1.1rem; }
+.site-head nav a { font-family: var(--sans); font-size: 0.88rem; color: var(--muted); text-decoration: none; }
 .site-head nav a:hover { color: var(--ink); }
 
 h1 { font-size: 2rem; line-height: 1.2; margin: 0.2rem 0 0.9rem; }
@@ -55,13 +56,79 @@ article blockquote {
 article table { border-collapse: collapse; width: 100%; font-size: 0.95em; }
 article th, article td { border: 1px solid var(--line); padding: 0.5rem 0.65rem; text-align: left; vertical-align: top; }
 article pre { overflow-x: auto; background: var(--paper-bright); padding: 0.8rem 1rem; border: 1px solid var(--line); border-radius: 8px; font-size: 0.85em; }
+/* Daily State prompt: gold rail, eyebrow label, wrap long lines so phones need no sideways scroll.
+   The prompt stays inside <blockquote><pre> so the #73 wrap rule still applies if a
+   cached styles.css predates the figure wrapper. */
+article figure.ds-prompt {
+  margin: 1.4rem 0;
+  padding: 0.1rem 1.2rem 0.85rem;
+  border-left: 3px solid var(--sun);
+  color: var(--ink-soft);
+  background: var(--paper-bright);
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+article figure.ds-prompt .ds-prompt-label {
+  font-family: var(--sans);
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--muted);
+  margin: 0.7rem 0 0.5rem;
+}
+article figure.ds-prompt blockquote {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+}
+/* Daily State prompt: keep paragraph breaks, wrap long lines so phones need no sideways scroll. */
+article blockquote pre,
+article figure.ds-prompt pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  word-break: normal;
+  overflow-x: visible;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
 
-/* Companion map — foot of the essay, grouped by who wrote it, current page pinned.
-   Label and links share a baseline on wide screens; under 640px the label stacks
-   above its own row so neither column squeezes the other. */
+/* House label under the top links: visible, but secondary to the edition. */
+article p.disclaimer {
+  font-family: var(--sans);
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin: 0.35rem 0 1.6rem;
+}
+article p.disclaimer a {
+  color: var(--ink-soft);
+  text-decoration-color: var(--line);
+}
+article p.disclaimer a:hover {
+  text-decoration-color: var(--sun);
+}
+
+/* Long unbreakable URLs in Sources (and other article links) wrap at phone width. */
+article a,
+article li {
+  overflow-wrap: anywhere;
+}
+
+/* Companion map — top of the essay (after title/dek) plus a light foot copy.
+   Grouped by who wrote it, current page pinned. Label and links share a
+   baseline on wide screens; under 640px the label stacks above its own row.
+   .cnav.top: bottom border, no top border (audit-snapshot reference). */
 .cnav {
   font-family: var(--sans); font-size: 0.84rem; color: var(--muted);
   margin: 2.6rem 0 0; padding-top: 1.1rem; border-top: 1px solid var(--line);
+}
+.cnav.top {
+  margin: 0 0 1.6rem; padding: 0 0 1.1rem;
+  border-top: 0; border-bottom: 1px solid var(--line);
 }
 .cnav dl {
   display: grid; grid-template-columns: max-content 1fr;
@@ -91,6 +158,14 @@ article pre { overflow-x: auto; background: var(--paper-bright); padding: 0.8rem
 .latest h2 { margin: 0.2rem 0 0.6rem; font-size: 1.5rem; }
 .latest h2 a { text-decoration: none; }
 .latest h2 a:hover { text-decoration: underline; }
+.latest .pair {
+  font-family: var(--sans); font-size: 0.84rem; color: var(--muted);
+  margin: -0.15rem 0 0.75rem;
+}
+.latest .pair a { color: var(--ink-soft); text-decoration-color: var(--line); }
+.latest .pair a:hover { text-decoration-color: var(--sun); }
+.daily-latest .dek,
+.daily-latest .pair { overflow-wrap: anywhere; }
 .recent h2 { font-size: 1.1rem; color: var(--muted); font-family: var(--sans); text-transform: uppercase; letter-spacing: 0.06em; }
 
 .row { margin: 0 0 1.05rem; }
@@ -118,3 +193,62 @@ main code {
   background: var(--paper-bright); border: 1px solid var(--line);
   border-radius: 6px; padding: 0.14rem 0.42rem; white-space: nowrap;
 }
+/* Machine-essay origin. The question sits under the dek; the explanation is smaller. */
+.mq {
+  margin: 0 0 1.35rem;
+  padding: 0.05rem 0 0.05rem 0.95rem;
+  border-left: 3px solid var(--sun);
+}
+.mq-label {
+  font-family: var(--sans); font-size: 0.72rem; letter-spacing: 0.08em;
+  text-transform: uppercase; font-weight: 600; color: var(--muted);
+  margin: 0 0 0.35rem;
+}
+.mq-question { margin: 0 0 0.55rem; font-size: 1.05rem; line-height: 1.45; }
+.mq-meta {
+  margin: 0; font-family: var(--sans); font-size: 0.82rem; line-height: 1.45;
+  color: var(--muted);
+}
+.mq-meta a { color: var(--ink-soft); }
+.mq-editor { margin-top: 0.5rem; }
+
+/* Mixed source page (Issue 37): the author's own words vs Grok Heavy research. */
+.src-legend {
+  display: flex; flex-wrap: wrap; gap: 0.4rem 1.4rem; margin: 0 0 1.4rem;
+  padding: 0.7rem 0.9rem; border: 1px solid var(--line); border-radius: 8px;
+  background: var(--paper-bright); font-family: var(--sans); font-size: 0.86rem; color: var(--ink-soft);
+}
+.src-legend p { margin: 0; }
+.src-key {
+  display: inline-block; margin-right: 0.35rem; padding: 0.08rem 0.45rem; border-radius: 3px;
+  font-weight: 700; font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase;
+}
+.src-key-h { background: #fbe9d0; color: #7a1f1f; border-left: 3px solid #7a1f1f; }
+.src-key-g { background: #e6ecf3; color: #3d4a5c; }
+.src-mix { white-space: pre-wrap; overflow-wrap: anywhere; margin: 0 0 1.4rem; }
+.src-h {
+  background: #fbe9d0; color: #7a1f1f; font-weight: 600;
+  border-left: 3px solid #7a1f1f; padding: 0.05rem 0.25rem;
+  -webkit-box-decoration-break: clone; box-decoration-break: clone;
+}
+.src-h::before {
+  content: "Synthia"; font: 700 0.6rem/1 var(--sans); letter-spacing: 0.06em; text-transform: uppercase;
+  color: #fff; background: #7a1f1f; padding: 0.12rem 0.3rem; border-radius: 2px;
+  margin-right: 0.3rem; vertical-align: 0.15em;
+}
+.src-g {
+  background: #e6ecf3; color: #3d4a5c; font-family: var(--sans); font-size: 0.93rem;
+  -webkit-box-decoration-break: clone; box-decoration-break: clone;
+}
+@media print { .src-h, .src-g, .src-key { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }
+
+/* End-of-essay notes, smaller than the body. */
+p.note {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--muted);
+  margin: 2.2rem 0 0;
+}
+.follow-cta { margin: 1.1rem 0 1.6rem; }
+.btn { display: inline-block; font-family: var(--sans); font-size: 0.98rem; font-weight: 600; color: var(--paper-bright); background: var(--navy); padding: 0.62rem 1.35rem; border-radius: 999px; text-decoration: none; border: 1px solid var(--navy); }
+.btn:hover, .btn:focus-visible { background: var(--ink-soft); color: var(--paper-bright); box-shadow: 0 0 0 3px var(--sun); outline: none; }

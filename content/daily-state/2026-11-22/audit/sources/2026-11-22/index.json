@@ -1,0 +1,69 @@
+{
+ "date": "2026-11-22",
+ "bundle_sha256": "708e48dde30ff9389714c3165edb037040c0b8d363ec859dfc74903e61a08f4d",
+ "sources": {
+  "primary-metr-q4-2026-capability-update": {
+   "file": "primary-metr-q4-2026-capability-update.txt",
+   "url": "https://metr.org/blog/2026-11-20-q4-2026-capability-update",
+   "title": "AI R&D-relevant model capabilities are improving rapidly and are getting harder to measure",
+   "kind": "primary",
+   "sha256": "c8a9bdb662c7c017a8dc780c33418e8f2a49d8d33186003b823d71a5b4700e5b"
+  },
+  "x-ramez": {
+   "file": "x-ramez.txt",
+   "url": "https://x.com/ramez/status/2124298418403311694",
+   "title": "X post by @ramez (Ramez Naam)",
+   "kind": "x_post",
+   "sha256": "4f4fd1aa624bfe689f17a8ccd0360ce5ea6e8728aea6dab42dd271cf2cdb366a"
+  },
+  "primary-lean-mathlib-certify-riemann-proof": {
+   "file": "primary-lean-mathlib-certify-riemann-proof.txt",
+   "url": "https://leanprover-community.github.io/blog/posts/riemann-hypothesis/",
+   "title": "Lean verification of the Riemann Hypothesis",
+   "kind": "primary",
+   "sha256": "a746693c3c84c94fd1fbd43e15981dcad8b1d018a1f0fffc44dba54f2831694d"
+  },
+  "x-emollick": {
+   "file": "x-emollick.txt",
+   "url": "https://x.com/emollick/status/2124173181065806006",
+   "title": "X post by @emollick (Ethan Mollick)",
+   "kind": "x_post",
+   "sha256": "da6bf7eb748cc60f55b4bcf6e1e240ab2c7be49700e08f94fd4768c331bf2b09"
+  },
+  "x-dkthomp": {
+   "file": "x-dkthomp.txt",
+   "url": "https://x.com/DKThomp/status/2124156773560902109",
+   "title": "X post by @DKThomp (Derek Thompson)",
+   "kind": "x_post",
+   "sha256": "006aa9775fb1daa210225362041a0b17b876ea3ad04069d9b1dc2abca35c9dbd"
+  },
+  "primary-lambert-open-post-training-problems": {
+   "file": "primary-lambert-open-post-training-problems.txt",
+   "url": "https://natolambert.com/slides/2026/cornell-post-training/talk",
+   "title": "Pushing Frontiers in Open Language Model Post-Training",
+   "kind": "primary",
+   "sha256": "0ad7ef63a2c160b9b5e1e1d71f4beb111c2560a43ba75857ad60451301b08d4e"
+  },
+  "x-natolambert": {
+   "file": "x-natolambert.txt",
+   "url": "https://x.com/natolambert/status/2124152733145923892",
+   "title": "X post by @natolambert (Nathan Lambert)",
+   "kind": "x_post",
+   "sha256": "6aa5042ef46b9d93e4d90723a8b1e19e660e33cbadfed1b60e4eac72b7898dce"
+  },
+  "x-metr_evals": {
+   "file": "x-metr_evals.txt",
+   "url": "https://x.com/METR_Evals/status/2123864981506798012",
+   "title": "X post by @METR_Evals",
+   "kind": "x_post",
+   "sha256": "f32eb966a19e8a2ad8540c548c477798757115593a8dcb3b0b7c9d52b3c25f49"
+  },
+  "scan-framing": {
+   "file": "scan-framing.txt",
+   "url": "https://www.signalandnoise.email/content/daily-state/2026-11-22/audit/sources/2026-11-22/scan-framing.txt",
+   "title": "Morning X-first scan: verification framing per story",
+   "kind": "scan",
+   "sha256": "9b890f579e7c0e46df4026576ed25a790a6def41f8cf9fd017fdef60462ad5d7"
+  }
+ }
+}

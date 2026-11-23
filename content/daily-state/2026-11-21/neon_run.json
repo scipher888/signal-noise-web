@@ -1,0 +1,54 @@
+{
+ "date": "2026-11-21",
+ "status": "ok",
+ "pipeline": "neon",
+ "model": "google/gemini-4-neon",
+ "reasoning_effort": "medium",
+ "system_prompt": null,
+ "editor": null,
+ "qa": null,
+ "edits_after_generation": "none (published as produced)",
+ "fallback": "none (fail closed)",
+ "prompts": {
+  "episode": "Here are today's AI news reports and X threads. What's the non-obvious insight others are missing? Write today's Daily State of AI around that.\n\nIt's a spoken audio episode, about 700 words (roughly five minutes read aloud). Plain spoken text only.\n",
+  "short": "Above are today's AI news reports and X threads, plus the episode you just wrote around today's non-obvious insight. Now make a ~60-second vertical video short (about 130-160 spoken words) built around that insight.\n\nReturn only JSON in this shape (the \"say\" lines are the narration; each beat is one on-screen card):\n{\"slug\":\"3-5-word-kebab\",\"title\":\"one-line title\",\"credit\":\"source outlet name(s) for the on-screen credit\",\"source_url\":\"main source URL\",\"beats\":[{\"say\":\"...\",\"kicker\":\"1-3 words\",\"headline\":\"short card headline\",\"figure\":\"key figure or null\",\"icon\":\"one of chart, chip, lock, shield, building, robot, doc, globe, bolt, dollar, question\"}]}\n"
+ },
+ "model_attempts": [
+  {
+   "stage": "writer",
+   "model": "google/gemini-4-neon",
+   "reasoning_effort": "medium",
+   "attempt": 1,
+   "outcome": "ok",
+   "error": null,
+   "seconds": 43.879,
+   "finish_reason": "stop",
+   "served_model": "google/gemini-4-neon",
+   "input_tokens": 27240,
+   "output_tokens": 4985,
+   "cost_usd": 0.156495
+  }
+ ],
+ "words": 765,
+ "duration_seconds": 290.27,
+ "bundle_sha256": "54d625c0785844c2c91de3c524e06bf841f6273dc8cfcaa21adfd0421a96d378",
+ "script_sha256": "629f4dfc59b54f058322a818e102606eda50a2adf95a86611e1d8fc602b94877",
+ "material": {
+  "source": "box_material",
+  "sha256": "73086beab5a1d50224c899a77e06c2e477e5d3e754d57024ca8919030d7023c1",
+  "chars": 105534
+ },
+ "audit": {
+  "gate": false,
+  "status": "runs after publish"
+ },
+ "short": {
+  "file": "short.mp4",
+  "sha256": "a669fa32f16eb43f0cc08f38c348814c270df1a78305e45e9d1a8c05ff2d35af",
+  "model": "google/gemini-4-neon",
+  "words": 162,
+  "duration_seconds": 65.45,
+  "prompt_sha256": "55e885fc3479fdd3eb4b0db9262b53b0574e9b50d737075da2cdc879b9cf6e97",
+  "edits_after_generation": "none (Neon beats used as written; standard Source card appended from Neon credit)"
+ }
+}

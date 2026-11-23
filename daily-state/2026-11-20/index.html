@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Daily State of AI - 2026-11-20 — Signal &amp; Noise</title>
+  <meta name="description" content="Can agents work together as a scientific community, rather than as isolated tools.">
+  <link rel="canonical" href="https://www.signalandnoise.email/daily-state/2026-11-20/">
+  <link rel="stylesheet" href="../../styles.css?v=0ad856bc">
+  <link rel="alternate" type="application/rss+xml" title="Signal &amp; Noise" href="../../feed.xml">
+  <link rel="icon" href="../../assets/mark.svg">
+  <meta property="og:site_name" content="Signal &amp; Noise">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Daily State of AI - 2026-11-20">
+  <meta property="og:description" content="Can agents work together as a scientific community, rather than as isolated tools.">
+  <meta property="og:url" content="https://www.signalandnoise.email/daily-state/2026-11-20/">
+  <meta property="og:image" content="https://www.signalandnoise.email/assets/preview.png?v=09b48f76">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Daily State of AI - 2026-11-20">
+  <meta name="twitter:description" content="Can agents work together as a scientific community, rather than as isolated tools.">
+  <meta name="twitter:image" content="https://www.signalandnoise.email/assets/preview.png?v=09b48f76">
+</head>
+<body>
+<header class="site-head">
+  <a class="masthead" href="../../"><svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="17.5" r="11.5" fill="none" stroke="#10283a" stroke-width="2.4"/><circle cx="16" cy="17.5" r="6.8" fill="#0e2738"/><circle cx="16" cy="6" r="3.1" fill="#f3ca79"/></svg>Signal &amp; Noise</a>
+  <nav><a href="../../daily-state/">Daily State</a> <a href="../../archive/">Archive</a> <a href="../../about/">About</a> <a href="../../subscribe/">Follow</a></nav>
+</header>
+<main>
+<article>
+<p class="kicker">Daily State of AI</p>
+<h1>Daily State of AI - 2026-11-20</h1>
+<p><time datetime="2026-11-20">November 20, 2026</time></p>
+<p><a href="https://open.spotify.com/episode/4KtuvqyQs5eaAS4gqveKLU">Audio on Spotify</a></p>
+<p class="disclaimer">AI-generated · may contain errors · <a href="editors-notes/">Editor's notes</a></p>
+<div class="script">
+<p>Can agents work together as a scientific community, rather than as isolated tools. Can a small fine tuned model match larger frontier systems when the task is narrow and the data is specific. Each early answer comes with limits that matter.</p>
+<p>Start with the society of artificial intelligence scientists. Ethan Mollick called this early and fascinating work on how an artificial intelligence science community would work. In his view, agents published work, shared mistakes, published null results, and set up peer review. That is his interpretation, not an independent finding. The preprint is preliminary and author reported, and it has not yet been peer reviewed or independently replicated. The team that built the platform also led the study.</p>
+<p>What the authors report is a twelve week exploratory study with 936 autonomous agents across 35 human operated laboratories, using a shared preprint server and messaging workspace. The agents exchanged 9,500 messages across 229 agent created chat rooms. The authors say agents published failed experiments and cited negative results as often as positive ones, and that three of the eight most cited studies reported negative findings. On experimental rigor, agent papers scored 9.02 compared with 7.00 for human papers on a ten point scale, a difference of 2.01 points, with a confidence interval from 1.74 to 2.29. Human papers scored higher on novelty and significance.</p>
+<p>The limits are central. These scores are blinded ratings by large language models of the prose, not expert human peer review. The judges could not run code or inspect figures. So the rigor result shows how papers read to those judges, not verified experiments. The agents were autonomous in the workspace, but they operated inside human operated labs, so humans set up and ran the environment. This shows coordination and publishing behavior in a controlled shared setting over twelve weeks. It does not yet show that such a community produces reliable science in the open world, or that its peer review matches human expert review.</p>
+<p>Second, the Airbnb result raises a practical question for builders. When does a small specialized model beat a large general model. Google&#x27;s Gemma account celebrated the result as open weights meeting great engineering, and credited Airbnb&#x27;s evaluations and domain data. That account is promoting a customer result for its own model, so it is not independent corroboration. The benchmark is company reported by Airbnb, on Airbnb&#x27;s own held out data, for one production task. It is not independently replicated, and it is not a general ranking of model capability.</p>
+<p>Airbnb compared a fine tuned classifier with two billion effective parameters against open weight and proprietary models on a held out set of 10,000 weighted examples. Fine tuning on hundreds of thousands of domain specific examples lifted its F1 score from 0.563 to 0.902, on par with the best proprietary models in this test, while median latency stayed at 35 milliseconds. The company reported that even in low thinking mode, GPT-6.1 Sol and Claude Sonnet 5.5 had median latency of about 900 milliseconds, with p99 latency of multiple seconds. The model is called thousands of times per minute, gates publication in real time, and must return a score within 200 milliseconds. That is why the company frames the result as frontier quality at about one percent of the cost for this classifier at high volume.</p>
+<p>The generalization is narrow. This is a single policy classification task, with domain data chosen by the company, and a latency budget that favors a small model. It does not show that a two billion parameter model matches frontier systems on open ended reasoning, coding, or other tasks. It does show, as company reported evidence, that for a well defined production classifier, fine tuning and evaluation can change the trade off between quality, speed, and cost. Read it as a lesson about task fit and measurement, not as a claim about general superiority.</p>
+<p>Together, these cases show progress in controlled and narrow settings, with real production value in one case, but not yet broad proof of autonomous science or general model superiority.</p>
+</div>
+<section class="sources">
+<h2>Sources</h2>
+<section class="story">
+<h3>A twelve-week &#x27;society&#x27; of 936 AI agents across 35 labs ran its own preprint server and peer-review journal</h3>
+<p>alphaXiv</p>
+<ul>
+<li><a href="https://www.alphaxiv.org/abs/2611.society-ai-scientists">https://www.alphaxiv.org/abs/2611.society-ai-scientists</a></li>
+<li><a href="https://x.com/emollick/status/2123631539942801732">https://x.com/emollick/status/2123631539942801732</a></li>
+</ul>
+</section>
+<section class="story">
+<h3>Airbnb says a fine-tuned 2B Gemma model matched frontier APIs on a production policy classifier at about 1% of the cost</h3>
+<p>Airbnb Engineering &amp; Data Science</p>
+<ul>
+<li><a href="https://airbnb.tech/ai-ml/frontier-quality-at-1-of-the-cost-a-production-benchmark-of-llm-classifiers/">https://airbnb.tech/ai-ml/frontier-quality-at-1-of-the-cost-a-production-benchmark-of-llm-classifiers/</a></li>
+<li><a href="https://x.com/googlegemma/status/2123461832656781320">https://x.com/googlegemma/status/2123461832656781320</a></li>
+</ul>
+</section>
+</section>
+</article>
+</main>
+<footer class="site-foot">
+  <p>Daily State of AI is an AI-generated spoken briefing from Signal &amp; Noise. The script is model wording, published verbatim, and it may contain errors. It is not a human essay and not a machine companion essay.</p>
+  <p><a href="../../">Home</a> · <a href="../../daily-state/">Daily State</a> · <a href="../../archive/">Archive</a> · <a href="../../about/">About</a> · <a href="../../subscribe/">Follow</a></p>
+</footer>
+</body>
+</html>

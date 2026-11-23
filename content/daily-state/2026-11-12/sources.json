@@ -1,0 +1,54 @@
+{
+  "date": "2026-11-12",
+  "urls": [
+    "https://runway.com/news/company-news/praxis-1-is-now-available",
+    "https://runway.com/research/praxis-1-video-pretraining-to-robot-control",
+    "https://deepmind.google/blog/alphagenome-2-deciphering-how-cells-read-dna-to-better-understand-disease/",
+    "https://www.alphagenomedocs.com/",
+    "https://alignment.openai.com/cot-monitorability-model-lifecycle/",
+    "https://x.com/runwayml/status/2120533081182577116",
+    "https://x.com/GoogleDeepMind/status/2120532824465805749",
+    "https://x.com/demishassabis/status/2120565316619284734",
+    "https://x.com/ramez/status/2120613265181221033"
+  ],
+  "stories": [
+    {
+      "index": 1,
+      "title": "Runway opens Praxis-1, a 27B video-pretrained robot control model, under Apache 2.0",
+      "outlets": [
+        "Runway",
+        "Runway Research"
+      ],
+      "urls": [
+        "https://runway.com/news/company-news/praxis-1-is-now-available",
+        "https://runway.com/research/praxis-1-video-pretraining-to-robot-control",
+        "https://x.com/runwayml/status/2120533081182577116"
+      ]
+    },
+    {
+      "index": 2,
+      "title": "DeepMind's AlphaGenome 2 predicts how DNA variants act in specific cell types",
+      "outlets": [
+        "Google DeepMind",
+        "AlphaGenome documentation (Google)"
+      ],
+      "urls": [
+        "https://deepmind.google/blog/alphagenome-2-deciphering-how-cells-read-dna-to-better-understand-disease/",
+        "https://www.alphagenomedocs.com/",
+        "https://x.com/GoogleDeepMind/status/2120532824465805749",
+        "https://x.com/demishassabis/status/2120565316619284734"
+      ]
+    },
+    {
+      "index": 3,
+      "title": "OpenAI researchers find reasoning traces get harder to monitor as training scales",
+      "outlets": [
+        "OpenAI Alignment Research Blog"
+      ],
+      "urls": [
+        "https://alignment.openai.com/cot-monitorability-model-lifecycle/",
+        "https://x.com/ramez/status/2120613265181221033"
+      ]
+    }
+  ]
+}

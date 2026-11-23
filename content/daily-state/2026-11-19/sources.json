@@ -1,0 +1,58 @@
+{
+  "date": "2026-11-19",
+  "urls": [
+    "https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-neon/",
+    "https://openai.com/index/research-acceleration-jagged-frontier/",
+    "https://openai.com/index/advancing-chip-design-with-our-models/",
+    "https://x.com/GoogleDeepMind/status/2123167884411077030",
+    "https://x.com/ArtificialAnlys/status/2123170645777526962",
+    "https://x.com/PawelHuryn/status/2123351354303300052",
+    "https://x.com/jeremyphoward/status/2123340065715937423",
+    "https://x.com/OpenAI/status/2123191365983248653",
+    "https://x.com/ramez/status/2123273722501210149",
+    "https://x.com/sayashk/status/2123217804216455315",
+    "https://x.com/OpenAI/status/2123100386638877054",
+    "https://x.com/gdb/status/2123130414323888463"
+  ],
+  "stories": [
+    {
+      "index": 1,
+      "title": "Google ships Gemini 4 Neon, its fourth Gemini 4 model in seven weeks, and early third-party tests put it near the top on cost per task",
+      "outlets": [
+        "Google"
+      ],
+      "urls": [
+        "https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-neon/",
+        "https://x.com/GoogleDeepMind/status/2123167884411077030",
+        "https://x.com/ArtificialAnlys/status/2123170645777526962",
+        "https://x.com/PawelHuryn/status/2123351354303300052",
+        "https://x.com/jeremyphoward/status/2123340065715937423"
+      ]
+    },
+    {
+      "index": 2,
+      "title": "OpenAI publishes internal research-acceleration data: agents doing more of the work, humans still central, and critics read it as evidence against imminent runaway",
+      "outlets": [
+        "OpenAI"
+      ],
+      "urls": [
+        "https://openai.com/index/research-acceleration-jagged-frontier/",
+        "https://x.com/OpenAI/status/2123191365983248653",
+        "https://x.com/ramez/status/2123273722501210149",
+        "https://x.com/sayashk/status/2123217804216455315"
+      ]
+    },
+    {
+      "index": 3,
+      "title": "OpenAI says its models found up to 14% PPA gains on AMD's flagship GPU IP, with some changes in a design sent for manufacturing",
+      "outlets": [
+        "OpenAI"
+      ],
+      "urls": [
+        "https://openai.com/index/advancing-chip-design-with-our-models/",
+        "https://x.com/OpenAI/status/2123100386638877054",
+        "https://x.com/gdb/status/2123130414323888463"
+      ]
+    }
+  ]
+}

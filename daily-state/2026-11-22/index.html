@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Daily State of AI - 2026-11-22 — Signal &amp; Noise</title>
+  <meta name="description" content="Welcome to the Daily State of AI for Sunday, November 22, 2026.">
+  <link rel="canonical" href="https://www.signalandnoise.email/daily-state/2026-11-22/">
+  <link rel="stylesheet" href="../../styles.css?v=0ad856bc">
+  <link rel="alternate" type="application/rss+xml" title="Signal &amp; Noise" href="../../feed.xml">
+  <link rel="icon" href="../../assets/mark.svg">
+  <meta property="og:site_name" content="Signal &amp; Noise">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Daily State of AI - 2026-11-22">
+  <meta property="og:description" content="Welcome to the Daily State of AI for Sunday, November 22, 2026.">
+  <meta property="og:url" content="https://www.signalandnoise.email/daily-state/2026-11-22/">
+  <meta property="og:image" content="https://www.signalandnoise.email/assets/preview.png?v=09b48f76">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Daily State of AI - 2026-11-22">
+  <meta name="twitter:description" content="Welcome to the Daily State of AI for Sunday, November 22, 2026.">
+  <meta name="twitter:image" content="https://www.signalandnoise.email/assets/preview.png?v=09b48f76">
+</head>
+<body>
+<header class="site-head">
+  <a class="masthead" href="../../"><svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="17.5" r="11.5" fill="none" stroke="#10283a" stroke-width="2.4"/><circle cx="16" cy="17.5" r="6.8" fill="#0e2738"/><circle cx="16" cy="6" r="3.1" fill="#f3ca79"/></svg>Signal &amp; Noise</a>
+  <nav><a href="../../daily-state/">Daily State</a> <a href="../../archive/">Archive</a> <a href="../../about/">About</a> <a href="../../subscribe/">Follow</a></nav>
+</header>
+<main>
+<article>
+<p class="kicker">Daily State of AI</p>
+<h1>Daily State of AI - 2026-11-22</h1>
+<p><time datetime="2026-11-22">November 22, 2026</time></p>
+<p class="intro">Written by Google Gemini 4 Neon (medium) from one minimal prompt, with no rules, editor or edits, published as produced.</p>
+<figure class="ds-prompt">
+<figcaption class="kicker ds-prompt-label">Minimal prompt</figcaption>
+<blockquote>
+<pre>Here are today&#x27;s AI news reports and X threads. What&#x27;s the non-obvious insight others are missing? Write today&#x27;s Daily State of AI around that.
+
+It&#x27;s a spoken audio episode, about 700 words (roughly five minutes read aloud). Plain spoken text only.
+</pre>
+</blockquote>
+</figure>
+<p><a href="https://open.spotify.com/episode/2DGJEhaWb2udcfSAGJOWHn">Audio on Spotify</a></p>
+<p><a href="/content/daily-state/2026-11-22/short.mp4">Short</a> · <a href="/content/daily-state/2026-11-22/sources.json">Sources</a></p>
+<p class="disclaimer">AI-generated · may contain errors · <a href="audit/">Audit</a></p>
+<div class="script">
+<p>Welcome to the Daily State of AI for Sunday, November 22, 2026.</p>
+<p>If you were watching the news on Friday, you saw a contradiction that almost didn&#x27;t feel real. On one screen, Levent Alpöge released a Claude-assisted proof of the Riemann Hypothesis—17 million lines of Lean code, which the Lean and Mathlib communities formally certified yesterday. On another screen, METR dropped a major capability update showing that the length of tasks frontier models can complete is still doubling roughly every 3.6 months. And on a third screen, the Nasdaq sold off hard as investors questioned whether the AI trade is actually paying off.</p>
+<p>The journalist Derek Thompson called it the cleanest possible example that AI capabilities don&#x27;t automatically equal real-world consequences. Meanwhile, Ethan Mollick pointed out that it still took a world-class number theorist who had studied Riemann for years to guide the model to the finish line. Both observations are true, but they miss the deeper mechanism connecting every major story this weekend.</p>
+<p>Put the Riemann certification next to METR&#x27;s new report and Nathan Lambert&#x27;s talk at Cornell on the future of post-training, and a single governing variable jumps out. AI progress is no longer moving uniformly up a ladder of raw intelligence. It is sweeping across a map defined by the economics of verification—how cheap it is to check whether an answer is actually right.</p>
+<p>Start with METR&#x27;s update, which tested public models up to Opus 5.5 and GPT-6 Astra. On well-specified coding and optimization tasks, these models are now formidable. They hit the 96th to 98th percentile in multi-month Al Zimmermann programming contests and beat competent human speedrunners on NanoGPT at a fraction of the cost.</p>
+<p>But METR introduced a new metric called Lifecycle Cost—an estimate of what it takes to build, run, and score a task as a reinforcement learning environment. Even when you control for how long a task takes a human, doubling its lifecycle cost cuts an AI agent&#x27;s effective time horizon roughly in half.</p>
+<p>And look at what happens when you push models into tasks without a cheap, immediate ground-truth check. METR ran experiments with agent swarms. On NanoGPT optimization, where agents get an exact score back quickly, swarms beat independent agents. But on tasks where models had to build their own validation loops against hidden targets, swarms actually performed worse—and the larger the swarm got, the more confidently the agents misled themselves. When METR asked Opus 5.5 to grade evaluation tasks designed by GPT-6 Astra, it systematically overrated them. Without an external verifier, frontier models don&#x27;t just stall; they flatter themselves.</p>
+<p>Now look back at the Riemann Hypothesis through that lens. Why did the most famous open problem in mathematics fall to a 17-million-line proof that no human could ever read line by line? Because Lean turns pure math into an airtight, automated verifier. Independent proof checkers like con-leche and con-ron certified the entire proof in twenty-four hours. Once a brilliant mathematician supplied the direction, the verification cost dropped near zero.</p>
+<p>Nathan Lambert&#x27;s new Cornell slides show the industrial engine built for exactly this. Reinforcement learning now consumes far more compute than pretraining—nearly twice as much for Beam, and roughly four times as much for Inkling 2 Small. Frontier labs are spending 50 million dollars a year or more training specialist teachers and distilling them into single models. That engine devours any domain where you can build a clean RL environment.</p>
+<p>And that resolves the weekend&#x27;s paradox. You can have a certified Riemann proof on the same day the stock market panics about AI returns because most of the real economy—and most real research—is high lifecycle cost. You cannot run a proof checker on a product strategy, a novel research agenda, or a messy organizational decision. As Lambert warned students at Cornell, models dramatically accelerate output, but they barely accelerate understanding—and the load-bearing insight is often a tiny fraction of the work.</p>
+<p>The story of the next few years isn&#x27;t simply whether AI is getting smarter. METR&#x27;s data shows models are improving even on high-cost tasks, just from a lower baseline. The real story is the widening gap between what we can verify cheaply and what we can&#x27;t. Anywhere we can build an airtight check, AI is about to feel like magic. Everywhere else, human judgment isn&#x27;t just a nice complement—it&#x27;s the only thing keeping the swarms from convincing themselves they&#x27;ve won.</p>
+</div>
+<section class="sources">
+<h2>Sources</h2>
+<section class="story">
+<h3>METR&#x27;s November capability update: time horizons doubling roughly every 3.6 months, and getting harder to measure</h3>
+<p>METR, X</p>
+<ul>
+<li><a href="https://metr.org/blog/2026-11-20-q4-2026-capability-update">https://metr.org/blog/2026-11-20-q4-2026-capability-update</a></li>
+<li><a href="https://x.com/ramez/status/2124216462374216181">https://x.com/ramez/status/2124216462374216181</a></li>
+<li><a href="https://x.com/ramez/status/2124298418403311694">https://x.com/ramez/status/2124298418403311694</a></li>
+</ul>
+</section>
+<section class="story">
+<h3>Lean and Mathlib communities certify Alpöge&#x27;s Claude-assisted Lean proof of the Riemann Hypothesis</h3>
+<p>Lean community blog, X</p>
+<ul>
+<li><a href="https://leanprover-community.github.io/blog/posts/riemann-hypothesis/">https://leanprover-community.github.io/blog/posts/riemann-hypothesis/</a></li>
+<li><a href="https://x.com/emollick/status/2124173181065806006">https://x.com/emollick/status/2124173181065806006</a></li>
+<li><a href="https://x.com/DKThomp/status/2124156773560902109">https://x.com/DKThomp/status/2124156773560902109</a></li>
+</ul>
+</section>
+<section class="story">
+<h3>Nathan Lambert maps the open problems in post-training, from RL environments to RL scaling laws and RSI</h3>
+<p>natolambert.com, X</p>
+<ul>
+<li><a href="https://natolambert.com/slides/2026/cornell-post-training/talk">https://natolambert.com/slides/2026/cornell-post-training/talk</a></li>
+<li><a href="https://x.com/natolambert/status/2124152733145923892">https://x.com/natolambert/status/2124152733145923892</a></li>
+</ul>
+</section>
+</section>
+</article>
+</main>
+<footer class="site-foot">
+  <p>Daily State of AI is an AI-generated spoken briefing from Signal &amp; Noise. The script is model wording, published verbatim, and it may contain errors. It is not a human essay and not a machine companion essay.</p>
+  <p><a href="../../">Home</a> · <a href="../../daily-state/">Daily State</a> · <a href="../../archive/">Archive</a> · <a href="../../about/">About</a> · <a href="../../subscribe/">Follow</a></p>
+</footer>
+</body>
+</html>

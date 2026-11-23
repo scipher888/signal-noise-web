@@ -1,0 +1,11 @@
+STORY: An Anthropic mathematician says he and Claude found a Lean-formalized proof of the Riemann Hypothesis
+verification_status: author_reported
+framing (Levent Alpöge (personal site)): Author's own announcement note. He says the proof is formalized in Lean, but no independent check of the Lean files or expert review has been reported; treat as a claim, not an established result.
+
+STORY: Thinking Machines releases Inkling 2 Mini, an open-weights looped MoE small enough for a laptop
+verification_status: company_reported
+framing (Thinking Machines Lab): Company-reported architecture and benchmark results; evaluation setups vary by model and no independent replication is reported.
+
+STORY: Ramez Naam says the task-horizon charts are wrong; Mollick and Narayanan press on verifiable versus messy work
+verification_status: author_reported
+framing (Ramez Naam (Substack)): Author's own analysis of published OpenAI and Google usage data versus METR and AI 2027 projections; an argument, not an independent measurement.

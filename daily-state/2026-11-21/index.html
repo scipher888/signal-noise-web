@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Daily State of AI - 2026-11-21 — Signal &amp; Noise</title>
+  <meta name="description" content="Welcome to the Daily State of AI for November 21st, 2026.">
+  <link rel="canonical" href="https://www.signalandnoise.email/daily-state/2026-11-21/">
+  <link rel="stylesheet" href="../../styles.css?v=0ad856bc">
+  <link rel="alternate" type="application/rss+xml" title="Signal &amp; Noise" href="../../feed.xml">
+  <link rel="icon" href="../../assets/mark.svg">
+  <meta property="og:site_name" content="Signal &amp; Noise">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Daily State of AI - 2026-11-21">
+  <meta property="og:description" content="Welcome to the Daily State of AI for November 21st, 2026.">
+  <meta property="og:url" content="https://www.signalandnoise.email/daily-state/2026-11-21/">
+  <meta property="og:image" content="https://www.signalandnoise.email/assets/preview.png?v=09b48f76">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Daily State of AI - 2026-11-21">
+  <meta name="twitter:description" content="Welcome to the Daily State of AI for November 21st, 2026.">
+  <meta name="twitter:image" content="https://www.signalandnoise.email/assets/preview.png?v=09b48f76">
+</head>
+<body>
+<header class="site-head">
+  <a class="masthead" href="../../"><svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="17.5" r="11.5" fill="none" stroke="#10283a" stroke-width="2.4"/><circle cx="16" cy="17.5" r="6.8" fill="#0e2738"/><circle cx="16" cy="6" r="3.1" fill="#f3ca79"/></svg>Signal &amp; Noise</a>
+  <nav><a href="../../daily-state/">Daily State</a> <a href="../../archive/">Archive</a> <a href="../../about/">About</a> <a href="../../subscribe/">Follow</a></nav>
+</header>
+<main>
+<article>
+<p class="kicker">Daily State of AI</p>
+<h1>Daily State of AI - 2026-11-21</h1>
+<p><time datetime="2026-11-21">November 21, 2026</time></p>
+<p class="intro">Written by Google Gemini 4 Neon (medium) from one minimal prompt, with no rules, editor or edits, published as produced.</p>
+<figure class="ds-prompt">
+<figcaption class="kicker ds-prompt-label">Minimal prompt</figcaption>
+<blockquote>
+<pre>Here are today&#x27;s AI news reports and X threads. What&#x27;s the non-obvious insight others are missing? Write today&#x27;s Daily State of AI around that.
+
+It&#x27;s a spoken audio episode, about 700 words (roughly five minutes read aloud). Plain spoken text only.
+</pre>
+</blockquote>
+</figure>
+<p><audio controls src="/content/daily-state/2026-11-21/episode.mp3"></audio></p>
+<p><a href="https://open.spotify.com/episode/5N0wawFLP0cwayiO8XH0Am">Audio on Spotify</a></p>
+<p><a href="/content/daily-state/2026-11-21/short.mp4">Short</a> · <a href="/content/daily-state/2026-11-21/sources.json">Sources</a></p>
+<p class="disclaimer">AI-generated · may contain errors · <a href="audit/">Audit</a></p>
+<div class="script">
+<p>Welcome to the Daily State of AI for November 21st, 2026.</p>
+<p>Today&#x27;s news looks like a flat-out contradiction. On one side, a mathematician at Anthropic says he and Claude may have just proved the Riemann Hypothesis, a one-hundred-and-fifty-year-old Millennium Prize problem. On the other side, a major new analysis of real-world data from inside OpenAI and Google shows AI can only work autonomously for nine to sixteen minutes before falling short.</p>
+<p>Most people are treating today as a tug-of-war between singularity hype and cold-water skepticism. They are missing the deeper story. Both headlines are true at the exact same time. And when you put them next to a new laptop-sized model released by Thinking Machines Lab, they reveal the real fault line running through AI right now: the growing split between work a machine can verify, and work a human still has to understand.</p>
+<p>Start with the math shockwave. Levent Alpöge, a mathematician at Anthropic, posted a personal note along with fourteen archives of Lean code, claiming he and Claude discovered a proof of the Riemann Hypothesis, and even the Generalized Riemann Hypothesis, formalized without assumptions. To be clear, this has not been independently verified yet, just like OpenAI&#x27;s claimed Navier-Stokes proof back in September. Treat both as provisional.</p>
+<p>But the most telling detail in Alpöge&#x27;s note isn&#x27;t whether the proof holds up. It&#x27;s how he describes it. He steered Claude toward the right analogy, and near the finish line, Claude outpaced him. When he tried printing the argument out in prose, it hit more than two hundred and fifty thousand pages of unreadable slop. So he published only the Lean code, openly admitting he is presenting a complete proof before he has even mastered huge neighborhoods of its own mathematics. In a formally verifiable domain, human comprehension is no longer a prerequisite for trust. The Lean compiler checks every step.</p>
+<p>Now contrast that with Ramez Naam&#x27;s viral post today, titled The Most Important Charts in AI are Wrong. Naam compared famous task-horizon forecasts, like METR extrapolations and the original AI 2027 scenario, against actual internal usage data released by OpenAI and Google DeepMind. Those forecasts projected autonomous horizons of thirty hours, or even months. Inside Google, at an eighty percent success rate, the real number is nine minutes. Inside OpenAI, even after adjusting for ambiguous requests and tool errors, it is sixteen minutes. That is thirty to forty times shorter than the benchmark extrapolations, and the gap actually widened between June and October. Even OpenAI&#x27;s pace of research experiments is rising only about three point six percent per point of capability gain, far below the fifteen to nineteen percent threshold needed for runaway self-improvement. Naam also called out Anthropic for forcing METR to redact its own internal data.</p>
+<p>Why can AI plausibly take a swing at a legendary math theorem on Sunday night, yet stumble after sixteen minutes of real research on Monday morning? Because messy real-world work has no Lean compiler. As Wharton&#x27;s Ethan Mollick noted today, AI is already delivering massive productivity on well-specified coding tasks, or whenever a human is steering it. The bottleneck isn&#x27;t raw intelligence. It is reliability when nobody is checking the work.</p>
+<p>And that is where today&#x27;s third story quietly completes the picture. Thinking Machines Lab just released Inkling 2 Mini, an open-weights, twenty-six-billion-parameter model trained natively in four-bit precision so it fits on a thirty-two-gigabyte laptop. It ties Qwen 3.8 27B on the Artificial Analysis Index and leads open models under a hundred billion parameters on agentic coding benchmarks like DeepSWE and SWE-bench Pro.</p>
+<p>It pulls this off by being a looped transformer, running its middle twelve layers three times per token to do more serial reasoning silently inside its weights. Thinking Machines tested what that means for oversight: looping doubled the model&#x27;s no-chain-of-thought horizon and cut its written reasoning in half at five passes, though at this scale the text remained legible.</p>
+<p>Pair that with Princeton&#x27;s Arvind Narayanan, who warned today that racing on verifiable capabilities and efficiency is a business trap for frontier labs. Verifiable tricks and efficiency gains leak fast to open-weight models—just like Inkling 2 Mini landing on your Mac Mini—driving token prices down tenfold a year, while messy, unverifiable work stays bottlenecked by human review.</p>
+<p>That is the real takeaway today. AI is racing past human comprehension in domains with a compiler, and commoditizing down to laptops, even as its reasoning grows quieter and harder to read. Where machines can verify themselves, human understanding is becoming optional. Everywhere else, human judgment is still the ceiling.</p>
+<p>That&#x27;s the Daily State of AI.</p>
+</div>
+<section class="sources">
+<h2>Sources</h2>
+<section class="story">
+<h3>An Anthropic mathematician says he and Claude found a Lean-formalized proof of the Riemann Hypothesis</h3>
+<p>Levent Alpöge (personal site), X</p>
+<ul>
+<li><a href="https://alpo.ge/remark.pdf">https://alpo.ge/remark.pdf</a></li>
+<li><a href="https://x.com/emollick/status/2123800664845500602">https://x.com/emollick/status/2123800664845500602</a></li>
+<li><a href="https://x.com/AndrewCurran_/status/2123819916768039149">https://x.com/AndrewCurran_/status/2123819916768039149</a></li>
+<li><a href="https://x.com/ArtificialAnlys/status/2123865423364161861">https://x.com/ArtificialAnlys/status/2123865423364161861</a></li>
+</ul>
+</section>
+<section class="story">
+<h3>Thinking Machines releases Inkling 2 Mini, an open-weights looped MoE small enough for a laptop</h3>
+<p>Thinking Machines Lab, X</p>
+<ul>
+<li><a href="https://thinkingmachines.ai/news/inkling-2-mini/">https://thinkingmachines.ai/news/inkling-2-mini/</a></li>
+<li><a href="https://x.com/soumithchintala/status/2123878334895436115">https://x.com/soumithchintala/status/2123878334895436115</a></li>
+<li><a href="https://x.com/0xSero/status/2123883583740006752">https://x.com/0xSero/status/2123883583740006752</a></li>
+</ul>
+</section>
+<section class="story">
+<h3>Ramez Naam says the task-horizon charts are wrong; Mollick and Narayanan press on verifiable versus messy work</h3>
+<p>Ramez Naam (Substack), X</p>
+<ul>
+<li><a href="https://www.rameznaam.com/p/the-most-important-charts-in-ai-are">https://www.rameznaam.com/p/the-most-important-charts-in-ai-are</a></li>
+<li><a href="https://x.com/ramez/status/2123944723492782408">https://x.com/ramez/status/2123944723492782408</a></li>
+<li><a href="https://x.com/emollick/status/2123972584400204199">https://x.com/emollick/status/2123972584400204199</a></li>
+<li><a href="https://x.com/ramez/status/2123934198868382184">https://x.com/ramez/status/2123934198868382184</a></li>
+<li><a href="https://x.com/random_walker/status/2123869355431661866">https://x.com/random_walker/status/2123869355431661866</a></li>
+</ul>
+</section>
+</section>
+</article>
+</main>
+<footer class="site-foot">
+  <p>Daily State of AI is an AI-generated spoken briefing from Signal &amp; Noise. The script is model wording, published verbatim, and it may contain errors. It is not a human essay and not a machine companion essay.</p>
+  <p><a href="../../">Home</a> · <a href="../../daily-state/">Daily State</a> · <a href="../../archive/">Archive</a> · <a href="../../about/">About</a> · <a href="../../subscribe/">Follow</a></p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,24 @@
+name: daily-state-check
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Unit tests
+        run: python3 -m unittest discover -s tests -p 'test_*.py' -v
+      - name: Regeneration check
+        run: python3 daily_state.py --check
+      - name: Opt-in build hook
+        run: python3 build.py --daily-state-check
