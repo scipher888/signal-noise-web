@@ -334,6 +334,9 @@ class DailyStateTests(unittest.TestCase):
         audio = [item for item in page.anchors if item["text"].strip() == "Audio on Spotify"]
         self.assertEqual(len(audio), 1)
         self.assertEqual(audio[0]["attrs"], {"href": EPISODE_URL})
+        sources = [item for item in page.anchors if item["text"].strip() == "Sources"]
+        self.assertEqual(len(sources), 1)
+        self.assertEqual(sources[0]["attrs"], {"href": "/daily-state/%s/sources/" % DATE})
         self.assertEqual(html.count(EPISODE_URL), 1)
         self.assertNotIn("open.spotify.com/show", html)
         self.assertNotIn("app.link", html.lower())
@@ -1308,7 +1311,7 @@ class DailyStateTests(unittest.TestCase):
         )
 
     def test_published_sources_pages_are_readable(self):
-        """Every edition gets a Sources page; audit editions link to it, not raw JSON."""
+        """Every edition gets a Sources page, and the edition links to it once, not raw JSON."""
         for iso_date in daily_state.list_edition_dates(str(ROOT)):
             with self.subTest(iso_date=iso_date):
                 loaded = daily_state.load_edition(str(ROOT), iso_date)
@@ -1320,9 +1323,8 @@ class DailyStateTests(unittest.TestCase):
                 edition_html = loaded["html"]
                 sources_href = '/daily-state/%s/sources/' % iso_date
                 raw_href = '/content/daily-state/%s/sources.json' % iso_date
-                if loaded.get("root_audit") or loaded.get("audit_mode"):
-                    self.assertIn('<a href="%s">Sources</a>' % sources_href, edition_html)
-                    self.assertNotIn('<a href="%s">Sources</a>' % raw_href, edition_html)
+                self.assertEqual(edition_html.count('<a href="%s">Sources</a>' % sources_href), 1)
+                self.assertNotIn('<a href="%s">Sources</a>' % raw_href, edition_html)
                 self.assertEqual(edition_html.count(HOUSE), 1)
                 self.assertIn("<h1>Daily State of AI - %s</h1>" % iso_date, edition_html)
                 self.assertEqual(edition_html.count('<p class="ds-headline">'), 1)
