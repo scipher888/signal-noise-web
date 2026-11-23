@@ -1970,8 +1970,11 @@ def validate_root_audit_edition(edition, iso_date, has_short):
     elif edition["audio_url"] != variant_asset_url(iso_date, None, "episode.mp3"):
         raise Hold("edition audio url does not match")
     expected_video = variant_asset_url(iso_date, None, "short.mp4") if has_short else None
+    # A posted public short (for example an X status URL) may replace the
+    # self-hosted mp4 path. The local short.mp4, when present, stays hashed.
     if edition["video_url"] != expected_video:
-        raise Hold("edition video url does not match")
+        if not has_short or video_reference_problem(edition["video_url"]) is not None:
+            raise Hold("edition video url does not match")
     if edition["sources_url"] != variant_asset_url(iso_date, None, "sources.json"):
         raise Hold("edition sources url does not match")
     if edition["audit"] != ROOT_AUDIT_RECEIPT:
