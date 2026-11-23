@@ -30,5 +30,6 @@
     "sources_sha256": "5fbc62ab76723cc41227f50ba5af8b5a1d0c69853ccfc940f3619041c913276d",
     "qa_sha256": "da069b56b643691a8591d9064ce5037ddc0aa2a2bb686c2c1d6279b9c483afc8",
     "run_sha256": "cc2b22e417e28f302a3ec6b76a4a01deb6348cec6fc18c492b5bda7e43634355"
-  }
+  },
+  "headline": "DNA model predicts cell-specific variant effects."
 }

@@ -5,6 +5,7 @@
         [--episode-url URL] [--verification JSON]
     python3 tools/neon_edition.py attach-audit --date D --audit-out DIR --kit DIR
     python3 tools/neon_edition.py set-short-url --date D --url URL
+    python3 tools/neon_edition.py set-headline --date D --headline TEXT [--variant neon]
 
 build copies the frozen Neon run (script.txt, sources.json and run.json from
 the Mac Mini mirror) into content/daily-state/D/ with edition.json mode
@@ -32,6 +33,12 @@ https://x.com/signalnoisepub/status/<digits>; any query string, fragment, or
 trailing /video/1 is stripped. Rerunning with the same URL is a no-op. A
 local short.mp4 is not required. This is the post-publish step: the 7:20
 edition may ship before Max posts the Neon short around 10 AM.
+
+set-headline writes an optional 4-10 word (max 14) teaser into edition.json
+and regenerates the edition page, the Daily State listing, and the homepage
+card when needed. Rerunning with the same headline is a no-op. The h1 stays
+Daily State of AI - <date>. Use tools/draft_headline.py to generate the text
+from the episode script.
 
 All commands validate with daily_state.py's loader before returning 0.
 """
@@ -382,6 +389,59 @@ def set_short_url(args):
     return 0
 
 
+
+def set_headline(args):
+    date = args.date
+    if not daily_state.is_real_date(date):
+        return fail("date is invalid")
+    variant = args.variant or None
+    if variant is not None and variant not in daily_state.VARIANT_NAMES:
+        return fail("unknown variant")
+    try:
+        headline = daily_state.validate_headline(args.headline)
+    except daily_state.Hold as exc:
+        return fail(str(exc))
+    dest = os.path.join(daily_state.content_root(REPO), date)
+    if variant:
+        dest = os.path.join(dest, variant)
+    edition_path = os.path.join(dest, "edition.json")
+    if os.path.islink(edition_path) or not os.path.isfile(edition_path):
+        return fail("no edition for this date")
+    try:
+        raw = daily_state.read_stable(edition_path)
+        edition = json.loads(raw.decode("utf-8"))
+    except (OSError, ValueError, UnicodeDecodeError, daily_state.Hold):
+        return fail("edition.json is missing or unreadable")
+    already = edition.get("headline") == headline
+    previous = raw
+    if not already:
+        edition["headline"] = headline
+        daily_state._write_text_atomic(
+            edition_path, json.dumps(edition, indent=2, ensure_ascii=False) + "\n"
+        )
+    if already:
+        try:
+            daily_state.publish(REPO, write=False)
+            print(json.dumps({"noop": True, "date": date, "variant": variant, "headline": headline}))
+            return 0
+        except daily_state.Hold:
+            pass
+    try:
+        result = daily_state.publish(REPO, write=True, allow_correction=True)
+    except daily_state.Hold as exc:
+        if not already:
+            daily_state._write_text_atomic(edition_path, previous.decode("utf-8"))
+        return fail(str(exc))
+    print(json.dumps({
+        "date": date,
+        "variant": variant,
+        "headline": headline,
+        "wrote": result["wrote"],
+        "noop": result["noop"],
+    }))
+    return 0
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     sub = parser.add_subparsers(dest="cmd", required=True)
@@ -400,12 +460,18 @@ def main(argv=None):
     s = sub.add_parser("set-short-url")
     s.add_argument("--date", required=True)
     s.add_argument("--url", required=True)
+    h = sub.add_parser("set-headline")
+    h.add_argument("--date", required=True)
+    h.add_argument("--headline", required=True)
+    h.add_argument("--variant", default=None)
     args = parser.parse_args(argv)
     if args.cmd == "build":
         return build(args)
     if args.cmd == "attach-audit":
         return attach_audit(args)
-    return set_short_url(args)
+    if args.cmd == "set-short-url":
+        return set_short_url(args)
+    return set_headline(args)
 
 
 if __name__ == "__main__":

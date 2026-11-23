@@ -1213,6 +1213,32 @@ class DailyStateTests(unittest.TestCase):
         self.assertIn("daily-state/index.html", found)
         self.assertIn("daily-state/%s/index.html" % DATE, found)
 
+    def test_published_editions_show_headlines_and_keep_the_h1(self):
+        listing = (ROOT / "daily-state" / "index.html").read_text(encoding="utf-8")
+        for iso_date in daily_state.list_edition_dates(str(ROOT)):
+            with self.subTest(iso_date=iso_date):
+                loaded = daily_state.load_edition(str(ROOT), iso_date)
+                html = (ROOT / "daily-state" / iso_date / "index.html").read_text(encoding="utf-8")
+                self.assertEqual(html, loaded["html"])
+                title = "Daily State of AI - %s" % iso_date
+                self.assertIn("<h1>%s</h1>" % title, html)
+                headline = loaded["edition"]["headline"]
+                self.assertTrue(1 <= len(headline.split()) <= 14)
+                self.assertIn('<p class="ds-headline">%s</p>' % headline, html)
+                self.assertIn('<a href="%s/">%s</a>' % (iso_date, headline), listing)
+                self.assertNotIn('<a href="%s/">%s</a>' % (iso_date, title), listing)
+                self.assertEqual(html.count(HOUSE), 1)
+        neon = daily_state.load_edition_directory(
+            str(ROOT / "content" / "daily-state" / "2026-11-20" / "neon"),
+            "2026-11-20",
+            variant="neon",
+        )
+        html = (ROOT / "daily-state" / "2026-11-20" / "neon" / "index.html").read_text(encoding="utf-8")
+        self.assertEqual(html, neon["html"])
+        self.assertIn("<h1>Daily State of AI - 2026-11-20 (Gemini 4 Neon, raw)</h1>", html)
+        self.assertIn('<p class="ds-headline">%s</p>' % neon["edition"]["headline"], html)
+        self.assertIn('<a href="2026-11-20/neon/">%s</a>' % neon["edition"]["headline"], listing)
+
     def test_published_homepage_teaser_matches_latest_parent_edition(self):
         home = (ROOT / "index.html").read_text(encoding="utf-8")
         loaded = daily_state.load_editions(str(ROOT))
