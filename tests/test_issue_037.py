@@ -69,10 +69,29 @@ class Issue37(unittest.TestCase):
         self.assertEqual(len(spans), 5)
 
     def test_source_leaf_name(self):
-        for p in (AUTHOR, SOURCE):
-            nav = re.search(r'<nav class="cnav top".*?</nav>', p.read_text(encoding="utf-8"), re.S).group(0)
-            self.assertIn("Source material", nav)
+        href = "https://www.signalandnoise.email/p/issue-037-source-material/"
+        expected = (
+            f'<p class="essay-sources"><span class="essay-sources-label">Sources</span>'
+            f' <a href="{href}">Source material</a></p>'
+        )
+        for p in (AUTHOR, MACHINE):
+            page = p.read_text(encoding="utf-8")
+            navs = re.findall(r'<nav class="cnav[^"]*".*?</nav>', page, re.S)
+            self.assertTrue(navs)
+            for nav in navs:
+                self.assertNotIn("Source material", nav)
+                self.assertNotIn("Written without AI", nav)
+            self.assertIn(expected, page)
+            body_end = page.index(expected)
+            foot = page.index('<nav class="cnav" aria-label="Issue 37 companions">')
+            self.assertLess(body_end, foot)
+        source = SOURCE.read_text(encoding="utf-8")
+        source_navs = re.findall(r'<nav class="cnav[^"]*".*?</nav>', source, re.S)
+        self.assertTrue(source_navs)
+        for nav in source_navs:
+            self.assertNotIn("Source material", nav)
             self.assertNotIn("Written without AI", nav)
+        self.assertNotIn("essay-sources", source)
 
 
 if __name__ == "__main__":
