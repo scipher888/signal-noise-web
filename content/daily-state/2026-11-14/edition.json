@@ -30,5 +30,6 @@
     "sources_sha256": "5d941984425dffbff53fd3520aada9afdd59e62870e38afccae50d96a2c647a6",
     "qa_sha256": "79ffbc7ac92833e25dc914bbc2ae83795686bc3a16ddd61e8217182d26737a3e",
     "run_sha256": "eabaf3334ecb348213c0123997868efc4f9f5c9b44a5780a78a35e3f6973769e"
-  }
+  },
+  "headline": "Simulated robot training transferred to real arms."
 }

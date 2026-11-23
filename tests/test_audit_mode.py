@@ -38,12 +38,12 @@ EXPLANATION = (
     "The audit is for transparency and is not a gate."
 )
 PRIMARY_ROW = (
-    '<p class="row"><a href="2026-11-20/">Daily State of AI - 2026-11-20</a> '
+    '<p class="row"><a href="2026-11-20/">AI scientists publish nulls, lack novelty.</a> '
     '<span class="meta"><time datetime="2026-11-20">November 20, 2026</time></span></p>'
 )
 NEON_ROW = (
     '<p class="row"><a href="2026-11-20/neon/">'
-    "Daily State of AI - 2026-11-20 (Gemini 4 Neon, raw)</a> "
+    "Headlines mislead without real-world verification.</a> "
     '<span class="meta"><time datetime="2026-11-20">November 20, 2026</time></span></p>'
 )
 ASSET_SHA256 = {
@@ -56,9 +56,9 @@ ASSET_SHA256 = {
 }
 LIVE_PAGE_SHA256 = {
     "daily-state/2026-11-20/index.html":
-        "679411e6f43fbc07bee3e1a14bb4f68f9afded1b9dea4ec0732a3ac5875a6288",
+        "59e9b2995572451c2bf85e4d18bc28fafca4b43e299062d539e73b4483c88c0b",
     "daily-state/2026-11-20/editors-notes/index.html":
-        "af44f9bc31209688462ccdcfc44a8193e6e96fa551e85066f9e68232378d4d61",
+        "0d41d7b41e651e31c5c8513d1ee971c3569fafdfcc0796054d50518152e9f6de",
 }
 
 

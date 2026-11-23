@@ -30,5 +30,6 @@
     "sources_sha256": "f31192a7b76996393c908eb9e3d1d00279a87c8e4aac6472e9ef8279631777f2",
     "qa_sha256": "28f98320d11683149696b91b198c33d42b931f12e2fafd0dfa929a8d13ce7ed2",
     "run_sha256": "70e7ac623fd41c0251443ec6266dc43f9412f9aa49fbf00baa80136548ffc760"
-  }
+  },
+  "headline": "Faster Claude, but task cost varies."
 }

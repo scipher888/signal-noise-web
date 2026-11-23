@@ -350,6 +350,66 @@ class DailyNeonEditionTest(unittest.TestCase):
         self.assertFalse((self.repo.root / "daily-state" / DATE / "index.html").exists())
 
 
+    def _seed_home(self):
+        home = (
+            "<!doctype html><html lang=\"en\"><head><title>Home</title></head><body><main>"
+            "<section class=\"latest daily-latest\"></section>"
+            "<section class=\"recent\"><h2>Recent</h2></section>"
+            "</main></body></html>"
+        )
+        (self.repo.root / "index.html").write_text(home, encoding="utf-8")
+
+    def _run_set_headline(self, headline, date=DATE, variant=None):
+        argv = ["set-headline", "--date", date, "--headline", headline]
+        if variant:
+            argv += ["--variant", variant]
+        with mock.patch.object(neon_edition, "REPO", str(self.repo.root)):
+            return neon_edition.main(argv)
+
+    def test_set_headline_is_idempotent_and_keeps_the_h1(self):
+        self.assertEqual(self.repo.build(short=False), 0)
+        self._seed_home()
+        headline = "OpenAI caps speed. Capability still leaks."
+        self.assertEqual(self._run_set_headline(headline), 0)
+        edition = json.loads((self.repo.edition_dir() / "edition.json").read_text())
+        self.assertEqual(edition["headline"], headline)
+        page = (self.repo.root / "daily-state" / DATE / "index.html").read_text(encoding="utf-8")
+        self.assertIn("<h1>Daily State of AI - %s</h1>" % DATE, page)
+        self.assertIn('<p class="ds-headline">%s</p>' % headline, page)
+        self.assertLess(page.index("<h1>"), page.index('class="ds-headline"'))
+        self.assertEqual(page.count(HOUSE), 1)
+        self.assertEqual(page.count('<a href="audit/">Audit</a>'), 1)
+        self.assertEqual(page.count("Audio on Spotify"), 1)
+        listing = (self.repo.root / "daily-state" / "index.html").read_text(encoding="utf-8")
+        self.assertIn('<a href="%s/">%s</a>' % (DATE, headline), listing)
+        self.assertNotIn("Daily State of AI - %s</a>" % DATE, listing)
+        edition_bytes = (self.repo.edition_dir() / "edition.json").read_bytes()
+        page_bytes = (self.repo.root / "daily-state" / DATE / "index.html").read_bytes()
+        listing_bytes = (self.repo.root / "daily-state" / "index.html").read_bytes()
+        self.assertEqual(self._run_set_headline(headline), 0)
+        self.assertEqual((self.repo.edition_dir() / "edition.json").read_bytes(), edition_bytes)
+        self.assertEqual((self.repo.root / "daily-state" / DATE / "index.html").read_bytes(), page_bytes)
+        self.assertEqual((self.repo.root / "daily-state" / "index.html").read_bytes(), listing_bytes)
+
+    def test_set_headline_rejects_a_too_long_line(self):
+        self.assertEqual(self.repo.build(short=False), 0)
+        self._seed_home()
+        before = (self.repo.edition_dir() / "edition.json").read_bytes()
+        too_long = " ".join(["word"] * 15)
+        self.assertEqual(self._run_set_headline(too_long), 1)
+        self.assertEqual((self.repo.edition_dir() / "edition.json").read_bytes(), before)
+
+    def test_listing_keeps_the_generic_title_without_a_headline(self):
+        editions = [{
+            "date": DATE,
+            "variant": None,
+            "edition": {"title": "Daily State of AI - %s" % DATE, "episode_url": EPISODE_URL},
+            "paragraphs": ["Welcome to the Daily State of AI.", "Insight paragraph."],
+        }]
+        listing = daily_state.render_listing_html(editions)
+        self.assertIn('<a href="%s/">Daily State of AI - %s</a>' % (DATE, DATE), listing)
+
+
     def test_published_2026_11_21_keeps_player_and_adds_spotify_link(self):
         loaded = daily_state.load_edition(str(ROOT), "2026-11-21")
         page = loaded["html"]

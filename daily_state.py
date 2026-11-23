@@ -128,7 +128,10 @@ EDITION_KEYS = {
     "schema_version", "date", "title", "canonical_url", "episode_id",
     "episode_url", "verified_at", "verification", "hashes",
 }
-EDITION_OPTIONAL = {"spotify_episode_fallback", "pipeline", "editor", "hard_stops", "video_url"}
+EDITION_OPTIONAL = {"spotify_episode_fallback", "pipeline", "editor", "hard_stops", "video_url", "headline"}
+HEADLINE_OPTIONAL = frozenset({"headline"})
+HEADLINE_MAX_WORDS = 14
+HEADLINE_MAX_CHARS = 140
 HASH_KEYS = {"script_sha256", "sources_sha256", "qa_sha256", "run_sha256"}
 # A raw variant sits beside a published date. It is not a date of its own.
 VARIANT_NAMES = frozenset({"neon"})
@@ -771,8 +774,50 @@ def validate_recorded_verification(edition, iso_date, episode_url, episode_id):
     return chosen
 
 
+def validate_headline(value):
+    """Return a cleaned 1-14 word headline, or raise Hold."""
+    if type(value) is not str:
+        raise Hold("headline is invalid")
+    text = value.strip()
+    quotes = '"\'' + '\u201c\u201d\u2018\u2019'
+    if len(text) >= 2 and text[0] == text[-1] and text[0] in quotes:
+        text = text[1:-1].strip()
+    if text == "" or any(ch in text for ch in "\r\n"):
+        raise Hold("headline is invalid")
+    words = text.split()
+    if not (1 <= len(words) <= HEADLINE_MAX_WORDS) or len(text) > HEADLINE_MAX_CHARS:
+        raise Hold("headline is invalid")
+    return text
+
+
+def edition_headline(edition):
+    """Optional headline, already validated when present."""
+    value = edition.get("headline")
+    if type(value) is not str or value.strip() == "":
+        return None
+    return value.strip()
+
+
+def listing_link_text(edition):
+    headline = edition_headline(edition)
+    return headline if headline else edition["title"]
+
+
+def headline_block(edition):
+    headline = edition_headline(edition)
+    if not headline:
+        return ""
+    return f"<p class=\"ds-headline\">{html.escape(headline, quote=True)}</p>\n"
+
+
+def apply_headline(edition):
+    if "headline" in edition:
+        edition["headline"] = validate_headline(edition["headline"])
+
+
 def validate_edition(edition, iso_date):
     require_keys(edition, EDITION_KEYS, "edition.json", optional=EDITION_OPTIONAL)
+    apply_headline(edition)
     editor_mode = edition_declares_editor(edition)
     if type(edition["schema_version"]) is not int or edition["schema_version"] != SCHEMA_VERSION:
         raise Hold("unknown edition schema")
@@ -1089,12 +1134,27 @@ def validate_editor_notes(notes, iso_date):
     return notes
 
 
+def assert_headline_block(html_text, edition):
+    """The h1 stays the edition title. A headline, if any, is a subtitle under it."""
+    title_h1 = f"<h1>{html.escape(edition['title'], quote=True)}</h1>"
+    block = headline_block(edition)
+    if not block:
+        if 'class="ds-headline"' in html_text:
+            raise Hold("edition headline does not match")
+        return
+    if html_text.count(block) != 1:
+        raise Hold("edition headline does not match")
+    if html_text.index(block) < html_text.index(title_h1):
+        raise Hold("headline must sit under the h1")
+
+
 def assert_edition_page(html_text, edition):
     """h1, og:url, canonical, Spotify href, and the AI label, once each."""
     title = edition["title"]
     h1 = f"<h1>{html.escape(title, quote=True)}</h1>"
     if h1 not in html_text:
         raise Hold("edition h1 does not match")
+    assert_headline_block(html_text, edition)
     canonical = edition["canonical_url"]
     escaped = html.escape(canonical, quote=True)
     og = f'<meta property="og:url" content="{escaped}">'
@@ -1237,6 +1297,7 @@ def render_edition_html(edition, paragraphs, sources, *, editor_mode=False):
         "<article>\n"
         "<p class=\"kicker\">Daily State of AI</p>\n"
         f"<h1>{html.escape(edition['title'], quote=True)}</h1>\n"
+        f"{headline_block(edition)}"
         f"<p><time datetime=\"{edition['date']}\">{html.escape(shown)}</time></p>\n"
         f"<p>{audio}</p>\n"
         f"{disclaimer}\n"
@@ -1390,7 +1451,8 @@ def require_audit_counts(actual, claimed, label):
 
 def validate_audit_edition(edition, iso_date, variant):
     """Audit receipt only. A QA pass or an editor receipt is a different mode."""
-    require_keys(edition, AUDIT_EDITION_KEYS, "edition.json")
+    require_keys(edition, AUDIT_EDITION_KEYS, "edition.json", optional=HEADLINE_OPTIONAL)
+    apply_headline(edition)
     if type(edition["schema_version"]) is not int or edition["schema_version"] != SCHEMA_VERSION:
         raise Hold("unknown edition schema")
     if edition["mode"] != "audit" or edition["variant"] != variant:
@@ -1569,6 +1631,7 @@ def assert_audit_edition_page(html_text, edition, prompt):
     h1 = f"<h1>{html.escape(title, quote=True)}</h1>"
     if h1 not in html_text:
         raise Hold("edition h1 does not match")
+    assert_headline_block(html_text, edition)
     canonical = edition["canonical_url"]
     escaped = html.escape(canonical, quote=True)
     og = f'<meta property="og:url" content="{escaped}">'
@@ -1673,6 +1736,7 @@ def render_audit_edition_html(edition, paragraphs, sources, prompt, variant):
         "<article>\n"
         "<p class=\"kicker\">Daily State of AI</p>\n"
         f"<h1>{html.escape(edition['title'], quote=True)}</h1>\n"
+        f"{headline_block(edition)}"
         f"<p><time datetime=\"{edition['date']}\">{html.escape(shown)}</time></p>\n"
         f"<p class=\"intro\">{note}</p>\n"
         f"{quoted}\n"
@@ -1924,7 +1988,7 @@ def root_audit_keeps_player(edition, iso_date):
 
 def validate_root_audit_audio(edition, iso_date):
     """Spotify episode link with recorded public verification, as pre-audit editions."""
-    require_keys(edition, AUDIT_EDITION_KEYS | ROOT_AUDIT_SPOTIFY_KEYS, "edition.json")
+    require_keys(edition, AUDIT_EDITION_KEYS | ROOT_AUDIT_SPOTIFY_KEYS, "edition.json", optional=HEADLINE_OPTIONAL)
     if root_audit_keeps_player(edition, iso_date):
         if edition["audio_url"] != variant_asset_url(iso_date, None, "episode.mp3"):
             raise Hold("edition audio url does not match")
@@ -1946,9 +2010,10 @@ def validate_root_audit_audio(edition, iso_date):
 def validate_root_audit_edition(edition, iso_date, has_short):
     spotify = root_audit_uses_spotify(edition)
     if spotify:
-        require_keys(edition, AUDIT_EDITION_KEYS | ROOT_AUDIT_SPOTIFY_KEYS, "edition.json")
+        require_keys(edition, AUDIT_EDITION_KEYS | ROOT_AUDIT_SPOTIFY_KEYS, "edition.json", optional=HEADLINE_OPTIONAL)
     else:
-        require_keys(edition, AUDIT_EDITION_KEYS, "edition.json")
+        require_keys(edition, AUDIT_EDITION_KEYS, "edition.json", optional=HEADLINE_OPTIONAL)
+    apply_headline(edition)
     if type(edition["schema_version"]) is not int or edition["schema_version"] != SCHEMA_VERSION:
         raise Hold("unknown edition schema")
     if edition["mode"] != "audit" or edition["variant"] is not None:
@@ -2151,6 +2216,13 @@ def render_home_teaser(editions):
     shown = build.display_date(iso_date, "day")
     href = f"daily-state/{iso_date}/"
     lede = html.escape(edition_lede(item), quote=True)
+    headline = edition_headline(document)
+    if headline:
+        heading = html.escape(headline, quote=True)
+        date_line = f'<p><time datetime="{iso_date}">{html.escape(shown)}</time></p>\n'
+    else:
+        heading = html.escape(shown, quote=True)
+        date_line = ""
     links = [f'<a href="{html.escape(href, quote=True)}">Read the edition</a>']
     episode_url = document.get("episode_url")
     if episode_url:
@@ -2164,7 +2236,8 @@ def render_home_teaser(editions):
     return (
         '<section class="latest daily-latest">\n'
         '<p class="kicker">Daily State of AI</p>\n'
-        f'<h2><a href="{html.escape(href, quote=True)}">{html.escape(shown)}</a></h2>\n'
+        f'<h2><a href="{html.escape(href, quote=True)}">{heading}</a></h2>\n'
+        f'{date_line}'
         f'<p class="dek">{lede}</p>\n'
         f'<p class="pair">{" · ".join(links)}</p>\n'
         '<p><a href="daily-state/">All editions →</a></p>\n'
@@ -2230,8 +2303,9 @@ def render_listing_html(editions):
         shown = build.display_date(item["date"], "day")
         variant = item.get("variant")
         href = f"{item['date']}/{variant}/" if variant else f"{item['date']}/"
+        label = listing_link_text(document)
         rows.append(
-            f"<p class=\"row\"><a href=\"{href}\">{html.escape(document['title'], quote=True)}</a> "
+            f"<p class=\"row\"><a href=\"{href}\">{html.escape(label, quote=True)}</a> "
             f"<span class=\"meta\"><time datetime=\"{item['date']}\">{html.escape(shown)}</time></span></p>"
         )
     main = (

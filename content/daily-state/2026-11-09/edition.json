@@ -30,5 +30,6 @@
     "sources_sha256": "aae1f13bcee1799f8524a1a029f5dc7ea1d6a21713b2f09db2bc4b70b224e9df",
     "qa_sha256": "0b9bfaaa7312302c9c363cda1ef0af2de1ab0394d80a4f9db4aaa78f51dc7c7a",
     "run_sha256": "f63ba52f6b3f9d631a21c21e29a8aa5bd33619a5802692a24ad97f142eafcbb7"
-  }
+  },
+  "headline": "Changed requirements split tied coding models."
 }

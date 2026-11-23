@@ -112,6 +112,14 @@ article p.disclaimer a:hover {
   text-decoration-color: var(--sun);
 }
 
+/* Edition headline: subtitle under the unchanged h1, used as the listing link text. */
+article p.ds-headline {
+  font-size: 1.2rem;
+  line-height: 1.35;
+  color: var(--ink-soft);
+  margin: -0.15rem 0 0.85rem;
+}
+
 /* Long unbreakable URLs in Sources (and other article links) wrap at phone width. */
 article a,
 article li {
@@ -169,7 +177,7 @@ article li {
 .recent h2 { font-size: 1.1rem; color: var(--muted); font-family: var(--sans); text-transform: uppercase; letter-spacing: 0.06em; }
 
 .row { margin: 0 0 1.05rem; }
-.row a { font-weight: 600; text-decoration: none; }
+.row a { font-weight: 600; text-decoration: none; overflow-wrap: anywhere; }
 .row a:hover { text-decoration: underline; }
 .row .meta { font-family: var(--sans); font-size: 0.8rem; color: var(--muted); margin-left: 0.5rem; white-space: nowrap; }
 .row .line { display: block; color: var(--ink-soft); font-size: 0.98rem; }
