@@ -57,7 +57,7 @@ ASSET_SHA256 = {
 }
 LIVE_PAGE_SHA256 = {
     "daily-state/2026-11-20/index.html":
-        "2c674a4a6695354d401f533eddc4a68ad0e43996453abf0d1bd476b64abfc038",
+        "b2984e965bcf7749c68d8ed891dcb6c410cff464289520397743e7700c797df0",
     "daily-state/2026-11-20/editors-notes/index.html":
         "7c5488450a64188563c2da130bc8b6804f7bfb84dc68f049e2446ac0ad159ef4",
 }

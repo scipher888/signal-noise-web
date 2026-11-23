@@ -1172,6 +1172,11 @@ def assert_edition_page(html_text, edition):
     )
     if html_text.count(spotify) != 1:
         raise Hold("hard stop: audio: missing or broken audio reference")
+    sources_link = (
+        f'<a href="{html.escape(sources_page_url(edition["date"]), quote=True)}">Sources</a>'
+    )
+    if html_text.count(sources_link) != 1:
+        raise Hold("sources link is missing")
     if html_text.count(AI_LABEL_EXACT) != 1 or count_ai_labels(html_text) != 1:
         raise Hold("hard stop: label: AI-generated label must appear exactly once")
     assert_disclaimer_above_script(html_text)
@@ -1451,6 +1456,7 @@ def render_edition_html(edition, paragraphs, sources, *, editor_mode=False):
         f"{headline_block(edition)}"
         f"<p><time datetime=\"{edition['date']}\">{html.escape(shown)}</time></p>\n"
         f"<p>{audio}</p>\n"
+        f"<p><a href=\"{html.escape(sources_page_url(edition['date']), quote=True)}\">Sources</a></p>\n"
         f"{disclaimer}\n"
         "<div class=\"script\">\n"
         f"{body}\n"
