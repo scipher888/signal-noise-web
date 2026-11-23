@@ -259,6 +259,29 @@ class DailyNeonEditionTest(unittest.TestCase):
         with self.assertRaises(daily_state.Hold):
             self.repo.load()
 
+    def test_published_2026_11_22_short_links_to_the_neon_x_post(self):
+        href = "https://x.com/signalnoisepub/status/2124626912333177200"
+        loaded = daily_state.load_edition(str(ROOT), "2026-11-22")
+        page = loaded["html"]
+        self.assertEqual(loaded["edition"]["video_url"], href)
+        self.assertEqual(page.count(f'<a href="{href}">Short</a>'), 1)
+        self.assertNotIn("/content/daily-state/2026-11-22/short.mp4", page)
+        # The self-hosted mp4 stays on disk, hashed, but the page no longer points at it.
+        self.assertTrue((ROOT / "content" / "daily-state" / "2026-11-22" / "short.mp4").is_file())
+
+    def test_https_short_url_is_allowed_when_the_mp4_is_present(self):
+        self.repo.build()
+        href = "https://x.com/signalnoisepub/status/2124626912333177200"
+        self.edit_edition(lambda edition: edition.update(video_url=href))
+        page = self.repo.load()["html"]
+        self.assertEqual(page.count(f'<a href="{href}">Short</a>'), 1)
+
+    def test_malformed_https_short_url_holds(self):
+        self.repo.build()
+        self.edit_edition(lambda edition: edition.update(video_url="https://"))
+        with self.assertRaises(daily_state.Hold):
+            self.repo.load()
+
     def test_published_2026_11_21_keeps_player_and_adds_spotify_link(self):
         loaded = daily_state.load_edition(str(ROOT), "2026-11-21")
         page = loaded["html"]
