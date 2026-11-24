@@ -38,10 +38,9 @@ edition may ship before Max posts the Neon short around 10 AM.
 set-audit-short-url writes a public X URL into edition.json audit_short_url
 and regenerates that date's audit page and edition page. The URL must be
 https://x.com/signalnoisepub/status/<digits>; any query string, fragment, or
-trailing /video/1 is stripped. When the field is set, the audit page shows a
-prominent "Watch the audit short" link near the top, and the edition page
-adds "Audit short" on the audit link line. When it is absent, neither page
-renders that link. Rerunning with the same URL is a no-op. This is the
+trailing /video/1 is stripped. When the field is set, the audit page and the edition page each
+show one "Audit short" link, in the same style as the other artifact links.
+When it is absent, neither page renders that link. Rerunning with the same URL is a no-op. This is the
 post-publish step after the audit short is posted as a reply in that day's
 Daily State short thread.
 
@@ -437,7 +436,7 @@ def set_audit_short_url(args):
         return fail(str(exc))
     audit_html = loaded["audit_html"]
     edition_html = loaded["html"]
-    audit_marker = f'<a href="{url}">Watch the audit short</a>'
+    audit_marker = f'<a href="{url}">Audit short</a>'
     edition_marker = f'<a href="{url}">Audit short</a>'
     if audit_marker not in audit_html:
         if not already:

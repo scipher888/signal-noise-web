@@ -135,7 +135,8 @@ EDITION_KEYS = {
 EDITION_OPTIONAL = {"spotify_episode_fallback", "pipeline", "editor", "hard_stops", "video_url", "headline"}
 HEADLINE_OPTIONAL = frozenset({"headline"})
 # audit_short_url is optional on audit editions (root and variant). When set, the
-# audit page shows a "Watch the audit short" link; when absent, it renders nothing.
+# audit page and the edition page each show one "Audit short" link; when absent,
+# neither page renders that link.
 AUDIT_EDITION_OPTIONAL = frozenset({"headline", "audit_short_url"})
 AUDIT_SHORT_URL_ERROR = "audit short url must be https://x.com/signalnoisepub/status/<id>"
 SHORT_X_HOSTS = {"x.com", "www.x.com"}
@@ -1159,26 +1160,55 @@ def validate_optional_audit_short_url(edition):
 
 
 def render_audit_short_link(edition):
-    """A prominent top-of-audit-page link, or empty when audit_short_url is unset."""
+    """Same-style link line on the audit page, or empty when audit_short_url is unset."""
     url = edition.get("audit_short_url")
     if not url:
         return ""
     href = html.escape(url, quote=True)
-    return f"<p class=\"ds-audit-short\"><a href=\"{href}\">Watch the audit short</a></p>\n"
+    return f"<p><a href=\"{href}\">Audit short</a></p>\n"
+
+
+def render_audit_edition_link():
+    return '<p><a href="../">Daily State of AI</a></p>\n'
+
+
+def render_audit_page_intro(edition, lead):
+    """Lead sentence, then the edition link, optional Audit short, then the house disclaimer."""
+    return (
+        lead
+        + render_audit_edition_link()
+        + render_audit_short_link(edition)
+        + f'<p class="disclaimer">{AI_LABEL_EXACT}</p>\n'
+    )
 
 
 def assert_audit_short_link(html_text, edition):
-    marker = "Watch the audit short"
     url = edition.get("audit_short_url")
+    edition_link = '<p><a href="../">Daily State of AI</a></p>'
+    if html_text.count(edition_link) != 1:
+        raise Hold("audit page is missing the Daily State of AI link")
+    disclaimer = f'<p class="disclaimer">{AI_LABEL_EXACT}</p>'
+    if html_text.count(disclaimer) != 1 or html_text.count(AI_LABEL_EXACT) != 1:
+        raise Hold("hard stop: label: AI-generated label must appear exactly once")
+    if count_ai_labels(html_text) != 1:
+        raise Hold("hard stop: label: AI-generated label must appear exactly once")
+    if html_text.index(edition_link) > html_text.index(disclaimer):
+        raise Hold("Daily State of AI link must sit above the disclaimer")
+    heading = html_text.find("<h2>")
+    if heading != -1 and html_text.index(disclaimer) > heading:
+        raise Hold("disclaimer must sit above the Episode section")
     if not url:
-        if marker in html_text:
+        if re.search(r">Audit short</a>", html_text):
             raise Hold("audit page has an audit short link without audit_short_url")
         return
-    expected = f'<a href="{html.escape(url, quote=True)}">Watch the audit short</a>'
-    if html_text.count(expected) != 1:
+    expected_link = f'<a href="{html.escape(url, quote=True)}">Audit short</a>'
+    if html_text.count(expected_link) != 1:
         raise Hold("audit page is missing the audit short link")
-    position = html_text.find(expected)
-    heading = html_text.find("<h2>")
+    position = html_text.find(expected_link)
+    if position < html_text.find(edition_link):
+        raise Hold("audit short link must sit under the Daily State of AI link")
+    if position > html_text.index(disclaimer):
+        raise Hold("audit short link must sit above the disclaimer")
     if heading != -1 and position > heading:
         raise Hold("audit short link is not near the top of the audit page")
 
@@ -1254,28 +1284,26 @@ def assert_sources_reachable(html_text, edition):
 
 
 def render_audit_nav(edition):
-    """Quieter second line: Audit, plus Audit short when audit_short_url is set."""
+    """Second link line, same style as the artifacts above: Audit, plus Audit short when set."""
     parts = ['<a href="audit/">Audit</a>']
     url = edition.get("audit_short_url")
     if url:
         parts.append(f'<a href="{html.escape(url, quote=True)}">Audit short</a>')
-    return "<p class=\"ds-audit-links\">" + " · ".join(parts) + "</p>\n"
+    return "<p>" + " · ".join(parts) + "</p>\n"
 
 
 def assert_audit_nav(html_text, edition):
     audit = '<a href="audit/">Audit</a>'
     if html_text.count(audit) != 1:
         raise Hold("hard stop: label: missing Audit link")
-    match = re.search(r'<p class="ds-audit-links">(.*?)</p>', html_text, re.S)
-    if not match or html_text.count('<p class="ds-audit-links">') != 1 or audit not in match.group(1):
+    expected = render_audit_nav(edition).rstrip("\n")
+    if html_text.count(expected) != 1:
         raise Hold("hard stop: label: missing Audit link")
     url = edition.get("audit_short_url")
     if url:
         short = f'<a href="{html.escape(url, quote=True)}">Audit short</a>'
         if html_text.count(short) != 1:
             raise Hold("edition is missing the audit short link")
-        if short not in match.group(1):
-            raise Hold("audit short link must sit with the Audit link")
     elif re.search(r">Audit short</a>", html_text):
         raise Hold("edition has an audit short link without audit_short_url")
 
@@ -1963,7 +1991,7 @@ def assert_audit_edition_page(html_text, edition, prompt):
     if count_ai_labels(html_text) != 1:
         raise Hold("hard stop: label: AI-generated label must appear exactly once")
     assert_disclaimer_above_script(html_text)
-    if html_text.index('<p class="ds-audit-links">') > html_text.index(disclaimer):
+    if html_text.index('<a href="audit/">Audit</a>') > html_text.index(disclaimer):
         raise Hold("audit link must sit with the top links, above the disclaimer")
     if html.escape(prompt, quote=True) not in html_text:
         raise Hold("edition prompt does not match the neon run")
@@ -2087,16 +2115,15 @@ def render_audit_item(edition, item, variant):
 
 
 def _audit_count_line(label, row):
-    """Score line, or '{label}: not audited' when the artifact has no checks."""
+    """Score line, or empty when the artifact has no checks."""
     if not any(row.get(status, 0) for status in AUDIT_STATUSES):
-        text = f"{label}: not audited"
-    else:
-        text = (
-            f"{label} {row['PASS']} PASS / {row['FAIL']} FAIL / "
-            f"{row['NEEDS-HUMAN']} NEEDS-HUMAN"
-        )
-        if row["ERROR"]:
-            text += f" / {row['ERROR']} ERROR"
+        return ""
+    text = (
+        f"{label} {row['PASS']} PASS / {row['FAIL']} FAIL / "
+        f"{row['NEEDS-HUMAN']} NEEDS-HUMAN"
+    )
+    if row["ERROR"]:
+        text += f" / {row['ERROR']} ERROR"
     return f"<p class=\"row\">{html.escape(text, quote=True)}</p>"
 
 
@@ -2105,15 +2132,17 @@ def render_audit_html(edition, results, counts, variant):
     title = f"Audit — {edition['title']}"
     shown = build.display_date(iso_date, "day")
     summary_lines = [
-        _audit_count_line("Episode", counts["episode"]),
-        _audit_count_line("Short", counts["short"]),
+        line
+        for line in (
+            _audit_count_line("Episode", counts["episode"]),
+            _audit_count_line("Short", counts["short"]),
+            _audit_count_line("Takeaways", counts["takeaways"]),
+        )
+        if line
     ]
-    if any(counts["takeaways"].values()):
-        summary_lines.append(_audit_count_line("Takeaways", counts["takeaways"]))
-    summary = "\n".join(summary_lines)
     explanation = (
         "<p>Each claim is a small Python check run against the source texts. "
-        "The audit is for transparency and is not a gate.</p>"
+        "The audit is for transparency and is not a gate.</p>\n"
     )
     buckets = {
         artifact: {status: [] for status in AUDIT_STATUS_ORDER}
@@ -2136,9 +2165,8 @@ def render_audit_html(edition, results, counts, variant):
         "<p class=\"kicker\">Daily State of AI</p>\n"
         f"<h1>{html.escape(title, quote=True)}</h1>\n"
         f"<p><time datetime=\"{iso_date}\">{html.escape(shown)}</time></p>\n"
-        f"{render_audit_short_link(edition)}"
-        f"{summary}\n"
-        f"{explanation}\n"
+        f"{render_audit_page_intro(edition, explanation)}"
+        + (("\n".join(summary_lines) + "\n") if summary_lines else "")
         + "\n".join(groups)
         + "\n<p><a href=\"../\">Back to the edition</a></p>\n"
         "</article>"
@@ -2164,15 +2192,17 @@ def render_audit_pending_html(edition):
     iso_date = edition["date"]
     title = f"Audit — {edition['title']}"
     shown = build.display_date(iso_date, "day")
+    pending_lead = (
+        "<p>The executable claim audit for this edition runs after publication and will appear here. "
+        "The audit is for transparency and is not a gate.</p>\n"
+    )
     main = (
         f"{AUDIT_PENDING_MARKER}\n"
         "<article>\n"
         "<p class=\"kicker\">Daily State of AI</p>\n"
         f"<h1>{html.escape(title, quote=True)}</h1>\n"
         f"<p><time datetime=\"{iso_date}\">{html.escape(shown)}</time></p>\n"
-        f"{render_audit_short_link(edition)}"
-        "<p>The executable claim audit for this edition runs after publication and will appear here. "
-        "The audit is for transparency and is not a gate.</p>\n"
+        f"{render_audit_page_intro(edition, pending_lead)}"
         "<p><a href=\"../\">Back to the edition</a></p>\n"
         "</article>"
     )

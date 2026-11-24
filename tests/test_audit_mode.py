@@ -57,9 +57,9 @@ ASSET_SHA256 = {
 }
 LIVE_PAGE_SHA256 = {
     "daily-state/2026-11-20/index.html":
-        "f909e27bfc6efb93649683a2585231e7b707ce8c62724c315a1eaa44bd718e76",
+        "2c674a4a6695354d401f533eddc4a68ad0e43996453abf0d1bd476b64abfc038",
     "daily-state/2026-11-20/editors-notes/index.html":
-        "ef4da6dd9e9c3e0586d377e8b95d25b60553d00683d191d8df9cb37f3cb28779",
+        "7c5488450a64188563c2da130bc8b6804f7bfb84dc68f049e2446ac0ad159ef4",
 }
 
 
@@ -147,7 +147,7 @@ class AuditModeTests(unittest.TestCase):
         self.assertIn('<section class="sources">', html)
         self.assertIn("<h2>Sources</h2>", html)
         audit_link = '<a href="audit/">Audit</a>'
-        audit_nav = '<p class="ds-audit-links"><a href="audit/">Audit</a></p>'
+        audit_nav = '<p><a href="audit/">Audit</a></p>'
         disclaimer = f'<p class="disclaimer">{HOUSE}</p>'
         self.assertEqual(html.count(audit_link), 1)
         self.assertIn(audit_nav, html)
@@ -174,6 +174,15 @@ class AuditModeTests(unittest.TestCase):
         self.assertIn("Episode 42 PASS / 7 FAIL / 8 NEEDS-HUMAN", html)
         self.assertIn("Short 14 PASS / 5 FAIL / 3 NEEDS-HUMAN", html)
         self.assertIn(EXPLANATION, html)
+        edition_link = '<p><a href="../">Daily State of AI</a></p>'
+        house = '<p class="disclaimer">%s</p>' % HOUSE
+        self.assertEqual(html.count(edition_link), 1)
+        self.assertEqual(html.count(house), 1)
+        self.assertEqual(html.count(HOUSE), 1)
+        self.assertLess(html.index(EXPLANATION), html.index(edition_link))
+        self.assertLess(html.index(edition_link), html.index(house))
+        self.assertLess(html.index(house), html.index("<h2>Episode</h2>"))
+        self.assertNotIn("Short: not audited", html)
         self.assertIn('href="../../../../styles.css?v=', html)
         self.assertEqual(html.count(f'<link rel="canonical" href="{AUDIT_URL}">'), 1)
         self.assertEqual(html.count(f'<meta property="og:url" content="{AUDIT_URL}">'), 1)
