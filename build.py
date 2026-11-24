@@ -91,6 +91,24 @@ MACHINE_VIDEO = {
     34: "https://x.com/signalnoisepub/status/2114709181550973029",
 }
 
+# Video shorts (X posts; issue -> URL). Distinct from VIDEO, the slop-core
+# music video, which stays after Audio companion. A short sits on its own row
+# between The essay and Audio companion, and only when that row has an entry.
+# The unaided page omits it the same way it omits audio. An optional title is
+# the link's title attribute and is included in its aria-label. The Issue 38
+# machine short is Gemini 4 Neon's video interpretation of Claude Fable 5.2's
+# essay, not a video Fable made.
+VIDEO_SHORT = {
+    38: "https://x.com/signalnoisepub/status/2125026855271215228",
+}
+MACHINE_VIDEO_SHORT = {
+    38: "https://x.com/signalnoisepub/status/2125027313536708685",
+}
+VIDEO_SHORT_TITLE = {}
+MACHINE_VIDEO_SHORT_TITLE = {
+    38: "Gemini 4 Neon\u2019s video interpretation of Claude Fable 5.2\u2019s essay",
+}
+
 # Intuition sister essays (issue -> URL). Reciprocal companions for the four
 # Intuition pieces that already link to these S&N essays. Only these issues
 # carry an Intuition sister; do not invent pairings for other issues.
@@ -384,6 +402,14 @@ def recover_from_built(slug):
     if dm:
         rest = rest[dm.end():]
     rest = re.sub(r"\s*<nav class=\"cnav(?: top)?\".*?</nav>", "", rest, flags=re.S)
+    # The sources line is essay_page chrome, like the nav. Leaving it in the
+    # recovered body duplicates it on the next build when the paste is absent.
+    rest = re.sub(
+        r"\s*<style>\.essay-sources\{.*?</style><p class=\"essay-sources\">.*?</p>",
+        "",
+        rest,
+        flags=re.S,
+    )
     return title, dek_html, rest.strip()
 
 
@@ -483,6 +509,15 @@ def nav_leaf(label, href, current):
     return f'<a href="{href}">{label}</a>'
 
 
+def companion_link(label, href, title=None):
+    """Off-site companion leaf. `title`, when set, is the tooltip and part of the accessible name."""
+    if not title:
+        return f'<a href="{href}">{label}</a>'
+    tip = html.escape(title, quote=True)
+    name = html.escape(f"{label}: {title}", quote=True)
+    return f'<a href="{href}" title="{tip}" aria-label="{name}">{label}</a>'
+
+
 def is_source_material_issue(issue):
     """True when this issue's unaided page is named Source material."""
     return UNAIDED_LEAF_BY_ISSUE.get(issue) == "Source material"
@@ -517,12 +552,15 @@ def source_material_line(issue, here="author"):
 def companion_navs(issue, here="author"):
     """Companion map (J, 2026-08-29). Two parallel rows, same leaf names:
 
-      The author's  — The essay · Audio companion · Video companion · The audit
-      The machine's — The essay · Audio companion · The audit
+      The author's  — The essay · Video short · Audio companion · Video companion · The audit
+      The machine's — The essay · Video short · Audio companion · Video companion · The audit
 
-    Audio appears on a row only when that companion exists. Video appears after
-    Audio, on the author's row for issues in VIDEO and on the machine's row for
-    issues in MACHINE_VIDEO. The audit leaf
+    Audio appears on a row only when that companion exists. A video short
+    (VIDEO_SHORT / MACHINE_VIDEO_SHORT) sits between The essay and Audio
+    companion. Video companion appears after Audio, on the author's row for
+    issues in VIDEO and on the machine's row for issues in MACHINE_VIDEO.
+    An optional title (VIDEO_SHORT_TITLE / MACHINE_VIDEO_SHORT_TITLE) is that
+    link's title attribute and is included in its aria-label. The audit leaf
     is omitted when the snapshot has no record (NO_AUDIT), and on the unaided
     page, which keeps the map it already published. The machine row
     appears when a machine companion exists (MACHINE_VERSION_ISSUES or
@@ -551,8 +589,11 @@ def companion_navs(issue, here="author"):
             here == "unaided",
         ))
     # Issues 32 through 38: the unaided (or source) page keeps the map it already
-    # published (no audio leaf, even after an episode exists).
+    # published (no audio or video leaf, even after an episode or short exists).
     show_audio = not (issue in (32, 33, 34, 35, 36, 37, 38) and here == "unaided")
+    if issue in VIDEO_SHORT and show_audio:
+        author.append(companion_link(
+            "Video short", VIDEO_SHORT[issue], VIDEO_SHORT_TITLE.get(issue)))
     if issue in AUDIO and show_audio:
         author.append(f'<a href="{AUDIO[issue]}">Audio companion</a>')
     if issue in VIDEO and show_audio:
@@ -571,6 +612,12 @@ def companion_navs(issue, here="author"):
         else:
             machine_href = f"{base}/machine-version/"
         machine = [nav_leaf("The essay", machine_href, here == "machine")]
+        if issue in MACHINE_VIDEO_SHORT and show_audio:
+            machine.append(companion_link(
+                "Video short",
+                MACHINE_VIDEO_SHORT[issue],
+                MACHINE_VIDEO_SHORT_TITLE.get(issue),
+            ))
         if issue in MACHINE_AUDIO and show_audio:
             machine.append(f'<a href="{MACHINE_AUDIO[issue]}">Audio companion</a>')
         if issue in MACHINE_VIDEO and show_audio:
