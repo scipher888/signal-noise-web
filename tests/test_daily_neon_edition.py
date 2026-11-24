@@ -22,7 +22,7 @@ EPISODE_ID = "5N0wawFLP0cwayiO8XH0Ax"
 EPISODE_URL = f"https://open.spotify.com/episode/{EPISODE_ID}"
 SPOTIFY_ANCHOR = f'<a href="{EPISODE_URL}">Audio on Spotify</a>'
 SPOTIFY_LINK = f'<p>{SPOTIFY_ANCHOR}</p>'
-AUDIT_NAV = '<p class="ds-audit-links"><a href="audit/">Audit</a></p>'
+AUDIT_NAV = '<p><a href="audit/">Audit</a></p>'
 HOUSE = "AI-generated \u00b7 may contain errors"
 X_SHORT = "https://x.com/signalnoisepub/status/2124935746364850228"
 X_AUDIT_SHORT = "https://x.com/signalnoisepub/status/2125317078139953354"
@@ -383,7 +383,7 @@ class DailyNeonEditionTest(unittest.TestCase):
         self.assertIn(f"<h1>Daily State of AI - {DATE}</h1>", page)
         self.assertEqual(page.count(HOUSE), 1)
         self.assertEqual(page.count('<a href="audit/">Audit</a>'), 1)
-        self.assertIn('<p class="ds-audit-links">', page)
+        self.assertIn('<p><a href="audit/">Audit</a>', page)
         self.assertEqual(page.count("Audio on Spotify"), 1)
         self.assertIn(SPOTIFY_ANCHOR, page)
         self.assertEqual(page.count(f'<a href="/daily-state/{DATE}/sources/">Sources</a>'), 0)
@@ -411,15 +411,19 @@ class DailyNeonEditionTest(unittest.TestCase):
         page = edition_path.read_text(encoding="utf-8")
         audit_path = self.repo.root / "daily-state" / DATE / "audit" / "index.html"
         audit = audit_path.read_text(encoding="utf-8")
-        watch = '<a href="%s">Watch the audit short</a>' % X_AUDIT_SHORT
         short = '<a href="%s">Audit short</a>' % X_AUDIT_SHORT
-        self.assertEqual(audit.count(watch), 1)
-        self.assertIn('<p class="ds-audit-short">%s</p>' % watch, audit)
-        self.assertLess(audit.find(watch), audit.find("The executable claim audit"))
+        edition_link = '<p><a href="../">Daily State of AI</a></p>'
+        self.assertEqual(audit.count(short), 1)
+        self.assertIn('<p>%s</p>' % short, audit)
+        self.assertEqual(audit.count(edition_link), 1)
+        self.assertLess(audit.find(edition_link), audit.find(short))
+        self.assertLess(audit.find(short), audit.find('<p class="disclaimer">'))
+        self.assertNotIn("Watch the audit short", audit)
+        self.assertNotIn("ds-audit-short", audit)
         self.assertNotIn("Watch the audit short", page)
         self.assertEqual(page.count(short), 1)
         self.assertIn(
-            '<p class="ds-audit-links"><a href="audit/">Audit</a> · %s</p>' % short,
+            '<p><a href="audit/">Audit</a> · %s</p>' % short,
             page,
         )
         self._assert_edition_invariants(page, edition)
@@ -450,7 +454,9 @@ class DailyNeonEditionTest(unittest.TestCase):
         self.assertEqual(self.repo.build(short=False), 0)
         loaded = self.repo.load()
         self.assertNotIn("Watch the audit short", loaded["audit_html"])
+        self.assertNotIn(">Audit short</a>", loaded["audit_html"])
         self.assertNotIn("ds-audit-short", loaded["audit_html"])
+        self.assertIn('<p><a href="../">Daily State of AI</a></p>', loaded["audit_html"])
         self.assertNotIn("audit_short_url", loaded["edition"])
         page = loaded["html"]
         self._assert_edition_invariants(page, loaded["edition"])
@@ -465,8 +471,11 @@ class DailyNeonEditionTest(unittest.TestCase):
             ), 0)
         loaded = self.repo.load()
         audit = loaded["audit_html"]
-        link = '<a href="%s">Watch the audit short</a>' % X_AUDIT_SHORT
+        link = '<a href="%s">Audit short</a>' % X_AUDIT_SHORT
+        edition_link = '<p><a href="../">Daily State of AI</a></p>'
         self.assertEqual(audit.count(link), 1)
+        self.assertEqual(audit.count(edition_link), 1)
+        self.assertLess(audit.find(edition_link), audit.find(link))
         self.assertLess(audit.find(link), audit.find("<h2>"))
         self.assertIn("Episode 0 PASS / 1 FAIL / 0 NEEDS-HUMAN", audit)
         self._assert_edition_invariants(loaded["html"], loaded["edition"])
@@ -616,8 +625,9 @@ class DailyNeonEditionTest(unittest.TestCase):
         loaded = self.repo.load()
         self.assertNotIn(daily_state.AUDIT_PENDING_MARKER, loaded["audit_html"])
         self.assertIn("Episode 0 PASS / 1 FAIL / 0 NEEDS-HUMAN", loaded["audit_html"])
-        self.assertIn("Short: not audited", loaded["audit_html"])
+        self.assertNotIn("Short: not audited", loaded["audit_html"])
         self.assertNotIn("Short 0 PASS / 0 FAIL / 0 NEEDS-HUMAN", loaded["audit_html"])
+        self.assertNotIn('<p class="row">Short ', loaded["audit_html"])
         self.assertIn(f"content/daily-state/{DATE}/audit/checks/{DATE}/e01-claim.py", loaded["audit_html"])
         # The edition page itself does not change when the audit lands.
         self.assertIn(AUDIT_NAV, loaded["html"])

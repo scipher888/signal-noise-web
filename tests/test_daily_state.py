@@ -1094,9 +1094,9 @@ class DailyStateTests(unittest.TestCase):
             for href in ("editors-notes/", "./editors-notes/")
         )
         plain_line = '<p class="disclaimer">%s</p>' % HOUSE
-        # Daily audit-mode (Neon) editions put Audit on the quieter second link line.
+        # Daily audit-mode (Neon) editions put Audit on a second link line in the same style.
         audit_link = '<a href="audit/">Audit</a>'
-        audit_nav = '<p class="ds-audit-links">'
+        audit_nav = '<p><a href="audit/">Audit</a>'
         for iso_date in daily_state.list_edition_dates(str(ROOT)):
             with self.subTest(iso_date=iso_date):
                 html = (ROOT / "daily-state" / iso_date / "index.html").read_text(encoding="utf-8")
@@ -1368,13 +1368,8 @@ class DailyStateTests(unittest.TestCase):
         self.assertEqual(nov23["html"].count('<a href="audit/">Audit</a>'), 1)
 
     def test_published_edition_link_layout(self):
-        """Primary artifacts on line 1; audit links on a quieter second line when present."""
-        decls = self._css_decls().get("article p.ds-audit-links", {})
-        self.assertEqual(decls.get("font-family"), "var(--sans)")
-        self.assertEqual(decls.get("font-size"), "0.8rem")
-        self.assertEqual(decls.get("text-transform"), "uppercase")
-        self.assertEqual(decls.get("color"), "var(--muted)")
-        self.assertEqual(decls.get("border-top"), "1px solid var(--line)")
+        """Primary artifacts on line 1; audit links on a second line in the same style."""
+        self.assertIsNone(self._css_decls().get("article p.ds-audit-links"))
         older = (ROOT / "daily-state" / "2026-11-10" / "index.html").read_text(encoding="utf-8")
         self.assertIn(
             '<p><a href="https://open.spotify.com/episode/6zxQTI6oMIYxRR9je6W71O">Audio on Spotify</a></p>',
@@ -1391,33 +1386,72 @@ class DailyStateTests(unittest.TestCase):
             nov24,
         )
         self.assertIn(
-            '<p class="ds-audit-links"><a href="audit/">Audit</a>'
+            '<p><a href="audit/">Audit</a>'
             ' · <a href="https://x.com/signalnoisepub/status/2125317078139953354">Audit short</a></p>',
             nov24,
         )
+        self.assertNotIn("ds-audit-links", nov24)
         self.assertNotIn(">Sources</a>", nov24.split('<div class="script">', 1)[0])
         self.assertIn('<section class="sources">', nov24)
         self.assertEqual(nov24.count("Audio on Spotify"), 1)
         self.assertEqual(nov24.count('<a href="audit/">Audit</a>'), 1)
 
-    def test_published_unaudited_short_reads_not_audited(self):
-        """When the short was never checked, the audit page says so instead of a zero score."""
+    def test_published_audit_page_mirrors_edition_link_style(self):
+        """Audit header: check sentence, edition link, optional Audit short, then the house label."""
+        house = '<p class="disclaimer">%s</p>' % HOUSE
+        edition_link = '<p><a href="../">Daily State of AI</a></p>'
+        explanation = (
+            "<p>Each claim is a small Python check run against the source texts. "
+            "The audit is for transparency and is not a gate.</p>"
+        )
+        nov24 = (ROOT / "daily-state" / "2026-11-24" / "audit" / "index.html").read_text(
+            encoding="utf-8"
+        )
+        short = (
+            '<p><a href="https://x.com/signalnoisepub/status/2125317078139953354">'
+            "Audit short</a></p>"
+        )
+        self.assertIn(explanation, nov24)
+        self.assertEqual(nov24.count(edition_link), 1)
+        self.assertEqual(nov24.count(short), 1)
+        self.assertEqual(nov24.count(house), 1)
+        self.assertEqual(nov24.count(HOUSE), 1)
+        self.assertLess(nov24.index(explanation), nov24.index(edition_link))
+        self.assertLess(nov24.index(edition_link), nov24.index(short))
+        self.assertLess(nov24.index(short), nov24.index(house))
+        self.assertLess(nov24.index(house), nov24.index("<h2>Episode</h2>"))
+        self.assertNotIn("Watch the audit short", nov24)
+        self.assertNotIn("ds-audit-short", nov24)
+        self.assertNotIn("Short: not audited", nov24)
+        self.assertNotIn("Short 0 PASS / 0 FAIL / 0 NEEDS-HUMAN", nov24)
+        self.assertIn("Episode 33 PASS / 2 FAIL / 11 NEEDS-HUMAN", nov24)
+        nov23 = (ROOT / "daily-state" / "2026-11-23" / "audit" / "index.html").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn(explanation, nov23)
+        self.assertEqual(nov23.count(edition_link), 1)
+        self.assertNotIn(">Audit short</a>", nov23)
+        self.assertEqual(nov23.count(house), 1)
+        self.assertLess(nov23.index(explanation), nov23.index(edition_link))
+        self.assertLess(nov23.index(edition_link), nov23.index(house))
+        self.assertLess(nov23.index(house), nov23.index("<h2>Episode</h2>"))
+
+    def test_published_unaudited_short_has_no_summary_line(self):
+        """When the short was never checked, the audit page omits that score line."""
         for iso_date in ("2026-11-23", "2026-11-24"):
             with self.subTest(iso_date=iso_date):
                 html = (ROOT / "daily-state" / iso_date / "audit" / "index.html").read_text(
                     encoding="utf-8"
                 )
-                self.assertIn("Short: not audited", html)
+                self.assertNotIn("Short: not audited", html)
                 self.assertNotIn("Short 0 PASS / 0 FAIL / 0 NEEDS-HUMAN", html)
+                self.assertNotIn('<p class="row">Short ', html)
                 self.assertIn("Episode ", html)
                 self.assertNotIn("Episode: not audited", html)
 
-    def test_zero_check_artifact_count_line_reads_not_audited(self):
+    def test_zero_check_artifact_count_line_is_omitted(self):
         empty = {status: 0 for status in daily_state.AUDIT_STATUSES}
-        self.assertEqual(
-            daily_state._audit_count_line("Short", empty),
-            '<p class="row">Short: not audited</p>',
-        )
+        self.assertEqual(daily_state._audit_count_line("Short", empty), "")
         scored = dict(empty)
         scored["PASS"] = 2
         self.assertEqual(
