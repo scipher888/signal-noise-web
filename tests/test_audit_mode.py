@@ -181,7 +181,12 @@ class AuditModeTests(unittest.TestCase):
         self.assertEqual(html.count(HOUSE), 1)
         episode = "Episode 42 PASS / 7 FAIL / 8 NEEDS-HUMAN"
         short = "Short 14 PASS / 5 FAIL / 3 NEEDS-HUMAN"
-        self.assertLess(html.index(EXPLANATION), html.index(episode))
+        caption = '<figcaption class="kicker ds-prompt-label">Check results</figcaption>'
+        self.assertEqual(html.count('<figure class="ds-prompt">'), 1)
+        self.assertIn(caption, html)
+        self.assertIn("<pre>%s\n%s</pre>" % (episode, short), html)
+        self.assertLess(html.index(EXPLANATION), html.index(caption))
+        self.assertLess(html.index(caption), html.index(episode))
         self.assertLess(html.index(episode), html.index(short))
         self.assertLess(html.index(short), html.index(edition_link))
         self.assertLess(html.index(edition_link), html.index(house))

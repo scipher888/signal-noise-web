@@ -178,6 +178,11 @@ ROOT_AUDIT_SPOTIFY_KEYS = frozenset({"episode_id", "episode_url", "verified_at",
 ROOT_NEON_PIPELINE = "neon"
 NEON_MODEL = "google/gemini-4-neon"
 AUDIT_PENDING_MARKER = "<!-- daily-state-audit-pending -->"
+AUDIT_COUNTS_LABEL = "Check results"
+AUDIT_COUNTS_CAPTION = (
+    f'<figcaption class="kicker ds-prompt-label">{AUDIT_COUNTS_LABEL}</figcaption>'
+)
+
 AUDIT_STATUSES = ("PASS", "FAIL", "NEEDS-HUMAN", "ERROR")
 # FAIL stays expanded. ERROR is the same kind of open item. The rest collapse.
 AUDIT_STATUS_ORDER = ("FAIL", "ERROR", "NEEDS-HUMAN", "PASS")
@@ -1200,12 +1205,14 @@ def assert_audit_short_link(html_text, edition):
     explanation_at = html_text.find(explanation)
     if explanation_at != -1 and html_text.index(edition_link) < explanation_at:
         raise Hold("Daily State of AI link must sit below the Python-check sentence")
-    rows = [match.start() for match in re.finditer(r'<p class="row">', html_text)]
-    if rows:
-        if explanation_at != -1 and rows[0] < explanation_at:
-            raise Hold("count lines must sit below the Python-check sentence")
-        if rows[-1] > html_text.index(edition_link):
-            raise Hold("count lines must sit above the Daily State of AI link")
+    callout_at = html_text.find(AUDIT_COUNTS_CAPTION)
+    if callout_at != -1:
+        if html_text.count(AUDIT_COUNTS_CAPTION) != 1:
+            raise Hold("Check results box must appear once")
+        if explanation_at != -1 and callout_at < explanation_at:
+            raise Hold("Check results box must sit below the Python-check sentence")
+        if callout_at > html_text.index(edition_link):
+            raise Hold("Check results box must sit above the Daily State of AI link")
     if not url:
         if re.search(r">Audit short</a>", html_text):
             raise Hold("audit page has an audit short link without audit_short_url")
@@ -2124,7 +2131,7 @@ def render_audit_item(edition, item, variant):
 
 
 def _audit_count_line(label, row):
-    """Score line, or empty when the artifact has no checks."""
+    """Score line text, or empty when the artifact has no checks."""
     if not any(row.get(status, 0) for status in AUDIT_STATUSES):
         return ""
     text = (
@@ -2133,7 +2140,22 @@ def _audit_count_line(label, row):
     )
     if row["ERROR"]:
         text += f" / {row['ERROR']} ERROR"
-    return f"<p class=\"row\">{html.escape(text, quote=True)}</p>"
+    return text
+
+
+def render_audit_counts_callout(lines):
+    """The score lines in the same inset callout as the edition Minimal prompt box."""
+    if not lines:
+        return ""
+    body = html.escape("\n".join(lines), quote=True)
+    return (
+        "<figure class=\"ds-prompt\">\n"
+        f"{AUDIT_COUNTS_CAPTION}\n"
+        "<blockquote>\n"
+        f"<pre>{body}</pre>\n"
+        "</blockquote>\n"
+        "</figure>\n"
+    )
 
 
 def render_audit_html(edition, results, counts, variant):
@@ -2175,7 +2197,7 @@ def render_audit_html(edition, results, counts, variant):
         f"<h1>{html.escape(title, quote=True)}</h1>\n"
         f"<p><time datetime=\"{iso_date}\">{html.escape(shown)}</time></p>\n"
         f"{explanation}"
-        + (("\n".join(summary_lines) + "\n") if summary_lines else "")
+        + render_audit_counts_callout(summary_lines)
         + render_audit_page_nav(edition)
         + "\n".join(groups)
         + "\n<p><a href=\"../\">Back to the edition</a></p>\n"
