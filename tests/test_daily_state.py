@@ -1397,7 +1397,7 @@ class DailyStateTests(unittest.TestCase):
         self.assertEqual(nov24.count('<a href="audit/">Audit</a>'), 1)
 
     def test_published_audit_page_mirrors_edition_link_style(self):
-        """Audit header: check sentence, counts, then edition link, optional Audit short, and the house label."""
+        """Audit header: check sentence, Check results callout, then edition link, optional Audit short, and the house label."""
         house = '<p class="disclaimer">%s</p>' % HOUSE
         edition_link = '<p><a href="../">Daily State of AI</a></p>'
         explanation = (
@@ -1418,9 +1418,17 @@ class DailyStateTests(unittest.TestCase):
         self.assertEqual(nov24.count(HOUSE), 1)
         episode = "Episode 33 PASS / 2 FAIL / 11 NEEDS-HUMAN"
         takeaways = "Takeaways 17 PASS / 1 FAIL / 0 NEEDS-HUMAN"
+        caption = '<figcaption class="kicker ds-prompt-label">Check results</figcaption>'
         self.assertIn(episode, nov24)
         self.assertIn(takeaways, nov24)
-        self.assertLess(nov24.index(explanation), nov24.index(episode))
+        self.assertEqual(nov24.count('<figure class="ds-prompt">'), 1)
+        self.assertEqual(nov24.count(caption), 1)
+        self.assertIn(
+            "<pre>%s\n%s</pre>" % (episode, takeaways),
+            nov24,
+        )
+        self.assertLess(nov24.index(explanation), nov24.index(caption))
+        self.assertLess(nov24.index(caption), nov24.index(episode))
         self.assertLess(nov24.index(episode), nov24.index(takeaways))
         self.assertLess(nov24.index(takeaways), nov24.index(edition_link))
         self.assertLess(nov24.index(edition_link), nov24.index(short))
@@ -1441,7 +1449,14 @@ class DailyStateTests(unittest.TestCase):
         takeaways = "Takeaways 17 PASS / 1 FAIL / 1 NEEDS-HUMAN"
         self.assertIn(episode, nov23)
         self.assertIn(takeaways, nov23)
-        self.assertLess(nov23.index(explanation), nov23.index(episode))
+        self.assertEqual(nov23.count('<figure class="ds-prompt">'), 1)
+        self.assertEqual(nov23.count(caption), 1)
+        self.assertIn(
+            "<pre>%s\n%s</pre>" % (episode, takeaways),
+            nov23,
+        )
+        self.assertLess(nov23.index(explanation), nov23.index(caption))
+        self.assertLess(nov23.index(caption), nov23.index(episode))
         self.assertLess(nov23.index(episode), nov23.index(takeaways))
         self.assertLess(nov23.index(takeaways), nov23.index(edition_link))
         self.assertLess(nov23.index(edition_link), nov23.index(house))
@@ -1467,14 +1482,26 @@ class DailyStateTests(unittest.TestCase):
         scored["PASS"] = 2
         self.assertEqual(
             daily_state._audit_count_line("Short", scored),
-            '<p class="row">Short 2 PASS / 0 FAIL / 0 NEEDS-HUMAN</p>',
+            "Short 2 PASS / 0 FAIL / 0 NEEDS-HUMAN",
         )
         errored = dict(empty)
         errored["ERROR"] = 1
         self.assertEqual(
             daily_state._audit_count_line("Short", errored),
-            '<p class="row">Short 0 PASS / 0 FAIL / 0 NEEDS-HUMAN / 1 ERROR</p>',
+            "Short 0 PASS / 0 FAIL / 0 NEEDS-HUMAN / 1 ERROR",
         )
+        self.assertEqual(
+            daily_state.render_audit_counts_callout(
+                ["Episode 2 PASS / 0 FAIL / 0 NEEDS-HUMAN"]
+            ),
+            "<figure class=\"ds-prompt\">\n"
+            '<figcaption class="kicker ds-prompt-label">Check results</figcaption>\n'
+            "<blockquote>\n"
+            "<pre>Episode 2 PASS / 0 FAIL / 0 NEEDS-HUMAN</pre>\n"
+            "</blockquote>\n"
+            "</figure>\n",
+        )
+        self.assertEqual(daily_state.render_audit_counts_callout([]), "")
 
     def test_repo_check_leaves_essays_byte_identical(self):
 
