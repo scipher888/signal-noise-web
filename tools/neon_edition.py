@@ -5,6 +5,7 @@
         [--episode-url URL] [--verification JSON]
     python3 tools/neon_edition.py attach-audit --date D --audit-out DIR --kit DIR
     python3 tools/neon_edition.py set-short-url --date D --url URL
+    python3 tools/neon_edition.py set-audit-short-url --date D --url URL
     python3 tools/neon_edition.py set-headline --date D --headline TEXT [--variant neon]
 
 build copies the frozen Neon run (script.txt, sources.json and run.json from
@@ -33,6 +34,15 @@ https://x.com/signalnoisepub/status/<digits>; any query string, fragment, or
 trailing /video/1 is stripped. Rerunning with the same URL is a no-op. A
 local short.mp4 is not required. This is the post-publish step: the 7:20
 edition may ship before Max posts the Neon short around 10 AM.
+
+set-audit-short-url writes a public X URL into edition.json audit_short_url
+and regenerates that date's audit page only (the edition page is untouched).
+The URL must be https://x.com/signalnoisepub/status/<digits>; any query
+string, fragment, or trailing /video/1 is stripped. When the field is set,
+the audit page shows a prominent "Watch the audit short" link near the top.
+When it is absent, the audit page renders no such link. Rerunning with the
+same URL is a no-op. This is the post-publish step after the audit short is
+posted as a reply in that day's Daily State short thread.
 
 set-headline writes an optional 4-10 word (max 14) teaser into edition.json
 and regenerates the edition page, the Daily State listing, and the homepage
@@ -390,6 +400,57 @@ def set_short_url(args):
 
 
 
+def set_audit_short_url(args):
+    date = args.date
+    if not daily_state.is_real_date(date):
+        return fail("date is invalid")
+    try:
+        url = normalize_short_x_url(args.url)
+    except daily_state.Hold as exc:
+        return fail(str(exc).replace("short url must be", "audit short url must be"))
+    dest = os.path.join(daily_state.content_root(REPO), date)
+    if not daily_state.directory_declares_root_audit(dest):
+        return fail("no daily audit edition for this date")
+    edition_path = os.path.join(dest, "edition.json")
+    try:
+        raw = daily_state.read_stable(edition_path)
+        edition = json.loads(raw.decode("utf-8"))
+    except (OSError, ValueError, UnicodeDecodeError, daily_state.Hold):
+        return fail("edition.json is missing or unreadable")
+    page_rel = f"daily-state/{date}/audit/index.html"
+    page_path = os.path.join(REPO, page_rel)
+    previous = raw
+    already = edition.get("audit_short_url") == url
+    if not already:
+        edition["audit_short_url"] = url
+        daily_state._write_text_atomic(
+            edition_path, json.dumps(edition, indent=2, ensure_ascii=False) + "\n"
+        )
+    try:
+        loaded = daily_state.load_edition(REPO, date)
+    except daily_state.Hold as exc:
+        if not already:
+            daily_state._write_text_atomic(edition_path, previous.decode("utf-8"))
+        return fail(str(exc))
+    html_text = loaded["audit_html"]
+    marker = f'<a href="{url}">Watch the audit short</a>'
+    if marker not in html_text:
+        if not already:
+            daily_state._write_text_atomic(edition_path, previous.decode("utf-8"))
+        return fail("audit page is missing the audit short link")
+    current = None
+    if os.path.isfile(page_path) and not os.path.islink(page_path):
+        with open(page_path, encoding="utf-8") as handle:
+            current = handle.read()
+    if already and current == html_text:
+        print(json.dumps({"noop": True, "date": date, "audit_short_url": url}))
+        return 0
+    os.makedirs(os.path.dirname(page_path), exist_ok=True)
+    daily_state._write_text_atomic(page_path, html_text)
+    print(json.dumps({"date": date, "audit_short_url": url, "wrote": [page_rel]}))
+    return 0
+
+
 def set_headline(args):
     date = args.date
     if not daily_state.is_real_date(date):
@@ -460,6 +521,9 @@ def main(argv=None):
     s = sub.add_parser("set-short-url")
     s.add_argument("--date", required=True)
     s.add_argument("--url", required=True)
+    a_short = sub.add_parser("set-audit-short-url")
+    a_short.add_argument("--date", required=True)
+    a_short.add_argument("--url", required=True)
     h = sub.add_parser("set-headline")
     h.add_argument("--date", required=True)
     h.add_argument("--headline", required=True)
@@ -471,6 +535,8 @@ def main(argv=None):
         return attach_audit(args)
     if args.cmd == "set-short-url":
         return set_short_url(args)
+    if args.cmd == "set-audit-short-url":
+        return set_audit_short_url(args)
     return set_headline(args)
 
 

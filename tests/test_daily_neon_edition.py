@@ -23,6 +23,7 @@ EPISODE_URL = f"https://open.spotify.com/episode/{EPISODE_ID}"
 SPOTIFY_LINK = f'<p><a href="{EPISODE_URL}">Audio on Spotify</a></p>'
 HOUSE = "AI-generated \u00b7 may contain errors"
 X_SHORT = "https://x.com/signalnoisepub/status/2124935746364850228"
+X_AUDIT_SHORT = "https://x.com/signalnoisepub/status/2125317078139953354"
 SCRIPT = "Welcome to the Daily State of AI.\n\nSecond paragraph with the insight.\n\nThird paragraph.\n"
 PROMPT = "Here are today's AI news reports and X threads. What's the non-obvious insight others are missing?\n"
 MP3 = b"ID3" + b"\x00" * 200
@@ -357,6 +358,85 @@ class DailyNeonEditionTest(unittest.TestCase):
         self.assertEqual(self._run_set_short_url("https://x.com/other/status/1"), 1)
         self.assertEqual((self.repo.edition_dir() / "edition.json").read_bytes(), before)
         self.assertFalse((self.repo.root / "daily-state" / DATE / "index.html").exists())
+
+
+    def _run_set_audit_short_url(self, url, date=DATE):
+        with mock.patch.object(neon_edition, "REPO", str(self.repo.root)):
+            return neon_edition.main(["set-audit-short-url", "--date", date, "--url", url])
+
+    def _assert_edition_invariants(self, page, edition=None):
+        self.assertIn(f"<h1>Daily State of AI - {DATE}</h1>", page)
+        self.assertEqual(page.count(HOUSE), 1)
+        self.assertEqual(page.count('<a href="audit/">Audit</a>'), 1)
+        self.assertEqual(page.count("Audio on Spotify"), 1)
+        self.assertEqual(page.count(SPOTIFY_LINK), 1)
+        self.assertEqual(page.count(f'<a href="/daily-state/{DATE}/sources/">Sources</a>'), 1)
+        if edition is not None:
+            daily_state.assert_headline_block(page, edition)
+            daily_state.assert_edition_page(page, edition)
+
+    def test_set_audit_short_url_writes_audit_page_only_and_is_idempotent(self):
+        self.assertEqual(self.repo.build(short=False), 0)
+        # Capture the pending edition page before the command, if any is later written.
+        dirty = X_AUDIT_SHORT + "/video/1?s=20"
+        self.assertEqual(self._run_set_audit_short_url(dirty), 0)
+        edition = json.loads((self.repo.edition_dir() / "edition.json").read_text())
+        self.assertEqual(edition["audit_short_url"], X_AUDIT_SHORT)
+        # The command must not write or alter the edition page.
+        self.assertFalse((self.repo.root / "daily-state" / DATE / "index.html").exists())
+        audit_path = self.repo.root / "daily-state" / DATE / "audit" / "index.html"
+        audit = audit_path.read_text(encoding="utf-8")
+        link = '<a href="%s">Watch the audit short</a>' % X_AUDIT_SHORT
+        self.assertEqual(audit.count(link), 1)
+        self.assertIn('<p class="ds-audit-short">%s</p>' % link, audit)
+        # Prominent: the link appears after the date and before the pending body / any h2.
+        self.assertLess(audit.find(link), audit.find("The executable claim audit"))
+        self.assertNotIn("Watch the audit short", self.repo.load()["html"])
+        edition_bytes = (self.repo.edition_dir() / "edition.json").read_bytes()
+        audit_bytes = audit_path.read_bytes()
+        edition_mtime = (self.repo.edition_dir() / "edition.json").stat().st_mtime_ns
+        audit_mtime = audit_path.stat().st_mtime_ns
+        self.assertEqual(self._run_set_audit_short_url(X_AUDIT_SHORT), 0)
+        self.assertEqual((self.repo.edition_dir() / "edition.json").read_bytes(), edition_bytes)
+        self.assertEqual(audit_path.read_bytes(), audit_bytes)
+        self.assertEqual((self.repo.edition_dir() / "edition.json").stat().st_mtime_ns, edition_mtime)
+        self.assertEqual(audit_path.stat().st_mtime_ns, audit_mtime)
+
+    def test_set_audit_short_url_rejects_a_bad_url_without_writing(self):
+        self.assertEqual(self.repo.build(short=False), 0)
+        before = (self.repo.edition_dir() / "edition.json").read_bytes()
+        self.assertEqual(self._run_set_audit_short_url("https://x.com/other/status/1"), 1)
+        self.assertEqual((self.repo.edition_dir() / "edition.json").read_bytes(), before)
+        self.assertFalse((self.repo.root / "daily-state" / DATE / "audit" / "index.html").exists())
+        self.assertNotIn("audit_short_url", json.loads(before))
+
+    def test_audit_page_omits_the_link_when_url_is_absent(self):
+        self.assertEqual(self.repo.build(short=False), 0)
+        loaded = self.repo.load()
+        self.assertNotIn("Watch the audit short", loaded["audit_html"])
+        self.assertNotIn("ds-audit-short", loaded["audit_html"])
+        self.assertNotIn("audit_short_url", loaded["edition"])
+        page = loaded["html"]
+        self._assert_edition_invariants(page, loaded["edition"])
+
+    def test_set_audit_short_url_keeps_edition_invariants_and_survives_attach(self):
+        self.assertEqual(self.repo.build(short=False), 0)
+        self.assertEqual(self._run_set_audit_short_url(X_AUDIT_SHORT), 0)
+        kit, out = write_audit(self.repo)
+        with mock.patch.object(neon_edition, "REPO", str(self.repo.root)):
+            self.assertEqual(neon_edition.main(
+                ["attach-audit", "--date", DATE, "--audit-out", str(out), "--kit", str(kit)]
+            ), 0)
+        loaded = self.repo.load()
+        audit = loaded["audit_html"]
+        link = '<a href="%s">Watch the audit short</a>' % X_AUDIT_SHORT
+        self.assertEqual(audit.count(link), 1)
+        self.assertLess(audit.find(link), audit.find("<h2>"))
+        self.assertIn("Episode 0 PASS / 1 FAIL / 0 NEEDS-HUMAN", audit)
+        self._assert_edition_invariants(loaded["html"], loaded["edition"])
+        # Regenerating the audit page after attach does not change the edition page once written.
+        self.assertEqual(self._run_set_audit_short_url(X_AUDIT_SHORT), 0)
+        self._assert_edition_invariants(loaded["html"], loaded["edition"])
 
 
     def _seed_home(self):
