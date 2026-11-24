@@ -1,0 +1,10 @@
+@OpenAI: In one run, GPT-6 Cyber helped us validate 948 Linux kernel bugs that could grant local root access and generate patches for review.
+
+Our researchers @clintgibler and @ky1ebot share their findings and how they worked with maintainers to get fixes upstream.
+
+Read the research: https://t.co/wFfTbqet4H
+
+AFFILIATION NOTE (scan): Same-lab account; company-reported research, not independent replication.
+
+REPLIES:
+

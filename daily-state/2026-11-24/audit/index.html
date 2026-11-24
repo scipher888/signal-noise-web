@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Audit — Daily State of AI - 2026-11-24 — Signal &amp; Noise</title>
-  <meta name="description" content="Claim audit for Daily State of AI - 2026-11-24 (pending).">
+  <meta name="description" content="Claim audit for Daily State of AI - 2026-11-24. The audit is for transparency and is not a gate.">
   <link rel="canonical" href="https://www.signalandnoise.email/daily-state/2026-11-24/audit/">
   <link rel="stylesheet" href="../../../styles.css?v=6435ba6d">
   <link rel="alternate" type="application/rss+xml" title="Signal &amp; Noise" href="../../../feed.xml">
@@ -12,12 +12,12 @@
   <meta property="og:site_name" content="Signal &amp; Noise">
   <meta property="og:type" content="article">
   <meta property="og:title" content="Audit — Daily State of AI - 2026-11-24">
-  <meta property="og:description" content="Claim audit for Daily State of AI - 2026-11-24 (pending).">
+  <meta property="og:description" content="Claim audit for Daily State of AI - 2026-11-24. The audit is for transparency and is not a gate.">
   <meta property="og:url" content="https://www.signalandnoise.email/daily-state/2026-11-24/audit/">
   <meta property="og:image" content="https://www.signalandnoise.email/assets/preview.png?v=09b48f76">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Audit — Daily State of AI - 2026-11-24">
-  <meta name="twitter:description" content="Claim audit for Daily State of AI - 2026-11-24 (pending).">
+  <meta name="twitter:description" content="Claim audit for Daily State of AI - 2026-11-24. The audit is for transparency and is not a gate.">
   <meta name="twitter:image" content="https://www.signalandnoise.email/assets/preview.png?v=09b48f76">
 </head>
 <body>
@@ -26,12 +26,475 @@
   <nav><a href="../../../daily-state/">Daily State</a> <a href="../../../archive/">Archive</a> <a href="../../../about/">About</a> <a href="../../../subscribe/">Follow</a></nav>
 </header>
 <main>
-<!-- daily-state-audit-pending -->
 <article>
 <p class="kicker">Daily State of AI</p>
 <h1>Audit — Daily State of AI - 2026-11-24</h1>
 <p><time datetime="2026-11-24">November 24, 2026</time></p>
-<p>The executable claim audit for this edition runs after publication and will appear here. The audit is for transparency and is not a gate.</p>
+<p class="row">Episode 33 PASS / 2 FAIL / 11 NEEDS-HUMAN</p>
+<p class="row">Short 0 PASS / 0 FAIL / 0 NEEDS-HUMAN</p>
+<p class="row">Takeaways 17 PASS / 1 FAIL / 0 NEEDS-HUMAN</p>
+<p>Each claim is a small Python check run against the source texts. The audit is for transparency and is not a gate.</p>
+<h2>Episode</h2>
+<details open>
+<summary>FAIL · Episode omits caveat that OpenAI/Cisco Shirudo and GPT-6 Cyber results are company-reported with no independent evaluation or audit</summary>
+<p>Claim: Episode omits caveat that OpenAI/Cisco Shirudo and GPT-6 Cyber results are company-reported with no independent evaluation or audit</p>
+<p>Result: FAIL</p>
+<p>Source quote: framing (OpenAI): Company-reported launch and controlled test; no independent evaluation yet.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-24/audit/checks/2026-11-24/oe2-openai-no-independent-audit.py">checks/2026-11-24/oe2-openai-no-independent-audit.py</a></p>
+</details>
+<details open>
+<summary>FAIL · Episode omits caveat that Anthropic study consists of qualitative interviews with its own customers and is not a representative sample</summary>
+<p>Claim: Episode omits caveat that Anthropic study consists of qualitative interviews with its own customers and is not a representative sample</p>
+<p>Result: FAIL</p>
+<p>Source quote: framing (Anthropic): Qualitative interviews with Anthropic&#x27;s own enterprise customers; company-reported and not a representative sample.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-24/audit/checks/2026-11-24/oe4-anthropic-nonrepresentative-sample.py">checks/2026-11-24/oe4-anthropic-nonrepresentative-sample.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · Tuesday, November 24, 2026</summary>
+<p>Claim: Tuesday, November 24, 2026</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>Episode date Tuesday, November 24, 2026 is not stated in source texts (primary articles are dated Nov 23, 2026)</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-24/audit/checks/2026-11-24/e01-intro-date.py">checks/2026-11-24/e01-intro-date.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · zero operational risk</summary>
+<p>Claim: zero operational risk</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>no source sentence matches /operational risk/. Editorial framing not stated in DeepMind source</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-24/audit/checks/2026-11-24/e14-zero-operational-risk.py">checks/2026-11-24/e14-zero-operational-risk.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · in a single run costing 1.2 million dollars in API credits</summary>
+<p>Claim: in a single run costing 1.2 million dollars in API credits</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>no source sentence matches /1\.2\s*million/. Primary OpenAI research post not in snapshot; cost not in openai2</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-24/audit/checks/2026-11-24/e16-run-cost-1-2m.py">checks/2026-11-24/e16-run-cost-1-2m.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · averaging about 1,280 dollars per root exploit</summary>
+<p>Claim: averaging about 1,280 dollars per root exploit</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>no source sentence matches /1,?280/. Per-exploit cost figure not in available OpenAI snapshot</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-24/audit/checks/2026-11-24/e19-cost-1280-per-exploit.py">checks/2026-11-24/e19-cost-1280-per-exploit.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · inventing at least ten novel exploitation techniques</summary>
+<p>Claim: inventing at least ten novel exploitation techniques</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>no source sentence matches /(?:10|ten)\s+novel\s+exploit/. Novel exploitation techniques count not in available OpenAI snapshot</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-24/audit/checks/2026-11-24/e20-ten-novel-techniques.py">checks/2026-11-24/e20-ten-novel-techniques.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · OpenAI and Cisco open-sourced Shirudo</summary>
+<p>Claim: OpenAI and Cisco open-sourced Shirudo</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>no source sentence matches /Cisco.*Shirudo/. Primary OpenAI/Cisco Shirudo source missing from snapshot (openai alias holds CSET article)</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-24/audit/checks/2026-11-24/e21-openai-cisco-shirudo.py">checks/2026-11-24/e21-openai-cisco-shirudo.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · Shirudo, Japanese for shield</summary>
+<p>Claim: Shirudo, Japanese for shield</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>no source sentence matches /Shirudo.*Japanese.*shield/. Shirudo etymology not in available source snapshots</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-24/audit/checks/2026-11-24/e22-shirudo-japanese-shield.py">checks/2026-11-24/e22-shirudo-japanese-shield.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · a Linux runtime that lets agents write temporary, cryptographically signed eBPF shields to block exploits on running servers without a restart</summary>
+<p>Claim: a Linux runtime that lets agents write temporary, cryptographically signed eBPF shields to block exploits on running servers without a restart</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>no source sentence matches /eBPF shields/. Primary Shirudo source not in snapshot</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-24/audit/checks/2026-11-24/e23-shirudo-ebpf-runtime.py">checks/2026-11-24/e23-shirudo-ebpf-runtime.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · backed by hardware verification</summary>
+<p>Claim: backed by hardware verification</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>no source sentence matches /hardware verification/. Primary Shirudo source not in snapshot</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-24/audit/checks/2026-11-24/e24-hardware-verification.py">checks/2026-11-24/e24-hardware-verification.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · an operator still has to approve each shield and make sure it does not break legitimate traffic</summary>
+<p>Claim: an operator still has to approve each shield and make sure it does not break legitimate traffic</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>no source sentence matches /operator.*approve.*shield/. Primary Shirudo source not in snapshot</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-24/audit/checks/2026-11-24/e25-operator-approval.py">checks/2026-11-24/e25-operator-approval.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · That could just be reporting lag, or it could mean something deeper: attackers are not limited by technical capability</summary>
+<p>Claim: That could just be reporting lag, or it could mean something deeper: attackers are not limited by technical capability</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: If the limiting factor constraining cyber attacks was the threat of jail and missiles, then the real-world impacts of cyber attacks may not change nearly as dramatically as the underlying technologies do.</p>
+<p>Opinion/hypothesis in CSET report; check whether episode overstates conditional framing as settled fact</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-24/audit/checks/2026-11-24/e34-attackers-limited-by-incentives.py">checks/2026-11-24/e34-attackers-limited-by-incentives.py</a></p>
+</details>
+<details>
+<summary>PASS · Google DeepMind and Google Quantum AI announced that teams of Gemini 4 agents discovered significantly cheaper quantum circuits for future hardware</summary>
+<p>Claim: Google DeepMind and Google Quantum AI announced that teams of Gemini 4 agents discovered significantly cheaper quantum circuits for future hardware</p>
+<p>Result: PASS</p>
+<p>Source quote: This research was a collaboration between Google DeepMind and Google Quantum AI. … In a new paper, we used teams of Gemini 4 agents to improve well-known quantum algorithms, creating highly efficient quantum circuits.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-24/audit/checks/2026-11-24/e02-deepmind-quantum-attribution.py">checks/2026-11-24/e02-deepmind-quantum-attribution.py</a></p>
+</details>
+<details>
+<summary>PASS · significantly cheaper quantum circuits</summary>
+<p>Claim: significantly cheaper quantum circuits</p>
+<p>Result: PASS</p>
+<p>Source quote: Our agent teams cut the required computing cost (a metric that combines required qubits and operations) by 11.8×, and lowered required memory from 5,650 to 4,338 error-corrected qubits. … Running these algorithms in scientific simulations would still demand more computational resources than the first error-corrected quantum computers are likely to provide, but these improvements are significant.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-24/audit/checks/2026-11-24/e03-significantly-cheaper-circuits.py">checks/2026-11-24/e03-significantly-cheaper-circuits.py</a></p>
+</details>
+<details>
+<summary>PASS · Every four hours, separate agent teams met in virtual conferences to debate and trade ideas</summary>
+<p>Claim: Every four hours, separate agent teams met in virtual conferences to debate and trade ideas</p>
+<p>Result: PASS</p>
+<p>Source quote: Improving quantum algorithms using agentic teams For each problem, we tasked separate, independent agent teams with finding algorithmic improvements. … Every four hours, agents from each team met at a virtual conference to trade, debate and compare ideas.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-24/audit/checks/2026-11-24/e04-four-hour-virtual-conferences.py">checks/2026-11-24/e04-four-hour-virtual-conferences.py</a></p>
+</details>
+<details>
+<summary>PASS · The lab reports cutting computing costs</summary>
+<p>Claim: The lab reports cutting computing costs</p>
+<p>Result: PASS</p>
+<p>Source quote: Our agent teams cut the required computing cost (a metric that combines required qubits and operations) by 11.8×, and lowered required memory from 5,650 to 4,338 error-corrected qubits.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-24/audit/checks/2026-11-24/e05-lab-reports-cutting-costs.py">checks/2026-11-24/e05-lab-reports-cutting-costs.py</a></p>
+</details>
+<details>
+<summary>PASS · nearly 12 times for an inertial confinement fusion simulation</summary>
+<p>Claim: nearly 12 times for an inertial confinement fusion simulation</p>
+<p>Result: PASS</p>
+<p>Source quote: - We found a quantum circuit that helps calculate an important property of inertial confinement fusion, a fusion reaction method that uses lasers to compress hydrogen fuel until ignition. … Our agent teams cut the required computing cost (a metric that combines required qubits and operations) by 11.8×, and lowered required memory from 5,650 to 4,338 error-corrected qubits.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-24/audit/checks/2026-11-24/e06-fusion-nearly-12x.py">checks/2026-11-24/e06-fusion-nearly-12x.py</a></p>
+</details>
+<details>
+<summary>PASS · 8 times for simulating a light-sensitive molecule</summary>
+<p>Claim: 8 times for simulating a light-sensitive molecule</p>
+<p>Result: PASS</p>
+<p>Source quote: For a common light-sensitive molecule, the agent teams made quantum simulation 8× cheaper, simplifying how the algorithm tracks particle positions and electric forces.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-24/audit/checks/2026-11-24/e07-light-sensitive-molecule-8x.py">checks/2026-11-24/e07-light-sensitive-molecule-8x.py</a></p>
+</details>
+<details>
+<summary>PASS · two and a half times for Cytochrome P450</summary>
+<p>Claim: two and a half times for Cytochrome P450</p>
+<p>Result: PASS</p>
+<p>Source quote: For Cytochrome P450, an enzyme that breaks down most human medicines and is important for drug design, they found a 2.5× improvement and lowered memory from 481 to 333 qubits, by replacing bulky memory lookups.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-24/audit/checks/2026-11-24/e08-cytochrome-p450-2-5x.py">checks/2026-11-24/e08-cytochrome-p450-2-5x.py</a></p>
+</details>
+<details>
+<summary>PASS · 290 times for arcsin</summary>
+<p>Claim: 290 times for arcsin</p>
+<p>Result: PASS</p>
+<p>Source quote: We found a 2.57x speedup for a specific implementation of Grover&#x27;s algorithm, a foundational quantum operation that searches through an unsorted list, and a 290x speedup for arcsin, a common routine that is used by many other quantum algorithms to load numbers into quantum states.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-24/audit/checks/2026-11-24/e09-arcsin-290x.py">checks/2026-11-24/e09-arcsin-290x.py</a></p>
+</details>
+<details>
+<summary>PASS · hundreds to thousands of error-corrected qubits</summary>
+<p>Claim: hundreds to thousands of error-corrected qubits</p>
+<p>Result: PASS</p>
+<p>Source quote: Our agent teams cut the required computing cost (a metric that combines required qubits and operations) by 11.8×, and lowered required memory from 5,650 to 4,338 error-corrected qubits. … For Cytochrome P450, an enzyme that breaks down most human medicines and is important for drug design, they found a 2.5× improvement and lowered memory from 481 to 333 qubits, by replacing bulky memory lookups.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-24/audit/checks/2026-11-24/e10-hundreds-to-thousands-qubits.py">checks/2026-11-24/e10-hundreds-to-thousands-qubits.py</a></p>
+</details>
+<details>
+<summary>PASS · no quantum computer on earth can run them today</summary>
+<p>Claim: no quantum computer on earth can run them today</p>
+<p>Result: PASS</p>
+<p>Source quote: Because we cannot test resource-intensive quantum circuits on classical computers or today&#x27;s small quantum processors, we have to prove that they work mathematically. … Running these algorithms in scientific simulations would still demand more computational resources than the first error-corrected quantum computers are likely to provide, but these improvements are significant.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-24/audit/checks/2026-11-24/e11-no-quantum-computer-today.py">checks/2026-11-24/e11-no-quantum-computer-today.py</a></p>
+</details>
+<details>
+<summary>PASS · every single circuit was mathematically proved using Lean</summary>
+<p>Claim: every single circuit was mathematically proved using Lean</p>
+<p>Result: PASS</p>
+<p>Source quote: Our agent teams proved each result using Lean, a formal theorem prover.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-24/audit/checks/2026-11-24/e12-proved-using-lean.py">checks/2026-11-24/e12-proved-using-lean.py</a></p>
+</details>
+<details>
+<summary>PASS · DeepMind open-sourced the Lean library and proofs for outside checking</summary>
+<p>Claim: DeepMind open-sourced the Lean library and proofs for outside checking</p>
+<p>Result: PASS</p>
+<p>Source quote: To help the community build on this work, we are open-sourcing our Lean library, problem specifications, and verified solutions on GitHub.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-24/audit/checks/2026-11-24/e13-open-sourced-lean-library.py">checks/2026-11-24/e13-open-sourced-lean-library.py</a></p>
+</details>
+<details>
+<summary>PASS · OpenAI highlighted research</summary>
+<p>Claim: OpenAI highlighted research</p>
+<p>Result: PASS</p>
+<p>Source quote: @OpenAI: In one run, GPT-6 Cyber helped us validate 948 Linux kernel bugs that could grant local root access and generate patches for review. … Read the research: https://t.co/wFfTbqet4H</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-24/audit/checks/2026-11-24/e15-openai-highlighted-research.py">checks/2026-11-24/e15-openai-highlighted-research.py</a></p>
+</details>
+<details>
+<summary>PASS · its GPT-6 Cyber pipeline validated and generated patches</summary>
+<p>Claim: its GPT-6 Cyber pipeline validated and generated patches</p>
+<p>Result: PASS</p>
+<p>Source quote: @OpenAI: In one run, GPT-6 Cyber helped us validate 948 Linux kernel bugs that could grant local root access and generate patches for review.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-24/audit/checks/2026-11-24/e17-gpt6-cyber-patches.py">checks/2026-11-24/e17-gpt6-cyber-patches.py</a></p>
+</details>
+<details>
+<summary>PASS · 948 Linux kernel local privilege escalation bugs</summary>
+<p>Claim: 948 Linux kernel local privilege escalation bugs</p>
+<p>Result: PASS</p>
+<p>Source quote: @OpenAI: In one run, GPT-6 Cyber helped us validate 948 Linux kernel bugs that could grant local root access and generate patches for review.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-24/audit/checks/2026-11-24/e18-948-linux-kernel-bugs.py">checks/2026-11-24/e18-948-linux-kernel-bugs.py</a></p>
+</details>
+<details>
+<summary>PASS · an independent report from Georgetown&#x27;s Center for Security and Emerging Technology</summary>
+<p>Claim: an independent report from Georgetown&#x27;s Center for Security and Emerging Technology</p>
+<p>Result: PASS</p>
+<p>Source quote: Judge the Cyber Apocalypse by the Data, Not the Headlines | Center for Security and Emerging Technology … Page image: https://cset.georgetown.edu/wp-content/uploads/Blog-Dark-Blue.png</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-24/audit/checks/2026-11-24/e26-cset-report-attribution.py">checks/2026-11-24/e26-cset-report-attribution.py</a></p>
+</details>
+<details>
+<summary>PASS · Author Andrew Lohn points out</summary>
+<p>Claim: Author Andrew Lohn points out</p>
+<p>Result: PASS</p>
+<p>Source quote: Andrew Lohn</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-24/audit/checks/2026-11-24/e27-author-andrew-lohn.py">checks/2026-11-24/e27-author-andrew-lohn.py</a></p>
+</details>
+<details>
+<summary>PASS · monthly vulnerability counts tripling between January and September</summary>
+<p>Claim: monthly vulnerability counts tripling between January and September</p>
+<p>Result: PASS</p>
+<p>Source quote: Monthly counts have already tripled from January to September.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-24/audit/checks/2026-11-24/e28-cves-tripling-jan-sep.py">checks/2026-11-24/e28-cves-tripling-jan-sep.py</a></p>
+</details>
+<details>
+<summary>PASS · patching slowing down</summary>
+<p>Claim: patching slowing down</p>
+<p>Result: PASS</p>
+<p>Source quote: On the defensive side, patching is getting slower, and it is taking longer to identify and to contain breaches.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-24/audit/checks/2026-11-24/e29-patching-slowing-down.py">checks/2026-11-24/e29-patching-slowing-down.py</a></p>
+</details>
+<details>
+<summary>PASS · real-world cyber damage is not spiking</summary>
+<p>Claim: real-world cyber damage is not spiking</p>
+<p>Result: PASS</p>
+<p>Source quote: This is in line with daily news stories on the &quot;vulnpocalypse&quot; and &quot;Black October.&quot; Surprisingly though, data on real-world impacts of cyber attacks tells a less dire story.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-24/audit/checks/2026-11-24/e30-real-world-damage-not-spiking.py">checks/2026-11-24/e30-real-world-damage-not-spiking.py</a></p>
+</details>
+<details>
+<summary>PASS · Ransomware payouts are falling</summary>
+<p>Claim: Ransomware payouts are falling</p>
+<p>Result: PASS</p>
+<p>Source quote: The number of ransomware attacks is up somewhat, but the payouts caused by those attacks are down.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-24/audit/checks/2026-11-24/e31-ransomware-payouts-falling.py">checks/2026-11-24/e31-ransomware-payouts-falling.py</a></p>
+</details>
+<details>
+<summary>PASS · healthcare breach impacts are down</summary>
+<p>Claim: healthcare breach impacts are down</p>
+<p>Result: PASS</p>
+<p>Source quote: The number of health care breaches is stable, and the number of people affected by those breaches was down in 2025 and again in 2026.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-24/audit/checks/2026-11-24/e32-healthcare-breach-impacts-down.py">checks/2026-11-24/e32-healthcare-breach-impacts-down.py</a></p>
+</details>
+<details>
+<summary>PASS · zero-days exploited in the wild are on pace for a six-year low</summary>
+<p>Claim: zero-days exploited in the wild are on pace for a six-year low</p>
+<p>Result: PASS</p>
+<p>Source quote: Surprisingly though, the number of vulnerabilities that attackers find and use before defenders find them (known as zero-day vulnerabilities) is on a downward trend, with 2026 on pace to be the lowest in six years.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-24/audit/checks/2026-11-24/e33-zero-days-six-year-low.py">checks/2026-11-24/e33-zero-days-six-year-low.py</a></p>
+</details>
+<details>
+<summary>PASS · Anthropic published a study</summary>
+<p>Claim: Anthropic published a study</p>
+<p>Result: PASS</p>
+<p>Source quote: Working with AI \ Anthropic … To understand businesses&#x27; experiences better, we conducted 66 interviews with 58 of Anthropic&#x27;s enterprise customers.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-24/audit/checks/2026-11-24/e35-anthropic-published-study.py">checks/2026-11-24/e35-anthropic-published-study.py</a></p>
+</details>
+<details>
+<summary>PASS · 66 interviews across 58 of its own business customers</summary>
+<p>Claim: 66 interviews across 58 of its own business customers</p>
+<p>Result: PASS</p>
+<p>Source quote: To understand businesses&#x27; experiences better, we conducted 66 interviews with 58 of Anthropic&#x27;s enterprise customers.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-24/audit/checks/2026-11-24/e36-66-interviews-58-customers.py">checks/2026-11-24/e36-66-interviews-58-customers.py</a></p>
+</details>
+<details>
+<summary>PASS · Coding agents are spreading far beyond engineering</summary>
+<p>Claim: Coding agents are spreading far beyond engineering</p>
+<p>Result: PASS</p>
+<p>Source quote: In particular, they are increasingly using coding agents to bring software capabilities to nontechnical roles.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-24/audit/checks/2026-11-24/e37-coding-agents-beyond-engineering.py">checks/2026-11-24/e37-coding-agents-beyond-engineering.py</a></p>
+</details>
+<details>
+<summary>PASS · domestic layoffs are still rare</summary>
+<p>Claim: domestic layoffs are still rare</p>
+<p>Result: PASS</p>
+<p>Source quote: Across our interviews, we saw very few examples of domestic layoffs that were driven by AI automation.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-24/audit/checks/2026-11-24/e38-domestic-layoffs-rare.py">checks/2026-11-24/e38-domestic-layoffs-rare.py</a></p>
+</details>
+<details>
+<summary>PASS · two-thirds of these companies say they are hiring less because of AI</summary>
+<p>Claim: two-thirds of these companies say they are hiring less because of AI</p>
+<p>Result: PASS</p>
+<p>Source quote: People at two-thirds of the companies we spoke to reported reduced hiring due to AI: as one person put it, &quot;We may not be firing, but we&#x27;re not hiring.&quot; A third of these hiring declines were due to companies actively shrinking functions through attrition without backfilling the roles.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-24/audit/checks/2026-11-24/e39-two-thirds-hiring-less.py">checks/2026-11-24/e39-two-thirds-hiring-less.py</a></p>
+</details>
+<details>
+<summary>PASS · many are cutting offshore contractors</summary>
+<p>Claim: many are cutting offshore contractors</p>
+<p>Result: PASS</p>
+<p>Source quote: Many also reported reducing their use of contractors, particularly offshore ones.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-24/audit/checks/2026-11-24/e40-cutting-offshore-contractors.py">checks/2026-11-24/e40-cutting-offshore-contractors.py</a></p>
+</details>
+<details>
+<summary>PASS · what one interviewee called Claude grenades</summary>
+<p>Claim: what one interviewee called Claude grenades</p>
+<p>Result: PASS</p>
+<p>Source quote: Power users lob &quot;Claude grenades&quot; and shoot &quot;Claude cannons&quot; at the rest of the organization, while AI skeptics respond, &quot;Guys, I&#x27;m not reading your AI email.&quot; In one case, an AI agent put together a set of profit and loss projections that a Chief Investment Officer realized were based on outdated assumptions.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-24/audit/checks/2026-11-24/e41-quote-claude-grenades.py">checks/2026-11-24/e41-quote-claude-grenades.py</a></p>
+</details>
+<details>
+<summary>PASS · as one put it, like they are building their own coffin</summary>
+<p>Claim: as one put it, like they are building their own coffin</p>
+<p>Result: PASS</p>
+<p>Source quote: One software engineer, who we&#x27;ll call Ellen, described her first encounter with automated coding: &quot;I don&#x27;t think that my job is secure… software engineers are going to be obsolete.&quot; Another employee put it even more bluntly: &quot;If I&#x27;m open to this, I&#x27;m essentially building my own coffin.&quot;</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-24/audit/checks/2026-11-24/e42-quote-building-own-coffin.py">checks/2026-11-24/e42-quote-building-own-coffin.py</a></p>
+</details>
+<details>
+<summary>PASS · Episode notes that quantum circuit savings are for future hardware / no quantum computer can run them today</summary>
+<p>Claim: Episode notes that quantum circuit savings are for future hardware / no quantum computer can run them today</p>
+<p>Result: PASS</p>
+<p>Source quote: framing (Google DeepMind): Company-reported results; each circuit is machine-checked in Lean and the library is open-sourced, but resource savings are estimates for hardware that does not exist yet.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-24/audit/checks/2026-11-24/oe1-deepmind-future-hardware-caveat.py">checks/2026-11-24/oe1-deepmind-future-hardware-caveat.py</a></p>
+</details>
+<details>
+<summary>PASS · Episode notes that CSET attack-impact data may lag</summary>
+<p>Claim: Episode notes that CSET attack-impact data may lag</p>
+<p>Result: PASS</p>
+<p>Source quote: framing (Georgetown CSET): Third-party analysis of attack-impact data; interpretive, and its authors note data may lag.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-24/audit/checks/2026-11-24/oe3-cset-data-lag-caveat.py">checks/2026-11-24/oe3-cset-data-lag-caveat.py</a></p>
+</details>
+<h2>Takeaways</h2>
+<details open>
+<summary>FAIL · Takeaways omit caveat that Anthropic study consists of qualitative interviews with its own customers and is not a representative sample</summary>
+<p>Claim: Takeaways omit caveat that Anthropic study consists of qualitative interviews with its own customers and is not a representative sample</p>
+<p>Result: FAIL</p>
+<p>Source quote: framing (Anthropic): Qualitative interviews with Anthropic&#x27;s own enterprise customers; company-reported and not a representative sample.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-24/audit/checks/2026-11-24/ot2-anthropic-nonrepresentative-sample.py">checks/2026-11-24/ot2-anthropic-nonrepresentative-sample.py</a></p>
+</details>
+<details>
+<summary>PASS · Takeaways note that no quantum computer today can run these circuits</summary>
+<p>Claim: Takeaways note that no quantum computer today can run these circuits</p>
+<p>Result: PASS</p>
+<p>Source quote: framing (Google DeepMind): Company-reported results; each circuit is machine-checked in Lean and the library is open-sourced, but resource savings are estimates for hardware that does not exist yet.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-24/audit/checks/2026-11-24/ot1-deepmind-future-hardware-caveat.py">checks/2026-11-24/ot1-deepmind-future-hardware-caveat.py</a></p>
+</details>
+<details>
+<summary>PASS · Google DeepMind reports Gemini 4 agent teams found cheaper quantum circuits</summary>
+<p>Claim: Google DeepMind reports Gemini 4 agent teams found cheaper quantum circuits</p>
+<p>Result: PASS</p>
+<p>Source quote: Finding faster quantum algorithms with agents and formal verification - Google DeepMind … In a new paper, we used teams of Gemini 4 agents to improve well-known quantum algorithms, creating highly efficient quantum circuits.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-24/audit/checks/2026-11-24/t01-deepmind-reports-cheaper-circuits.py">checks/2026-11-24/t01-deepmind-reports-cheaper-circuits.py</a></p>
+</details>
+<details>
+<summary>PASS · cheaper quantum circuits</summary>
+<p>Claim: cheaper quantum circuits</p>
+<p>Result: PASS</p>
+<p>Source quote: Our agent teams cut the required computing cost (a metric that combines required qubits and operations) by 11.8×, and lowered required memory from 5,650 to 4,338 error-corrected qubits.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-24/audit/checks/2026-11-24/t02-cheaper-quantum-circuits.py">checks/2026-11-24/t02-cheaper-quantum-circuits.py</a></p>
+</details>
+<details>
+<summary>PASS · costs cut by nearly 12 times for an inertial confinement fusion simulation</summary>
+<p>Claim: costs cut by nearly 12 times for an inertial confinement fusion simulation</p>
+<p>Result: PASS</p>
+<p>Source quote: - We found a quantum circuit that helps calculate an important property of inertial confinement fusion, a fusion reaction method that uses lasers to compress hydrogen fuel until ignition. … Our agent teams cut the required computing cost (a metric that combines required qubits and operations) by 11.8×, and lowered required memory from 5,650 to 4,338 error-corrected qubits.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-24/audit/checks/2026-11-24/t03-fusion-nearly-12x.py">checks/2026-11-24/t03-fusion-nearly-12x.py</a></p>
+</details>
+<details>
+<summary>PASS · nearly 12 times</summary>
+<p>Claim: nearly 12 times</p>
+<p>Result: PASS</p>
+<p>Source quote: Our agent teams cut the required computing cost (a metric that combines required qubits and operations) by 11.8×, and lowered required memory from 5,650 to 4,338 error-corrected qubits.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-24/audit/checks/2026-11-24/t04-qualifier-nearly-12x.py">checks/2026-11-24/t04-qualifier-nearly-12x.py</a></p>
+</details>
+<details>
+<summary>PASS · every circuit was mathematically proved in Lean</summary>
+<p>Claim: every circuit was mathematically proved in Lean</p>
+<p>Result: PASS</p>
+<p>Source quote: Our agent teams proved each result using Lean, a formal theorem prover.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-24/audit/checks/2026-11-24/t05-proved-in-lean.py">checks/2026-11-24/t05-proved-in-lean.py</a></p>
+</details>
+<details>
+<summary>PASS · no quantum computer today can run the hundreds to thousands of error-corrected qubits they require</summary>
+<p>Claim: no quantum computer today can run the hundreds to thousands of error-corrected qubits they require</p>
+<p>Result: PASS</p>
+<p>Source quote: Because we cannot test resource-intensive quantum circuits on classical computers or today&#x27;s small quantum processors, we have to prove that they work mathematically. … Our agent teams cut the required computing cost (a metric that combines required qubits and operations) by 11.8×, and lowered required memory from 5,650 to 4,338 error-corrected qubits. … For Cytochrome P450, an enzyme that breaks down most human medicines and is important for drug design, they found a 2.5× improvement and lowered memory from 481 to 333 qubits, by replacing bulky memory lookups.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-24/audit/checks/2026-11-24/t06-no-quantum-computer-today-qubits.py">checks/2026-11-24/t06-no-quantum-computer-today-qubits.py</a></p>
+</details>
+<details>
+<summary>PASS · hundreds to thousands of error-corrected qubits</summary>
+<p>Claim: hundreds to thousands of error-corrected qubits</p>
+<p>Result: PASS</p>
+<p>Source quote: Our agent teams cut the required computing cost (a metric that combines required qubits and operations) by 11.8×, and lowered required memory from 5,650 to 4,338 error-corrected qubits. … For Cytochrome P450, an enzyme that breaks down most human medicines and is important for drug design, they found a 2.5× improvement and lowered memory from 481 to 333 qubits, by replacing bulky memory lookups.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-24/audit/checks/2026-11-24/t07-hundreds-to-thousands-qubits.py">checks/2026-11-24/t07-hundreds-to-thousands-qubits.py</a></p>
+</details>
+<details>
+<summary>PASS · Anthropic&#x27;s study</summary>
+<p>Claim: Anthropic&#x27;s study</p>
+<p>Result: PASS</p>
+<p>Source quote: Working with AI \ Anthropic</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-24/audit/checks/2026-11-24/t08-anthropic-study-attribution.py">checks/2026-11-24/t08-anthropic-study-attribution.py</a></p>
+</details>
+<details>
+<summary>PASS · 66 interviews</summary>
+<p>Claim: 66 interviews</p>
+<p>Result: PASS</p>
+<p>Source quote: To understand businesses&#x27; experiences better, we conducted 66 interviews with 58 of Anthropic&#x27;s enterprise customers.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-24/audit/checks/2026-11-24/t09-66-interviews.py">checks/2026-11-24/t09-66-interviews.py</a></p>
+</details>
+<details>
+<summary>PASS · 58 of its own business customers</summary>
+<p>Claim: 58 of its own business customers</p>
+<p>Result: PASS</p>
+<p>Source quote: To understand businesses&#x27; experiences better, we conducted 66 interviews with 58 of Anthropic&#x27;s enterprise customers.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-24/audit/checks/2026-11-24/t10-58-own-business-customers.py">checks/2026-11-24/t10-58-own-business-customers.py</a></p>
+</details>
+<details>
+<summary>PASS · its own business customers</summary>
+<p>Claim: its own business customers</p>
+<p>Result: PASS</p>
+<p>Source quote: To understand businesses&#x27; experiences better, we conducted 66 interviews with 58 of Anthropic&#x27;s enterprise customers.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-24/audit/checks/2026-11-24/t11-own-business-customers-qualifier.py">checks/2026-11-24/t11-own-business-customers-qualifier.py</a></p>
+</details>
+<details>
+<summary>PASS · two-thirds said they are hiring less because of AI</summary>
+<p>Claim: two-thirds said they are hiring less because of AI</p>
+<p>Result: PASS</p>
+<p>Source quote: People at two-thirds of the companies we spoke to reported reduced hiring due to AI: as one person put it, &quot;We may not be firing, but we&#x27;re not hiring.&quot; A third of these hiring declines were due to companies actively shrinking functions through attrition without backfilling the roles.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-24/audit/checks/2026-11-24/t12-two-thirds-hiring-less.py">checks/2026-11-24/t12-two-thirds-hiring-less.py</a></p>
+</details>
+<details>
+<summary>PASS · hiring less because of AI</summary>
+<p>Claim: hiring less because of AI</p>
+<p>Result: PASS</p>
+<p>Source quote: Although some companies reported hiring more due to AI, most companies reported hiring less due to AI.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-24/audit/checks/2026-11-24/t13-hiring-less-because-of-ai.py">checks/2026-11-24/t13-hiring-less-because-of-ai.py</a></p>
+</details>
+<details>
+<summary>PASS · the companies capturing real value were those reorganizing roles and workflows rather than simply handing out tools</summary>
+<p>Claim: the companies capturing real value were those reorganizing roles and workflows rather than simply handing out tools</p>
+<p>Result: PASS</p>
+<p>Source quote: Interviewees described the highest-value uses as involving meaningful reorganization. … Some companies are experimenting with complementary organizational changes in response to AI rather than just automating existing workflows or handing out AI tools.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-24/audit/checks/2026-11-24/t14-reorganizing-roles-workflows.py">checks/2026-11-24/t14-reorganizing-roles-workflows.py</a></p>
+</details>
+<details>
+<summary>PASS · Takeaway 1 cites https://deepmind.google/blog/finding-faster-quantum-algorithms-with-agents-and-formal-verification/, which is listed in the episode sources.json.</summary>
+<p>Claim: Takeaway 1 cites https://deepmind.google/blog/finding-faster-quantum-algorithms-with-agents-and-formal-verification/, which is listed in the episode sources.json.</p>
+<p>Result: PASS</p>
+<p>Source quote: (none)</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-24/audit/checks/2026-11-24/tc01-citation.py">checks/2026-11-24/tc01-citation.py</a></p>
+</details>
+<details>
+<summary>PASS · Takeaway 2 cites https://www.anthropic.com/research/working-with-ai, which is listed in the episode sources.json.</summary>
+<p>Claim: Takeaway 2 cites https://www.anthropic.com/research/working-with-ai, which is listed in the episode sources.json.</p>
+<p>Result: PASS</p>
+<p>Source quote: (none)</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-24/audit/checks/2026-11-24/tc02-citation.py">checks/2026-11-24/tc02-citation.py</a></p>
+</details>
 <p><a href="../">Back to the edition</a></p>
 </article>
 </main>

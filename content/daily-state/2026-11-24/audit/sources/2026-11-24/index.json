@@ -1,0 +1,62 @@
+{
+ "date": "2026-11-24",
+ "bundle_sha256": "46664a2dc6ecea424d4e2d6baafb348adb632be60548eb70bdd5d063e8c7aaa0",
+ "sources": {
+  "primary-openai-cisco-shirudo-ebpf-shields": {
+   "file": "primary-openai-cisco-shirudo-ebpf-shields.txt",
+   "url": "https://cset.georgetown.edu/article/judge-the-cyber-apocalypse-by-the-data-not-the-headlines/",
+   "title": "Judge the cyber apocalypse by the data, not the headlines",
+   "kind": "primary",
+   "sha256": "7982037dea610ad983a07e1ccebad14fe53138960a095cbac90f0a4c9772950a"
+  },
+  "x-openai": {
+   "file": "x-openai.txt",
+   "url": "https://x.com/OpenAI/status/2125007927098699827",
+   "title": "X post by @OpenAI (OpenAI)",
+   "kind": "x_post",
+   "sha256": "ad2ef2abf0f04be07e7f1a1d68aa76db006d7538c881befbc29a6467af3810d0"
+  },
+  "x-ramez": {
+   "file": "x-ramez.txt",
+   "url": "https://x.com/ramez/status/2125004190032552392",
+   "title": "X post by @ramez (Ramez Naam)",
+   "kind": "x_post",
+   "sha256": "27441a4357146bd7cdb2d1beb59893afc2252c4c84afd548034aa3d5950439c2"
+  },
+  "primary-deepmind-gemini4-agents-lean-quantum-cir": {
+   "file": "primary-deepmind-gemini4-agents-lean-quantum-cir.txt",
+   "url": "https://deepmind.google/blog/finding-faster-quantum-algorithms-with-agents-and-formal-verification/",
+   "title": "Finding faster quantum algorithms with agents and formal verification",
+   "kind": "primary",
+   "sha256": "4c737e1c416bb8c909d595a73f80020f4142dffc678e151ebe68a9649fd9dfa3"
+  },
+  "x-googledeepmind": {
+   "file": "x-googledeepmind.txt",
+   "url": "https://x.com/GoogleDeepMind/status/2124911073266413634",
+   "title": "X post by @GoogleDeepMind (Google DeepMind)",
+   "kind": "x_post",
+   "sha256": "bab36410b7b9446555d2b7e07b10a213c62b21d341f129bae963b17a2c43a07b"
+  },
+  "primary-anthropic-working-with-ai-enterprise-int": {
+   "file": "primary-anthropic-working-with-ai-enterprise-int.txt",
+   "url": "https://www.anthropic.com/research/working-with-ai",
+   "title": "Working with AI",
+   "kind": "primary",
+   "sha256": "5ea4613e2812c5551e89f949917570070ed0032c5386b3151dcd841cd444dc3e"
+  },
+  "x-emollick": {
+   "file": "x-emollick.txt",
+   "url": "https://x.com/emollick/status/2125098309928812898",
+   "title": "X post by @emollick (Ethan Mollick)",
+   "kind": "x_post",
+   "sha256": "884f518234e8c70a533374f4ceaef1f65a79a663f43cd23252c424f9c0895cae"
+  },
+  "scan-framing": {
+   "file": "scan-framing.txt",
+   "url": "https://www.signalandnoise.email/content/daily-state/2026-11-24/audit/sources/2026-11-24/scan-framing.txt",
+   "title": "Morning X-first scan: verification framing per story",
+   "kind": "scan",
+   "sha256": "77740be10a3c4f2cbf8892642aa4aab5553b6b123bdb67b2cee4fe8aebab459c"
+  }
+ }
+}

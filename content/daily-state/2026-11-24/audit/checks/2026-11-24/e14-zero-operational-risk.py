@@ -1,0 +1,14 @@
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / 'lib'))
+from auditlib import *  # noqa
+
+CLAIM = {'id': 'e14-zero-operational-risk', 'artifact': 'episode', 'type': 'qualifier', 'story': 'Quantum Circuits', 'quote': 'zero operational risk'}
+
+
+def check(ctx):
+    return ctx.require('deepmind', r'operational risk', note='Editorial framing not stated in DeepMind source')
+
+
+if __name__ == '__main__':
+    run_cli(CLAIM, check)

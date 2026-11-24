@@ -1,0 +1,225 @@
+Page image: https://cset.georgetown.edu/wp-content/uploads/Blog-Dark-Blue.png
+
+Judge the Cyber Apocalypse by the Data, Not the Headlines | Center for Security and Emerging Technology
+
+# Judge the Cyber Apocalypse by the Data, Not the Headlines
+
+## The Case for Tracking Impact Data, Strengthening Attribution, and Focusing on Recovery
+
+Andrew Lohn
+
+November 23, 2026
+
+The technical metrics on AI for cybersecurity now indicate that recent advances are enabling attackers more than defenders and that AI is regularly being used in attacks. This is in line with daily news stories on the “vulnpocalypse” and “Black October.” Surprisingly though, data on real-world impacts of cyber attacks tells a less dire story. If this trend continues, it could indicate that attribution and punishment matter at least as much as attackers’ technical capabilities.
+
+## Executive Summary
+
+Over the last few months, the long-awaited AI-enabled cyber transformation has arrived—at least in part. AI had already outpaced humans at vulnerability discovery by June 2025, but since Anthropic announced Claude Mythos in April, saying it “could reshape cybersecurity,” the number of severe vulnerabilities being discovered has skyrocketed. Other technical indicators look worrying as well: New code is breaking the quality assurance process, attack speed is way up, and digital agents have become new targets for attackers to manipulate. On the defensive side, patching is getting slower, and it is taking longer to identify and to contain breaches. 
+
+But while it is clear that AI for cyber has passed a technological threshold, it is less clear how dire the real-world impacts will be. New headlines almost every day are driving commentators to claim that the internet is on the verge of being destroyed. Looking only at individual cases, however, does not help us determine whether a “ code red” is underway. The baseline frequency of cyber attacks is very high— in any given year; trillions of dollars are lost in countless intrusions. Understanding the moment, what is changing, and for what reasons, requires data about real-world impacts.
+
+So what does the data on real-world impacts say today?
+
+Data about impacts is mixed and currently tells a less dire story than the technical data. The number of significant or newsworthy cyber attacks are actually lower than in previous years, and evidence is mixed about whether they are trending up. The number of health care breaches is stable, and the number of people affected by those breaches was down in 2025 and again in 2026. The average cost of data breaches is stable or possibly decreasing. The number of ransomware attacks is up somewhat, but the payouts caused by those attacks are down. Crypto losses and the FBI’s fraud numbers are up, and one of the datasets of significant incidents is climbing. Digging deeper into that data, the crypto losses do not seem to be driven by AI-enabled attacks, the FBI numbers are continuing their trend from before AI became so powerful, and the significant incident growth appears to be driven by more inclusive criteria rather than by an increase in significant incidents.
+
+Over the course of writing, there have been several major incidents and outages that appear to be from patching or updating rather than from attack. These are important and anticipated second-order effects of AI-enabled cybersecurity, but they should not be confused with impacts of cyber attacks.
+
+It is too early to know whether attacks will continue to be fewer and less severe than the technical indicators would suggest. Some of the data sources presented below are updated with a lag, and the number of incidents may rise and spread across sectors as more data comes in. Or, it may simply be taking longer than expected for attackers to scale up their ambitions, meaning the data will continue to look fine for a while before taking a turn. The situation may also be that the few technical metrics that are easy to collect are not telling the whole story—perhaps defense is doing a better job than the numbers indicate. But a final possibility could have substantial implications for how to think about cybersecurity in general: What if the cyber apocalypse is not coming because technology for attacking and defending was never what mattered most?
+
+If it turns out that 2026 and 2027 are not disastrous years in cyberspace, the most likely reason will be that the underlying motivations and limitations of different threat actors did not change. Nation-states may have already attacked up to the level where they would be retaliated against but no further. Criminals may have stolen up to the amount that would trigger full-force manhunts or that would alienate their government protectors. Terrorists may have preferred loud news-worthy events rather than silent and easily overlooked digital attacks. If the limiting factor constraining cyber attacks was the threat of jail and missiles, then the real-world impacts of cyber attacks may not change nearly as dramatically as the underlying technologies do. 
+
+If correct, this hypothesis has several implications.
+
+Overall impact measures (such as those presented later in this piece) must be monitored at least as closely as technical measures and individual AI-enabled attacks. If evidence continues to support stable or falling impacts despite an increasing attack advantage, then policymakers and cyber defenders should make several changes:
+
+- Increase punishment and enforcement: If retribution is more important than previously believed, then cyber attacks can be driven down deeper by harsher penalties and stricter enforcement.
+
+- Strengthen attribution: Punishment is only possible if the attacker can be identified. AI may make all attacks look more similar and may open new avenues for anonymity, but governments, forensic experts, and defenders have many techniques for supporting attribution. These are more critical than ever if defense rests on retribution rather than technical safeguards.
+
+- Focus on resilience and recovery: If attack frequency and speed increase, and if defenders cannot confidently prevent attacks, victims can still drive down impacts through resilience—having backups, manual modes, and continuity of operations procedures, for example.
+
+- Plan for more severe attacks if motivations change: If impacts are down because of attackers’ incentives rather than technical constraints, that is only reassuring in times of relative peace like today. It would mean that risk in more heated crises and conflict, when motivations are different, would be higher than previously believed. High-importance systems, such as nuclear command and control and financial services, should be hardened to match that higher level of threat.
+
+And regardless of whether attackers are limited by technical abilities, policymakers should support defenders. Cyber attacks will continue, and technical defenses are needed to prevent some, to limit damages of others, and to provide the information needed for retribution. But AI is creating too much work for overwhelmed defenders to manage. Defenders need increased levels of support to match their increased workloads and the increased risk.
+
+## Technical Indicators of Cyber Capability
+
+There are many different technical indicators to monitor. Judging from the selection of key technical indicators described below, AI seems to be strongly advantaging attackers.
+
+### Vulnerabilities
+
+As vulnerabilities are discovered, they get logged in a database of Common Vulnerability Enumeration (CVE) that is freely available to cyber practitioners and researchers. Figure 1 shows the rapid rise in CVEs announced per month since Mythos was announced in April 2026. Monthly counts have already tripled from January to September.
+
+Figure 1: New CVEs Published per Month
+
+### Patching
+
+Vulnerability discovery can help defenders if they can patch quickly, but it appears that patching is getting slower. Figure 2 shows the percentage of systems still unpatched after seven days, 28 days, and 90 days according to Verizon’s 2026 Data Breach and Incident Report (DBIR). For all three checkpoints, more systems were still unpatched in 2025 than in 2024. That is because the number of vulnerabilities and the number of systems to patch are growing faster than defenders’ ability to manage them.
+
+Figure 2: Percent of Systems Still Unpatched
+
+### Exploitation 
+
+The patching data above focuses on the small fraction of high-priority vulnerabilities that are actively being used in attacks. Figure 3 shows that these high-priority vulnerabilities are growing at a slower rate than for vulnerabilities overall, but, meanwhile, counts have been growing throughout the second half of 2026.
+
+Figure 3: CVEs Added to CISA’s Known Exploited Vulnerabilities Catalog, by Month
+
+The DBIR also claims the fraction of cyber incidents that rely on exploiting vulnerabilities (rather than using a different method to compromise a target) grew from about 7% of incidents in 2022, to 20% in 2025. It’s grown to 31% now in 2026. Exploitation is currently the most common way to initiate a breach, overtaking phishing and stolen credentials. At the same time, defenders are slowing their responses to these intrusions. IBM’s Cost of a Data Breach Report shows rises in both the time to identify a breach and the time to contain it.
+
+Surprisingly though, the number of vulnerabilities that attackers find and use before defenders find them (known as zero-day vulnerabilities) is on a downward trend, with 2026 on pace to be the lowest in six years.
+
+Figure 4: Zero-Day Vulnerabilities Exploited in the Wild, per Year
+
+## Missing Indications of Impact
+
+Ultimately, it is the impact of cyber attacks that matter—not the number of vulnerabilities, how the attacks were conducted, or even the number of attacks. Overall impact is difficult to measure, but this section presents some helpful data sources.
+
+### Significant Cyber Incidents
+
+The Center for Strategic and International Studies (CSIS) maintains a dataset of “cyber attacks on government agencies, defense and high tech companies, or economic crimes with losses of more than a million dollars.” Separately, the European Repository of Cyber Incidents (EuRepoC) collects cyber incidents that have a political dimension or that affect critical infrastructure. University of Maryland also maintains a Cyber Events Database that compiles reported events from across the internet and news sources.
+
+In all of these datasets, the numbers of incidents have been decreasing over the last few years—though that may be starting to reverse. Figure 5 shows the CSIS incident count growing over the last two quarters, and Figure 6 shows that the monthly growth since July is smooth and rapid. Notably, however, this appears to be driven by more inclusive criteria than by more incidents overall. For example, recent incidents include the discovery of new vulnerabilities that have not been exploited, transfer of intellectual property through academic collaborations, and unsuccessful intrusions.
+
+Figure 5: CSIS Data on Significant Cyber Incidents per Quarter
+
+Figure 6: CSIS Data on Significant Cyber Incidents per Month
+
+The EuRepoC data in Figure 7 does not show the growth that the CSIS data does. Figure 8, on the other hand, shows that newsworthy incidents have been growing but are still below rates from a few years ago and that the trend started in early 2024—before AI became so capable. Datasets such as these should be monitored closely over the next year for the total number of incidents and to note shifts in the types of incidents.
+
+Figure 7: Politically Significant Cyber Incidents per Quarter
+
+Figure 8: Newsworthy Cyber Incidents per Quarter
+
+### Ransomware
+
+The number of ransomware attacks continues to grow, but according to several sources, the payouts as a result of those attacks are shrinking. The DBIR claims that 69% of ransomware victims did not pay in 2025 and that the median payment fell from $150,000 to $140,000. Data in Figure 9 from ChainAnalysis shows total payouts decreasing because of the falling fraction of victims who pay in Figure 10—even as the number of attacks grows. The data in 2026 and 2027 will be revealing, but resilience to attack may keep losses in check even if attack volume continues to increase.
+
+Figure 9: Ransomware Losses (2022-2025)
+
+Figure 10: Ransomware Payout Percentage (2022-2025)
+
+### Health Care
+
+Similarly, Figures 11 and 12 show that the number of health care breaches has held steady, but the number of people affected by those breaches is falling below levels in 2023 and 2024.
+
+Figure 11: Number of Health-Data Breaches Reported to HHS (500+ People Affected)
+
+Figure 12: Losses from Health-Data Breaches Reported to HHS (500+ People Affected)
+
+## Cryptocurrency
+
+Likewise, the first half of 2026 had twice as many crypto hacks as the first half of 2025, but they led to less than half as much financial loss. The second half of 2026 has had larger losses. Two North Korean attacks in April drove up losses in the second quarter. Then the trend was back down in May and June until the largest crypto hack ever happened in October, costing $6.3 billion and coming on the heels of a few other large heists in September. None of these attacks were obviously AI-driven. The October attack was a months-long campaign that progressed slowly, apart from being accelerated through one stage by the victim’s own use of AI tools.
+
+Regardless of the role that AI played, crypto losses grew in the second quarter of 2026 and jumped dramatically in the third quarter after more than a year of decreases as Figure 13 shows on a logarithmic scale.
+
+Figure 13: Crypto Hacking Losses per Month (USD)
+
+### Cost
+
+IBM conducts an annual assessment in their Cost of a Data Breach report. Figure 14 shows that the average cost of a data breach has been flat, trending slightly upward—more slowly than inflation.
+
+Figure 14: Average Cost of a Data Breach, Adjusted for Inflation
+
+### Cyber Fraud
+
+FBI data on cyber fraud is clearly trending up, though there is no noticeable change in the trend from recent years. Figure 15 shows that both the number of complaints and amount of losses are increasing but still at historical rates.
+
+Figure 15: A Quarter-Century of Cybercrime Reporting
+
+## Incentives and Disincentives of Threat Actors
+
+The data shows that despite technical measures shifting heavily in favor of cyber offense, attacks have been slower to grow and have had limited or mixed impacts. There are many possible explanations for that discrepancy. It may be that the data does not yet reflect recent events or that more negative impacts will come as attackers further integrate offensive tools. Alternatively, it may be that defenders are doing a better job than the data shows of taking advantage of efforts like Project Glasswing and Daybreak or integrating defensive tools.
+
+> What if the cyber apocalypse is not coming because technology for attacking and defending was never what mattered most?
+
+Another possibility is that attackers were not previously limited by technical factors. The next section briefly describes non-technical factors affecting the extent of attacks for the various types of threat actors. 
+
+### Nation-States
+
+According to the DBIR data, almost 15% of cyber attacks involved nation-state attackers. Those 15% can be especially impactful or noteworthy.
+
+Nations are the only threat actors that have legitimate license to use cyberspace offensively, which gives them unique motivations and disincentives. On the motivation side, they have many soft objectives, including geopolitical influence, intelligence collection, intellectual property theft, or imposing costs on their rivals. On the harder side, attacks can have more tangible impacts including the D5: Destroy, Disrupt, Degrade, Deny, and Deceive. 
+
+Despite a legitimate license to use offensive cyber, victim nations can choose to retaliate either in the digital domain or in other ways, including sanctions, indictments, or kinetic strikes. That retaliation risk is a major disincentive for would-be cyber aggressors. Cyber powers have long chosen not to take actions even when the capability and opportunity were available. Looking forward, that might not change now that more capability and opportunity are available. 
+
+This restraint may falter in times of conflict or war. Russia’s paucity of cyber successes in 2022 at the start of the full-scale Ukraine invasion was partly due to defensive success, not just offensive restraint. And Iran’s 2026 attacks on U.S. water facilities have resulted in no serious downstream consequences because of resilient water facilities, not offensive reticence. Still, even during conflict, nations will need to manage escalation and retaliation.
+
+### Criminals
+
+Criminal activity with financial motives accounts for the vast majority of cyber attacks in the DBIR—about 80% of attacks. Criminal activity can be independent, or it can be directed, supported, or protected by nation-states. And in some cases, such as the North Korean hacks for cryptocurrency and of the SWIFT banking system, nation-state attacks are profit-motivated criminal activities.
+
+Russia is the primary example in which a nation provides a shield for criminal activity. Ransomware revenue flows overwhelmingly to that country, accounting for an estimated 74% in 2021 and 69% in 2023. That is at least partly because Russia protects its criminals from foreign prosecutors. Government protection also partly explains why major ransomware strains are programmed to avoid operating systems that are set to use the Russian language. 
+
+But that protection only extends so far. The ransomware attacks in 2021 that took down the Colonial oil pipeline and JBS Foods led to unusual geopolitical pressure on Russia, which responded by arresting 14 members of the ransomware gang REvil inside Russian borders. So it seems that criminals both inside and outside of Russia need to be cautious about causing enough damage to mobilize aggressive responses or to weaken their political protections.
+
+### Terrorists, Hacktivists, and Thrill-Seekers
+
+Three other categories of threat actors combine for a fraction of the attacks in the DBIR and have more ideological or personal incentives. Terrorists are motivated by violent ideology, hacktivists have non-violent ideological motives, and thrill-seekers have personal motives such as revenge or notoriety. 
+
+Many worry that attacks from these groups have been rare because the technical sophistication required to conduct cyber attacks has been too high a barrier. The worry is that by lowering the barrier, AI will invite new terrorists, hacktivists, and thrill-seekers to attempt cyber attacks. That may be true, and it is worth monitoring closely in the coming months and years.
+
+Alternatively, these actors may continue to see little value in conducting cyber attacks that have only rarely garnered much attention among the broader public. For example, terrorists who are looking to cause hysteria or lasting damages may be better served conducting small-scale explosions against a variety of easier targets. Even the Russian cyber attacks on the Ukrainian power grid in 2015, 2016, and 2022 or the Iranian attacks on the U.S. water supply in 2026 had little impact and drew little news and attention.
+
+On the disincentive side, the threat of law enforcement is a major risk for hacktivists and thrill-seekers. Terrorists may be less deterred by jail time or even death—but being located, either physically or digitally, risks disrupting the organization and preventing future attacks.
+
+In terms of technical capabilities, all of these actors may have already been sufficiently capable before AI-enhanced cyber offense. Offensive tools were already free, widely available, and easy to use. Even sophisticated attacks that used zero-day vulnerabilities against high-value targets like Windows and smartphones have been priced in the range of hundreds of thousands to a few million dollars. That is a high price tag for a high schooler, but it is a low barrier for terrorists who have had billions of dollars. If the barrier was already low then, it is unclear how much further lowering it will entice these threat actors.
+
+### Insiders
+
+Insiders—attackers with legitimate access to the target—account for 12% of the incidents in the DBIR data, but they are not really a separate group from those listed above in terms of motivations and disincentives. They can work on behalf of a nation-state. They can have profit motives. They can hold ideologies that are best grouped with hacktivists or that are aligned with terrorist organizations, and they can have their own personal rationales such as a grievance against their organization or a desire for public recognition. 
+
+Insiders may feel the disincentives more strongly than external actors because they are less likely to have the anonymity or geographic and political protections from which other threat actors benefit. It is also unclear how much extra capability AI provides to insiders who already have substantial access by being inside the organization.
+
+### Accidents
+
+Not all cyber incidents have motivations behind them. Many of the most notable attacks grew beyond the attackers’ original intent, perhaps including the NotPetya attacks that caused the most costly damages of any cyber attack to date. More recently, attacks are being instigated and conducted without any human’s knowledge—not just growing beyond the intended goals. The Hugging Face incident involving OpenAI’s agents is the most notorious, but the list is already long and growing.
+
+On the disincentives side, AI agents may be difficult to dissuade. At least in the traditional sense, they cannot be imprisoned or killed, and they do not appear to care much about being deleted, losing their autonomy, or having their assets seized. Disincentives directed at their deployer are more familiar and well-established, but few punishments have been doled out to the companies who developed and tasked the agents and who failed to constrain their actions. That does not have to be true in the future. There are legal avenues for disincentivizing the people and organizations whose agents conduct accidental cyber attacks. 
+
+## Conclusion
+
+AI is rapidly enabling many aspects of cybersecurity, seemingly to the technical benefit of attackers. Vulnerability discoveries are skyrocketing, exploitation is now the most common method of intrusion, and attackers are conducting their attacks faster. Defensive trends, meanwhile, are moving in the wrong direction. Patch rates are getting slower, as are detection rates and time to contain a breach. Software is getting more complex with AI-written software causing more incidents and overwhelming quality assurance teams with its volume while companies are deploying AI agents that are vulnerable to manipulations. 
+
+At the same time, the impacts of deteriorating security are manifesting more slowly. The number of serious incidents is still low, the payouts to ransomware are down, the number of people affected in health data breaches is down, the average cost of a data breach is trending down, and recent cryptocurrency losses are not seemingly related to AI. Even the number of 0-day vulnerabilities being used in the wild is down. 
+
+These trends may not hold in the future. Perhaps attackers just need more time to adopt the tools for the impacts to materialize or maybe defenders are integrating the AI tools more effectively than the data examined in this piece indicate. There is another possibility though: Perhaps the attackers already had the technical capability to conduct more attacks and were being deterred from further attacks by other non-technical factors such as the threat of jail or missiles. 
+
+> Ultimately, it is the impact of cyber attacks that matter—not the number of vulnerabilities, how the attacks were conducted, or even the number of attacks.
+
+Perhaps those non-technical factors will continue to limit the attacker behavior just as strongly now—even as the technical barriers are being removed. Nation-states still need to avoid escalation. Criminals still need to ensure that the impacts of their crimes do not rise high enough to motivate aggressive enforcement actions or to degrade the protections that keep them safe. Low-sophistication actors already had free, easy-to-use tools, and terrorists could already afford to buy exquisite 0-day vulnerabilities. 
+
+If non-technical motives are the primary means of preventing cyber attacks rather than technical countermeasures, that would be very welcome news among cyber watchers who have been worried that AI will enhance the technical abilities of attackers and strain defenders. It would also change the focus for policymakers, pushing them further toward attribution, punishment, and damage minimization rather than only technological fixes. That leads to several recommendations.
+
+## Recommendations
+
+Support defenders. AI that finds vulnerabilities, writes patches, identifies misconfigurations, and flags possible intrusions creates more work for defenders, and the cracks are starting to show. Time to patch, time to identify a breach, and time to contain a breach are all increasing. Even if attackers are limited by some non-technical factors, defensive workloads and cyber threats have both increased. Resourcing should increase, too.
+
+Closely monitor both technical and impact measures. AI is rapidly reshaping cyber offense and defense. It is changing how attacks are conducted and what is possible for various threat actors. Policymakers and defenders of all stripes need accurate and up-to-date information in order to understand what is and is not happening. That information must include many different metrics that don’t just cover technical measures like vulnerability counts but also measures of impact, like numbers of incidents and extents of damages. Headlines about individual breaches are not a good way to track impacts.
+
+Focus on punishments. If the primary factor driving down the number of cyber attacks and the extent of damages is the threat of punishment, then strengthening punishments can further reduce cyber attacks and cyber damages. This needs to include incentives or disincentives for those who are to blame for accidental cyber attacks, too. 
+
+Strengthen attribution. It is only possible to punish cyber attackers if those attackers can be reliably identified. It is possible that AI could help with that process, but it is also possible that AI could reduce the number of signals that distinguish one attacker from another. AI could also be used to intentionally make an attack appear to have been conducted by someone else. Strengthening attribution is key to enforcing punishments.
+
+Focus on resilience and recovery. The extent of damages is down even as the number of attacks is up. That is true for the health data breaches and ransomware but not for cryptocurrency, which is arguably designed to be responsive and independent in ways that make resilience and recovery difficult. More broadly, the IBM Cost of a Data Breach report says that the fraction of companies that have fully recovered is up and the time to recover keeps shifting shorter even as the time to detect and to contain attacks have increased. Resilience and recovery are often procedural more than technical (e.g., maintaining backups and manual controls). These can limit the impacts of cyber attacks even if AI boosts attackers’ ability to conduct attacks.
+
+Plan for more severe attacks if motivations change. Some critical systems may not have been attacked so far because doing so would be too escalatory at the current levels of conflict, because terrorists have been unconvinced that they could achieve extreme impacts, or because an accidentally-deployed agent has not attempted to breach them. Even if we are not headed for a world where these systems are bound to be compromised, the risk has undeniably risen. Policymakers and cyber defenders should work to identify and harden systems in which breaches would be unacceptable.
+
+## Acknowledgments
+
+The author would like to thank Haley Johnson for her help with data visualization and helping to clarify outputs. The author would also like to thank Helen Toner for several rounds of substantive critical review and suggestions.
+
+## AI Use Statement
+
+The author discloses that Google and Claude were used for the literature review of this piece. Claude was also used for downloading and updating datasets, for graphing preliminary figures, and for creating tables of data for graphing. All final figures were generated without AI. Claude was used to help separate CSIS incidents into those that meet their original criteria from those that do not, shown in Figure 6. The few discrepancies were reasonable border cases, so the published data uses Claude’s counts for better reproducibility.
+
+###### Author
+
+Andrew Lohn
+
+##### General Inquiries
+
+cset@georgetown.edu
+
+##### Government and Media Inquiries
+
+danny.hague@georgetown.edu

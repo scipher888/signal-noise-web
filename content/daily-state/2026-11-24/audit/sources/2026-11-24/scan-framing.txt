@@ -1,0 +1,13 @@
+STORY: OpenAI and Cisco open-source Shirudo, agent-written eBPF shields for unpatched Linux systems
+verification_status: company_reported
+framing (OpenAI): Company-reported launch and controlled test; no independent evaluation yet.
+framing (OpenAI): Company-reported research run; counts are OpenAI's own, not independently audited.
+framing (Georgetown CSET): Third-party analysis of attack-impact data; interpretive, and its authors note data may lag.
+
+STORY: DeepMind's Gemini 4 agent teams find cheaper quantum circuits, each proved in Lean
+verification_status: company_reported
+framing (Google DeepMind): Company-reported results; each circuit is machine-checked in Lean and the library is open-sourced, but resource savings are estimates for hardware that does not exist yet.
+
+STORY: Anthropic's interviews with 58 enterprise customers: value comes from reorganizing, and experts resist
+verification_status: company_reported
+framing (Anthropic): Qualitative interviews with Anthropic's own enterprise customers; company-reported and not a representative sample.

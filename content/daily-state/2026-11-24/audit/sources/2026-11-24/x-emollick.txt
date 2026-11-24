@@ -1,0 +1,39 @@
+@emollick: Two big points from this new Anthropic paper:
+1) The most AI value comes from changing the organization
+2) There is wide worker resistance to AI adoption (partially due to point 1)
+
+Changes that expand what workers do &amp; share AI gains with them could help https://t.co/64vsyBqLJH https://t.co/C0HOnKcZrt
+
+AFFILIATION NOTE (scan): Independent academic commentator; the underlying study is by Anthropic about its own customers.
+
+REPLIES:
+@SimmaGus (1 likes): @emollick If the biggest AI gains come from changing how the whole organization works, resistance makes sense. People will fight a tool that reshapes their job unless they share in the upside.
+@MichaelAetherAI (0 likes): @emollick Agreed. 
+The hiring bit jumped out at me. People at two-thirds of the companies in the study reported hiring less because of AI. So far, the bigger change looks like jobs that never get posted.
+@rosi_workflows (0 likes): @emollick The value isn't bolting AI onto old steps. Redesign one workflow end to end, and let the person whose name is on the output own the spec and the review. I run a small Grok bot team on an edtech classroom assistant, and the review step stays human.
+@GregMoranX (0 likes): @emollick The reality is that most companies will never reorg in the way required to get the impact. Asking people to redesign their own jobs in place is a hard sell. My bet is more of the value gets built next to the core business.
+@Kevinduan2014 (0 likes): @emollick The bottleneck is change in workflow and roles
+@NHN_3110 (0 likes): @emollick In outsourcing hubs like Vietnam, the business model is selling hours. If the AI gains come from reorganizing work, who captures them: the client that reorganizes, or the vendor whose billable hours shrink?
+@heyitsmejak (0 likes): Tooling is not the problem for enterprise, like other reply mentioned we have all the things, it’s asking a knowledge worker (operations managers, hr directors) to learn a hugely technical skill …they all grew up on word and ppt and you want them to think about knowledge layers and mark down files….it’s unrealistic until we figure out what knowledge and human skills are needed by everyone in ai and which aren’t
+@marselapp (0 likes): @emollick point 2 is just point 1 seen from the other side of the desk. "change the organization" always means somebody's job
+@felipecanuso (0 likes): Matches what we saw running document agents. The agent was the easy part. The hard part was changing who does what: reviewers stopped checking every document and started handling the exceptions. We never turned on auto-approval on day one. People watched the agent suggest, compared it with their own call, and only then trusted it.
+@rickydjit (0 likes): @emollick My read on point 2: resistance is about ownership as much as jobs. If agent output ships under your name but you didn't shape it, pushing back is rational.
+
+Let people own the spec and the review, not just the cleanup. That's also where point 1's org change actually happens.
+@AIGuideDaily (0 likes): @emollick I think this is a point worth paying attention to. AI works best when it helps people do better work, not just when companies use it to cut costs. Bringing employees along matters just as much as the technology itself
+@osaadaltaf (0 likes): @emollick of course workers resist. "use this tool so we need fewer of you" is a hard sell. companies that share the upside will get adoption. the rest get quiet sabotage.
+@WakeAlen (0 likes): The resistance makes more sense once you put the two points together. If the real value only shows up after the job itself changes, people aren't being stubborn, they're being asked to renegotiate their work in public. Sharing the gains helps, but only if the new shape of the job is something a person would actually want to keep doing.
+@zephyr_sunny (0 likes): @emollick For AI to really get into companies next, it has to start by reworking org structures and workflows. That means running into huge resistance from the way traditional organizations are built. I think that resistance may be the biggest bottleneck for AI in companies from here.
+@flyingkiwiguy (0 likes): @emollick Related to Conway's Law:
+
+"Any organization that designs a system (defined broadly) will produce a design whose structure is a copy of the organization's communication structure."
+@standardoilboy (0 likes): @emollick The overhang is largest where there is no unit test. Companies stay in shallow work because they cannot yet grade the decisions that would use the capacity. Coding has tests. Commercial work mostly has delayed outcomes.
+@jachildress (0 likes): @emollick I'm in a really small shop so it's easy for us to change/adapt.  I can't image how hard it must be for large/enterprise organizations.
+@BenLuo1106 (0 likes): @emollick Seeing this everywhere right now. Most teams are still using frontier models like a slightly faster search bar instead of rethinking one messy workflow.
+@zamsyool (0 likes): @emollick Point 1 matches what I see on a small scale: plugging AI into an old workflow saves minutes, redesigning the workflow saves hours. Curious if the paper found resistance drops when workers get to redesign their own tasks instead of having it handed down?
+@BenLuo1106 (0 likes): @emollick Makes total sense. If AI just means extra monitoring or tighter deadlines without making daily work lighter, of course people push back.
+@PontusLenell (0 likes): @emollick the front desk person who picks which chore goes to AI first tends to become its biggest fan. did the paper see a gap between people who chose the task and people who were handed it
+@flexitube (0 likes): @emollick This is the productivity paradox again. Factories electrified around 1900, but productivity only jumped in the 1920s, once floors were redesigned around small motors instead of one central shaft. The gain came from the reorganization, not the dynamo. Same story with AI.
+@eliran_keren (0 likes): @emollick "organizational change" is what researchers call the missing infrastructure layer. the model works. the org doesn't know how to route it into actual work. that's not resistance — it's a coordination gap nobody built for yet.
+@ChakibBouabd (0 likes): @emollick Point 2 follows from point 1. If the value comes from redesigning roles, workers reasonably read adoption as a reorg they don't control. Sharing the gains is the right lever, but few firms have a mechanism for it beyond new productivity targets.
+@jj_kovacs (0 likes): @emollick point 1 is most of the reason for point 2. if the value only shows up after the org changes, the people inside see their job change first and the gain later, if at all. resistance is a pretty rational read of that order
