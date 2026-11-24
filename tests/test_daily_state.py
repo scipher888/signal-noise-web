@@ -1397,7 +1397,7 @@ class DailyStateTests(unittest.TestCase):
         self.assertEqual(nov24.count('<a href="audit/">Audit</a>'), 1)
 
     def test_published_audit_page_mirrors_edition_link_style(self):
-        """Audit header: check sentence, edition link, optional Audit short, then the house label."""
+        """Audit header: check sentence, counts, then edition link, optional Audit short, and the house label."""
         house = '<p class="disclaimer">%s</p>' % HOUSE
         edition_link = '<p><a href="../">Daily State of AI</a></p>'
         explanation = (
@@ -1416,7 +1416,13 @@ class DailyStateTests(unittest.TestCase):
         self.assertEqual(nov24.count(short), 1)
         self.assertEqual(nov24.count(house), 1)
         self.assertEqual(nov24.count(HOUSE), 1)
-        self.assertLess(nov24.index(explanation), nov24.index(edition_link))
+        episode = "Episode 33 PASS / 2 FAIL / 11 NEEDS-HUMAN"
+        takeaways = "Takeaways 17 PASS / 1 FAIL / 0 NEEDS-HUMAN"
+        self.assertIn(episode, nov24)
+        self.assertIn(takeaways, nov24)
+        self.assertLess(nov24.index(explanation), nov24.index(episode))
+        self.assertLess(nov24.index(episode), nov24.index(takeaways))
+        self.assertLess(nov24.index(takeaways), nov24.index(edition_link))
         self.assertLess(nov24.index(edition_link), nov24.index(short))
         self.assertLess(nov24.index(short), nov24.index(house))
         self.assertLess(nov24.index(house), nov24.index("<h2>Episode</h2>"))
@@ -1424,7 +1430,6 @@ class DailyStateTests(unittest.TestCase):
         self.assertNotIn("ds-audit-short", nov24)
         self.assertNotIn("Short: not audited", nov24)
         self.assertNotIn("Short 0 PASS / 0 FAIL / 0 NEEDS-HUMAN", nov24)
-        self.assertIn("Episode 33 PASS / 2 FAIL / 11 NEEDS-HUMAN", nov24)
         nov23 = (ROOT / "daily-state" / "2026-11-23" / "audit" / "index.html").read_text(
             encoding="utf-8"
         )
@@ -1432,7 +1437,13 @@ class DailyStateTests(unittest.TestCase):
         self.assertEqual(nov23.count(edition_link), 1)
         self.assertNotIn(">Audit short</a>", nov23)
         self.assertEqual(nov23.count(house), 1)
-        self.assertLess(nov23.index(explanation), nov23.index(edition_link))
+        episode = "Episode 35 PASS / 3 FAIL / 15 NEEDS-HUMAN"
+        takeaways = "Takeaways 17 PASS / 1 FAIL / 1 NEEDS-HUMAN"
+        self.assertIn(episode, nov23)
+        self.assertIn(takeaways, nov23)
+        self.assertLess(nov23.index(explanation), nov23.index(episode))
+        self.assertLess(nov23.index(episode), nov23.index(takeaways))
+        self.assertLess(nov23.index(takeaways), nov23.index(edition_link))
         self.assertLess(nov23.index(edition_link), nov23.index(house))
         self.assertLess(nov23.index(house), nov23.index("<h2>Episode</h2>"))
 
