@@ -181,7 +181,7 @@ class AuditModeTests(unittest.TestCase):
         self.assertEqual(html.count(HOUSE), 1)
         episode = "Episode 42 PASS / 7 FAIL / 8 NEEDS-HUMAN"
         short = "Short 14 PASS / 5 FAIL / 3 NEEDS-HUMAN"
-        caption = '<figcaption class="kicker ds-prompt-label">Check results</figcaption>'
+        caption = '<figcaption class="kicker ds-prompt-label">Audit results</figcaption>'
         self.assertEqual(html.count('<figure class="ds-prompt">'), 1)
         self.assertIn(caption, html)
         self.assertIn("<pre>%s\n%s</pre>" % (episode, short), html)

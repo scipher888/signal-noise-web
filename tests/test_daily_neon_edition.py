@@ -477,9 +477,9 @@ class DailyNeonEditionTest(unittest.TestCase):
         self.assertEqual(audit.count(edition_link), 1)
         episode = "Episode 0 PASS / 1 FAIL / 0 NEEDS-HUMAN"
         self.assertIn(episode, audit)
-        self.assertIn('<figcaption class="kicker ds-prompt-label">Check results</figcaption>', audit)
+        self.assertIn('<figcaption class="kicker ds-prompt-label">Audit results</figcaption>', audit)
         self.assertIn("<pre>%s</pre>" % episode, audit)
-        self.assertLess(audit.find("Check results"), audit.find(episode))
+        self.assertLess(audit.find("Audit results"), audit.find(episode))
         self.assertLess(audit.find(episode), audit.find(edition_link))
         self.assertLess(audit.find(edition_link), audit.find(link))
         self.assertLess(audit.find(link), audit.find("<h2>"))
