@@ -134,6 +134,13 @@ EDITION_KEYS = {
 }
 EDITION_OPTIONAL = {"spotify_episode_fallback", "pipeline", "editor", "hard_stops", "video_url", "headline"}
 HEADLINE_OPTIONAL = frozenset({"headline"})
+# audit_short_url is optional on audit editions (root and variant). When set, the
+# audit page shows a "Watch the audit short" link; when absent, it renders nothing.
+AUDIT_EDITION_OPTIONAL = frozenset({"headline", "audit_short_url"})
+AUDIT_SHORT_URL_ERROR = "audit short url must be https://x.com/signalnoisepub/status/<id>"
+SHORT_X_HOSTS = {"x.com", "www.x.com"}
+SHORT_X_USER = "signalnoisepub"
+SHORT_STATUS_URL_ERROR = "short url must be https://x.com/signalnoisepub/status/<id>"
 HEADLINE_MAX_WORDS = 14
 HEADLINE_MAX_CHARS = 140
 HASH_KEYS = {"script_sha256", "sources_sha256", "qa_sha256", "run_sha256"}
@@ -1113,6 +1120,69 @@ def video_reference_problem(ref, directory=None):
     return _local_media_problem("video", ref, directory)
 
 
+def normalize_signalnoisepub_status_url(url, error=SHORT_STATUS_URL_ERROR):
+    """Return the clean https://x.com/signalnoisepub/status/<digits> form."""
+    import urllib.parse
+    if type(url) is not str or url != url.strip() or any(ch in url for ch in " \t\r\n\\"):
+        raise Hold(error)
+    parts = urllib.parse.urlsplit(url.strip())
+    host = (parts.hostname or "").lower().rstrip(".")
+    if parts.scheme != "https" or host not in SHORT_X_HOSTS:
+        raise Hold(error)
+    segs = [seg for seg in parts.path.split("/") if seg]
+    if (
+        len(segs) < 3
+        or segs[0].lower() != SHORT_X_USER
+        or segs[1].lower() != "status"
+        or not segs[2].isdigit()
+    ):
+        raise Hold(error)
+    extra = [seg.lower() for seg in segs[3:]]
+    if extra not in ([], ["video", "1"]):
+        raise Hold(error)
+    return f"https://x.com/{SHORT_X_USER}/status/{segs[2]}"
+
+
+def validate_optional_audit_short_url(edition):
+    """Absent or empty is fine. A present value must already be the normalized X status URL."""
+    if "audit_short_url" not in edition:
+        return
+    value = edition["audit_short_url"]
+    if value is None:
+        raise Hold(AUDIT_SHORT_URL_ERROR)
+    try:
+        normalized = normalize_signalnoisepub_status_url(value, AUDIT_SHORT_URL_ERROR)
+    except Hold:
+        raise Hold(AUDIT_SHORT_URL_ERROR)
+    if value != normalized:
+        raise Hold(AUDIT_SHORT_URL_ERROR)
+
+
+def render_audit_short_link(edition):
+    """A prominent top-of-audit-page link, or empty when audit_short_url is unset."""
+    url = edition.get("audit_short_url")
+    if not url:
+        return ""
+    href = html.escape(url, quote=True)
+    return f"<p class=\"ds-audit-short\"><a href=\"{href}\">Watch the audit short</a></p>\n"
+
+
+def assert_audit_short_link(html_text, edition):
+    marker = "Watch the audit short"
+    url = edition.get("audit_short_url")
+    if not url:
+        if marker in html_text:
+            raise Hold("audit page has an audit short link without audit_short_url")
+        return
+    expected = f'<a href="{html.escape(url, quote=True)}">Watch the audit short</a>'
+    if html_text.count(expected) != 1:
+        raise Hold("audit page is missing the audit short link")
+    position = html_text.find(expected)
+    heading = html_text.find("<h2>")
+    if heading != -1 and position > heading:
+        raise Hold("audit short link is not near the top of the audit page")
+
+
 def validate_editor_notes(notes, iso_date):
     require_keys(notes, {"date", "outstanding", "generated_by"}, "editor_notes.json")
     if not is_real_date(notes["date"]) or notes["date"] != iso_date:
@@ -1615,8 +1685,9 @@ def require_audit_counts(actual, claimed, label):
 
 def validate_audit_edition(edition, iso_date, variant):
     """Audit receipt only. A QA pass or an editor receipt is a different mode."""
-    require_keys(edition, AUDIT_EDITION_KEYS, "edition.json", optional=HEADLINE_OPTIONAL)
+    require_keys(edition, AUDIT_EDITION_KEYS, "edition.json", optional=AUDIT_EDITION_OPTIONAL)
     apply_headline(edition)
+    validate_optional_audit_short_url(edition)
     if type(edition["schema_version"]) is not int or edition["schema_version"] != SCHEMA_VERSION:
         raise Hold("unknown edition schema")
     if edition["mode"] != "audit" or edition["variant"] != variant:
@@ -2009,6 +2080,7 @@ def render_audit_html(edition, results, counts, variant):
         "<p class=\"kicker\">Daily State of AI</p>\n"
         f"<h1>{html.escape(title, quote=True)}</h1>\n"
         f"<p><time datetime=\"{iso_date}\">{html.escape(shown)}</time></p>\n"
+        f"{render_audit_short_link(edition)}"
         f"{summary}\n"
         f"{explanation}\n"
         + "\n".join(groups)
@@ -2019,7 +2091,7 @@ def render_audit_html(edition, results, counts, variant):
         root, path = "../../../", f"/daily-state/{iso_date}/audit/"
     else:
         root, path = "../../../../", f"/daily-state/{iso_date}/{variant}/audit/"
-    return render_page(
+    page = render_page(
         title,
         f"Claim audit for {edition['title']}. The audit is for transparency and is not a gate.",
         root,
@@ -2027,6 +2099,8 @@ def render_audit_html(edition, results, counts, variant):
         path,
         "article",
     )
+    assert_audit_short_link(page, edition)
+    return page
 
 
 def render_audit_pending_html(edition):
@@ -2040,12 +2114,13 @@ def render_audit_pending_html(edition):
         "<p class=\"kicker\">Daily State of AI</p>\n"
         f"<h1>{html.escape(title, quote=True)}</h1>\n"
         f"<p><time datetime=\"{iso_date}\">{html.escape(shown)}</time></p>\n"
+        f"{render_audit_short_link(edition)}"
         "<p>The executable claim audit for this edition runs after publication and will appear here. "
         "The audit is for transparency and is not a gate.</p>\n"
         "<p><a href=\"../\">Back to the edition</a></p>\n"
         "</article>"
     )
-    return render_page(
+    page = render_page(
         title,
         f"Claim audit for {edition['title']} (pending).",
         "../../../",
@@ -2053,6 +2128,8 @@ def render_audit_pending_html(edition):
         f"/daily-state/{iso_date}/audit/",
         "article",
     )
+    assert_audit_short_link(page, edition)
+    return page
 
 
 def _load_audit_edition(directory, iso_date, variant, *, link_opener=None):
@@ -2155,7 +2232,7 @@ def root_audit_keeps_player(edition, iso_date):
 
 def validate_root_audit_audio(edition, iso_date):
     """Spotify episode link with recorded public verification, as pre-audit editions."""
-    require_keys(edition, AUDIT_EDITION_KEYS | ROOT_AUDIT_SPOTIFY_KEYS, "edition.json", optional=HEADLINE_OPTIONAL)
+    require_keys(edition, AUDIT_EDITION_KEYS | ROOT_AUDIT_SPOTIFY_KEYS, "edition.json", optional=AUDIT_EDITION_OPTIONAL)
     if root_audit_keeps_player(edition, iso_date):
         if edition["audio_url"] != variant_asset_url(iso_date, None, "episode.mp3"):
             raise Hold("edition audio url does not match")
@@ -2177,10 +2254,11 @@ def validate_root_audit_audio(edition, iso_date):
 def validate_root_audit_edition(edition, iso_date, has_short):
     spotify = root_audit_uses_spotify(edition)
     if spotify:
-        require_keys(edition, AUDIT_EDITION_KEYS | ROOT_AUDIT_SPOTIFY_KEYS, "edition.json", optional=HEADLINE_OPTIONAL)
+        require_keys(edition, AUDIT_EDITION_KEYS | ROOT_AUDIT_SPOTIFY_KEYS, "edition.json", optional=AUDIT_EDITION_OPTIONAL)
     else:
-        require_keys(edition, AUDIT_EDITION_KEYS, "edition.json", optional=HEADLINE_OPTIONAL)
+        require_keys(edition, AUDIT_EDITION_KEYS, "edition.json", optional=AUDIT_EDITION_OPTIONAL)
     apply_headline(edition)
+    validate_optional_audit_short_url(edition)
     if type(edition["schema_version"]) is not int or edition["schema_version"] != SCHEMA_VERSION:
         raise Hold("unknown edition schema")
     if edition["mode"] != "audit" or edition["variant"] is not None:

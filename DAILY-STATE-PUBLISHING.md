@@ -218,7 +218,14 @@ The page stacks `Audio on Spotify`, `Sources`, and `Audit` as top links of the s
    python3 daily_state.py --check
    ```
 
-4. After the edition is staged, add a 4-10 word `headline` in `edition.json`. It is labelling metadata only: it never edits the script. The listing and homepage card use it as the link text, with the date beside it; the edition page keeps `h1` as `Daily State of AI - D` and shows the headline as a subtitle. Generate it from the episode script at 7:20 (the Neon short usually is not ready yet, and short captions are often format copy rather than the insight):
+4. After the audit short is posted on X as a reply in that day's short thread, point the audit page at that public X status URL. This writes `audit_short_url` in `edition.json` and regenerates only `/daily-state/D/audit/` (the edition page is unchanged). The same URL shape and normalization rules as `set-short-url` apply. When the field is absent, the audit page has no short link. Then check:
+
+   ```bash
+   python3 tools/neon_edition.py set-audit-short-url --date D --url https://x.com/signalnoisepub/status/ID
+   python3 daily_state.py --check
+   ```
+
+5. After the edition is staged, add a 4-10 word `headline` in `edition.json`. It is labelling metadata only: it never edits the script. The listing and homepage card use it as the link text, with the date beside it; the edition page keeps `h1` as `Daily State of AI - D` and shows the headline as a subtitle. Generate it from the episode script at 7:20 (the Neon short usually is not ready yet, and short captions are often format copy rather than the insight):
 
    ```bash
    python3 tools/draft_headline.py --date D --out /tmp/ds-headline-D.txt
