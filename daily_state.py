@@ -1222,6 +1222,64 @@ def assert_headline_block(html_text, edition):
         raise Hold("headline must sit under the h1")
 
 
+
+def _sources_anchor_html(edition):
+    href = edition.get("sources_url") or sources_page_url(edition["date"])
+    return f'<a href="{html.escape(href, quote=True)}">Sources</a>'
+
+
+def _top_matter(html_text):
+    if '<div class="script">' not in html_text:
+        return html_text
+    return html_text.split('<div class="script">', 1)[0]
+
+
+def has_bottom_sources_listing(html_text):
+    return '<section class="sources">' in html_text and "<h2>Sources</h2>" in html_text
+
+
+def assert_sources_reachable(html_text, edition):
+    """No top Sources link. The essay lists sources, or a Sources link follows it."""
+    link = _sources_anchor_html(edition)
+    top = _top_matter(html_text)
+    if link in top or re.search(r">Sources</a>", top):
+        raise Hold("sources link must not appear in the top links")
+    if has_bottom_sources_listing(html_text):
+        return
+    if '<div class="script">' not in html_text:
+        raise Hold("sources link is missing")
+    after = html_text.split('<div class="script">', 1)[1]
+    if after.count(link) != 1:
+        raise Hold("sources link is missing")
+
+
+def render_audit_nav(edition):
+    """Quieter second line: Audit, plus Audit short when audit_short_url is set."""
+    parts = ['<a href="audit/">Audit</a>']
+    url = edition.get("audit_short_url")
+    if url:
+        parts.append(f'<a href="{html.escape(url, quote=True)}">Audit short</a>')
+    return "<p class=\"ds-audit-links\">" + " · ".join(parts) + "</p>\n"
+
+
+def assert_audit_nav(html_text, edition):
+    audit = '<a href="audit/">Audit</a>'
+    if html_text.count(audit) != 1:
+        raise Hold("hard stop: label: missing Audit link")
+    match = re.search(r'<p class="ds-audit-links">(.*?)</p>', html_text, re.S)
+    if not match or html_text.count('<p class="ds-audit-links">') != 1 or audit not in match.group(1):
+        raise Hold("hard stop: label: missing Audit link")
+    url = edition.get("audit_short_url")
+    if url:
+        short = f'<a href="{html.escape(url, quote=True)}">Audit short</a>'
+        if html_text.count(short) != 1:
+            raise Hold("edition is missing the audit short link")
+        if short not in match.group(1):
+            raise Hold("audit short link must sit with the Audit link")
+    elif re.search(r">Audit short</a>", html_text):
+        raise Hold("edition has an audit short link without audit_short_url")
+
+
 def assert_edition_page(html_text, edition):
     """h1, og:url, canonical, Spotify href, and the AI label, once each."""
     title = edition["title"]
@@ -1242,11 +1300,7 @@ def assert_edition_page(html_text, edition):
     )
     if html_text.count(spotify) != 1:
         raise Hold("hard stop: audio: missing or broken audio reference")
-    sources_link = (
-        f'<a href="{html.escape(sources_page_url(edition["date"]), quote=True)}">Sources</a>'
-    )
-    if html_text.count(sources_link) != 1:
-        raise Hold("sources link is missing")
+    assert_sources_reachable(html_text, edition)
     if html_text.count(AI_LABEL_EXACT) != 1 or count_ai_labels(html_text) != 1:
         raise Hold("hard stop: label: AI-generated label must appear exactly once")
     assert_disclaimer_above_script(html_text)
@@ -1526,7 +1580,6 @@ def render_edition_html(edition, paragraphs, sources, *, editor_mode=False):
         f"{headline_block(edition)}"
         f"<p><time datetime=\"{edition['date']}\">{html.escape(shown)}</time></p>\n"
         f"<p>{audio}</p>\n"
-        f"<p><a href=\"{html.escape(sources_page_url(edition['date']), quote=True)}\">Sources</a></p>\n"
         f"{disclaimer}\n"
         "<div class=\"script\">\n"
         f"{body}\n"
@@ -1878,9 +1931,9 @@ def assert_audit_edition_page(html_text, edition, prompt):
     if edition.get("variant") is None and root_audit_keeps_player(edition, edition["date"]):
         audio = f'<audio controls src="{html.escape(edition["audio_url"], quote=True)}"></audio>'
         spotify = (
-            f'<p><a href="{html.escape(edition["episode_url"], quote=True)}">Audio on Spotify</a></p>'
+            f'<a href="{html.escape(edition["episode_url"], quote=True)}">Audio on Spotify</a>'
         )
-        if html_text.count(f"<p>{audio}</p>\n{spotify}") != 1 or html_text.count(spotify) != 1:
+        if html_text.count(f"<p>{audio}</p>") != 1 or html_text.count(spotify) != 1:
             raise Hold("hard stop: audio: missing or broken audio reference")
     elif edition.get("variant") is None and root_audit_uses_spotify(edition):
         spotify = (
@@ -1902,19 +1955,15 @@ def assert_audit_edition_page(html_text, edition, prompt):
             raise Hold("hard stop: video: missing short")
     elif ">Short</a>" in html_text:
         raise Hold("hard stop: video: short link without a short")
-    sources_link = f'<a href="{html.escape(edition["sources_url"], quote=True)}">Sources</a>'
-    if html_text.count(sources_link) != 1:
-        raise Hold("sources link is missing")
-    audit_link = '<p><a href="audit/">Audit</a></p>'
+    assert_sources_reachable(html_text, edition)
+    assert_audit_nav(html_text, edition)
     disclaimer = f'<p class="disclaimer">{AI_LABEL_EXACT}</p>'
-    if html_text.count(audit_link) != 1:
-        raise Hold("hard stop: label: missing Audit link")
     if html_text.count(disclaimer) != 1 or html_text.count(AI_LABEL_EXACT) != 1:
         raise Hold("hard stop: label: AI-generated label must appear exactly once")
     if count_ai_labels(html_text) != 1:
         raise Hold("hard stop: label: AI-generated label must appear exactly once")
     assert_disclaimer_above_script(html_text)
-    if html_text.index(audit_link) > html_text.index(disclaimer):
+    if html_text.index('<p class="ds-audit-links">') > html_text.index(disclaimer):
         raise Hold("audit link must sit with the top links, above the disclaimer")
     if html.escape(prompt, quote=True) not in html_text:
         raise Hold("edition prompt does not match the neon run")
@@ -1951,21 +2000,24 @@ def render_audit_edition_html(edition, paragraphs, sources, prompt, variant):
         spotify_link = (
             f"<a href=\"{html.escape(edition['episode_url'], quote=True)}\">Audio on Spotify</a>"
         )
+    player = None
+    primary_parts = []
     if spotify_link and not root_audit_keeps_player(edition, edition["date"]):
-        audio = spotify_link
+        primary_parts.append(spotify_link)
     else:
-        audio = (
+        player = (
             f"<audio controls src=\"{html.escape(edition['audio_url'], quote=True)}\"></audio>"
         )
         if spotify_link:
-            # 2026-11-21: the Spotify link sits under the self-hosted player.
-            audio += f"</p>\n<p>{spotify_link}"
-    link_parts = []
+            # 2026-11-21: Spotify sits under the self-hosted player, with Short when present.
+            primary_parts.append(spotify_link)
     if edition["video_url"] is not None:
-        link_parts.append(f"<a href=\"{html.escape(edition['video_url'], quote=True)}\">Short</a>")
-    link_parts.append(f"<a href=\"{html.escape(edition['sources_url'], quote=True)}\">Sources</a>")
-    links = " · ".join(link_parts)
-    audit_link = '<p><a href="audit/">Audit</a></p>'
+        primary_parts.append(
+            f"<a href=\"{html.escape(edition['video_url'], quote=True)}\">Short</a>"
+        )
+    player_block = f"<p>{player}</p>\n" if player else ""
+    primary = ("<p>" + " · ".join(primary_parts) + "</p>\n") if primary_parts else ""
+    audit_nav = render_audit_nav(edition)
     disclaimer = f'<p class="disclaimer">{AI_LABEL_EXACT}</p>'
     main = (
         "<article>\n"
@@ -1975,9 +2027,9 @@ def render_audit_edition_html(edition, paragraphs, sources, prompt, variant):
         f"<p><time datetime=\"{edition['date']}\">{html.escape(shown)}</time></p>\n"
         f"<p class=\"intro\">{note}</p>\n"
         f"{quoted}\n"
-        f"<p>{audio}</p>\n"
-        f"<p>{links}</p>\n"
-        f"{audit_link}\n"
+        f"{player_block}"
+        f"{primary}"
+        f"{audit_nav}"
         f"{disclaimer}\n"
         "<div class=\"script\">\n"
         f"{body}\n"
@@ -2035,12 +2087,16 @@ def render_audit_item(edition, item, variant):
 
 
 def _audit_count_line(label, row):
-    text = (
-        f"{label} {row['PASS']} PASS / {row['FAIL']} FAIL / "
-        f"{row['NEEDS-HUMAN']} NEEDS-HUMAN"
-    )
-    if row["ERROR"]:
-        text += f" / {row['ERROR']} ERROR"
+    """Score line, or '{label}: not audited' when the artifact has no checks."""
+    if not any(row.get(status, 0) for status in AUDIT_STATUSES):
+        text = f"{label}: not audited"
+    else:
+        text = (
+            f"{label} {row['PASS']} PASS / {row['FAIL']} FAIL / "
+            f"{row['NEEDS-HUMAN']} NEEDS-HUMAN"
+        )
+        if row["ERROR"]:
+            text += f" / {row['ERROR']} ERROR"
     return f"<p class=\"row\">{html.escape(text, quote=True)}</p>"
 
 

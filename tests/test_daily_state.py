@@ -335,8 +335,10 @@ class DailyStateTests(unittest.TestCase):
         self.assertEqual(len(audio), 1)
         self.assertEqual(audio[0]["attrs"], {"href": EPISODE_URL})
         sources = [item for item in page.anchors if item["text"].strip() == "Sources"]
-        self.assertEqual(len(sources), 1)
-        self.assertEqual(sources[0]["attrs"], {"href": "/daily-state/%s/sources/" % DATE})
+        self.assertEqual(len(sources), 0)
+        self.assertIn('<section class="sources">', html)
+        self.assertIn("<h2>Sources</h2>", html)
+        self.assertNotIn('<a href="/daily-state/%s/sources/">Sources</a>' % DATE, html)
         self.assertEqual(html.count(EPISODE_URL), 1)
         self.assertNotIn("open.spotify.com/show", html)
         self.assertNotIn("app.link", html.lower())
@@ -469,7 +471,7 @@ class DailyStateTests(unittest.TestCase):
             self.assertEqual(html.count(marker), 1, path)
             self.assertLess(html.index(marker), html.index('<div class="script">'), path)
             self.assertGreater(html.index(marker), html.index("<article>"), path)
-            # After the last top-link paragraph (Spotify / Short / Sources / audio), before the script.
+            # After the last top-link paragraph (Spotify / Short / Audit / audio), before the script.
             head = html[html.index("<article>"):html.index('<div class="script">')]
             self.assertIn(marker, head, path)
             self.assertNotIn(marker, html[html.index('<div class="script">'):])
@@ -1092,8 +1094,9 @@ class DailyStateTests(unittest.TestCase):
             for href in ("editors-notes/", "./editors-notes/")
         )
         plain_line = '<p class="disclaimer">%s</p>' % HOUSE
-        # Daily audit-mode (Neon) editions put Audit in the top link group.
-        audit_link = '<p><a href="audit/">Audit</a></p>'
+        # Daily audit-mode (Neon) editions put Audit on the quieter second link line.
+        audit_link = '<a href="audit/">Audit</a>'
+        audit_nav = '<p class="ds-audit-links">'
         for iso_date in daily_state.list_edition_dates(str(ROOT)):
             with self.subTest(iso_date=iso_date):
                 html = (ROOT / "daily-state" / iso_date / "index.html").read_text(encoding="utf-8")
@@ -1121,8 +1124,9 @@ class DailyStateTests(unittest.TestCase):
                     self.assertEqual(paragraph, plain_line)
                     self.assertEqual(page.disclaimer, HOUSE)
                     self.assertEqual(html.count(audit_link), 1)
-                    self.assertLess(html.index(audit_link), start)
-                    self.assertGreater(html.index(audit_link), html.index("<article>"))
+                    self.assertEqual(html.count(audit_nav), 1)
+                    self.assertLess(html.index(audit_nav), start)
+                    self.assertGreater(html.index(audit_nav), html.index("<article>"))
                 else:
                     self.assertEqual(page.disclaimer, HOUSE)
                     self.assertEqual(paragraph, plain_line)
@@ -1311,7 +1315,7 @@ class DailyStateTests(unittest.TestCase):
         )
 
     def test_published_sources_pages_are_readable(self):
-        """Every edition gets a Sources page, and the edition links to it once, not raw JSON."""
+        """Every edition gets a Sources page. The edition lists sources at the bottom, with no top Sources link."""
         for iso_date in daily_state.list_edition_dates(str(ROOT)):
             with self.subTest(iso_date=iso_date):
                 loaded = daily_state.load_edition(str(ROOT), iso_date)
@@ -1323,8 +1327,11 @@ class DailyStateTests(unittest.TestCase):
                 edition_html = loaded["html"]
                 sources_href = '/daily-state/%s/sources/' % iso_date
                 raw_href = '/content/daily-state/%s/sources.json' % iso_date
-                self.assertEqual(edition_html.count('<a href="%s">Sources</a>' % sources_href), 1)
+                daily_state.assert_sources_reachable(edition_html, loaded["edition"])
+                self.assertEqual(edition_html.count('<a href="%s">Sources</a>' % sources_href), 0)
                 self.assertNotIn('<a href="%s">Sources</a>' % raw_href, edition_html)
+                self.assertIn('<section class="sources">', edition_html)
+                self.assertIn("<h2>Sources</h2>", edition_html)
                 self.assertEqual(edition_html.count(HOUSE), 1)
                 self.assertIn("<h1>Daily State of AI - %s</h1>" % iso_date, edition_html)
                 self.assertEqual(edition_html.count('<p class="ds-headline">'), 1)
@@ -1339,11 +1346,13 @@ class DailyStateTests(unittest.TestCase):
         )
         published = ROOT / "daily-state" / "2026-11-20" / "neon" / "sources" / "index.html"
         self.assertEqual(published.read_text(encoding="utf-8"), neon_page)
-        self.assertIn('<a href="/daily-state/2026-11-20/neon/sources/">Sources</a>', neon["html"])
+        daily_state.assert_sources_reachable(neon["html"], neon["edition"])
+        self.assertNotIn('<a href="/daily-state/2026-11-20/neon/sources/">Sources</a>', neon["html"])
         self.assertNotIn(
             '<a href="/content/daily-state/2026-11-20/neon/sources.json">Sources</a>',
             neon["html"],
         )
+        self.assertIn('<section class="sources">', neon["html"])
         self.assertIn("@emollick on X", neon_page)
         nov23 = daily_state.load_edition(str(ROOT), "2026-11-23")
         self.assertIn("@sama on X", nov23["sources_html"])
@@ -1358,7 +1367,72 @@ class DailyStateTests(unittest.TestCase):
         self.assertEqual(nov23["html"].count("Audio on Spotify"), 1)
         self.assertEqual(nov23["html"].count('<a href="audit/">Audit</a>'), 1)
 
+    def test_published_edition_link_layout(self):
+        """Primary artifacts on line 1; audit links on a quieter second line when present."""
+        decls = self._css_decls().get("article p.ds-audit-links", {})
+        self.assertEqual(decls.get("font-family"), "var(--sans)")
+        self.assertEqual(decls.get("font-size"), "0.8rem")
+        self.assertEqual(decls.get("text-transform"), "uppercase")
+        self.assertEqual(decls.get("color"), "var(--muted)")
+        self.assertEqual(decls.get("border-top"), "1px solid var(--line)")
+        older = (ROOT / "daily-state" / "2026-11-10" / "index.html").read_text(encoding="utf-8")
+        self.assertIn(
+            '<p><a href="https://open.spotify.com/episode/6zxQTI6oMIYxRR9je6W71O">Audio on Spotify</a></p>',
+            older,
+        )
+        self.assertNotIn(">Sources</a>", older.split('<div class="script">', 1)[0])
+        self.assertNotIn("ds-audit-links", older)
+        self.assertNotIn(">Short</a>", older)
+        self.assertIn('<section class="sources">', older)
+        nov24 = (ROOT / "daily-state" / "2026-11-24" / "index.html").read_text(encoding="utf-8")
+        self.assertIn(
+            '<p><a href="https://open.spotify.com/episode/3qLOMVpCvQ2KmDBM9J5F4E">Audio on Spotify</a>'
+            ' · <a href="https://x.com/signalnoisepub/status/2125298407271227416">Short</a></p>',
+            nov24,
+        )
+        self.assertIn(
+            '<p class="ds-audit-links"><a href="audit/">Audit</a>'
+            ' · <a href="https://x.com/signalnoisepub/status/2125317078139953354">Audit short</a></p>',
+            nov24,
+        )
+        self.assertNotIn(">Sources</a>", nov24.split('<div class="script">', 1)[0])
+        self.assertIn('<section class="sources">', nov24)
+        self.assertEqual(nov24.count("Audio on Spotify"), 1)
+        self.assertEqual(nov24.count('<a href="audit/">Audit</a>'), 1)
+
+    def test_published_unaudited_short_reads_not_audited(self):
+        """When the short was never checked, the audit page says so instead of a zero score."""
+        for iso_date in ("2026-11-23", "2026-11-24"):
+            with self.subTest(iso_date=iso_date):
+                html = (ROOT / "daily-state" / iso_date / "audit" / "index.html").read_text(
+                    encoding="utf-8"
+                )
+                self.assertIn("Short: not audited", html)
+                self.assertNotIn("Short 0 PASS / 0 FAIL / 0 NEEDS-HUMAN", html)
+                self.assertIn("Episode ", html)
+                self.assertNotIn("Episode: not audited", html)
+
+    def test_zero_check_artifact_count_line_reads_not_audited(self):
+        empty = {status: 0 for status in daily_state.AUDIT_STATUSES}
+        self.assertEqual(
+            daily_state._audit_count_line("Short", empty),
+            '<p class="row">Short: not audited</p>',
+        )
+        scored = dict(empty)
+        scored["PASS"] = 2
+        self.assertEqual(
+            daily_state._audit_count_line("Short", scored),
+            '<p class="row">Short 2 PASS / 0 FAIL / 0 NEEDS-HUMAN</p>',
+        )
+        errored = dict(empty)
+        errored["ERROR"] = 1
+        self.assertEqual(
+            daily_state._audit_count_line("Short", errored),
+            '<p class="row">Short 0 PASS / 0 FAIL / 0 NEEDS-HUMAN / 1 ERROR</p>',
+        )
+
     def test_repo_check_leaves_essays_byte_identical(self):
+
 
 
         tracked = subprocess.run(
