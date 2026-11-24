@@ -99,5 +99,64 @@ class Issue38(unittest.TestCase):
         self.assertNotIn(a, src)
         self.assertNotIn(m, src)
 
+    def test_video_shorts(self):
+        a = "https://x.com/signalnoisepub/status/2125026855271215228"
+        m = "https://x.com/signalnoisepub/status/2125027313536708685"
+        note = "Gemini 4 Neon\u2019s video interpretation of Claude Fable 5.2\u2019s essay"
+        self.assertEqual(build.VIDEO_SHORT[38], a)
+        self.assertEqual(build.MACHINE_VIDEO_SHORT[38], m)
+        self.assertEqual(build.MACHINE_VIDEO_SHORT_TITLE[38], note)
+        self.assertNotIn(38, build.VIDEO)
+        self.assertNotIn(38, build.MACHINE_VIDEO)
+        author_link = f'<a href="{a}">Video short</a>'
+        machine_link = (
+            f'<a href="{m}" title="{html.escape(note, quote=True)}" '
+            f'aria-label="{html.escape("Video short: " + note, quote=True)}">Video short</a>'
+        )
+        for p in (AUTHOR, MACHINE):
+            page = p.read_text(encoding="utf-8")
+            navs = re.findall(r'<nav class="cnav[^"]*".*?</nav>', page, re.S)
+            self.assertEqual(len(navs), 2)
+            for nav in navs:
+                self.assertIn(author_link, nav)
+                self.assertIn(machine_link, nav)
+                for row in re.findall(r"<dd>.*?</dd>", nav):
+                    self.assertLess(row.index("The essay"), row.index(">Video short<"))
+                    self.assertLess(row.index(">Video short<"), row.index("Audio companion"))
+            self.assertEqual(page.count(">Video short<"), 4)
+            self.assertNotIn("?s=", page)
+        src = SOURCE.read_text(encoding="utf-8")
+        self.assertNotIn("Video short", src)
+        self.assertNotIn(a, src)
+        self.assertNotIn(m, src)
+        self.assertNotIn(note, src)
+        # The note stays on the machine short's link, not in either essay.
+        for p in (AUTHOR, MACHINE):
+            page = p.read_text(encoding="utf-8")
+            body = page.split('<nav class="cnav top"', 1)[1].split("</nav>", 1)[1]
+            body = body.split('<nav class="cnav"', 1)[0]
+            self.assertNotIn(note, body)
+            self.assertNotIn("Video short", body)
+            self.assertNotIn("ednote", page)
+        found = []
+        for path in (ROOT / "p").rglob("index.html"):
+            text = path.read_text(encoding="utf-8")
+            if a in text or m in text:
+                found.append(path.relative_to(ROOT).as_posix())
+        self.assertCountEqual(found, [
+            "p/the-smartest-people-in-the-room-are-the-easiest-to-fool/index.html",
+            "p/what-intelligence-cant-tell-you-about-your-own-life/index.html",
+        ])
+        for extra in ("index.html", "feed.xml", "archive/index.html"):
+            text = (ROOT / extra).read_text(encoding="utf-8")
+            self.assertNotIn(a, text, extra)
+            self.assertNotIn(m, text, extra)
+        # Issue 34's music video stays after audio, under its own leaf name.
+        issue34 = (ROOT / "p/we-are-arguing-about-the-speed-of-ai-we-have-no-plan-for-the-crash/index.html").read_text(encoding="utf-8")
+        self.assertNotIn("Video short", issue34)
+        nav = re.search(r'<nav class="cnav top".*?</nav>', issue34, re.S).group(0)
+        self.assertLess(nav.index("Audio companion"), nav.index("Video companion"))
+
+
 if __name__ == "__main__":
     unittest.main()
