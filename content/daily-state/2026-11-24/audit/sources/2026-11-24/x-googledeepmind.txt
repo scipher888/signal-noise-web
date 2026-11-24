@@ -1,0 +1,34 @@
+@GoogleDeepMind: Quantum computers could one day transform fusion energy, chemistry, and drug discovery - if we can make the algorithms efficient enough to run on early hardware.
+
+Using teams of Gemini 4 agents, we’ve built new quantum circuits that cut future simulation costs by up to 10 times. https://t.co/H6xArBtsvQ
+
+AFFILIATION NOTE (scan): Lab's own account; company-reported, with Lean proofs and code released for outside checking.
+
+REPLIES:
+@notinvariant (1 likes): @GoogleDeepMind Cutting simulation cost is the unglamorous part that decides whether early quantum hardware does anything useful. Nice to see agents pointed at that instead of another benchmark.
+@SimmaGus (1 likes): @GoogleDeepMind Using Gemini 4 agents to cut future simulation costs by up to 10 times is a big deal for early quantum machines. Fusion, chemistry, and drug discovery all need algorithms this cheap to actually run.
+@Frknsrdrgl (1 likes): @GoogleDeepMind AI agents holding virtual meetings to fix quantum algorithms is the most sci-fi sentence I've read all week.
+@abhiindx_sahu (0 likes): @GoogleDeepMind Again my idea quantum algorithm first policy got stolen
+@shai_machnes (0 likes): @GoogleDeepMind I love the work, but more likely than not, that fusion will be solved by classical AI before quantum computers are big enough to help.
+@ChakibBouabd (0 likes): @GoogleDeepMind "Up to 10x" is the phrase to keep: these are cost estimates for running on hardware that doesn't exist yet. Still a good fit for agents, since circuit gains can be checked independently. Has anyone outside the team verified the circuits?
+@NthEntityAI (0 likes): @GoogleDeepMind The agents meeting every four hours to debate ideas is a great detail. Did Lean reject many of their proposed optimizations, or did most of them survive verification?
+@JPduPreez618 (0 likes): @AyaanBuild @GoogleDeepMind Agreed. Honest numbers beat hype, and they show exactly how big the gap still is.
+@Meetfyi (0 likes): @BVEsun @GoogleDeepMind Don't give them idea 🥲
+@SkySciGuy (0 likes): @GoogleDeepMind Proof is the real story here. These circuits need thousands of error-corrected qubits, so no hardware today can test them, and a Lean proof is the only way to know they work. 290x on arcsin is wild given how many algorithms use it to load numbers into quantum states.
+@jasonni_x (0 likes): @GoogleDeepMind A 10x cheaper simulation in the post, 290x in the headlines — same result, two numbers depending on who retells it. Still, agent teams plus Lean verification finding real quantum circuits is the part that matters. Anyone seen the actual circuits yet?
+@PhoebeDeFAI (0 likes): @GoogleDeepMind Using teams of agents to shrink quantum circuits is a practical way to make early hardware more useful. If those circuits actually run, lower simulation cost may matter more than waiting for much larger machines.
+@Joseph37017371 (0 likes): @GoogleDeepMind Genius approach using teams of Gemini agents.
+@dagu33150546 (0 likes): @elliotarledge @GoogleDeepMind deepmind is already open-sourcing the circuits and the lean library, so you'll get the artifacts. what you won't get is agent teams syncing every four hours behind a lean proof gate. is your next 10x in the code, or in rebuilding that loop?
+@continuumlabs_ (0 likes): @GoogleDeepMind A 10x cheaper circuit goes a long way on early hardware, where noise limits how deep you can go.
+@HelloFlowence (0 likes): @GoogleDeepMind AI agents are designing quantum circuits while most companies still can't design a meeting that ends on time. Humbling.
+@Worldwide2060 (0 likes): @GoogleDeepMind Cutting simulation costs up to 10x with agent-built circuits is a serious result.
+Quantum algorithms have been waiting on exactly this, efficiency on early hardware.
+Fusion, chemistry, and drug discovery are the right stakes, the payoff is not abstract.
+@gpelluet27 (0 likes): @GoogleDeepMind Agents debating every four hours and Lean checking every claim. That's the right recipe: let the models be creative, let the proof assistant be the adult in the room 🧮
+@mrshorifuddin (0 likes): @GoogleDeepMind Agent teams debating ideas every four hours, then proving the result in Lean 4 — that verification step is what makes this more than a demo. If the circuits are formally checked, teams can actually trust an agent-discovered algorithm enough to build on it.
+@chengchonghui (0 likes): @GoogleDeepMind What I’m watching is the loop: agents propose cheaper circuits, Lean has to accept the proof, and people still pick the problem. I’d keep the blog’s caveat next to the 10× headline — these may still need more than the first error-corrected machines can give.
+@Biketommy (0 likes): @GoogleDeepMind AlphaGo and cracking the Riemann hypothesis were massive milestones—yet they’re just the beginning compared to what AI on quantum computers will achieve.
+@AbidAliKhan189 (0 likes): @GoogleDeepMind Cutting simulation costs 10x is the kind of result that changes what problems are worth attempting. Of fusion, chemistry and drug discovery, which do you think benefits first once these circuits run on real early hardware?
+@LexiLearn_ (0 likes): @GoogleDeepMind quantum's bottleneck was never the physics. it was the circuits.
+@SreeramG (0 likes): @GoogleDeepMind Gemini agents finding 10x cheaper quantum circuits is neat, but without fault-tolerant hardware this is still mostly academic. Open-sourcing the Lean-verified code is the part that actually matters.
+@doptonin (0 likes): @GoogleDeepMind 10x cheaper quantum simulations is the kind of AI result that actually matters: not a demo, a cost curve bending. If Gemini agents can design circuits humans can't, quantum's timeline just moved up, not the hype.

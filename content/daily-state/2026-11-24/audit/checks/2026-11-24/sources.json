@@ -1,0 +1,10 @@
+{
+ "openai": "primary-openai-cisco-shirudo-ebpf-shields",
+ "openai2": "x-openai",
+ "ramez": "x-ramez",
+ "deepmind": "primary-deepmind-gemini4-agents-lean-quantum-cir",
+ "googledeepmind": "x-googledeepmind",
+ "anthropic": "primary-anthropic-working-with-ai-enterprise-int",
+ "emollick": "x-emollick",
+ "framing": "scan-framing"
+}
