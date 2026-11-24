@@ -36,13 +36,14 @@ local short.mp4 is not required. This is the post-publish step: the 7:20
 edition may ship before Max posts the Neon short around 10 AM.
 
 set-audit-short-url writes a public X URL into edition.json audit_short_url
-and regenerates that date's audit page only (the edition page is untouched).
-The URL must be https://x.com/signalnoisepub/status/<digits>; any query
-string, fragment, or trailing /video/1 is stripped. When the field is set,
-the audit page shows a prominent "Watch the audit short" link near the top.
-When it is absent, the audit page renders no such link. Rerunning with the
-same URL is a no-op. This is the post-publish step after the audit short is
-posted as a reply in that day's Daily State short thread.
+and regenerates that date's audit page and edition page. The URL must be
+https://x.com/signalnoisepub/status/<digits>; any query string, fragment, or
+trailing /video/1 is stripped. When the field is set, the audit page shows a
+prominent "Watch the audit short" link near the top, and the edition page
+adds "Audit short" on the audit link line. When it is absent, neither page
+renders that link. Rerunning with the same URL is a no-op. This is the
+post-publish step after the audit short is posted as a reply in that day's
+Daily State short thread.
 
 set-headline writes an optional 4-10 word (max 14) teaser into edition.json
 and regenerates the edition page, the Daily State listing, and the homepage
@@ -417,8 +418,10 @@ def set_audit_short_url(args):
         edition = json.loads(raw.decode("utf-8"))
     except (OSError, ValueError, UnicodeDecodeError, daily_state.Hold):
         return fail("edition.json is missing or unreadable")
-    page_rel = f"daily-state/{date}/audit/index.html"
-    page_path = os.path.join(REPO, page_rel)
+    audit_rel = f"daily-state/{date}/audit/index.html"
+    edition_rel = f"daily-state/{date}/index.html"
+    audit_path = os.path.join(REPO, audit_rel)
+    edition_page_path = os.path.join(REPO, edition_rel)
     previous = raw
     already = edition.get("audit_short_url") == url
     if not already:
@@ -432,23 +435,42 @@ def set_audit_short_url(args):
         if not already:
             daily_state._write_text_atomic(edition_path, previous.decode("utf-8"))
         return fail(str(exc))
-    html_text = loaded["audit_html"]
-    marker = f'<a href="{url}">Watch the audit short</a>'
-    if marker not in html_text:
+    audit_html = loaded["audit_html"]
+    edition_html = loaded["html"]
+    audit_marker = f'<a href="{url}">Watch the audit short</a>'
+    edition_marker = f'<a href="{url}">Audit short</a>'
+    if audit_marker not in audit_html:
         if not already:
             daily_state._write_text_atomic(edition_path, previous.decode("utf-8"))
         return fail("audit page is missing the audit short link")
-    current = None
-    if os.path.isfile(page_path) and not os.path.islink(page_path):
-        with open(page_path, encoding="utf-8") as handle:
-            current = handle.read()
-    if already and current == html_text:
+    if edition_marker not in edition_html:
+        if not already:
+            daily_state._write_text_atomic(edition_path, previous.decode("utf-8"))
+        return fail("edition page is missing the audit short link")
+
+    def _current(path):
+        if os.path.isfile(path) and not os.path.islink(path):
+            with open(path, encoding="utf-8") as handle:
+                return handle.read()
+        return None
+
+    current_audit = _current(audit_path)
+    current_edition = _current(edition_page_path)
+    if already and current_audit == audit_html and current_edition == edition_html:
         print(json.dumps({"noop": True, "date": date, "audit_short_url": url}))
         return 0
-    os.makedirs(os.path.dirname(page_path), exist_ok=True)
-    daily_state._write_text_atomic(page_path, html_text)
-    print(json.dumps({"date": date, "audit_short_url": url, "wrote": [page_rel]}))
+    wrote = []
+    if current_audit != audit_html:
+        os.makedirs(os.path.dirname(audit_path), exist_ok=True)
+        daily_state._write_text_atomic(audit_path, audit_html)
+        wrote.append(audit_rel)
+    if current_edition != edition_html:
+        os.makedirs(os.path.dirname(edition_page_path), exist_ok=True)
+        daily_state._write_text_atomic(edition_page_path, edition_html)
+        wrote.append(edition_rel)
+    print(json.dumps({"date": date, "audit_short_url": url, "wrote": wrote}))
     return 0
+
 
 
 def set_headline(args):

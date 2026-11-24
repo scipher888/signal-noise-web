@@ -97,6 +97,27 @@ article figure.ds-prompt pre {
   box-sizing: border-box;
 }
 
+/* Audit links: a quieter second line under the primary artifacts. */
+article p.ds-audit-links {
+  font-family: var(--sans);
+  font-size: 0.8rem;
+  line-height: 1.6;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0.9rem 0 0;
+  padding-top: 0.7rem;
+  border-top: 1px solid var(--line);
+}
+article p.ds-audit-links a {
+  color: var(--ink-soft);
+  text-decoration-color: var(--line);
+  padding: 0.3rem 0;
+}
+article p.ds-audit-links a:hover {
+  text-decoration-color: var(--sun);
+}
+
 /* House label under the top links: visible, but secondary to the edition. */
 article p.disclaimer {
   font-family: var(--sans);

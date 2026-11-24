@@ -20,7 +20,9 @@ import neon_edition  # noqa: E402
 DATE = "2026-11-22"
 EPISODE_ID = "5N0wawFLP0cwayiO8XH0Ax"
 EPISODE_URL = f"https://open.spotify.com/episode/{EPISODE_ID}"
-SPOTIFY_LINK = f'<p><a href="{EPISODE_URL}">Audio on Spotify</a></p>'
+SPOTIFY_ANCHOR = f'<a href="{EPISODE_URL}">Audio on Spotify</a>'
+SPOTIFY_LINK = f'<p>{SPOTIFY_ANCHOR}</p>'
+AUDIT_NAV = '<p class="ds-audit-links"><a href="audit/">Audit</a></p>'
 HOUSE = "AI-generated \u00b7 may contain errors"
 X_SHORT = "https://x.com/signalnoisepub/status/2124935746364850228"
 X_AUDIT_SHORT = "https://x.com/signalnoisepub/status/2125317078139953354"
@@ -161,10 +163,15 @@ class DailyNeonEditionTest(unittest.TestCase):
         page = loaded["html"]
         self.assertIn(f"<h1>Daily State of AI - {DATE}</h1>", page)
         self.assertEqual(page.count(HOUSE), 1)
-        self.assertIn('<p><a href="audit/">Audit</a></p>', page)
+        self.assertIn(AUDIT_NAV, page)
         self.assertIn('<p class="disclaimer">%s</p>' % HOUSE, page)
         self.assertNotIn(' · <a href="audit/">Audit</a>', page)
-        self.assertEqual(page.count(SPOTIFY_LINK), 1)
+        self.assertIn(SPOTIFY_ANCHOR, page)
+        self.assertIn(
+            '<p>%s · <a href="/content/daily-state/%s/short.mp4">Short</a></p>'
+            % (SPOTIFY_ANCHOR, DATE),
+            page,
+        )
         self.assertNotIn("<audio", page)
         self.assertNotIn("episode.mp3", page)
         self.assertIn(f'<a href="/content/daily-state/{DATE}/short.mp4">Short</a>', page)
@@ -179,8 +186,10 @@ class DailyNeonEditionTest(unittest.TestCase):
         self.assertIn("@someone on X", sources_page)
         self.assertIn(f'<a href="/content/daily-state/{DATE}/sources.json">Raw data</a>', sources_page)
         self.assertIn('<a href="../">Back to the edition</a>', sources_page)
-        self.assertIn(f'<a href="/daily-state/{DATE}/sources/">Sources</a>', page)
+        self.assertNotIn(f'<a href="/daily-state/{DATE}/sources/">Sources</a>', page)
         self.assertNotIn(f'<a href="/content/daily-state/{DATE}/sources.json">Sources</a>', page)
+        self.assertIn('<section class="sources">', page)
+        self.assertIn("<h2>Sources</h2>", page)
         edition = json.loads((self.repo.edition_dir() / "edition.json").read_text())
         self.assertEqual(edition["mode"], "audit")
         self.assertIsNone(edition["variant"])
@@ -196,7 +205,7 @@ class DailyNeonEditionTest(unittest.TestCase):
     def test_episode_url_falls_back_to_run_json(self):
         (self.repo.mirror / "takeaways.json").unlink()
         self.assertEqual(self.repo.build(run=mini_run(episode_url=EPISODE_URL)), 0)
-        self.assertEqual(self.repo.load()["html"].count(SPOTIFY_LINK), 1)
+        self.assertEqual(self.repo.load()["html"].count(SPOTIFY_ANCHOR), 1)
 
     def test_missing_spotify_url_refuses_the_build(self):
         (self.repo.mirror / "takeaways.json").unlink()
@@ -298,7 +307,10 @@ class DailyNeonEditionTest(unittest.TestCase):
         self.edit_edition(lambda edition: edition.update(video_url=X_SHORT))
         page = self.repo.load()["html"]
         self.assertEqual(page.count('<a href="%s">Short</a>' % X_SHORT), 1)
-        self.assertIn("<a href=\"%s\">Short</a> · <a href=\"/daily-state/%s/sources/\">Sources</a>" % (X_SHORT, DATE), page)
+        self.assertIn("%s · <a href=\"%s\">Short</a>" % (SPOTIFY_ANCHOR, X_SHORT), page)
+        self.assertNotIn(f'<a href="/daily-state/{DATE}/sources/">Sources</a>', page)
+        self.assertIn('<section class="sources">', page)
+        self.assertIn(AUDIT_NAV, page)
         self.assertFalse((self.repo.edition_dir() / "short.mp4").exists())
         self.assertEqual(page.count(HOUSE), 1)
         self.assertEqual(page.count('<a href="audit/">Audit</a>'), 1)
@@ -337,7 +349,10 @@ class DailyNeonEditionTest(unittest.TestCase):
         page_path = self.repo.root / "daily-state" / DATE / "index.html"
         page = page_path.read_text(encoding="utf-8")
         self.assertEqual(page.count('<a href="%s">Short</a>' % X_SHORT), 1)
-        self.assertIn("<a href=\"%s\">Short</a> · <a href=\"/daily-state/%s/sources/\">Sources</a>" % (X_SHORT, DATE), page)
+        self.assertIn("%s · <a href=\"%s\">Short</a>" % (SPOTIFY_ANCHOR, X_SHORT), page)
+        self.assertNotIn(f'<a href="/daily-state/{DATE}/sources/">Sources</a>', page)
+        self.assertIn('<section class="sources">', page)
+        self.assertIn(AUDIT_NAV, page)
         self.assertNotIn("/content/daily-state/%s/short.mp4" % DATE, page)
         self.assertEqual(page.count(HOUSE), 1)
         self.assertEqual(page.count('<a href="audit/">Audit</a>'), 1)
@@ -368,39 +383,59 @@ class DailyNeonEditionTest(unittest.TestCase):
         self.assertIn(f"<h1>Daily State of AI - {DATE}</h1>", page)
         self.assertEqual(page.count(HOUSE), 1)
         self.assertEqual(page.count('<a href="audit/">Audit</a>'), 1)
+        self.assertIn('<p class="ds-audit-links">', page)
         self.assertEqual(page.count("Audio on Spotify"), 1)
-        self.assertEqual(page.count(SPOTIFY_LINK), 1)
-        self.assertEqual(page.count(f'<a href="/daily-state/{DATE}/sources/">Sources</a>'), 1)
+        self.assertIn(SPOTIFY_ANCHOR, page)
+        self.assertEqual(page.count(f'<a href="/daily-state/{DATE}/sources/">Sources</a>'), 0)
+        self.assertIn('<section class="sources">', page)
         if edition is not None:
             daily_state.assert_headline_block(page, edition)
             daily_state.assert_edition_page(page, edition)
+            daily_state.assert_audit_nav(page, edition)
+            if edition.get("audit_short_url"):
+                self.assertIn(
+                    '<a href="%s">Audit short</a>' % edition["audit_short_url"],
+                    page,
+                )
+            else:
+                self.assertNotIn(">Audit short</a>", page)
 
-    def test_set_audit_short_url_writes_audit_page_only_and_is_idempotent(self):
+    def test_set_audit_short_url_writes_audit_and_edition_pages_and_is_idempotent(self):
         self.assertEqual(self.repo.build(short=False), 0)
-        # Capture the pending edition page before the command, if any is later written.
         dirty = X_AUDIT_SHORT + "/video/1?s=20"
         self.assertEqual(self._run_set_audit_short_url(dirty), 0)
         edition = json.loads((self.repo.edition_dir() / "edition.json").read_text())
         self.assertEqual(edition["audit_short_url"], X_AUDIT_SHORT)
-        # The command must not write or alter the edition page.
-        self.assertFalse((self.repo.root / "daily-state" / DATE / "index.html").exists())
+        edition_path = self.repo.root / "daily-state" / DATE / "index.html"
+        self.assertTrue(edition_path.is_file())
+        page = edition_path.read_text(encoding="utf-8")
         audit_path = self.repo.root / "daily-state" / DATE / "audit" / "index.html"
         audit = audit_path.read_text(encoding="utf-8")
-        link = '<a href="%s">Watch the audit short</a>' % X_AUDIT_SHORT
-        self.assertEqual(audit.count(link), 1)
-        self.assertIn('<p class="ds-audit-short">%s</p>' % link, audit)
-        # Prominent: the link appears after the date and before the pending body / any h2.
-        self.assertLess(audit.find(link), audit.find("The executable claim audit"))
-        self.assertNotIn("Watch the audit short", self.repo.load()["html"])
+        watch = '<a href="%s">Watch the audit short</a>' % X_AUDIT_SHORT
+        short = '<a href="%s">Audit short</a>' % X_AUDIT_SHORT
+        self.assertEqual(audit.count(watch), 1)
+        self.assertIn('<p class="ds-audit-short">%s</p>' % watch, audit)
+        self.assertLess(audit.find(watch), audit.find("The executable claim audit"))
+        self.assertNotIn("Watch the audit short", page)
+        self.assertEqual(page.count(short), 1)
+        self.assertIn(
+            '<p class="ds-audit-links"><a href="audit/">Audit</a> · %s</p>' % short,
+            page,
+        )
+        self._assert_edition_invariants(page, edition)
         edition_bytes = (self.repo.edition_dir() / "edition.json").read_bytes()
         audit_bytes = audit_path.read_bytes()
+        page_bytes = edition_path.read_bytes()
         edition_mtime = (self.repo.edition_dir() / "edition.json").stat().st_mtime_ns
         audit_mtime = audit_path.stat().st_mtime_ns
+        page_mtime = edition_path.stat().st_mtime_ns
         self.assertEqual(self._run_set_audit_short_url(X_AUDIT_SHORT), 0)
         self.assertEqual((self.repo.edition_dir() / "edition.json").read_bytes(), edition_bytes)
         self.assertEqual(audit_path.read_bytes(), audit_bytes)
+        self.assertEqual(edition_path.read_bytes(), page_bytes)
         self.assertEqual((self.repo.edition_dir() / "edition.json").stat().st_mtime_ns, edition_mtime)
         self.assertEqual(audit_path.stat().st_mtime_ns, audit_mtime)
+        self.assertEqual(edition_path.stat().st_mtime_ns, page_mtime)
 
     def test_set_audit_short_url_rejects_a_bad_url_without_writing(self):
         self.assertEqual(self.repo.build(short=False), 0)
@@ -408,6 +443,7 @@ class DailyNeonEditionTest(unittest.TestCase):
         self.assertEqual(self._run_set_audit_short_url("https://x.com/other/status/1"), 1)
         self.assertEqual((self.repo.edition_dir() / "edition.json").read_bytes(), before)
         self.assertFalse((self.repo.root / "daily-state" / DATE / "audit" / "index.html").exists())
+        self.assertFalse((self.repo.root / "daily-state" / DATE / "index.html").exists())
         self.assertNotIn("audit_short_url", json.loads(before))
 
     def test_audit_page_omits_the_link_when_url_is_absent(self):
@@ -503,10 +539,13 @@ class DailyNeonEditionTest(unittest.TestCase):
         loaded = daily_state.load_edition(str(ROOT), "2026-11-21")
         page = loaded["html"]
         player = '<p><audio controls src="/content/daily-state/2026-11-21/episode.mp3"></audio></p>'
-        link = '<p><a href="https://open.spotify.com/episode/5N0wawFLP0cwayiO8XH0Am">Audio on Spotify</a></p>'
-        self.assertEqual(page.count(player + "\n" + link), 1)
+        primary = (
+            '<p><a href="https://open.spotify.com/episode/5N0wawFLP0cwayiO8XH0Am">Audio on Spotify</a>'
+            ' · <a href="/content/daily-state/2026-11-21/short.mp4">Short</a></p>'
+        )
+        self.assertEqual(page.count(player + "\n" + primary), 1)
         self.assertEqual(page.count("open.spotify.com/episode/"), 1)
-        self.assertEqual(page.count('<p><a href="audit/">Audit</a></p>'), 1)
+        self.assertIn(AUDIT_NAV, page)
         self.assertIn('<p class="disclaimer">%s</p>' % HOUSE, page)
 
     def test_tampered_spotify_receipt_holds(self):
@@ -577,9 +616,11 @@ class DailyNeonEditionTest(unittest.TestCase):
         loaded = self.repo.load()
         self.assertNotIn(daily_state.AUDIT_PENDING_MARKER, loaded["audit_html"])
         self.assertIn("Episode 0 PASS / 1 FAIL / 0 NEEDS-HUMAN", loaded["audit_html"])
+        self.assertIn("Short: not audited", loaded["audit_html"])
+        self.assertNotIn("Short 0 PASS / 0 FAIL / 0 NEEDS-HUMAN", loaded["audit_html"])
         self.assertIn(f"content/daily-state/{DATE}/audit/checks/{DATE}/e01-claim.py", loaded["audit_html"])
         # The edition page itself does not change when the audit lands.
-        self.assertIn('<p><a href="audit/">Audit</a></p>', loaded["html"])
+        self.assertIn(AUDIT_NAV, loaded["html"])
 
     def test_attach_audit_shows_takeaway_checks(self):
         self.repo.build()

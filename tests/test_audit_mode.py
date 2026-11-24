@@ -57,9 +57,9 @@ ASSET_SHA256 = {
 }
 LIVE_PAGE_SHA256 = {
     "daily-state/2026-11-20/index.html":
-        "b2984e965bcf7749c68d8ed891dcb6c410cff464289520397743e7700c797df0",
+        "f909e27bfc6efb93649683a2585231e7b707ce8c62724c315a1eaa44bd718e76",
     "daily-state/2026-11-20/editors-notes/index.html":
-        "7c5488450a64188563c2da130bc8b6804f7bfb84dc68f049e2446ac0ad159ef4",
+        "ef4da6dd9e9c3e0586d377e8b95d25b60553d00683d191d8df9cb37f3cb28779",
 }
 
 
@@ -143,12 +143,16 @@ class AuditModeTests(unittest.TestCase):
         self.assertEqual(html_lib.unescape(pre), prompt)
         self.assertEqual(html.count(f'<audio controls src="{AUDIO}"></audio>'), 1)
         self.assertEqual(html.count(f'<a href="{SHORT}">Short</a>'), 1)
-        self.assertEqual(html.count(f'<a href="{SOURCES}">Sources</a>'), 1)
-        audit_link = '<p><a href="audit/">Audit</a></p>'
+        self.assertEqual(html.count(f'<a href="{SOURCES}">Sources</a>'), 0)
+        self.assertIn('<section class="sources">', html)
+        self.assertIn("<h2>Sources</h2>", html)
+        audit_link = '<a href="audit/">Audit</a>'
+        audit_nav = '<p class="ds-audit-links"><a href="audit/">Audit</a></p>'
         disclaimer = f'<p class="disclaimer">{HOUSE}</p>'
         self.assertEqual(html.count(audit_link), 1)
+        self.assertIn(audit_nav, html)
         self.assertEqual(html.count(disclaimer), 1)
-        self.assertLess(html.index(audit_link), html.index(disclaimer))
+        self.assertLess(html.index(audit_nav), html.index(disclaimer))
         self.assertLess(html.index(disclaimer), html.index('<div class="script">'))
         self.assertEqual(html.count(HOUSE), 1)
         self.assertEqual(daily_state.count_ai_labels(html), 1)
@@ -302,8 +306,10 @@ class AuditModeTests(unittest.TestCase):
         self.assertIn('<p class="kicker">Daily State of AI - 2026-11-20</p>', page)
         self.assertIn('<a href="../">Back to the edition</a>', page)
         self.assertIn(f'<a href="{SOURCES_RAW}">Raw data</a>', page)
-        self.assertEqual(loaded["html"].count(f'<a href="{SOURCES}">Sources</a>'), 1)
+        self.assertEqual(loaded["html"].count(f'<a href="{SOURCES}">Sources</a>'), 0)
         self.assertNotIn(f'<a href="{SOURCES_RAW}">Sources</a>', loaded["html"])
+        self.assertIn('<section class="sources">', loaded["html"])
+        self.assertIn("<h2>Sources</h2>", loaded["html"])
         files = daily_state.render_output(daily_state.load_editions(str(ROOT)))
         self.assertEqual(
             files[f"daily-state/{DATE}/{VARIANT}/sources/index.html"],
