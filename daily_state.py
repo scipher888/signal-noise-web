@@ -178,7 +178,7 @@ ROOT_AUDIT_SPOTIFY_KEYS = frozenset({"episode_id", "episode_url", "verified_at",
 ROOT_NEON_PIPELINE = "neon"
 NEON_MODEL = "google/gemini-4-neon"
 AUDIT_PENDING_MARKER = "<!-- daily-state-audit-pending -->"
-AUDIT_COUNTS_LABEL = "Check results"
+AUDIT_COUNTS_LABEL = "Audit results"
 AUDIT_COUNTS_CAPTION = (
     f'<figcaption class="kicker ds-prompt-label">{AUDIT_COUNTS_LABEL}</figcaption>'
 )
@@ -1208,11 +1208,11 @@ def assert_audit_short_link(html_text, edition):
     callout_at = html_text.find(AUDIT_COUNTS_CAPTION)
     if callout_at != -1:
         if html_text.count(AUDIT_COUNTS_CAPTION) != 1:
-            raise Hold("Check results box must appear once")
+            raise Hold("Audit results box must appear once")
         if explanation_at != -1 and callout_at < explanation_at:
-            raise Hold("Check results box must sit below the Python-check sentence")
+            raise Hold("Audit results box must sit below the Python-check sentence")
         if callout_at > html_text.index(edition_link):
-            raise Hold("Check results box must sit above the Daily State of AI link")
+            raise Hold("Audit results box must sit above the Daily State of AI link")
     if not url:
         if re.search(r">Audit short</a>", html_text):
             raise Hold("audit page has an audit short link without audit_short_url")

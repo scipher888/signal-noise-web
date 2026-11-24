@@ -1397,7 +1397,7 @@ class DailyStateTests(unittest.TestCase):
         self.assertEqual(nov24.count('<a href="audit/">Audit</a>'), 1)
 
     def test_published_audit_page_mirrors_edition_link_style(self):
-        """Audit header: check sentence, Check results callout, then edition link, optional Audit short, and the house label."""
+        """Audit header: check sentence, Audit results callout, then edition link, optional Audit short, and the house label."""
         house = '<p class="disclaimer">%s</p>' % HOUSE
         edition_link = '<p><a href="../">Daily State of AI</a></p>'
         explanation = (
@@ -1418,7 +1418,7 @@ class DailyStateTests(unittest.TestCase):
         self.assertEqual(nov24.count(HOUSE), 1)
         episode = "Episode 33 PASS / 2 FAIL / 11 NEEDS-HUMAN"
         takeaways = "Takeaways 17 PASS / 1 FAIL / 0 NEEDS-HUMAN"
-        caption = '<figcaption class="kicker ds-prompt-label">Check results</figcaption>'
+        caption = '<figcaption class="kicker ds-prompt-label">Audit results</figcaption>'
         self.assertIn(episode, nov24)
         self.assertIn(takeaways, nov24)
         self.assertEqual(nov24.count('<figure class="ds-prompt">'), 1)
@@ -1495,7 +1495,7 @@ class DailyStateTests(unittest.TestCase):
                 ["Episode 2 PASS / 0 FAIL / 0 NEEDS-HUMAN"]
             ),
             "<figure class=\"ds-prompt\">\n"
-            '<figcaption class="kicker ds-prompt-label">Check results</figcaption>\n'
+            '<figcaption class="kicker ds-prompt-label">Audit results</figcaption>\n'
             "<blockquote>\n"
             "<pre>Episode 2 PASS / 0 FAIL / 0 NEEDS-HUMAN</pre>\n"
             "</blockquote>\n"
