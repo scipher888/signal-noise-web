@@ -475,9 +475,11 @@ class DailyNeonEditionTest(unittest.TestCase):
         edition_link = '<p><a href="../">Daily State of AI</a></p>'
         self.assertEqual(audit.count(link), 1)
         self.assertEqual(audit.count(edition_link), 1)
+        episode = "Episode 0 PASS / 1 FAIL / 0 NEEDS-HUMAN"
+        self.assertIn(episode, audit)
+        self.assertLess(audit.find(episode), audit.find(edition_link))
         self.assertLess(audit.find(edition_link), audit.find(link))
         self.assertLess(audit.find(link), audit.find("<h2>"))
-        self.assertIn("Episode 0 PASS / 1 FAIL / 0 NEEDS-HUMAN", audit)
         self._assert_edition_invariants(loaded["html"], loaded["edition"])
         # Regenerating the audit page after attach does not change the edition page once written.
         self.assertEqual(self._run_set_audit_short_url(X_AUDIT_SHORT), 0)

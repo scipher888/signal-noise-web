@@ -179,7 +179,11 @@ class AuditModeTests(unittest.TestCase):
         self.assertEqual(html.count(edition_link), 1)
         self.assertEqual(html.count(house), 1)
         self.assertEqual(html.count(HOUSE), 1)
-        self.assertLess(html.index(EXPLANATION), html.index(edition_link))
+        episode = "Episode 42 PASS / 7 FAIL / 8 NEEDS-HUMAN"
+        short = "Short 14 PASS / 5 FAIL / 3 NEEDS-HUMAN"
+        self.assertLess(html.index(EXPLANATION), html.index(episode))
+        self.assertLess(html.index(episode), html.index(short))
+        self.assertLess(html.index(short), html.index(edition_link))
         self.assertLess(html.index(edition_link), html.index(house))
         self.assertLess(html.index(house), html.index("<h2>Episode</h2>"))
         self.assertNotIn("Short: not audited", html)

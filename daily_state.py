@@ -1172,11 +1172,10 @@ def render_audit_edition_link():
     return '<p><a href="../">Daily State of AI</a></p>\n'
 
 
-def render_audit_page_intro(edition, lead):
-    """Lead sentence, then the edition link, optional Audit short, then the house disclaimer."""
+def render_audit_page_nav(edition):
+    """Edition link, optional Audit short, then the house disclaimer, in the edition link style."""
     return (
-        lead
-        + render_audit_edition_link()
+        render_audit_edition_link()
         + render_audit_short_link(edition)
         + f'<p class="disclaimer">{AI_LABEL_EXACT}</p>\n'
     )
@@ -1197,6 +1196,16 @@ def assert_audit_short_link(html_text, edition):
     heading = html_text.find("<h2>")
     if heading != -1 and html_text.index(disclaimer) > heading:
         raise Hold("disclaimer must sit above the Episode section")
+    explanation = "Each claim is a small Python check run against the source texts."
+    explanation_at = html_text.find(explanation)
+    if explanation_at != -1 and html_text.index(edition_link) < explanation_at:
+        raise Hold("Daily State of AI link must sit below the Python-check sentence")
+    rows = [match.start() for match in re.finditer(r'<p class="row">', html_text)]
+    if rows:
+        if explanation_at != -1 and rows[0] < explanation_at:
+            raise Hold("count lines must sit below the Python-check sentence")
+        if rows[-1] > html_text.index(edition_link):
+            raise Hold("count lines must sit above the Daily State of AI link")
     if not url:
         if re.search(r">Audit short</a>", html_text):
             raise Hold("audit page has an audit short link without audit_short_url")
@@ -2165,8 +2174,9 @@ def render_audit_html(edition, results, counts, variant):
         "<p class=\"kicker\">Daily State of AI</p>\n"
         f"<h1>{html.escape(title, quote=True)}</h1>\n"
         f"<p><time datetime=\"{iso_date}\">{html.escape(shown)}</time></p>\n"
-        f"{render_audit_page_intro(edition, explanation)}"
+        f"{explanation}"
         + (("\n".join(summary_lines) + "\n") if summary_lines else "")
+        + render_audit_page_nav(edition)
         + "\n".join(groups)
         + "\n<p><a href=\"../\">Back to the edition</a></p>\n"
         "</article>"
@@ -2202,7 +2212,8 @@ def render_audit_pending_html(edition):
         "<p class=\"kicker\">Daily State of AI</p>\n"
         f"<h1>{html.escape(title, quote=True)}</h1>\n"
         f"<p><time datetime=\"{iso_date}\">{html.escape(shown)}</time></p>\n"
-        f"{render_audit_page_intro(edition, pending_lead)}"
+        f"{pending_lead}"
+        f"{render_audit_page_nav(edition)}"
         "<p><a href=\"../\">Back to the edition</a></p>\n"
         "</article>"
     )
