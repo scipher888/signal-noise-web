@@ -1,0 +1,44 @@
+{
+ "date": "2026-11-24",
+ "status": "ok",
+ "pipeline": "neon",
+ "model": "google/gemini-4-neon",
+ "reasoning_effort": "medium",
+ "system_prompt": null,
+ "editor": null,
+ "qa": null,
+ "edits_after_generation": "none (published as produced)",
+ "fallback": "none (fail closed)",
+ "prompts": {
+  "episode": "Here are today's AI news reports and X threads. What's the non-obvious insight others are missing? Write today's Daily State of AI around that.\n\nIt's a spoken audio episode, about 700 words (roughly five minutes read aloud). Plain spoken text only.\n"
+ },
+ "model_attempts": [
+  {
+   "stage": "writer",
+   "model": "google/gemini-4-neon",
+   "reasoning_effort": "medium",
+   "attempt": 1,
+   "outcome": "ok",
+   "error": null,
+   "seconds": 48.808,
+   "finish_reason": "stop",
+   "served_model": "google/gemini-4-neon",
+   "input_tokens": 27037,
+   "output_tokens": 5984,
+   "cost_usd": 0.170871
+  }
+ ],
+ "words": 717,
+ "duration_seconds": 284.5,
+ "bundle_sha256": "46664a2dc6ecea424d4e2d6baafb348adb632be60548eb70bdd5d063e8c7aaa0",
+ "script_sha256": "c2099a61aab23ce882e0b9ea7e6f5d6e7375fd4343f836e9f63712e09e5ce925",
+ "material": {
+  "source": "box_material",
+  "sha256": "4c27e9d75d101944a4a5771fb03af495391047310fd0d53b75e8c73af120195d",
+  "chars": 133343
+ },
+ "audit": {
+  "gate": false,
+  "status": "runs after publish"
+ }
+}

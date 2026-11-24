@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-24",
+  "mode": "audit",
+  "variant": null,
+  "title": "Daily State of AI - 2026-11-24",
+  "canonical_url": "https://www.signalandnoise.email/daily-state/2026-11-24/",
+  "model": "google/gemini-4-neon",
+  "reasoning_effort": "medium",
+  "audio_url": null,
+  "episode_id": "3qLOMVpCvQ2KmDBM9J5F4E",
+  "episode_url": "https://open.spotify.com/episode/3qLOMVpCvQ2KmDBM9J5F4E",
+  "verified_at": "2026-11-24T15:42Z",
+  "verification": {
+    "method": "public_episode_and_show",
+    "checked_at": "2026-11-24T15:42Z",
+    "episode": {
+      "title": "Daily State of AI - 2026-11-24",
+      "canonical_url": "https://open.spotify.com/episode/3qLOMVpCvQ2KmDBM9J5F4E",
+      "id": "3qLOMVpCvQ2KmDBM9J5F4E"
+    },
+    "show": {
+      "id": "1AC7qV1tyVIICLtJVwBapp",
+      "episodes": [
+        {
+          "id": "3qLOMVpCvQ2KmDBM9J5F4E",
+          "title": "Daily State of AI - 2026-11-24",
+          "uri": "spotify:episode:3qLOMVpCvQ2KmDBM9J5F4E"
+        }
+      ]
+    }
+  },
+  "video_url": null,
+  "sources_url": "/daily-state/2026-11-24/sources/",
+  "audit": {
+    "gate": false,
+    "attach": "after_publish"
+  },
+  "hashes": {
+    "script_sha256": "c2099a61aab23ce882e0b9ea7e6f5d6e7375fd4343f836e9f63712e09e5ce925",
+    "sources_sha256": "e10d769c5f89dfbe84ca0018a5736047f62fe13314d36a3c0dce8dc7881ee8f0",
+    "neon_run_sha256": "eb996e27da216ef8eba3b399639a1fce6fb97a292763e13b3fa9ff45dd51c1df",
+    "episode_sha256": null,
+    "short_sha256": null
+  },
+  "headline": "Generation Is Cheap, Verification Is the Bottleneck"
+}

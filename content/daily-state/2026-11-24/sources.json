@@ -1,0 +1,61 @@
+{
+  "date": "2026-11-24",
+  "urls": [
+    "https://openai.com/index/introducing-shirudo/",
+    "https://openai.com/index/a-thousand-fewer-paths-to-root/",
+    "https://cset.georgetown.edu/article/judge-the-cyber-apocalypse-by-the-data-not-the-headlines/",
+    "https://x.com/OpenAI/status/2124980590717911527",
+    "https://x.com/OpenAI/status/2125007927098699827",
+    "https://x.com/ramez/status/2125004190032552392",
+    "https://deepmind.google/blog/finding-faster-quantum-algorithms-with-agents-and-formal-verification/",
+    "https://x.com/GoogleDeepMind/status/2124911073266413634",
+    "https://www.anthropic.com/research/working-with-ai",
+    "https://x.com/emollick/status/2125098309928812898"
+  ],
+  "stories": [
+    {
+      "index": 1,
+      "title": "OpenAI and Cisco open-source Shirudo, agent-written eBPF shields for unpatched Linux systems",
+      "outlets": [
+        "OpenAI",
+        "Georgetown CSET",
+        "X"
+      ],
+      "urls": [
+        "https://openai.com/index/introducing-shirudo/",
+        "https://openai.com/index/a-thousand-fewer-paths-to-root/",
+        "https://cset.georgetown.edu/article/judge-the-cyber-apocalypse-by-the-data-not-the-headlines/",
+        "https://x.com/OpenAI/status/2124980590717911527",
+        "https://x.com/OpenAI/status/2125007927098699827",
+        "https://x.com/ramez/status/2125004190032552392"
+      ],
+      "verification_status": "company_reported"
+    },
+    {
+      "index": 2,
+      "title": "DeepMind's Gemini 4 agent teams find cheaper quantum circuits, each proved in Lean",
+      "outlets": [
+        "Google DeepMind",
+        "X"
+      ],
+      "urls": [
+        "https://deepmind.google/blog/finding-faster-quantum-algorithms-with-agents-and-formal-verification/",
+        "https://x.com/GoogleDeepMind/status/2124911073266413634"
+      ],
+      "verification_status": "company_reported"
+    },
+    {
+      "index": 3,
+      "title": "Anthropic's interviews with 58 enterprise customers: value comes from reorganizing, and experts resist",
+      "outlets": [
+        "Anthropic",
+        "X"
+      ],
+      "urls": [
+        "https://www.anthropic.com/research/working-with-ai",
+        "https://x.com/emollick/status/2125098309928812898"
+      ],
+      "verification_status": "company_reported"
+    }
+  ]
+}
