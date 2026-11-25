@@ -1,0 +1,11 @@
+STORY: OpenAI says GPT-6 models can design proteins with reasoning and code, with 35 of 322 lab-tested minibinders showing binding
+verification_status: company_reported
+framing (OpenAI): Company-reported preprint with lab tests run by its research partner Onava; no independent replication. OpenAI itself says specialized models still supplied sequences and filtered candidates.
+
+STORY: A historian says GPT-6.2 Astra identified the anonymous artist of a Yale 1808 sketchbook and pointed him to an unknown diary
+verification_status: author_reported
+framing (Generative History (Mark Humphries)): Single historian's first-person account; he tested the model before release. The attribution rests on archival documents he obtained; no independent historian review is reported yet.
+
+STORY: Google DeepMind's Humanity's First Exam measures whether frontier models get simple tasks right every time
+verification_status: company_reported
+framing (Kaggle / Google DeepMind): Benchmark creator's own leaderboard and summary of its paper; answers are graded by a Google model; the leaderboard lists 16 models while the X post cites 18 from the paper. No independent replication.

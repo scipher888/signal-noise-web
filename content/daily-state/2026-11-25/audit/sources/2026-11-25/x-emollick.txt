@@ -1,0 +1,41 @@
+@emollick: There is a lot of focus on AI-aided discoveries in quantitative fields, but they can go beyond that, too:
+
+Historian Mark Humphries asked GPT-6.2 Astra to look at an anonymous 1808 sketchbook at Yale and it found the author, an obscure French aristocrat. https://t.co/cTnAj4hPkb https://t.co/2rfFXu5jtc
+
+AFFILIATION NOTE (scan): Wharton professor relaying the historian's blog post; not an independent check of the attribution.
+
+REPLIES:
+@emollick (29 likes): From the author https://t.co/OCkXHLI38i
+@notmiramurati (11 likes): @emollick professor, i’d really appreciate it if you shared this competition with any of your students
+
+would be sick
+https://t.co/5JZYc0HVLN
+@AImeeSays (1 likes): @emollick The sketchbook being anonymous is the interesting part. Finding an obscure author means cross-checking handwriting and archives at a scale no human historian would bother with. Curious how they verified it.
+@Joe28753 (1 likes): @emollick I'm doing a much smaller version of this on my 1870 house. Deeds, census pages, and old atlas maps cross-checked by AI get you surprisingly far. I still read the original scan myself before I believe a name or a date.
+@DeaiSummit (0 likes): @emollick Great to see AI-aided discovery reach history and the humanities. The value is in giving experts new leads to verify, not replacing their judgement.
+@sagiegr (0 likes): @emollick Finding the author of an anonymous 1808 sketchbook used to take a historian a lot of archive digging. Uses like this outside math and code are the ones I find most interesting.
+@vtalksgrowth (0 likes): @emollick AI doesn’t just find patterns in data. It finds identities history misplaced.
+@JacobStoneC (0 likes): @emollick The journal confirmation is what matters: matching handwriting and Chabot writing that he "took a sketch" of the exact Fort St. Joseph view. Has anyone else independently checked the attribution yet?
+@sportsatwork (0 likes): @emollick Really points to how much copyright infringement the models run on. 
+
+They have to add in hacks so that they don't put out copyrighted material. "Draw something on the style of ..." is blocked because they would otherwise include liability inducing material.
+@marcocc (0 likes): @emollick True, and the same happens in my daily work with local models: the model narrows the search, I verify every claim against sources. Humphries' archival knowledge is what turned a probability into an attribution. In Cyberumanesimo I argue for this augmentation.
+@iambokensha (0 likes): @emollick A 218-year-old mystery solved with AI. Historians are going to love this
+@tbh_fts (0 likes): @emollick it's funny how this is 'news' - i perceive this as an obvious outcome of ai - i'm sure this has happened thousands of times already and it's only the beginning!
+@echochen55 (0 likes): @emollick The striking part isn't that the model found a name. Finding a candidate now costs almost nothing, so the bottleneck is verification. The historian's job shifts from retrieval to auditing the evidence chain. The real risk is a confident attribution that looks right and almost is.
+@Hamid_Mazloomi (0 likes): @emollick I thought AI was for the spreadsheet crowd, not for a 200-year-old sketchbook mystery.
+@codymclain (0 likes): @emollick 'GPT-6.2 Astra' is a model name I can't place in anything I know, so i'd want the historian's own write-up before believing the attribution
+@robertoramos (0 likes): @emollick An 1808 sketchbook getting its author back is the detective work I see in legacy finance systems every day. Nobody remembers who wrote a rule, so nobody dares touch it, and the workaround becomes the spec. Code can lose its author. A rule shouldn't lose its reason.
+@LuiyaIglesias (0 likes): @emollick an anonymous 1808 sketchbook now has a name. the next wave of discoveries is hiding in archives, not labs.
+@the_sigh_op2 (0 likes): @DrBlytheAdamson @emollick Another neat example here
+
+https://t.co/ZKpy2l7Dz5
+@the_sigh_op2 (0 likes): @emollick Reminds me a bit of ResObscura's dodo finding
+
+https://t.co/ZKpy2l7Dz5
+@DianaR_Official (0 likes): @emollick What I like most is that Humphries checked. The AI named Chabot in 22 minutes and pointed to a diary on microfilm. He ordered it, and on 18 June 1808 Chabot wrote "I took a sketch" and described that exact view of the fort. Which old mystery would you give it next?
+@lautaromcampos (0 likes): @emollick It's a search-and-verify pattern: AI narrows the field, an expert checks the evidence. The same structure transfers to supply chain exceptions, audits and claims.
+@MaxTokens18 (0 likes): @emollick Finally, AI tackling the real bottlenecks: identifying obscure 19th-century French aristocrats.
+@gaazzeebo (0 likes): @emollick This is the part most business owners miss. AI is not only for math. Old paper records, scanned invoices and handwritten job notes are the same kind of puzzle. Scan one box and ask it to pull names, dates and totals into a sheet.
+@mostlymatrices (0 likes): @emollick Finding one clue in a long source is harder for a model than it looks. It reads everything as a single block of text under a hard token cap, and a 2023 Stanford/Berkeley study found facts buried in the middle of long inputs get missed more often.
+@liav_chen (0 likes): @emollick Every 'artist unknown' tag is on notice now
