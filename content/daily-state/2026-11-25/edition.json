@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-25",
+  "mode": "audit",
+  "variant": null,
+  "title": "Daily State of AI - 2026-11-25",
+  "canonical_url": "https://www.signalandnoise.email/daily-state/2026-11-25/",
+  "model": "google/gemini-4-neon",
+  "reasoning_effort": "high",
+  "audio_url": null,
+  "episode_id": "4t5dUJrqqrxqW1qIIk6aoM",
+  "episode_url": "https://open.spotify.com/episode/4t5dUJrqqrxqW1qIIk6aoM",
+  "verified_at": "2026-11-25T15:45Z",
+  "verification": {
+    "method": "public_episode_and_show",
+    "checked_at": "2026-11-25T15:45Z",
+    "episode": {
+      "title": "Daily State of AI - 2026-11-25",
+      "canonical_url": "https://open.spotify.com/episode/4t5dUJrqqrxqW1qIIk6aoM",
+      "id": "4t5dUJrqqrxqW1qIIk6aoM"
+    },
+    "show": {
+      "id": "1AC7qV1tyVIICLtJVwBapp",
+      "episodes": [
+        {
+          "id": "4t5dUJrqqrxqW1qIIk6aoM",
+          "title": "Daily State of AI - 2026-11-25",
+          "uri": "spotify:episode:4t5dUJrqqrxqW1qIIk6aoM"
+        }
+      ]
+    }
+  },
+  "video_url": null,
+  "sources_url": "/daily-state/2026-11-25/sources/",
+  "audit": {
+    "gate": false,
+    "attach": "after_publish"
+  },
+  "hashes": {
+    "script_sha256": "2da19f1aee649ef234b9951f67eaa988558fe2915179c05070c46832e8613e9f",
+    "sources_sha256": "5c06c152a78c9f2a0210b05ed889d4489822c6d5415a3620c64a8804f74a3d8b",
+    "neon_run_sha256": "0f3dddf9fc3d356ec38b5ddf5ed40bf8cd03d0b53a207b9bd52f630d7bacb7ce",
+    "episode_sha256": null,
+    "short_sha256": null
+  },
+  "headline": "AI Is Built for Discovery, Not Everyday Reliability"
+}

@@ -1,0 +1,25 @@
+Welcome to the Daily State of AI for Wednesday, November 25th, 2026.
+
+How can the same frontier AI model crack a 218-year-old historical mystery in twenty-two minutes and design new proteins that actually bind in a wet lab, yet still miscount a handful of objects in a simple picture?
+
+That paradox links today's three biggest AI stories: a protein-design preprint from OpenAI, an archival find from a Canadian historian, and a new reliability benchmark from Google DeepMind. Taken together, they expose a divide most coverage misses: the widening gap between discovery mode and reliability mode.
+
+Intense training on math and code has turned frontier models into remarkable discovery engines, built for problems where you only need one hit out of many tries and an outside check discards the misses. What that training has not delivered is everyday reliability: getting routine steps right every single time, or weighing messy real-world evidence without a formal proof.
+
+Google DeepMind put hard numbers on that gap today, launching Humanity's First Exam on Google-owned Kaggle. Instead of PhD-level questions, it tests simple, ninety-second tasks humans breeze through, like counting objects, tracking arrows, or spotting a false premise. And it measures floor reliability, asking whether a model solves four slightly varied versions of a task consistently across repeated tries.
+
+The drop-off is stark. The top five models score 96 to 98 percent on a single try and solve every task family at least once across four attempts, yet average under 86 percent when consistency is required. OpenAI's GPT-6.2 Astra leads Kaggle's initial run near 91 percent, though within overlapping error bars and at a higher reasoning setting than Google's Gemini 4 Neon.
+
+The failure logs explain why. Nearly three-quarters of wrong answers are basic visual perception mistakes. Cranking up reasoning effort lifts symbolic logic by nearly 30 percentage points, yet improves object counting and arrow tracking by barely 2 points. Human and AI difficulty are literally inverted: people handle vision easily and trip over formal logic, while models do the reverse. For unattended agents chaining dozens of steps together, that gap is where workflows collapse.
+
+Now view OpenAI's protein preprint through that same lens. OpenAI reports that its GPT-6 models can design protein shapes and sequences using only reasoning and code, without calling specialized biology models during generation. With lab partner Onava, 35 of 322 small protein binders based on GPT-6.2's shapes bound to their targets, an 11 percent hit rate. In a second lab run, GPT-6.2 also wrote working sequences itself for unpublished shapes it had generated, suggesting this goes beyond memorization.
+
+This is still OpenAI's own unreviewed preprint, and early lab binding is far from a working medicine. More tellingly, protein design is a discovery game. An 11 percent hit rate is a genuine breakthrough when specialized biology models filter out weak candidates upfront and a wet lab tests the winners. Ask the general reasoner to predict how a whole protein folds from its sequence alone, and even OpenAI's latest internal model scores under 0.4 on a one-point scale, compared with 0.93 for the specialist model ESMFold2.
+
+The same split appears outside science. In a Substack post not yet peer-reviewed or publicly audited, historian Mark Humphries describes giving GPT-6.2 Astra an anonymous 1808 sketchbook from Yale's Beinecke Library. In twenty-two minutes, the model linked a Montreal fur trader's diary, a century-old letter, and a 2014 thesis footnote to identify an obscure French aristocrat, vicomte de Chabot, and pointed Humphries to an unknown microfilmed diary at Cleveland State University. Claude Fable 5.2 also found Chabot in thirty-five minutes, though it missed the diary.
+
+Humphries ordered the scans, matched the handwriting, and found Chabot writing that he took a sketch of Fort St. Joseph. Yet when Humphries gave that proof back to Astra, the model strangely hedged and doubted its own find because the diary was unsigned. Humphries suspects math-heavy post-training leaves it awkward whenever evidence falls short of a formal proof.
+
+That is the real state of AI today. Frontier reasoners are extraordinary discovery machines when you can verify externally. Until reliability catches up with brilliance, the real edge belongs to teams who know which game they are playing.
+
+That is your Daily State of AI. Thanks for listening.
