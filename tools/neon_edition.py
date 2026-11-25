@@ -16,7 +16,8 @@ the pre-audit editions did; episode.mp3 is not copied (from 2026-11-22).
 The episode URL comes from --episode-url, else spotify_episode_url in the
 mirror's takeaways.json, else spotify_episode_url / episode_url in run.json.
 It must be an open.spotify.com/episode/<22-char id> URL whose public page and
-the show's public page both name "Daily State of AI - D"; that evidence is
+the show's public page both name "Daily State of AI - D" or
+"<headline> | Daily State of AI - D"; that evidence is
 recorded in edition.json (or read from --verification, a recorded evidence
 file). A missing, malformed or unverified episode refuses the build.
 It also refuses an existing directory, a run that is not status ok on the
@@ -48,6 +49,7 @@ set-headline writes an optional 4-10 word (max 14) teaser into edition.json
 and regenerates the edition page, the Daily State listing, and the homepage
 card when needed. Rerunning with the same headline is a no-op. The h1 stays
 Daily State of AI - <date>. Use tools/draft_headline.py to generate the text
+(it reuses a mirrored headline.txt when that file is present and valid)
 from the episode script.
 
 All commands validate with daily_state.py's loader before returning 0.
@@ -230,6 +232,9 @@ def build(args):
     try:
         for name in ("script.txt", "sources.json"):
             shutil.copyfile(os.path.join(src, name), os.path.join(dest, name))
+        headline_src = os.path.join(src, "headline.txt")
+        if os.path.isfile(headline_src):
+            shutil.copyfile(headline_src, os.path.join(dest, "headline.txt"))
         if has_short:
             shutil.copyfile(args.short, os.path.join(dest, "short.mp4"))
         run_bytes = (json.dumps(neon_run, indent=1, ensure_ascii=False) + "\n").encode("utf-8")

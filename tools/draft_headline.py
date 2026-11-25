@@ -55,6 +55,34 @@ def script_path(date, variant, explicit):
     return os.path.join(root, date, "script.txt")
 
 
+MIRROR_HEADLINE = "/workspace/daily-state-slim/out/{date}/headline.txt"
+
+
+def first_usable_headline(date, script, explicit=None):
+    """Return (headline, source_path) if a valid headline.txt is already on disk."""
+    candidates = []
+    if explicit:
+        candidates.append(explicit)
+    if script:
+        candidates.append(os.path.join(os.path.dirname(os.path.abspath(script)), "headline.txt"))
+    candidates.append(MIRROR_HEADLINE.format(date=date))
+    seen = set()
+    for path in candidates:
+        if not path or path in seen:
+            continue
+        seen.add(path)
+        try:
+            with open(path, encoding="utf-8") as handle:
+                raw = handle.read()
+        except OSError:
+            continue
+        try:
+            return daily_state.validate_headline(raw), path
+        except daily_state.Hold:
+            continue
+    return None, None
+
+
 def clean_reply(text):
     line = text.strip().splitlines()[0].strip() if text.strip() else ""
     return daily_state.validate_headline(line)
@@ -67,6 +95,11 @@ def main(argv=None):
     parser.add_argument("--script", default=None)
     parser.add_argument("--variant", default=None)
     parser.add_argument("--bot", default=BOT)
+    parser.add_argument(
+        "--from-file",
+        default=None,
+        help="Reuse this headline.txt if it is valid (default: look beside the script, then the box mirror)",
+    )
     args = parser.parse_args(argv)
     if not daily_state.is_real_date(args.date):
         print("HOLD: date is invalid", file=sys.stderr)
@@ -76,6 +109,16 @@ def main(argv=None):
     if not os.path.isfile(path):
         print("HOLD: missing script.txt", file=sys.stderr)
         return 1
+    reused, source = first_usable_headline(args.date, path, getattr(args, "from_file", None))
+    if reused is not None:
+        daily_state._write_text_atomic(args.out, reused + "\n")
+        print(json.dumps({
+            "headline": reused,
+            "out": args.out,
+            "reused": True,
+            "source": source,
+        }, ensure_ascii=False))
+        return 0
     if not os.path.isfile(OR_CALL):
         print(f"HOLD: or-call is missing at {OR_CALL}", file=sys.stderr)
         return 1
