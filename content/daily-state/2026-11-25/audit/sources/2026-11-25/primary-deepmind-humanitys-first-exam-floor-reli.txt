@@ -1,0 +1,303 @@
+Page image: https://www.kaggle.com/open-graph/images/ResearchBenchmarks/8909/versions/8935
+
+Humanity's First Exam (HFE) Leaderboard | Kaggle
+
+# Humanity's First Exam (HFE)
+
+Measuring how reliably frontier models solve simple text and image tasks humans get right almost every time.
+
+## Contribute to Humanity's First Exam (HFE)
+
+Help write short prompts that frontier models get wrong. Win a share of $50k in swag. Approved tasks will be included in Humanity's First Exam (HFE), and your name will be cited directly on the upcoming research paper.
+
+1
+
+GPT-6.2 Astra (Xhigh)
+
+OpenAI
+
+2
+
+GPT-6.2 Sol (Xhigh)
+
+OpenAI
+
+3
+
+Gemini 4 Neon (High)
+
+Google
+
+4
+
+GPT-6 Astra (Xhigh)
+
+OpenAI
+
+5
+
+GPT-6.1 Sol (Xhigh)
+
+OpenAI
+
+6
+
+Gemini 4 Carbon (High)
+
+Google
+
+7
+
+GPT-6.1 Terra (Xhigh)
+
+OpenAI
+
+8
+
+Gemini 4 Argon (High)
+
+Google
+
+9
+
+Gemini 4 Hydrogen (High)
+
+Google
+
+10
+
+Claude Opus 5.5 (Max)
+
+Anthropic
+
+11
+
+Claude Sonnet 5.5 (Max)
+
+Anthropic
+
+12
+
+GPT-5.6 Sol (Max)
+
+13
+
+Gemini 3.8 Flash (High)
+
+Google
+
+14
+
+Claude Haiku 5.5 (Max)
+
+Anthropic
+
+15
+
+Gemini 3 Flash Preview (High)
+
+Google
+
+16
+
+Gemini 3.1 Flash-Lite Preview (High)
+
+Google
+
+90.7%
+
+90.7%
+
+±4.7%
+
+87.5%
+
+87.5%
+
+±5.1%
+
+85.6%
+
+85.6%
+
+±5.7%
+
+84.0%
+
+84.0%
+
+±5.9%
+
+81.7%
+
+81.7%
+
+±6.1%
+
+79.2%
+
+79.2%
+
+±6.6%
+
+78.1%
+
+78.1%
+
+±6.7%
+
+76.6%
+
+76.6%
+
+±6.8%
+
+70.5%
+
+70.5%
+
+±7.3%
+
+70.0%
+
+70.0%
+
+±7.4%
+
+65.6%
+
+65.6%
+
+±7.7%
+
+56.5%
+
+56.5%
+
+±7.9%
+
+56.1%
+
+56.1%
+
+±8.1%
+
+42.5%
+
+42.5%
+
+±7.9%
+
+33.4%
+
+33.4%
+
+±7.5%
+
+18.5%
+
+18.5%
+
+±6.2%
+
+Humanity's First Exam (HFE) evaluates whether frontier language and multimodal models can consistently solve elementary tasks that humans complete without specialized training: visual object counting, color and symbol identification, spatial tracking, basic arithmetic, strict formatting constraints, and false-premise verification. Standard evaluations measure capability ceilings via single-try accuracy (pass@1) or multi-sample coverage (pass@k) on difficult domain problems. HFE inverts this design, measuring whether a model solves a routine task every time across repeated draws and controlled prompt variations (Family pass⁴).
+
+# Dataset Scope & Composition
+
+- Dataset size: 544 prompts organized into 136 four-prompt perturbation families (1 seed prompt + 3 logic-preserving variants per family) across 20 foundational subcategories and four macro-categories: Vision (51 families, 204 prompts), Math & Algorithmic (40 families, 160 prompts), Spatial & Positional (27 families, 108 prompts), and Reasoning & Language (18 families, 72 prompts). By input modality, HFE comprises 316 multimodal Text & Image prompts across 79 families (58.1%, including 314 single-image and 2 two-image prompts) and 228 text-only prompts across 57 families (41.9%), with uniform modality within each family.
+- Data source: Newly authored seed prompts and controlled surface variants (reusing no viral social-media examples), calibrated to elicit at least one error on a multi-provider frontier model panel at creation time and filtered through three criteria: Simplicity, Relatability, and Shock Value. Four independent human raters solved each candidate seed without external tools (no LLMs, web search, calculators, code, word or character counters, or copy-paste; median solve time 1.5 minutes, IQR 1.0 to 2.5 minutes). Only families whose seed was solved by at least 3 of 4 human raters were kept, followed by a QA audit for visual or textual ambiguity and variant fidelity.
+- Contamination risk: All 544 prompts were authored from scratch rather than collected from public exams or online failure lists. To support community reproducibility while preventing overfitting, only a stratified 20% subset (selected via a Two-Parameter Logistic Item Response Theory model across capability categories and difficulty strata, achieving 0.97 Spearman rank correlation with the full 544-prompt set) is published openly; the remaining 80% is held out privately, and evaluation containers have no internet access.
+- Dataset access: The 112-prompt (28-family) public split is openly available under CC-BY-4.0 at deepmind/hfe-public. The 432-prompt (108-family) holdout split remains private.
+
+## Methodology
+
+Each task presents a single text or multimodal prompt with no system message and no tools. To separate underlying capability from lucky surface phrasing or sampling, each four-prompt family pairs one seed prompt with three controlled variants that rename entities, reorder clauses, or alter visual layout and attributes while preserving the isolated sub-ability and task logic (ground-truth answers vary across variants so memorized guesses do not transfer). Every prompt is sampled 6 times independently, and an isolated deterministic LLM judge grades only the final user-facing answer.
+
+# Execution Environment & Grading
+
+| Component | Specification |
+| --- | --- |
+| Agent Environment | Isolated Harbor container with network access restricted strictly to the Kaggle Model Proxy (no public internet, search, calculators, or code execution tools). |
+| Interaction Protocol | Zero-shot, single user turn with no system prompt. Each prompt is sampled 6 times independently (temperature 1.0) within a single Harbor trial at each model's evaluated reasoning effort across this 16-model Harbor cohort (max on Claude 5.5 and GPT-5.6 Sol, xhigh on GPT-6, GPT-6.1, and GPT-6.2 models, high on all Gemini models including Gemini 4 Neon and Gemini 4 Hydrogen; in the paper's 18-model Table 4, Gemini 4 Neon and Gemini 4 Hydrogen run at xhigh, Claude Fable 5.1 and 5.2 are included at max, and GPT-5.6 Sol appears in Appendix Table A1). |
+| Compute & Timeouts | 2 CPUs, 8 GB RAM, 20 GB storage, no GPU. Up to 3,600 seconds per 6-sample task run (1,200 seconds per model API call) and 900 seconds for grading, streaming up to 128,000 output tokens per draw (65,536 on Gemini 3.x models). |
+| Verification Harness | Internal reasoning traces and control tokens are stripped prior to grading so only the visible final answer is scored; empty outputs, safety refusals, and output-cap truncations score 0. In an isolated grading step, Gemini 3.1 Pro (temperature 0.0, seed 0) checks semantic equivalence against the reference answer or rubric and outputs Yes (1) or No (0), accepting equivalent choice brackets, numeric words vs. digits, and equivalent time units. |
+| Metric | Family pass⁴ averaged over all 136 four-prompt families with 95% family-clustered bootstrap confidence intervals. |
+
+For a single prompt with 6 independent draws and c correct answers (0 to 6), prompt-level pass⁴ is the unbiased hypergeometric probability that all 4 draws without replacement succeed:
+
+$pass4=(c4)(64)=(c4)15$
+
+Scoring 1.0 on a prompt requires 6/6 correct draws (5/6 scores 5/15 ≈ 0.333, 4/6 scores 1/15 ≈ 0.067, and ≤ 3/6 scores 0.0). Across a four-prompt family f with correct counts across its four prompts, Family pass⁴ measures the unbiased joint probability that all 16 draws (4 per prompt across all 4 family members) succeed, averaged over all 136 families:
+
+$Family pass4=1136∑f=1136∏j=14(cf,j4)15$
+
+The Family Reliability Gap is Family pass@4 minus Family pass⁴, where Family pass@4 is the probability that at least 1 of 16 draws across a family succeeds, averaged over all 136 families:
+
+$Family pass@4=1136∑f=1136(1−∏j=14(6−cf,j4)15)$
+
+# What We Changed in Our Implementation
+
+To run Humanity's First Exam reproducibly within Harbor while staying faithful to the reference evaluation, we made the following changes:
+
+- All providers stream responses over SSE with a unified 128,000 max output token cap (65,536 on Gemini 3.x models due to API limits) and require terminal stream-completion markers before accepting a draw, preventing long reasoning traces from truncating mid-thought.
+- Raw multimodal PNGs reach up to 10.5 MB. Gemini and OpenAI (high image detail) receive raw image bytes unchanged; on Anthropic requests only, images exceeding 3.6 MB or 8,000 pixels on a side are resized in-container via Lanczos resampling to stay within Anthropic's 5 MB base64 per-image API limit.
+- When a provider blocks an individual draw under a safety refusal or content filter, the harness immediately records 0 for that single draw without retrying, matching the paper while allowing the remaining draws for that prompt to complete.
+- Because Family pass⁴ multiplies prompt-level pass⁴ across four tasks per family and 432 of the 544 prompts are private holdouts, Family pass⁴ is aggregated across all 544 prompts (3,264 draws) with 10,000-resample family-clustered bootstrap 95% confidence intervals and exact 544-task token and cost totals as the sole leaderboard metric, while the 112 public CC-BY-4.0 tasks are published openly in deepmind/hfe-public for inspection.
+
+# Key Takeaways
+
+- Across the 16 models evaluated on this Harbor leaderboard (compared with 18 in paper Table 4, where Gemini 4 Neon and Gemini 4 Hydrogen run at xhigh, Claude Fable 5.1 and 5.2 are included, and GPT-5.6 Sol is in Appendix Table A1), scores closely track the published HFE paper runs (Spearman rank correlation ρ = 0.98, Pearson r > 0.99, mean absolute difference 0.35 percentage points on pass@1), with small draw-to-draw differences falling inside the ±4.7% to ±8.1% 95% confidence intervals of 6 stochastic temperature 1.0 draws per prompt. On Claude Opus 5.5, the Harbor score (70.0%, ±7.4% Harbor 95% CI, vs. 63.0% ±7.6% in paper Table 4) reflects both fewer provider safety refusals on this endpoint (0.18% vs. 1.62% in the paper; removing all refusals and output-limit truncations in paper Table 6 raises the score by +4.4 pp to 67.4%) and stochastic sampling variance across draws, with zero dropped streams and first-refusal scoring set to 0.
+- Frontier models solve nearly every task family at least once, yet still miss frequently across variants and retries. Across the 16 models on this Harbor leaderboard, models reach 98.9% to 100.0% on Family pass@4 and the top models reach 94.9% to 97.7% on pass@1, yet Family pass⁴ remains substantially lower, leaving a wide Family Reliability Gap where small pass@1 differences widen nearly fourfold under Family pass⁴.
+- Multimodal perception drives most failures and frontier separation. In the paper's category breakdown, the top 9 models reach 83% to 97% Family pass⁴ on text-only families vs. 64% to 89% on multimodal families, with Vision spanning 27.8 percentage points among the top 9 models compared with 15.0 percentage points on Math & Algorithmic tasks.
+- Test-time reasoning lifts symbolic tasks far more than visual perception. Raising effort from low to high in the paper's ablations lifts Family pass⁴ by 17 to 32 percentage points on several reasoning models (and disabling thinking on Flash models drops Family pass⁴ below 10%), concentrated in symbolic text subcategories (+26.2 to +29.7 percentage points mean lift on Logical Deduction, Algorithmic and Symbolic Execution, and Constraint Satisfaction) vs. small gains on core Vision (+2.0 percentage points on Arrows/Pointers and +1.9 percentage points on Object Counting).
+- Most failing families miss on one shared variant, and human vs. model difficulty is inverted. For the top 12 models, 61% to 85% of failing families fail on a single prompt while passing 6/6 draws on the other three, and errors across providers cluster on the same variant. Across subcategories, human seed accuracy (80.3% across 315 candidate seeds prior to 3/4 filtering) negatively correlates with model pass@1 (Spearman ρ = -0.64): humans score highest on Vision (84%) and lowest among macro-categories on Math & Algorithmic (76%) and Reasoning & Language (77%), and lowest at the subcategory level on Logical Deduction (59.4%), whereas models invert that order.
+
+# Failure Modes
+
+In the paper's audit of 58,752 rollouts (5,823 failed rollouts, including 5,552 wrong answers), 95% of failures were wrong answers, 3% were safety refusals, 2% were output-limit truncations, and 0.1% were harness errors. Cross-provider LLM judge audits of 1,492 failed prompt-model pairs (84% inter-judge agreement, Cohen's κ = 0.81) separate model mistakes from provider and grader artifacts:
+
+## Model Failures
+
+- Visual perception errors (73% of wrong rollouts): Misjudging spatial position, direction, or path in an image (31%) and miscounting distinct objects (23%).
+- Near misses and occlusion: 40% of failed pairs miss by one count or a single list item (173 of 303 counting errors), and 16% involve overlapping, drawn-over, or partially occluded objects.
+- Defaulting to familiar templates (8% of wrong rollouts): Solving the canonical version of a classic puzzle or accepting a false premise instead of reading a modified detail.
+- Procedural slips: Deriving the right intermediate result step by step before writing a contradicting final answer (42 of 132 text-procedure errors, mostly in fast-tier models).
+- Hedging: Expressing doubt or offering alternative answers without committing (39% of failed pairs on Anthropic models vs. 14% on Google models and 7% on OpenAI models).
+
+## Provider & Harness Artifacts
+
+- Safety refusals and output caps (5% of failed rollouts): Rare safety refusals and output-token caps penalize Family pass⁴ whenever they affect a single rollout in a family (output-cap truncations are mitigated on this Harbor leaderboard via 128k streaming, while safety refusals score 0 on the first hit to match the paper).
+- Autorater edge cases: Independent re-auditing flagged roughly 3% of wrong-answer verdicts (~0.3% of all rollouts) as potentially defensible readings or strict-rubric edge cases.
+
+## Sample Tasks
+
+All 112 public tasks (28 complete four-prompt families) are available under CC-BY-4.0 in the deepmind/hfe-public dataset, including prompts, images, reference answers, and runnable Harbor task folders. Below are three representative examples linked directly to their task files in the dataset.
+
+# Color Identification Family (Multimodal Vision)
+
+- Task:`hfe-5d65853b52607ec5` (seed), `hfe-f35d8beae7fb3875` (variant 1), `hfe-94e7f96d5f7ccbde` (variant 2), `hfe-6ca784e0d2f6f123` (variant 3)
+- Input: Four distinct images of multi-colored lettering paired with parallel character-indexing rules, such as Variant 1: "List the color of the third letter of each word in the neon sign in order, separated by a semicolon."
+- Available tools: None (single-turn multimodal input with raw image bytes and no external tools or internet access).
+- Scoring: Each prompt runs 6 times independently, and Gemini 3.1 Pro checks equivalence against the target sequence (Variant 1: `green; yellow; white; blue; blue`). Earning 1.0 on Family pass⁴ requires passing all 6 draws across all four prompts in the family (24 of 24 draws).
+
+# False-Premise Visual Counting (Multimodal Reasoning)
+
+- Task:`hfe-6448a306c15a247f` (variant in the 4-prompt Negative Fact Verification family seeded by `hfe-954dff16c37c0b47`)
+- Input: An image showing bowls of fruit paired with the prompt: "What color is the bowl that holds exactly five oranges?"
+- Available tools: None (zero-shot single-turn multimodal call).
+- Scoring: No bowl in the image holds five oranges (the blue bowl holds six visible oranges). Full credit on the prompt (pass⁴ = 1.0) requires rejecting the false premise on all 6 independent draws rather than naming a bowl color.
+
+# Rule-Bound Symbolic Tracking (Text-Only Algorithmic Execution)
+
+- Task:`hfe-9b19d78d37b2cb55` (seed of a 4-prompt text family alongside directional-pad, robot-heading, and vault-dial variants `hfe-5aeaa87d1344a498`, `hfe-9f5f13a715af1bc6`, and `hfe-49a4c0d17ec01447`)
+- Input: "A weather vane points in this order as the wind changes: north, east, south, west, north, west, south. Whenever it moves clockwise by 90 degrees, write C. Whenever it moves counterclockwise by 90 degrees, write A. Ignore any move that is not 90 degrees. Give only the final string."
+- Available tools: None (zero-shot single-turn text call).
+- Scoring: The visible final answer must match `CCCCAA` across all 6 draws (pass⁴ = 1.0), and the model must maintain the same consistency across the three perturbed variants in the family (Family pass⁴ = 1.0).
+
+## Activity Overview
+
+### Models
+
+16 evaluated
+
+### Comments

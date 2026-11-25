@@ -1,0 +1,38 @@
+@OpenAI: We’re sharing a new preprint showing wet lab validation of intrinsic protein design capabilities of the GPT-6 family of models. 
+
+Our models can design new protein shapes and sequences using reasoning and code, without calling specialized biology models to generate them.
+
+https://t.co/cFfB0QHXub
+
+AFFILIATION NOTE (scan): OpenAI's own account announcing its own research; not independent corroboration.
+
+REPLIES:
+@niceytR (1 likes): @OpenAI 🚨Tell me this isn't true! As you can see here, since November 13th, and it's now November 25th, not a single reset! Unbelievable, and I'm paying for the PRO plan! Seriously, people, evaluate everything. I really love working with Codex and I highly recommended them, but lately https://t.co/TmzZyRtGhw
+@growwithemma (0 likes): @OpenAI Tell us when you have cure for cancer or anti aging breakthrough. We normies don't care for protein design
+@AsiBy2030 (0 likes): @greijukainen @OpenAI No, this is completely different. It has to do with Z98 being true.
+@woldemort1blog (0 likes): @OpenAI How can an advanced AI platform like ChatGPT lack a basic warning system before reaching its conversation limit? A month of work abruptly interrupted just before the final deliverable. Technical limitations are understandable. Failing to warn paying customers is not.
+@amrstech (0 likes): @OpenAI @GoogleDeepMind  what's your take on this new experiment by @OpenAI  ?? https://t.co/qPR1skRQP0
+@woldemort1blog (0 likes): @OpenAI How can an advanced AI platform like ChatGPT lack a basic warning system before reaching its conversation limit? A month of work abruptly interrupted just before the final deliverable. Unacceptable! I'm switching to Claude.
+@tiger48308698 (0 likes): @OpenAI The number I keep coming back to is 35 of 322. That's a real wet-lab hit rate. OpenAI is also clear that specialized models still filtered the candidates. Binding evidence is a start, not a drug.
+@shengyuchufeng (0 likes): @OpenAI The number to keep is 35 of 322 — and OpenAI prints it itself. Specialized models still filtered the candidates, and full structure prediction lags far behind. Real progress, hybrid pipeline: the general model designs, specialists check. That division of labor is the story.
+@MukisaZach2 (0 likes): @OpenAI 80% of all cancer is now pre cured. the remaining 10% is for getting individual cancer proteins which is easy and the finally the last 10% is getting the antigen specific combatant and protein capsid based viruses
+@LukasKubik17 (0 likes): @OpenAI This is the AI news I'm most excited about. Faster science and new medicines could help more people than any chatbot. How long before we see the first results outside the lab?
+@OkayMorePlease (0 likes): @OpenAI "It actually bound in the lab" is a wild sentence for a Tuesday. Not a medicine yet, and they said so, but wow.
+@roseramdotcom (0 likes): @OpenAI Its over
+@romainclmt1 (0 likes): @OpenAI mAbs, protein designs, and the other AI-led drug discovery entities are SO HARD to engineer and test that an autonomous wet-labs revolution needs to happen. Otherwise we're still in the high-throughput tridimensional compound design schema that lacks clinical rollout...
+@romainclmt1 (0 likes): @OpenAI Amazing improvements! Now could we could settle on whether we wish a future made of biologically over-engineered human beings, hybrids, or a singularity-grade humanity?
+@grok (0 likes): @EsbenJohnson @OpenAI Proteins are the workhorses of life: enzymes catalyze chemistry, receptors sense signals, antibodies defend, scaffolds build structure. Predicting shapes, designing new ones, and modeling how they fit together unlocks better drugs, enzymes, and materials.
+
+No—biology is not
+@jiangnanfengyu (0 likes): @OpenAI The follow-up's 35/322 binding result and use of specialized models are important context. Interesting proof of concept; not yet a drug, nor an end-to-end workflow without specialist tools.
+@EsbenJohnson (0 likes): @OpenAI @grok why are protein tasks important to solve? Is it the case that biology will be solved if proteins are solved? Teach me please
+@hanminwang3 (0 likes): @OpenAI Genuinely impressive: 35 of 322 GPT-6.2 minibinder shapes bound across all five targets in Onava's wet lab. Not convinced it's end-to-end — specialized models still did sequences and filtering, and they haven't shown zero-shot de novo binders without that help.
+@KlofL91123 (0 likes): @OpenAI Wet-lab proof beats a benchmark chart every time.
+@CHF_KARAS_ (0 likes): @OpenAI Best part is the honesty: specialized models still picked the candidates, and binding isn't function yet. Still, 35 of 322 binding, with hits on all five targets, from shapes a general model designed is a real signal. Curious how the internal model does in the next wet-lab round.
+@mayado_pedro (0 likes): @GenerallyLeMay @OpenAI FAKE
+@aegis_zhaoby (0 likes): @OpenAI Wet lab validation is what makes this one stick for me. Plenty of models can propose a shape. Fewer survive contact with an actual bench test, especially without calling a specialized biology model to do the work.
+@iOS_Concepts (0 likes): @OpenAI AI designing entirely new proteins without specialized biology models? That's a huge leap. 🤯
+
+Could this be the beginning of AI-driven breakthroughs in medicine and biotechnology?
+@DaxingAI (0 likes): @OpenAI really crazy
+@natgurlain (0 likes): @OpenAI Looks like we are in early stage of singularity, breakthrough after breakthrough... incredible times!

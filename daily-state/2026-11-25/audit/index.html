@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Audit — Daily State of AI - 2026-11-25 — Signal &amp; Noise</title>
-  <meta name="description" content="Claim audit for Daily State of AI - 2026-11-25 (pending).">
+  <meta name="description" content="Claim audit for Daily State of AI - 2026-11-25. The audit is for transparency and is not a gate.">
   <link rel="canonical" href="https://www.signalandnoise.email/daily-state/2026-11-25/audit/">
   <link rel="stylesheet" href="../../../styles.css?v=6435ba6d">
   <link rel="alternate" type="application/rss+xml" title="Signal &amp; Noise" href="../../../feed.xml">
@@ -12,12 +12,12 @@
   <meta property="og:site_name" content="Signal &amp; Noise">
   <meta property="og:type" content="article">
   <meta property="og:title" content="Audit — Daily State of AI - 2026-11-25">
-  <meta property="og:description" content="Claim audit for Daily State of AI - 2026-11-25 (pending).">
+  <meta property="og:description" content="Claim audit for Daily State of AI - 2026-11-25. The audit is for transparency and is not a gate.">
   <meta property="og:url" content="https://www.signalandnoise.email/daily-state/2026-11-25/audit/">
   <meta property="og:image" content="https://www.signalandnoise.email/assets/preview.png?v=09b48f76">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Audit — Daily State of AI - 2026-11-25">
-  <meta name="twitter:description" content="Claim audit for Daily State of AI - 2026-11-25 (pending).">
+  <meta name="twitter:description" content="Claim audit for Daily State of AI - 2026-11-25. The audit is for transparency and is not a gate.">
   <meta name="twitter:image" content="https://www.signalandnoise.email/assets/preview.png?v=09b48f76">
 </head>
 <body>
@@ -26,14 +26,892 @@
   <nav><a href="../../../daily-state/">Daily State</a> <a href="../../../archive/">Archive</a> <a href="../../../about/">About</a> <a href="../../../subscribe/">Follow</a></nav>
 </header>
 <main>
-<!-- daily-state-audit-pending -->
 <article>
 <p class="kicker">Daily State of AI</p>
 <h1>Audit — Daily State of AI - 2026-11-25</h1>
 <p><time datetime="2026-11-25">November 25, 2026</time></p>
-<p>The executable claim audit for this edition runs after publication and will appear here. The audit is for transparency and is not a gate.</p>
+<p>Each claim is a small Python check run against the source texts. The audit is for transparency and is not a gate.</p>
+<figure class="ds-prompt">
+<figcaption class="kicker ds-prompt-label">Audit results</figcaption>
+<blockquote>
+<pre>Episode 52 PASS / 16 FAIL / 16 NEEDS-HUMAN
+Takeaways 21 PASS / 9 FAIL / 4 NEEDS-HUMAN</pre>
+</blockquote>
+</figure>
 <p><a href="../">Daily State of AI</a></p>
 <p class="disclaimer">AI-generated · may contain errors</p>
+<h2>Episode</h2>
+<details open>
+<summary>FAIL · the same frontier AI model crack a 218-year-old historical mystery in twenty-two minutes and design new proteins that actually bind in a wet lab, yet still miscount a handful of objects in a simple picture</summary>
+<p>Claim: the same frontier AI model crack a 218-year-old historical mystery in twenty-two minutes and design new proteins that actually bind in a wet lab, yet still miscount a handful of objects in a simple picture</p>
+<p>Result: FAIL</p>
+<p>Source quote: First, Onava made small proteins based on three-dimensional structures designed by a pre-released version of GPT-6.2.</p>
+<p>The lab report identifies a prerelease GPT-6.2, not the same Astra configuration; the counting-error breakdown is pooled, not an Astra-specific incident.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/e02-same-model.py">checks/2026-11-25/e02-same-model.py</a></p>
+</details>
+<details open>
+<summary>FAIL · the widening gap between discovery mode and reliability mode</summary>
+<p>Claim: the widening gap between discovery mode and reliability mode</p>
+<p>Result: FAIL</p>
+<p>Source quote: Across the 16 models on this Harbor leaderboard, models reach 98.9% to 100.0% on Family pass@4 and the top models reach 94.9% to 97.7% on pass@1, yet Family pass⁴ remains substantially lower, leaving a wide Family Reliability Gap where small pass@1 differences widen nearly fourfold under Family pass⁴.</p>
+<p>This is a difference between metrics, not a discovery-versus-reliability trend over time.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/e11-widening.py">checks/2026-11-25/e11-widening.py</a></p>
+</details>
+<details open>
+<summary>FAIL · Instead of PhD-level questions, it tests simple, ninety-second tasks humans breeze through</summary>
+<p>Claim: Instead of PhD-level questions, it tests simple, ninety-second tasks humans breeze through</p>
+<p>Result: FAIL</p>
+<p>Source quote: Four independent human raters solved each candidate seed without external tools (no LLMs, web search, calculators, code, word or character counters, or copy-paste; median solve time 1.5 minutes, IQR 1.0 to 2.5 minutes).</p>
+<p>Ninety seconds is the median human seed solve time, not a duration specified for the tasks.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/e17-human-task-comparison.py">checks/2026-11-25/e17-human-task-comparison.py</a></p>
+</details>
+<details open>
+<summary>FAIL · ninety-second tasks</summary>
+<p>Claim: ninety-second tasks</p>
+<p>Result: FAIL</p>
+<p>Source quote: Four independent human raters solved each candidate seed without external tools (no LLMs, web search, calculators, code, word or character counters, or copy-paste; median solve time 1.5 minutes, IQR 1.0 to 2.5 minutes).</p>
+<p>The reported 90 seconds is a median for seed prompts.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/e18-task-duration.py">checks/2026-11-25/e18-task-duration.py</a></p>
+</details>
+<details open>
+<summary>FAIL · solve every task family at least once across four attempts</summary>
+<p>Claim: solve every task family at least once across four attempts</p>
+<p>Result: FAIL</p>
+<p>Source quote: The Family Reliability Gap is Family pass@4 minus Family pass⁴, where Family pass@4 is the probability that at least 1 of 16 draws across a family succeeds, averaged over all 136 families:</p>
+<p>The announced 100% is family coverage with four draws per prompt, not four attempts total per family.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/e24-coverage-draws.py">checks/2026-11-25/e24-coverage-draws.py</a></p>
+</details>
+<details open>
+<summary>FAIL · For unattended agents chaining dozens of steps together, that gap is where workflows collapse</summary>
+<p>Claim: For unattended agents chaining dozens of steps together, that gap is where workflows collapse</p>
+<p>Result: FAIL</p>
+<p>Source quote: | Interaction Protocol | Zero-shot, single user turn with no system prompt.</p>
+<p>The benchmark does not observe multi-step unattended workflows or identify where they collapse.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/e34-workflow-collapse.py">checks/2026-11-25/e34-workflow-collapse.py</a></p>
+</details>
+<details open>
+<summary>FAIL · In twenty-two minutes, the model linked a Montreal fur trader&#x27;s diary, a century-old letter, and a 2014 thesis footnote to identify an obscure French aristocrat, vicomte de Chabot</summary>
+<p>Claim: In twenty-two minutes, the model linked a Montreal fur trader&#x27;s diary, a century-old letter, and a 2014 thesis footnote to identify an obscure French aristocrat, vicomte de Chabot</p>
+<p>Result: FAIL</p>
+<p>Source quote: Joseph later that month via a letter written by a man named John Askin Jr. that had been published in a document collection nearly a hundred years ago.Why Human Historians Didn&#x27;t Make the Connection</p>
+<p>The collection, not the letter, was about a century old. The thesis footnote was traced as a lead to the journal.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/e56-archival-chain.py">checks/2026-11-25/e56-archival-chain.py</a></p>
+</details>
+<details open>
+<summary>FAIL · a century-old letter</summary>
+<p>Claim: a century-old letter</p>
+<p>Result: FAIL</p>
+<p>Source quote: Joseph later that month via a letter written by a man named John Askin Jr. that had been published in a document collection nearly a hundred years ago.Why Human Historians Didn&#x27;t Make the Connection</p>
+<p>The age refers to publication of the collection, not composition of the letter.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/e57-letter-age.py">checks/2026-11-25/e57-letter-age.py</a></p>
+</details>
+<details open>
+<summary>FAIL · Claude Fable 5.2 also found Chabot in thirty-five minutes</summary>
+<p>Claim: Claude Fable 5.2 also found Chabot in thirty-five minutes</p>
+<p>Result: FAIL</p>
+<p>Source quote: I subsequently ran the same test (using the same prompt) with Fable 5.2 and it reached the same conclusion in about 35 minutes.</p>
+<p>The historian gives an approximate duration, not a measured 35 minutes.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/e60-fable-time.py">checks/2026-11-25/e60-fable-time.py</a></p>
+</details>
+<details open>
+<summary>FAIL · Clarify that the leaderboard and paper findings are creator-reported, not just hosted on Kaggle.</summary>
+<p>Claim: Clarify that the leaderboard and paper findings are creator-reported, not just hosted on Kaggle.</p>
+<p>Result: FAIL</p>
+<p>Source quote: framing (Kaggle / Google DeepMind): Benchmark creator&#x27;s own leaderboard and summary of its paper; answers are graded by a Google model; the leaderboard lists 16 models while the X post cites 18 from the paper.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/oe11-creator-results.py">checks/2026-11-25/oe11-creator-results.py</a></p>
+</details>
+<details open>
+<summary>FAIL · Identify the Google model grader.</summary>
+<p>Claim: Identify the Google model grader.</p>
+<p>Result: FAIL</p>
+<p>Source quote: framing (Kaggle / Google DeepMind): Benchmark creator&#x27;s own leaderboard and summary of its paper; answers are graded by a Google model; the leaderboard lists 16 models while the X post cites 18 from the paper.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/oe12-google-grader.py">checks/2026-11-25/oe12-google-grader.py</a></p>
+</details>
+<details open>
+<summary>FAIL · Distinguish the 16-model leaderboard from the 18-model paper summarized on X.</summary>
+<p>Claim: Distinguish the 16-model leaderboard from the 18-model paper summarized on X.</p>
+<p>Result: FAIL</p>
+<p>Source quote: framing (Kaggle / Google DeepMind): Benchmark creator&#x27;s own leaderboard and summary of its paper; answers are graded by a Google model; the leaderboard lists 16 models while the X post cites 18 from the paper.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/oe13-two-cohorts.py">checks/2026-11-25/oe13-two-cohorts.py</a></p>
+</details>
+<details open>
+<summary>FAIL · Disclose no independent replication of benchmark results.</summary>
+<p>Claim: Disclose no independent replication of benchmark results.</p>
+<p>Result: FAIL</p>
+<p>Source quote: framing (Kaggle / Google DeepMind): Benchmark creator&#x27;s own leaderboard and summary of its paper; answers are graded by a Google model; the leaderboard lists 16 models while the X post cites 18 from the paper.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/oe14-benchmark-replication.py">checks/2026-11-25/oe14-benchmark-replication.py</a></p>
+</details>
+<details open>
+<summary>FAIL · State that the protein results lack independent replication.</summary>
+<p>Claim: State that the protein results lack independent replication.</p>
+<p>Result: FAIL</p>
+<p>Source quote: framing (OpenAI): Company-reported preprint with lab tests run by its research partner Onava; no independent replication.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/oe4-protein-replication.py">checks/2026-11-25/oe4-protein-replication.py</a></p>
+</details>
+<details open>
+<summary>FAIL · Filtering alone omits specialist sequence supply in the first binding experiment.</summary>
+<p>Claim: Filtering alone omits specialist sequence supply in the first binding experiment.</p>
+<p>Result: FAIL</p>
+<p>Source quote: OpenAI itself says specialized models still supplied sequences and filtered candidates.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/oe5-specialist-sequences.py">checks/2026-11-25/oe5-specialist-sequences.py</a></p>
+</details>
+<details open>
+<summary>FAIL · Mention the historian’s prerelease access.</summary>
+<p>Claim: Mention the historian’s prerelease access.</p>
+<p>Result: FAIL</p>
+<p>Source quote: framing (Generative History (Mark Humphries)): Single historian&#x27;s first-person account; he tested the model before release.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/oe8-prerelease.py">checks/2026-11-25/oe8-prerelease.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · the Daily State of AI for Wednesday, November 25th, 2026</summary>
+<p>Claim: the Daily State of AI for Wednesday, November 25th, 2026</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>no source sentence matches /(?:Daily State of AI|daily-state).*?(?:Wednesday, November 25(?:th)?, 2026|2026-11-25)/. Check the issue date, not a research publication date.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/e01-issue-date.py">checks/2026-11-25/e01-issue-date.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · a 218-year-old historical mystery</summary>
+<p>Claim: a 218-year-old historical mystery</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: Without knowing the person&#x27;s name in advance, it is almost impossible to know where to start looking, which is why the document has remained anonymous for more than 200 years.Waiting For Chabot</p>
+<p>Source dates the sketchbook to 1808 and says it remained anonymous more than 200 years; it does not state 218 years.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/e03-mystery-age.py">checks/2026-11-25/e03-mystery-age.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · today&#x27;s three biggest AI stories</summary>
+<p>Claim: today&#x27;s three biggest AI stories</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: STORY: Google DeepMind&#x27;s Humanity&#x27;s First Exam measures whether frontier models get simple tasks right every time</p>
+<p>Selection is documented; biggest is an editorial ranking.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/e06-story-ranking.py">checks/2026-11-25/e06-story-ranking.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · an archival find from a Canadian historian</summary>
+<p>Claim: an archival find from a Canadian historian</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>no source sentence matches /(?:Canadian historian.{0,40}Mark Humphries|Mark Humphries.{0,40}Canadian historian)/. Studying Canadian history does not establish nationality.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/e08-canadian-historian.py">checks/2026-11-25/e08-canadian-historian.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · a divide most coverage misses</summary>
+<p>Claim: a divide most coverage misses</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: That disconnect is called jagged intelligence and measuring it scientifically is critical to advancing AI reliability.</p>
+<p>No survey of coverage establishes how often this distinction is missed.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/e10-coverage.py">checks/2026-11-25/e10-coverage.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · Intense training on math and code has turned frontier models into remarkable discovery engines</summary>
+<p>Claim: Intense training on math and code has turned frontier models into remarkable discovery engines</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: My intuition suggests this is a product of a post-training regime aimed at optimizing the model towards deterministic tasks like creating mathematical proofs.</p>
+<p>Causal interpretation across models, not a controlled training result.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/e12-training-thesis.py">checks/2026-11-25/e12-training-thesis.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · built for problems where you only need one hit out of many tries and an outside check discards the misses</summary>
+<p>Claim: built for problems where you only need one hit out of many tries and an outside check discards the misses</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: We can design far more proteins on a computer than we can make and test in the lab.</p>
+<p>“Built for” one-hit discovery with an outside check is an interpretation of training and workflow, not a stated design goal.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/e13-built-for-search.py">checks/2026-11-25/e13-built-for-search.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · What that training has not delivered is everyday reliability: getting routine steps right every single time, or weighing messy real-world evidence without a formal proof</summary>
+<p>Claim: What that training has not delivered is everyday reliability: getting routine steps right every single time, or weighing messy real-world evidence without a formal proof</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: My sense is that GPT-6.2 Astra&#x27;s prose gets weird when it must communicate a final result based on incomplete evidence, or when there is no way of completing a task but it must still provide an answer.</p>
+<p>HFE tests routine consistency; the training explanation for handling historical evidence is a historian’s conjecture.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/e14-training-limits.py">checks/2026-11-25/e14-training-limits.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · Google DeepMind put hard numbers on that gap today, launching Humanity&#x27;s First Exam on Google-owned Kaggle</summary>
+<p>Claim: Google DeepMind put hard numbers on that gap today, launching Humanity&#x27;s First Exam on Google-owned Kaggle</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>no source sentence matches /Top five models reach 96%–98% pass@1.*85\.6% on family pass\^4/. Today refers to the announcement; the measured gap is between coverage and consistency.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/e15-kaggle-launch.py">checks/2026-11-25/e15-kaggle-launch.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · The drop-off is stark</summary>
+<p>Claim: The drop-off is stark</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>Stark is an assessment of the measured difference.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/e22-stark-drop.py">checks/2026-11-25/e22-stark-drop.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · The top five models score 96 to 98 percent on a single try</summary>
+<p>Claim: The top five models score 96 to 98 percent on a single try</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>no source sentence matches /Top five models reach 96%–98% pass@1/. </p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/e23-single-try-range.py">checks/2026-11-25/e23-single-try-range.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · protein design is a discovery game</summary>
+<p>Claim: protein design is a discovery game</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: We can design far more proteins on a computer than we can make and test in the lab.</p>
+<p>Editorial analogy.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/e46-discovery-game.py">checks/2026-11-25/e46-discovery-game.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · An 11 percent hit rate is a genuine breakthrough when specialized biology models filter out weak candidates upfront and a wet lab tests the winners</summary>
+<p>Claim: An 11 percent hit rate is a genuine breakthrough when specialized biology models filter out weak candidates upfront and a wet lab tests the winners</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: The original RFdiffusion study⁠(opens in a new window) reported higher hit rates, but rates depend heavily on how strictly researchers filter designs before lab validation and their definition of binding.</p>
+<p>The rate is measured; breakthrough is a judgment and comparisons depend on filtering.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/e47-breakthrough.py">checks/2026-11-25/e47-breakthrough.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · The same split appears outside science</summary>
+<p>Claim: The same split appears outside science</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: Nevertheless, GPT-6.2 Astra still had a strange tendency to shy away from its own accomplishments, which also reveals the limitations of current systems on non-deterministic tasks.</p>
+<p>Whether historical hedging illustrates the same phenomenon as benchmark inconsistency is interpretive.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/e52-outside-science.py">checks/2026-11-25/e52-outside-science.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · Frontier reasoners are extraordinary discovery machines when you can verify externally</summary>
+<p>Claim: Frontier reasoners are extraordinary discovery machines when you can verify externally</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: To do so, it discovered a little known source in a paper archive, predicted that it would prove its hypothesis if examined and, in the end, it did.</p>
+<p>Generalization and value judgment from individual examples.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/e69-external-verification.py">checks/2026-11-25/e69-external-verification.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · Until reliability catches up with brilliance, the real edge belongs to teams who know which game they are playing</summary>
+<p>Claim: Until reliability catches up with brilliance, the real edge belongs to teams who know which game they are playing</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>Editorial advice; no team-performance comparison is reported.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/e70-team-edge.py">checks/2026-11-25/e70-team-edge.py</a></p>
+</details>
+<details>
+<summary>PASS · in twenty-two minutes</summary>
+<p>Claim: in twenty-two minutes</p>
+<p>Result: PASS</p>
+<p>Source quote: Only 22 minutes and 1 second later, it came back with a remarkably clear and decisive answer: &quot;Louis-Guy-Charles-Guillaume de Rohan-Chabot, vicomte de Chabot (1780-1875), probably made the travel drawings.&quot; Moreover, it suggested that we should test the hypothesis by ordering copies of a microfilmed diary of Chabot&#x27;s trip it had found in an archival inventory, which was held in the Special Collections of Cleveland State University.</p>
+<p>Rounded time to the proposed identification, not to archival verification.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/e04-attribution-time.py">checks/2026-11-25/e04-attribution-time.py</a></p>
+</details>
+<details>
+<summary>PASS · today&#x27;s three biggest AI stories</summary>
+<p>Claim: today&#x27;s three biggest AI stories</p>
+<p>Result: PASS</p>
+<p>Source quote: STORY: OpenAI says GPT-6 models can design proteins with reasoning and code, with 35 of 322 lab-tested minibinders showing binding … STORY: A historian says GPT-6.2 Astra identified the anonymous artist of a Yale 1808 sketchbook and pointed him to an unknown diary … STORY: Google DeepMind&#x27;s Humanity&#x27;s First Exam measures whether frontier models get simple tasks right every time</p>
+<p>Checks the three distinct selected stories only; importance is a separate judgment.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/e05-story-count.py">checks/2026-11-25/e05-story-count.py</a></p>
+</details>
+<details>
+<summary>PASS · a protein-design preprint from OpenAI</summary>
+<p>Claim: a protein-design preprint from OpenAI</p>
+<p>Result: PASS</p>
+<p>Source quote: @OpenAI: We&#x27;re sharing a new preprint showing wet lab validation of intrinsic protein design capabilities of the GPT-6 family of models.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/e07-openai-preprint.py">checks/2026-11-25/e07-openai-preprint.py</a></p>
+</details>
+<details>
+<summary>PASS · a new reliability benchmark from Google DeepMind</summary>
+<p>Claim: a new reliability benchmark from Google DeepMind</p>
+<p>Result: PASS</p>
+<p>Source quote: Today, @GoogleDeepMind is launching Humanity&#x27;s First Exam on Kaggle, a benchmark designed to measure &quot;floor reliability&quot;: whether models get simple tasks right every time, not just once.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/e09-benchmark-origin.py">checks/2026-11-25/e09-benchmark-origin.py</a></p>
+</details>
+<details>
+<summary>PASS · Google-owned Kaggle</summary>
+<p>Claim: Google-owned Kaggle</p>
+<p>Result: PASS</p>
+<p>Source quote: AFFILIATION NOTE (scan): Kaggle is owned by Google; this is the benchmark creator&#x27;s own announcement, not independent evaluation.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/e16-kaggle-owner.py">checks/2026-11-25/e16-kaggle-owner.py</a></p>
+</details>
+<details>
+<summary>PASS · like counting objects, tracking arrows, or spotting a false premise</summary>
+<p>Claim: like counting objects, tracking arrows, or spotting a false premise</p>
+<p>Result: PASS</p>
+<p>Source quote: Humanity&#x27;s First Exam (HFE) evaluates whether frontier language and multimodal models can consistently solve elementary tasks that humans complete without specialized training: visual object counting, color and symbol identification, spatial tracking, basic arithmetic, strict formatting constraints, and false-premise verification. … Raising effort from low to high in the paper&#x27;s ablations lifts Family pass⁴ by 17 to 32 percentage points on several reasoning models (and disabling thinking on Flash models drops Family pass⁴ below 10%), concentrated in symbolic text subcategories (+26.2 to +29.7 percentage points mean lift on Logical Deduction, Algorithmic and Symbolic Execution, and Constraint Satisfaction) vs. small gains on core Vision (+2.0 percentage points on Arrows/Pointers and +1.9 percentage points on Object Counting).</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/e19-task-examples.py">checks/2026-11-25/e19-task-examples.py</a></p>
+</details>
+<details>
+<summary>PASS · it measures floor reliability, asking whether a model solves four slightly varied versions of a task consistently across repeated tries</summary>
+<p>Claim: it measures floor reliability, asking whether a model solves four slightly varied versions of a task consistently across repeated tries</p>
+<p>Result: PASS</p>
+<p>Source quote: HFE inverts this design, measuring whether a model solves a routine task every time across repeated draws and controlled prompt variations (Family pass⁴). … To separate underlying capability from lucky surface phrasing or sampling, each four-prompt family pairs one seed prompt with three controlled variants that rename entities, reorder clauses, or alter visual layout and attributes while preserving the isolated sub-ability and task logic (ground-truth answers vary across variants so memorized guesses do not transfer).</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/e20-floor-definition.py">checks/2026-11-25/e20-floor-definition.py</a></p>
+</details>
+<details>
+<summary>PASS · four slightly varied versions of a task</summary>
+<p>Claim: four slightly varied versions of a task</p>
+<p>Result: PASS</p>
+<p>Source quote: To separate underlying capability from lucky surface phrasing or sampling, each four-prompt family pairs one seed prompt with three controlled variants that rename entities, reorder clauses, or alter visual layout and attributes while preserving the isolated sub-ability and task logic (ground-truth answers vary across variants so memorized guesses do not transfer).</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/e21-four-versions.py">checks/2026-11-25/e21-four-versions.py</a></p>
+</details>
+<details>
+<summary>PASS · average under 86 percent when consistency is required</summary>
+<p>Claim: average under 86 percent when consistency is required</p>
+<p>Result: PASS</p>
+<p>Source quote: • High single-shot accuracy masks inconsistency: Top five models reach 96%-98% pass@1 and 100% family pass@4, yet average only 85.6% on family pass^4 (80.5%-92.4%), with a 7.6-80.1 percentage-point Family Reliability Gap across all 18 models.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/e25-consistency-average.py">checks/2026-11-25/e25-consistency-average.py</a></p>
+</details>
+<details>
+<summary>PASS · OpenAI&#x27;s GPT-6.2 Astra leads Kaggle&#x27;s initial run near 91 percent</summary>
+<p>Claim: OpenAI&#x27;s GPT-6.2 Astra leads Kaggle&#x27;s initial run near 91 percent</p>
+<p>Result: PASS</p>
+<p>Source quote: Current leaderboard: … 🥇 GPT- 6.2 Astra (xhigh) - 90.7%</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/e26-leader.py">checks/2026-11-25/e26-leader.py</a></p>
+</details>
+<details>
+<summary>PASS · within overlapping error bars</summary>
+<p>Claim: within overlapping error bars</p>
+<p>Result: PASS</p>
+<p>Source quote: 90.7% | ±4.7% | 85.6% | ±5.7%</p>
+<p>Board rows 1 and 3: [86.0,95.4] and [79.9,91.3] overlap.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/e27-interval-overlap.py">checks/2026-11-25/e27-interval-overlap.py</a></p>
+</details>
+<details>
+<summary>PASS · at a higher reasoning setting than Google&#x27;s Gemini 4 Neon</summary>
+<p>Claim: at a higher reasoning setting than Google&#x27;s Gemini 4 Neon</p>
+<p>Result: PASS</p>
+<p>Source quote: 🥇 GPT- 6.2 Astra (xhigh) - 90.7% … 🥉 Gemini 4 Neon (high) - 85.6%</p>
+<p>Comparison of setting labels in this run, not calibrated compute.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/e28-effort-settings.py">checks/2026-11-25/e28-effort-settings.py</a></p>
+</details>
+<details>
+<summary>PASS · The failure logs explain why</summary>
+<p>Claim: The failure logs explain why</p>
+<p>Result: PASS</p>
+<p>Source quote: In the paper&#x27;s audit of 58,752 rollouts (5,823 failed rollouts, including 5,552 wrong answers), 95% of failures were wrong answers, 3% were safety refusals, 2% were output-limit truncations, and 0.1% were harness errors. … - Visual perception errors (73% of wrong rollouts): Misjudging spatial position, direction, or path in an image (31%) and miscounting distinct objects (23%).</p>
+<p>Audit attributes errors to categories, not to a causal mechanism in training.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/e29-failure-audit.py">checks/2026-11-25/e29-failure-audit.py</a></p>
+</details>
+<details>
+<summary>PASS · Nearly three-quarters of wrong answers are basic visual perception mistakes</summary>
+<p>Claim: Nearly three-quarters of wrong answers are basic visual perception mistakes</p>
+<p>Result: PASS</p>
+<p>Source quote: • Visual perception drives 74% of wrong answers: Extra thinking time helps far less on visual tasks than on text.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/e30-visual-wrong-answers.py">checks/2026-11-25/e30-visual-wrong-answers.py</a></p>
+</details>
+<details>
+<summary>PASS · Cranking up reasoning effort lifts symbolic logic by nearly 30 percentage points</summary>
+<p>Claim: Cranking up reasoning effort lifts symbolic logic by nearly 30 percentage points</p>
+<p>Result: PASS</p>
+<p>Source quote: Raising effort from low to high in the paper&#x27;s ablations lifts Family pass⁴ by 17 to 32 percentage points on several reasoning models (and disabling thinking on Flash models drops Family pass⁴ below 10%), concentrated in symbolic text subcategories (+26.2 to +29.7 percentage points mean lift on Logical Deduction, Algorithmic and Symbolic Execution, and Constraint Satisfaction) vs. small gains on core Vision (+2.0 percentage points on Arrows/Pointers and +1.9 percentage points on Object Counting).</p>
+<p>Approximation for selected symbolic subcategories, not all reasoning.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/e31-symbolic-lift.py">checks/2026-11-25/e31-symbolic-lift.py</a></p>
+</details>
+<details>
+<summary>PASS · improves object counting and arrow tracking by barely 2 points</summary>
+<p>Claim: improves object counting and arrow tracking by barely 2 points</p>
+<p>Result: PASS</p>
+<p>Source quote: Raising effort from low to high in the paper&#x27;s ablations lifts Family pass⁴ by 17 to 32 percentage points on several reasoning models (and disabling thinking on Flash models drops Family pass⁴ below 10%), concentrated in symbolic text subcategories (+26.2 to +29.7 percentage points mean lift on Logical Deduction, Algorithmic and Symbolic Execution, and Constraint Satisfaction) vs. small gains on core Vision (+2.0 percentage points on Arrows/Pointers and +1.9 percentage points on Object Counting).</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/e32-counting-arrow-lift.py">checks/2026-11-25/e32-counting-arrow-lift.py</a></p>
+</details>
+<details>
+<summary>PASS · Human and AI difficulty are literally inverted: people handle vision easily and trip over formal logic, while models do the reverse</summary>
+<p>Claim: Human and AI difficulty are literally inverted: people handle vision easily and trip over formal logic, while models do the reverse</p>
+<p>Result: PASS</p>
+<p>Source quote: Across subcategories, human seed accuracy (80.3% across 315 candidate seeds prior to 3/4 filtering) negatively correlates with model pass@1 (Spearman ρ = -0.64): humans score highest on Vision (84%) and lowest among macro-categories on Math &amp; Algorithmic (76%) and Reasoning &amp; Language (77%), and lowest at the subcategory level on Logical Deduction (59.4%), whereas models invert that order.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/e33-difficulty-inversion.py">checks/2026-11-25/e33-difficulty-inversion.py</a></p>
+</details>
+<details>
+<summary>PASS · OpenAI reports that its GPT-6 models can design protein shapes and sequences</summary>
+<p>Claim: OpenAI reports that its GPT-6 models can design protein shapes and sequences</p>
+<p>Result: PASS</p>
+<p>Source quote: Our GPT-6 family of models can design new protein shapes and the sequence of their chemical building blocks using only reasoning and code, without calling specialized biology models to generate those designs.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/e35-shapes-sequences.py">checks/2026-11-25/e35-shapes-sequences.py</a></p>
+</details>
+<details>
+<summary>PASS · using only reasoning and code</summary>
+<p>Claim: using only reasoning and code</p>
+<p>Result: PASS</p>
+<p>Source quote: Our GPT-6 family of models can design new protein shapes and the sequence of their chemical building blocks using only reasoning and code, without calling specialized biology models to generate those designs.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/e36-reasoning-code.py">checks/2026-11-25/e36-reasoning-code.py</a></p>
+</details>
+<details>
+<summary>PASS · without calling specialized biology models during generation</summary>
+<p>Claim: without calling specialized biology models during generation</p>
+<p>Result: PASS</p>
+<p>Source quote: Our GPT-6 family of models can design new protein shapes and the sequence of their chemical building blocks using only reasoning and code, without calling specialized biology models to generate those designs.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/e37-generation-only.py">checks/2026-11-25/e37-generation-only.py</a></p>
+</details>
+<details>
+<summary>PASS · lab partner Onava</summary>
+<p>Claim: lab partner Onava</p>
+<p>Result: PASS</p>
+<p>Source quote: With our research partner, Onava⁠(opens in a new window), we also tested the models&#x27; structure and sequence designs in the lab.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/e38-onava.py">checks/2026-11-25/e38-onava.py</a></p>
+</details>
+<details>
+<summary>PASS · 35 of 322 small protein binders based on GPT-6.2&#x27;s shapes bound to their targets</summary>
+<p>Claim: 35 of 322 small protein binders based on GPT-6.2&#x27;s shapes bound to their targets</p>
+<p>Result: PASS</p>
+<p>Source quote: For the lab experiment, we made proteins based on GPT-6.2&#x27;s designs and measured how strongly they bound to their targets. … We tested 322 minibinders against 5 targets in the lab. … Of those, 35 (10.9%) tested positive for binding to their intended target.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/e39-binder-count.py">checks/2026-11-25/e39-binder-count.py</a></p>
+</details>
+<details>
+<summary>PASS · an 11 percent hit rate</summary>
+<p>Claim: an 11 percent hit rate</p>
+<p>Result: PASS</p>
+<p>Source quote: Of those, 35 (10.9%) tested positive for binding to their intended target.</p>
+<p>10.9% rounds to 11%.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/e40-hit-rate.py">checks/2026-11-25/e40-hit-rate.py</a></p>
+</details>
+<details>
+<summary>PASS · In a second lab run</summary>
+<p>Claim: In a second lab run</p>
+<p>Result: PASS</p>
+<p>Source quote: Laboratory Experiment 2: Designing new sequences for 3D protein structures … We tested whether GPT-6.2 could design the sequences itself.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/e41-second-experiment.py">checks/2026-11-25/e41-second-experiment.py</a></p>
+</details>
+<details>
+<summary>PASS · GPT-6.2 also wrote working sequences itself for unpublished shapes it had generated</summary>
+<p>Claim: GPT-6.2 also wrote working sequences itself for unpublished shapes it had generated</p>
+<p>Result: PASS</p>
+<p>Source quote: We also asked GPT-6.2 to design new sequences for three unpublished minibinder shapes it had generated earlier: two targeting PD-L1 and one targeting IL-7Rα. … Of the 107 proteins made from GPT-6.2&#x27;s new sequences, 14 (13.1%) showed binding.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/e42-unpublished-shapes.py">checks/2026-11-25/e42-unpublished-shapes.py</a></p>
+</details>
+<details>
+<summary>PASS · suggesting this goes beyond memorization</summary>
+<p>Claim: suggesting this goes beyond memorization</p>
+<p>Result: PASS</p>
+<p>Source quote: The unpublished structures and substantial differences in sequence give us strong evidence that GPT-6.2&#x27;s capabilities extend beyond memorization.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/e43-memorization.py">checks/2026-11-25/e43-memorization.py</a></p>
+</details>
+<details>
+<summary>PASS · OpenAI&#x27;s own unreviewed preprint</summary>
+<p>Claim: OpenAI&#x27;s own unreviewed preprint</p>
+<p>Result: PASS</p>
+<p>Source quote: framing (OpenAI): Company-reported preprint with lab tests run by its research partner Onava; no independent replication.</p>
+<p>Preprint status of the reported version; not an independent reviewed result.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/e44-review-status.py">checks/2026-11-25/e44-review-status.py</a></p>
+</details>
+<details>
+<summary>PASS · early lab binding is far from a working medicine</summary>
+<p>Claim: early lab binding is far from a working medicine</p>
+<p>Result: PASS</p>
+<p>Source quote: The laboratory results provide a more direct test of whether proposed designs can work, but binding is only one step toward a useful research tool or medicine. … Further work would need to establish properties such as specificity, stability, and biological activity, along with safety and efficacy for therapeutic applications.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/e45-binding-not-medicine.py">checks/2026-11-25/e45-binding-not-medicine.py</a></p>
+</details>
+<details>
+<summary>PASS · when specialized biology models filter out weak candidates upfront and a wet lab tests the winners</summary>
+<p>Claim: when specialized biology models filter out weak candidates upfront and a wet lab tests the winners</p>
+<p>Result: PASS</p>
+<p>Source quote: It is important to note that our protein design campaign relied on specialized structure prediction models such as Boltz-2, OpenDDE, and ESMFold2 to filter candidates. … Specialized models then proposed amino acid sequences-the order of the proteins&#x27; chemical building blocks-and helped select designs for our research partner Onava to make and test in the lab.</p>
+<p>Winners of selection, not known binding positives before testing.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/e48-candidate-selection.py">checks/2026-11-25/e48-candidate-selection.py</a></p>
+</details>
+<details>
+<summary>PASS · predict how a whole protein folds from its sequence alone</summary>
+<p>Claim: predict how a whole protein folds from its sequence alone</p>
+<p>Result: PASS</p>
+<p>Source quote: The specialized model ESMFold2 averaged 0.93, so there&#x27;s still a substantial gap in how reliably our models can predict a whole protein&#x27;s structure from its sequence alone.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/e49-folding-task.py">checks/2026-11-25/e49-folding-task.py</a></p>
+</details>
+<details>
+<summary>PASS · OpenAI&#x27;s latest internal model scores under 0.4 on a one-point scale</summary>
+<p>Claim: OpenAI&#x27;s latest internal model scores under 0.4 on a one-point scale</p>
+<p>Result: PASS</p>
+<p>Source quote: Across the full test, the average score rose from 0.16 for GPT-5.6 to 0.26 for GPT-6.2 and 0.38 for our latest internal model. … A score of 1 means a perfect match to the real structure, and scores above 0.5 generally indicate that the prediction captures the overall fold.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/e50-internal-score.py">checks/2026-11-25/e50-internal-score.py</a></p>
+</details>
+<details>
+<summary>PASS · compared with 0.93 for the specialist model ESMFold2</summary>
+<p>Claim: compared with 0.93 for the specialist model ESMFold2</p>
+<p>Result: PASS</p>
+<p>Source quote: Across the full test, the average score rose from 0.16 for GPT-5.6 to 0.26 for GPT-6.2 and 0.38 for our latest internal model. … The specialized model ESMFold2 averaged 0.93, so there&#x27;s still a substantial gap in how reliably our models can predict a whole protein&#x27;s structure from its sequence alone.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/e51-esmfold-comparison.py">checks/2026-11-25/e51-esmfold-comparison.py</a></p>
+</details>
+<details>
+<summary>PASS · a Substack post not yet peer-reviewed or publicly audited</summary>
+<p>Claim: a Substack post not yet peer-reviewed or publicly audited</p>
+<p>Result: PASS</p>
+<p>Source quote: framing (Generative History (Mark Humphries)): Single historian&#x27;s first-person account; he tested the model before release. … The attribution rests on archival documents he obtained; no independent historian review is reported yet.</p>
+<p>No reported independent review; this is not a search for every possible private review.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/e53-blog-status.py">checks/2026-11-25/e53-blog-status.py</a></p>
+</details>
+<details>
+<summary>PASS · historian Mark Humphries describes giving GPT-6.2 Astra an anonymous 1808 sketchbook from Yale&#x27;s Beinecke Library</summary>
+<p>Claim: historian Mark Humphries describes giving GPT-6.2 Astra an anonymous 1808 sketchbook from Yale&#x27;s Beinecke Library</p>
+<p>Result: PASS</p>
+<p>Source quote: With only minimal prompting, GPT-6.2 Astra was able to autonomously identify the creator of an anonymous 1808 sketchbook held at Yale&#x27;s Beinecke Library. … One morning, early on in my testing, I gave GPT-6.2 Astra access to the images of the sketchbook and, in retrospect, a throwaway prompt:</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/e54-humphries-test.py">checks/2026-11-25/e54-humphries-test.py</a></p>
+</details>
+<details>
+<summary>PASS · an anonymous 1808 sketchbook</summary>
+<p>Claim: an anonymous 1808 sketchbook</p>
+<p>Result: PASS</p>
+<p>Source quote: With only minimal prompting, GPT-6.2 Astra was able to autonomously identify the creator of an anonymous 1808 sketchbook held at Yale&#x27;s Beinecke Library.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/e55-sketchbook-year.py">checks/2026-11-25/e55-sketchbook-year.py</a></p>
+</details>
+<details>
+<summary>PASS · a 2014 thesis footnote</summary>
+<p>Claim: a 2014 thesis footnote</p>
+<p>Result: PASS</p>
+<p>Source quote: How GPT-6.2 Astra actually learned about it remains a bit unclear, but it traced its finding to a single footnote in a 2014 PhD thesis on aristocratic refugee families fleeing the French Revolution, written by historian Juliette Reboul.2 Again, not somewhere a human historian of the fur trade would tend to look.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/e58-thesis-year.py">checks/2026-11-25/e58-thesis-year.py</a></p>
+</details>
+<details>
+<summary>PASS · pointed Humphries to an unknown microfilmed diary at Cleveland State University</summary>
+<p>Claim: pointed Humphries to an unknown microfilmed diary at Cleveland State University</p>
+<p>Result: PASS</p>
+<p>Source quote: Only 22 minutes and 1 second later, it came back with a remarkably clear and decisive answer: &quot;Louis-Guy-Charles-Guillaume de Rohan-Chabot, vicomte de Chabot (1780-1875), probably made the travel drawings.&quot; Moreover, it suggested that we should test the hypothesis by ordering copies of a microfilmed diary of Chabot&#x27;s trip it had found in an archival inventory, which was held in the Special Collections of Cleveland State University. … The identification of Count Chabot as the creator of the Yale sketchbook and the recovery of his largely unknown diary will be of real interest to historians of both Canada and the fur trade.</p>
+<p>Unknown to the historian/largely unknown, not previously uncatalogued.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/e59-microfilm-lead.py">checks/2026-11-25/e59-microfilm-lead.py</a></p>
+</details>
+<details>
+<summary>PASS · though it missed the diary</summary>
+<p>Claim: though it missed the diary</p>
+<p>Result: PASS</p>
+<p>Source quote: Nevertheless, it fell a bit short of Astra&#x27;s overall accomplishment: Fable failed to identify Chabot&#x27;s journal, which turned out to be the most important piece of evidence for the sketchbook and a significant find on its own.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/e61-fable-missed-diary.py">checks/2026-11-25/e61-fable-missed-diary.py</a></p>
+</details>
+<details>
+<summary>PASS · Humphries ordered the scans</summary>
+<p>Claim: Humphries ordered the scans</p>
+<p>Result: PASS</p>
+<p>Source quote: But order the journal I did. … After some back and forth with both archives, all three documents arrived in my inbox.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/e62-ordered-scans.py">checks/2026-11-25/e62-ordered-scans.py</a></p>
+</details>
+<details>
+<summary>PASS · matched the handwriting</summary>
+<p>Claim: matched the handwriting</p>
+<p>Result: PASS</p>
+<p>Source quote: The first thing I saw was the handwriting, which featured the same distinctive letter forms as the sketchbook.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/e63-handwriting.py">checks/2026-11-25/e63-handwriting.py</a></p>
+</details>
+<details>
+<summary>PASS · found Chabot writing that he took a sketch of Fort St. Joseph</summary>
+<p>Claim: found Chabot writing that he took a sketch of Fort St. Joseph</p>
+<p>Result: PASS</p>
+<p>Source quote: Joseph, he wrote &quot;I took a sketch&quot; before describing the exact view of the fort depicted in the matching drawing. … Chabot&#x27;s entry for 18 June 1808, pp.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/e64-fort-sketch.py">checks/2026-11-25/e64-fort-sketch.py</a></p>
+</details>
+<details>
+<summary>PASS · Humphries gave that proof back to Astra</summary>
+<p>Claim: Humphries gave that proof back to Astra</p>
+<p>Result: PASS</p>
+<p>Source quote: When given a copy of the diary, which proved the case beyond any shadow of a reasonable doubt, Astra started to hedge as it had done at the end of other long tasks: it worried that because the diary was not signed, it might not be Chabot&#x27;s or that because not every sketch was mentioned in the diary, perhaps not all of them were his.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/e65-returned-diary.py">checks/2026-11-25/e65-returned-diary.py</a></p>
+</details>
+<details>
+<summary>PASS · the model strangely hedged and doubted its own find because the diary was unsigned</summary>
+<p>Claim: the model strangely hedged and doubted its own find because the diary was unsigned</p>
+<p>Result: PASS</p>
+<p>Source quote: When given a copy of the diary, which proved the case beyond any shadow of a reasonable doubt, Astra started to hedge as it had done at the end of other long tasks: it worried that because the diary was not signed, it might not be Chabot&#x27;s or that because not every sketch was mentioned in the diary, perhaps not all of them were his.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/e66-hedging.py">checks/2026-11-25/e66-hedging.py</a></p>
+</details>
+<details>
+<summary>PASS · the diary was unsigned</summary>
+<p>Claim: the diary was unsigned</p>
+<p>Result: PASS</p>
+<p>Source quote: When given a copy of the diary, which proved the case beyond any shadow of a reasonable doubt, Astra started to hedge as it had done at the end of other long tasks: it worried that because the diary was not signed, it might not be Chabot&#x27;s or that because not every sketch was mentioned in the diary, perhaps not all of them were his.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/e67-unsigned.py">checks/2026-11-25/e67-unsigned.py</a></p>
+</details>
+<details>
+<summary>PASS · Humphries suspects math-heavy post-training leaves it awkward whenever evidence falls short of a formal proof</summary>
+<p>Claim: Humphries suspects math-heavy post-training leaves it awkward whenever evidence falls short of a formal proof</p>
+<p>Result: PASS</p>
+<p>Source quote: My intuition suggests this is a product of a post-training regime aimed at optimizing the model towards deterministic tasks like creating mathematical proofs. … My sense is that GPT-6.2 Astra&#x27;s prose gets weird when it must communicate a final result based on incomplete evidence, or when there is no way of completing a task but it must still provide an answer.</p>
+<p>Attributed hypothesis, not an established training effect.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/e68-training-conjecture.py">checks/2026-11-25/e68-training-conjecture.py</a></p>
+</details>
+<details>
+<summary>PASS · The artifact carries the caveat this check looks for.</summary>
+<p>Claim: The artifact carries the caveat this check looks for.</p>
+<p>Result: PASS</p>
+<p>Source quote: framing (OpenAI): Company-reported preprint with lab tests run by its research partner Onava; no independent replication.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/oe1-company-report.py">checks/2026-11-25/oe1-company-report.py</a></p>
+</details>
+<details>
+<summary>PASS · The artifact carries the caveat this check looks for.</summary>
+<p>Claim: The artifact carries the caveat this check looks for.</p>
+<p>Result: PASS</p>
+<p>Source quote: The attribution rests on archival documents he obtained; no independent historian review is reported yet.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/oe10-historian-review.py">checks/2026-11-25/oe10-historian-review.py</a></p>
+</details>
+<details>
+<summary>PASS · The artifact carries the caveat this check looks for.</summary>
+<p>Claim: The artifact carries the caveat this check looks for.</p>
+<p>Result: PASS</p>
+<p>Source quote: framing (OpenAI): Company-reported preprint with lab tests run by its research partner Onava; no independent replication.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/oe2-preprint.py">checks/2026-11-25/oe2-preprint.py</a></p>
+</details>
+<details>
+<summary>PASS · The artifact carries the caveat this check looks for.</summary>
+<p>Claim: The artifact carries the caveat this check looks for.</p>
+<p>Result: PASS</p>
+<p>Source quote: framing (OpenAI): Company-reported preprint with lab tests run by its research partner Onava; no independent replication.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/oe3-partner-lab.py">checks/2026-11-25/oe3-partner-lab.py</a></p>
+</details>
+<details>
+<summary>PASS · The artifact carries the caveat this check looks for.</summary>
+<p>Claim: The artifact carries the caveat this check looks for.</p>
+<p>Result: PASS</p>
+<p>Source quote: OpenAI itself says specialized models still supplied sequences and filtered candidates.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/oe6-specialist-filter.py">checks/2026-11-25/oe6-specialist-filter.py</a></p>
+</details>
+<details>
+<summary>PASS · The artifact carries the caveat this check looks for.</summary>
+<p>Claim: The artifact carries the caveat this check looks for.</p>
+<p>Result: PASS</p>
+<p>Source quote: framing (Generative History (Mark Humphries)): Single historian&#x27;s first-person account; he tested the model before release.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/oe7-historian-account.py">checks/2026-11-25/oe7-historian-account.py</a></p>
+</details>
+<details>
+<summary>PASS · The artifact carries the caveat this check looks for.</summary>
+<p>Claim: The artifact carries the caveat this check looks for.</p>
+<p>Result: PASS</p>
+<p>Source quote: The attribution rests on archival documents he obtained; no independent historian review is reported yet.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/oe9-archival-confirmation.py">checks/2026-11-25/oe9-archival-confirmation.py</a></p>
+</details>
+<h2>Takeaways</h2>
+<details open>
+<summary>FAIL · Disclose lack of independent benchmark replication.</summary>
+<p>Claim: Disclose lack of independent benchmark replication.</p>
+<p>Result: FAIL</p>
+<p>Source quote: framing (Kaggle / Google DeepMind): Benchmark creator&#x27;s own leaderboard and summary of its paper; answers are graded by a Google model; the leaderboard lists 16 models while the X post cites 18 from the paper.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/ot10-benchmark-replication.py">checks/2026-11-25/ot10-benchmark-replication.py</a></p>
+</details>
+<details open>
+<summary>FAIL · Identify Onava as the partner lab.</summary>
+<p>Claim: Identify Onava as the partner lab.</p>
+<p>Result: FAIL</p>
+<p>Source quote: framing (OpenAI): Company-reported preprint with lab tests run by its research partner Onava; no independent replication.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/ot3-partner-lab.py">checks/2026-11-25/ot3-partner-lab.py</a></p>
+</details>
+<details open>
+<summary>FAIL · Disclose no independent replication of binding results.</summary>
+<p>Claim: Disclose no independent replication of binding results.</p>
+<p>Result: FAIL</p>
+<p>Source quote: framing (OpenAI): Company-reported preprint with lab tests run by its research partner Onava; no independent replication.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/ot4-protein-replication.py">checks/2026-11-25/ot4-protein-replication.py</a></p>
+</details>
+<details open>
+<summary>FAIL · Mention specialist sequence supply, not only filtering.</summary>
+<p>Claim: Mention specialist sequence supply, not only filtering.</p>
+<p>Result: FAIL</p>
+<p>Source quote: OpenAI itself says specialized models still supplied sequences and filtered candidates.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/ot5-specialist-sequences.py">checks/2026-11-25/ot5-specialist-sequences.py</a></p>
+</details>
+<details open>
+<summary>FAIL · Clarify provenance of scores, not just benchmark ownership.</summary>
+<p>Claim: Clarify provenance of scores, not just benchmark ownership.</p>
+<p>Result: FAIL</p>
+<p>Source quote: framing (Kaggle / Google DeepMind): Benchmark creator&#x27;s own leaderboard and summary of its paper; answers are graded by a Google model; the leaderboard lists 16 models while the X post cites 18 from the paper.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/ot7-creator-results.py">checks/2026-11-25/ot7-creator-results.py</a></p>
+</details>
+<details open>
+<summary>FAIL · Identify the Google grader.</summary>
+<p>Claim: Identify the Google grader.</p>
+<p>Result: FAIL</p>
+<p>Source quote: framing (Kaggle / Google DeepMind): Benchmark creator&#x27;s own leaderboard and summary of its paper; answers are graded by a Google model; the leaderboard lists 16 models while the X post cites 18 from the paper.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/ot8-google-grader.py">checks/2026-11-25/ot8-google-grader.py</a></p>
+</details>
+<details open>
+<summary>FAIL · Distinguish the leaderboard’s 16 from the paper’s 18.</summary>
+<p>Claim: Distinguish the leaderboard’s 16 from the paper’s 18.</p>
+<p>Result: FAIL</p>
+<p>Source quote: framing (Kaggle / Google DeepMind): Benchmark creator&#x27;s own leaderboard and summary of its paper; answers are graded by a Google model; the leaderboard lists 16 models while the X post cites 18 from the paper.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/ot9-two-cohorts.py">checks/2026-11-25/ot9-two-cohorts.py</a></p>
+</details>
+<details open>
+<summary>FAIL · when required to be consistent across four variations</summary>
+<p>Claim: when required to be consistent across four variations</p>
+<p>Result: FAIL</p>
+<p>Source quote: Across a four-prompt family f with correct counts across its four prompts, Family pass⁴ measures the unbiased joint probability that all 16 draws (4 per prompt across all 4 family members) succeed, averaged over all 136 families:</p>
+<p>Family pass^4 is consistency across 16 draws (4 per prompt x 4 family members), not only across four variations.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/t09-consistency-scope.py">checks/2026-11-25/t09-consistency-scope.py</a></p>
+</details>
+<details open>
+<summary>FAIL · nearly three-quarters of errors coming from basic visual perception</summary>
+<p>Claim: nearly three-quarters of errors coming from basic visual perception</p>
+<p>Result: FAIL</p>
+<p>Source quote: - Visual perception errors (73% of wrong rollouts): Misjudging spatial position, direction, or path in an image (31%) and miscounting distinct objects (23%).</p>
+<p>The measured denominator is wrong answers, not all errors including refusals, truncation and harness failures.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/t12-error-denominator.py">checks/2026-11-25/t12-error-denominator.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · the top five models</summary>
+<p>Claim: the top five models</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>no source sentence matches /Top five models reach 96%–98% pass@1/. </p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/t04-top-five.py">checks/2026-11-25/t04-top-five.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · score 96 to 98 percent</summary>
+<p>Claim: score 96 to 98 percent</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>no source sentence matches /Top five models reach 96%–98% pass@1/. </p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/t05-single-range.py">checks/2026-11-25/t05-single-range.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · on a single try</summary>
+<p>Claim: on a single try</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>no source sentence matches /High single-shot accuracy masks inconsistency: Top five models reach 96%–98% pass@1/. </p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/t06-single-try.py">checks/2026-11-25/t06-single-try.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · the top five models score 96 to 98 percent on a single try of simple tasks but average under 86 percent when required to be consistent across four variations</summary>
+<p>Claim: the top five models score 96 to 98 percent on a single try of simple tasks but average under 86 percent when required to be consistent across four variations</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>no source sentence matches /Top five models reach 96%–98% pass@1 and 100% family pass@4, yet average only 85\.6% on family pass\^4/. </p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/t11-combined-comparison.py">checks/2026-11-25/t11-combined-comparison.py</a></p>
+</details>
+<details>
+<summary>PASS · The artifact carries the caveat this check looks for.</summary>
+<p>Claim: The artifact carries the caveat this check looks for.</p>
+<p>Result: PASS</p>
+<p>Source quote: framing (OpenAI): Company-reported preprint with lab tests run by its research partner Onava; no independent replication.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/ot1-company-report.py">checks/2026-11-25/ot1-company-report.py</a></p>
+</details>
+<details>
+<summary>PASS · The artifact carries the caveat this check looks for.</summary>
+<p>Claim: The artifact carries the caveat this check looks for.</p>
+<p>Result: PASS</p>
+<p>Source quote: framing (OpenAI): Company-reported preprint with lab tests run by its research partner Onava; no independent replication.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/ot2-preprint.py">checks/2026-11-25/ot2-preprint.py</a></p>
+</details>
+<details>
+<summary>PASS · The artifact carries the caveat this check looks for.</summary>
+<p>Claim: The artifact carries the caveat this check looks for.</p>
+<p>Result: PASS</p>
+<p>Source quote: OpenAI itself says specialized models still supplied sequences and filtered candidates.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/ot6-specialist-filter.py">checks/2026-11-25/ot6-specialist-filter.py</a></p>
+</details>
+<details>
+<summary>PASS · Google DeepMind&#x27;s new Humanity&#x27;s First Exam benchmark</summary>
+<p>Claim: Google DeepMind&#x27;s new Humanity&#x27;s First Exam benchmark</p>
+<p>Result: PASS</p>
+<p>Source quote: Today, @GoogleDeepMind is launching Humanity&#x27;s First Exam on Kaggle, a benchmark designed to measure &quot;floor reliability&quot;: whether models get simple tasks right every time, not just once.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/t01-benchmark-creator.py">checks/2026-11-25/t01-benchmark-creator.py</a></p>
+</details>
+<details>
+<summary>PASS · new</summary>
+<p>Claim: new</p>
+<p>Result: PASS</p>
+<p>Source quote: Today, @GoogleDeepMind is launching Humanity&#x27;s First Exam on Kaggle, a benchmark designed to measure &quot;floor reliability&quot;: whether models get simple tasks right every time, not just once.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/t02-new-launch.py">checks/2026-11-25/t02-new-launch.py</a></p>
+</details>
+<details>
+<summary>PASS · Humanity&#x27;s First Exam benchmark on Kaggle</summary>
+<p>Claim: Humanity&#x27;s First Exam benchmark on Kaggle</p>
+<p>Result: PASS</p>
+<p>Source quote: Today, @GoogleDeepMind is launching Humanity&#x27;s First Exam on Kaggle, a benchmark designed to measure &quot;floor reliability&quot;: whether models get simple tasks right every time, not just once.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/t03-kaggle-host.py">checks/2026-11-25/t03-kaggle-host.py</a></p>
+</details>
+<details>
+<summary>PASS · simple tasks</summary>
+<p>Claim: simple tasks</p>
+<p>Result: PASS</p>
+<p>Source quote: Measuring how reliably frontier models solve simple text and image tasks humans get right almost every time.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/t07-simple-tasks.py">checks/2026-11-25/t07-simple-tasks.py</a></p>
+</details>
+<details>
+<summary>PASS · average under 86 percent</summary>
+<p>Claim: average under 86 percent</p>
+<p>Result: PASS</p>
+<p>Source quote: • High single-shot accuracy masks inconsistency: Top five models reach 96%-98% pass@1 and 100% family pass@4, yet average only 85.6% on family pass^4 (80.5%-92.4%), with a 7.6-80.1 percentage-point Family Reliability Gap across all 18 models.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/t08-consistent-average.py">checks/2026-11-25/t08-consistent-average.py</a></p>
+</details>
+<details>
+<summary>PASS · four variations</summary>
+<p>Claim: four variations</p>
+<p>Result: PASS</p>
+<p>Source quote: - Dataset size: 544 prompts organized into 136 four-prompt perturbation families (1 seed prompt + 3 logic-preserving variants per family) across 20 foundational subcategories and four macro-categories: Vision (51 families, 204 prompts), Math &amp; Algorithmic (40 families, 160 prompts), Spatial &amp; Positional (27 families, 108 prompts), and Reasoning &amp; Language (18 families, 72 prompts).</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/t10-family-size.py">checks/2026-11-25/t10-family-size.py</a></p>
+</details>
+<details>
+<summary>PASS · In an unreviewed preprint, OpenAI reports</summary>
+<p>Claim: In an unreviewed preprint, OpenAI reports</p>
+<p>Result: PASS</p>
+<p>Source quote: framing (OpenAI): Company-reported preprint with lab tests run by its research partner Onava; no independent replication.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/t13-openai-report.py">checks/2026-11-25/t13-openai-report.py</a></p>
+</details>
+<details>
+<summary>PASS · unreviewed preprint</summary>
+<p>Claim: unreviewed preprint</p>
+<p>Result: PASS</p>
+<p>Source quote: framing (OpenAI): Company-reported preprint with lab tests run by its research partner Onava; no independent replication.</p>
+<p>Status of the cited version, not evidence of independent peer review.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/t14-preprint-status.py">checks/2026-11-25/t14-preprint-status.py</a></p>
+</details>
+<details>
+<summary>PASS · its GPT-6 models used reasoning and code to design protein binders</summary>
+<p>Claim: its GPT-6 models used reasoning and code to design protein binders</p>
+<p>Result: PASS</p>
+<p>Source quote: Our GPT-6 family of models can design new protein shapes and the sequence of their chemical building blocks using only reasoning and code, without calling specialized biology models to generate those designs. … GPT-6.2 designed shapes for small proteins intended to attach to chosen targets.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/t15-binder-design.py">checks/2026-11-25/t15-binder-design.py</a></p>
+</details>
+<details>
+<summary>PASS · 35 of 322 lab-tested candidates binding to their targets</summary>
+<p>Claim: 35 of 322 lab-tested candidates binding to their targets</p>
+<p>Result: PASS</p>
+<p>Source quote: We tested 322 minibinders against 5 targets in the lab. … Of those, 35 (10.9%) tested positive for binding to their intended target.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/t16-tested-hit-count.py">checks/2026-11-25/t16-tested-hit-count.py</a></p>
+</details>
+<details>
+<summary>PASS · lab-tested candidates</summary>
+<p>Claim: lab-tested candidates</p>
+<p>Result: PASS</p>
+<p>Source quote: We tested 322 minibinders against 5 targets in the lab.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/t17-lab-tested.py">checks/2026-11-25/t17-lab-tested.py</a></p>
+</details>
+<details>
+<summary>PASS · specialized biology models still filtered weak candidates upfront</summary>
+<p>Claim: specialized biology models still filtered weak candidates upfront</p>
+<p>Result: PASS</p>
+<p>Source quote: It is important to note that our protein design campaign relied on specialized structure prediction models such as Boltz-2, OpenDDE, and ESMFold2 to filter candidates. … Specialized models supplied amino acid sequences and helped select candidates for testing.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/t18-specialist-filter.py">checks/2026-11-25/t18-specialist-filter.py</a></p>
+</details>
+<details>
+<summary>PASS · OpenAI&#x27;s latest internal model</summary>
+<p>Claim: OpenAI&#x27;s latest internal model</p>
+<p>Result: PASS</p>
+<p>Source quote: Across the full test, the average score rose from 0.16 for GPT-5.6 to 0.26 for GPT-6.2 and 0.38 for our latest internal model.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/t19-internal-model.py">checks/2026-11-25/t19-internal-model.py</a></p>
+</details>
+<details>
+<summary>PASS · scores under 0.4 on whole-protein folding</summary>
+<p>Claim: scores under 0.4 on whole-protein folding</p>
+<p>Result: PASS</p>
+<p>Source quote: Across the full test, the average score rose from 0.16 for GPT-5.6 to 0.26 for GPT-6.2 and 0.38 for our latest internal model. … The specialized model ESMFold2 averaged 0.93, so there&#x27;s still a substantial gap in how reliably our models can predict a whole protein&#x27;s structure from its sequence alone.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/t20-folding-score.py">checks/2026-11-25/t20-folding-score.py</a></p>
+</details>
+<details>
+<summary>PASS · 0.93 for ESMFold2</summary>
+<p>Claim: 0.93 for ESMFold2</p>
+<p>Result: PASS</p>
+<p>Source quote: The specialized model ESMFold2 averaged 0.93, so there&#x27;s still a substantial gap in how reliably our models can predict a whole protein&#x27;s structure from its sequence alone.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/t21-esmfold-score.py">checks/2026-11-25/t21-esmfold-score.py</a></p>
+</details>
+<details>
+<summary>PASS · even OpenAI&#x27;s latest internal model scores under 0.4 on whole-protein folding versus 0.93 for ESMFold2</summary>
+<p>Claim: even OpenAI&#x27;s latest internal model scores under 0.4 on whole-protein folding versus 0.93 for ESMFold2</p>
+<p>Result: PASS</p>
+<p>Source quote: Across the full test, the average score rose from 0.16 for GPT-5.6 to 0.26 for GPT-6.2 and 0.38 for our latest internal model. … The specialized model ESMFold2 averaged 0.93, so there&#x27;s still a substantial gap in how reliably our models can predict a whole protein&#x27;s structure from its sequence alone.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/t22-folding-gap.py">checks/2026-11-25/t22-folding-gap.py</a></p>
+</details>
+<details>
+<summary>PASS · Takeaway 1 cites https://www.kaggle.com/benchmarks/deepmind/hfe/leaderboard, which is listed in the episode sources.json.</summary>
+<p>Claim: Takeaway 1 cites https://www.kaggle.com/benchmarks/deepmind/hfe/leaderboard, which is listed in the episode sources.json.</p>
+<p>Result: PASS</p>
+<p>Source quote: (none)</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/tc01-citation.py">checks/2026-11-25/tc01-citation.py</a></p>
+</details>
+<details>
+<summary>PASS · Takeaway 2 cites https://openai.com/index/gpt-6-models-demonstrate-intrinsic-protein-design-capabilities/, which is listed in the episode sources.json.</summary>
+<p>Claim: Takeaway 2 cites https://openai.com/index/gpt-6-models-demonstrate-intrinsic-protein-design-capabilities/, which is listed in the episode sources.json.</p>
+<p>Result: PASS</p>
+<p>Source quote: (none)</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-25/audit/checks/2026-11-25/tc02-citation.py">checks/2026-11-25/tc02-citation.py</a></p>
+</details>
 <p><a href="../">Back to the edition</a></p>
 </article>
 </main>

@@ -1,0 +1,62 @@
+{
+ "date": "2026-11-25",
+ "bundle_sha256": "7e75c5fe32bb9e2cafbb4b58d0cb3bf7329995c3d9b4556d982abe3b6ff6c234",
+ "sources": {
+  "primary-openai-gpt6-protein-design-wetlab": {
+   "file": "primary-openai-gpt6-protein-design-wetlab.txt",
+   "url": "https://openai.com/index/gpt-6-models-demonstrate-intrinsic-protein-design-capabilities/",
+   "title": "GPT-6 models demonstrate intrinsic protein-design capabilities",
+   "kind": "primary",
+   "sha256": "39d6afad75a9fc39d9c0c99b24d98e197f81015adbab216ee9c8b955cbe86f77"
+  },
+  "x-openai": {
+   "file": "x-openai.txt",
+   "url": "https://x.com/OpenAI/status/2125334383490105601",
+   "title": "X post by @OpenAI (OpenAI)",
+   "kind": "x_post",
+   "sha256": "392ca799d94cf3ae599a8517c98d7930d8943c77713edd3febbf4e509a17443c"
+  },
+  "x-gdb": {
+   "file": "x-gdb.txt",
+   "url": "https://x.com/gdb/status/2125341356503748716",
+   "title": "X post by @gdb (Greg Brockman)",
+   "kind": "x_post",
+   "sha256": "d1d97e6d4e02df513b4d419e5ece2d8604206eaffee6f208258ef60d741743fe"
+  },
+  "primary-gpt62-astra-1808-sketchbook-attribution": {
+   "file": "primary-gpt62-astra-1808-sketchbook-attribution.txt",
+   "url": "https://generativehistory.substack.com/p/gpt-62-astra-solves-a-historical",
+   "title": "GPT 6.2 Astra Solves a Historical Mystery",
+   "kind": "primary",
+   "sha256": "9350234ebda89ab40daa4437dc38e3be0839d7d6afea5dfbb569885940bea640"
+  },
+  "x-emollick": {
+   "file": "x-emollick.txt",
+   "url": "https://x.com/emollick/status/2125245031842042301",
+   "title": "X post by @emollick (Ethan Mollick)",
+   "kind": "x_post",
+   "sha256": "e0fd471d4ccae9dd22d1e0c74ac2e4f27b96700060d402e41b221f167658f05e"
+  },
+  "primary-deepmind-humanitys-first-exam-floor-reli": {
+   "file": "primary-deepmind-humanitys-first-exam-floor-reli.txt",
+   "url": "https://www.kaggle.com/benchmarks/deepmind/hfe/leaderboard",
+   "title": "Humanity's First Exam (HFE) Leaderboard",
+   "kind": "primary",
+   "sha256": "b5dd5b5cdd83f958b767cecadd69e98920c9fc06370e567cd26ec3d35f9bc281"
+  },
+  "x-kaggle": {
+   "file": "x-kaggle.txt",
+   "url": "https://x.com/kaggle/status/2125313430303244739",
+   "title": "X post by @kaggle (Kaggle)",
+   "kind": "x_post",
+   "sha256": "264a4cbbf0d04e8eb4cb44fef90feab54f9feaf9f296a5fe8259f02f1b3835a4"
+  },
+  "scan-framing": {
+   "file": "scan-framing.txt",
+   "url": "https://www.signalandnoise.email/content/daily-state/2026-11-25/audit/sources/2026-11-25/scan-framing.txt",
+   "title": "Morning X-first scan: verification framing per story",
+   "kind": "scan",
+   "sha256": "1cf847da4f4eb648fc7fb7d4a162d41442b8345a6c4dbe9c94c66d433078b7f5"
+  }
+ }
+}

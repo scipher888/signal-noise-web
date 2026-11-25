@@ -1,0 +1,8 @@
+@gdb: GPT-6 for designing new protein shapes and sequences — no bio-specific model required.
+
+Another example of the unreasonable effectiveness of reasoning and code to solve problems universally. https://t.co/MBFGuZ8REj
+
+AFFILIATION NOTE (scan): OpenAI co-founder and president; same-company promotion, not independent corroboration.
+
+REPLIES:
+

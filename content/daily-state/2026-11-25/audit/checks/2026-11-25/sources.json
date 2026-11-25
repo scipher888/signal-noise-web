@@ -1,0 +1,10 @@
+{
+ "openai": "primary-openai-gpt6-protein-design-wetlab",
+ "openai2": "x-openai",
+ "gdb": "x-gdb",
+ "gpt62": "primary-gpt62-astra-1808-sketchbook-attribution",
+ "emollick": "x-emollick",
+ "deepmind": "primary-deepmind-humanitys-first-exam-floor-reli",
+ "kaggle": "x-kaggle",
+ "framing": "scan-framing"
+}
