@@ -547,6 +547,43 @@ class DailyStateTests(unittest.TestCase):
         )
         self.assertEqual(found["id"], today)
 
+    def test_episode_selection_accepts_a_headed_spotify_title(self):
+        yesterday = "1" * 22
+        today = EPISODE_ID
+        latest = "2" * 22
+        date_title = "Daily State of AI - " + DATE
+        headed = "AI Is Built for Discovery, Not Everyday Reliability | " + date_title
+        episodes = [
+            {"id": yesterday, "title": "Daily State of AI - 2026-11-07", "uri": "spotify:episode:" + yesterday},
+            {"id": today, "title": headed, "uri": "spotify:episode:" + today},
+            {"id": latest, "title": "Daily State of AI - 2026-11-09", "uri": "spotify:episode:" + latest},
+        ]
+        chosen = daily_state.select_episode(episodes, date_title)
+        self.assertEqual(chosen["id"], today)
+        self.assertTrue(daily_state.spotify_episode_title_matches(headed, DATE))
+        self.assertTrue(daily_state.spotify_episode_title_matches(date_title, DATE))
+        self.assertFalse(daily_state.spotify_episode_title_matches("Daily State of AI - 2026-11-07", DATE))
+        self.assertFalse(daily_state.spotify_episode_title_matches(" | " + date_title, DATE))
+
+        def fetcher(url):
+            if "/episode/" in url:
+                return {
+                    "title": headed,
+                    "canonical_url": EPISODE_URL,
+                    "id": today,
+                }
+            return {"episodes": episodes}
+
+        found = daily_state.verify_public_episode(
+            fetcher, DATE, EPISODE_URL, "https://open.spotify.com/show/" + SHOW_ID
+        )
+        self.assertEqual(found["id"], today)
+
+        # Two matching titles for the same date is ambiguous.
+        doubled = episodes + [{"id": "3" * 22, "title": date_title, "uri": "spotify:episode:" + ("3" * 22)}]
+        with self.assertRaises(daily_state.Hold):
+            daily_state.select_episode(doubled, date_title)
+
     def test_episode_identity_failures_hold(self):
         yesterday = "1" * 22
         latest = "2" * 22

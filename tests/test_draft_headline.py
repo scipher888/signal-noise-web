@@ -63,6 +63,61 @@ class DraftHeadlineModelTests(unittest.TestCase):
                              "Verification Becomes the Bottleneck for AI Work")
             self.assertNotIn("OR_OFFLOAD_MODEL_TERRA", os.environ)
 
+    def test_reuses_headline_txt_beside_the_script_without_or_call(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            script = tmp / "script.txt"
+            script.write_text("An episode script.\n")
+            headline = "AI Is Built for Discovery, Not Everyday Reliability"
+            (tmp / "headline.txt").write_text(headline + "\n")
+            fake = tmp / "or-call"
+            fake.write_text("#!/bin/sh\nexit 99\n")
+            fake.chmod(0o755)
+            old = draft_headline.OR_CALL
+            draft_headline.OR_CALL = str(fake)
+            try:
+                with redirect_stdout(io.StringIO()) as out:
+                    code = draft_headline.main([
+                        "--date", "2026-11-26", "--script", str(script),
+                        "--out", str(tmp / "h.txt"),
+                    ])
+            finally:
+                draft_headline.OR_CALL = old
+            self.assertEqual(code, 0)
+            self.assertEqual((tmp / "h.txt").read_text(), headline + "\n")
+            payload = json.loads(out.getvalue())
+            self.assertEqual(payload["headline"], headline)
+            self.assertTrue(payload["reused"])
+            self.assertEqual(payload["source"], str(tmp / "headline.txt"))
+
+    def test_invalid_headline_txt_falls_through_to_or_call(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            fake = tmp / "or-call"
+            fake.write_text(FAKE)
+            fake.chmod(0o755)
+            script = tmp / "script.txt"
+            script.write_text("An episode script.\n")
+            (tmp / "headline.txt").write_text("too\nmany\nlines\n")
+            log = tmp / "log.json"
+            os.environ["FAKE_LOG"] = str(log)
+            old = draft_headline.OR_CALL
+            draft_headline.OR_CALL = str(fake)
+            try:
+                with redirect_stdout(io.StringIO()) as out:
+                    code = draft_headline.main([
+                        "--date", "2026-11-26", "--script", str(script),
+                        "--out", str(tmp / "h.txt"),
+                    ])
+            finally:
+                draft_headline.OR_CALL = old
+                os.environ.pop("FAKE_LOG", None)
+            self.assertEqual(code, 0)
+            self.assertTrue(log.exists())
+            self.assertEqual(json.loads(out.getvalue())["headline"],
+                             "Verification Becomes the Bottleneck for AI Work")
+
+
 
 if __name__ == "__main__":
     unittest.main()

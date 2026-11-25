@@ -205,6 +205,24 @@ def edition_title(iso_date):
     return f"Daily State of AI - {iso_date}"
 
 
+def spotify_episode_title_matches(item_title, iso_date):
+    """True if the public Spotify title is the date label or a headed form.
+
+    The edition h1 stays the date label. From 2026-11-26 the Spotify title
+    may be "<headline> | Daily State of AI - YYYY-MM-DD".
+    """
+    if type(item_title) is not str or not is_real_date(iso_date):
+        return False
+    expected = edition_title(iso_date)
+    if item_title == expected:
+        return True
+    suffix = " | " + expected
+    if item_title.endswith(suffix):
+        prefix = item_title[:-len(suffix)]
+        return prefix != "" and "\n" not in prefix and "\r" not in prefix
+    return False
+
+
 def edition_url(iso_date):
     return f"{BASE_URL}/daily-state/{iso_date}/"
 
@@ -734,21 +752,29 @@ def validate_sources(sources, iso_date, source_count, *, audit=False):
 
 
 def select_episode(episodes, title):
-    """Choose the episode whose title matches exactly.
+    """Choose the episode whose title matches the date label.
 
+    The match is either exactly ``title`` (the date label, e.g.
+    ``Daily State of AI - 2026-11-25``) or ``<anything> | <title>``.
     Position is not a rule. The first item and the latest item are not
-    substitutes when the exact title is elsewhere or absent.
+    substitutes when a matching title is elsewhere or absent.
     """
     if type(episodes) is not list or not episodes:
         raise Hold("show evidence has no episodes")
+    suffix = " | " + title
     matches = []
     for item in episodes:
         if type(item) is not dict or set(item) != SHOW_EPISODE_KEYS:
             raise Hold("unknown show episode schema")
         if any(type(item[key]) is not str for key in SHOW_EPISODE_KEYS):
             raise Hold("unknown show episode schema")
-        if item["title"] == title:
+        item_title = item["title"]
+        if item_title == title:
             matches.append(item)
+            continue
+        if item_title.endswith(suffix) and item_title[:-len(suffix)] != "":
+            if "\n" not in item_title and "\r" not in item_title:
+                matches.append(item)
     if len(matches) != 1:
         raise Hold("show evidence does not contain the exact episode title")
     return matches[0]
@@ -773,7 +799,7 @@ def validate_recorded_verification(edition, iso_date, episode_url, episode_id):
     episode = verification["episode"]
     require_keys(episode, EPISODE_EVIDENCE_KEYS, "episode evidence")
     title = edition_title(iso_date)
-    if episode["title"] != title:
+    if not spotify_episode_title_matches(episode["title"], iso_date):
         raise Hold("verified episode title does not match the edition")
     if episode["canonical_url"] != episode_url:
         raise Hold("verified episode canonical url does not match")
@@ -923,7 +949,7 @@ def verify_public_episode(fetcher, iso_date, episode_url, show_url):
     except Exception as exc:
         raise Hold("verification parse failed") from exc
     title = edition_title(iso_date)
-    if episode["title"] != title:
+    if not spotify_episode_title_matches(episode["title"], iso_date):
         raise Hold("verified episode title does not match the edition")
     if episode["canonical_url"] != episode_url:
         raise Hold("verified episode canonical url does not match")
