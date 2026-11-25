@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Daily State of AI - 2026-11-25 — Signal &amp; Noise</title>
+  <meta name="description" content="Welcome to the Daily State of AI for Wednesday, November 25th, 2026.">
+  <link rel="canonical" href="https://www.signalandnoise.email/daily-state/2026-11-25/">
+  <link rel="stylesheet" href="../../styles.css?v=6435ba6d">
+  <link rel="alternate" type="application/rss+xml" title="Signal &amp; Noise" href="../../feed.xml">
+  <link rel="icon" href="../../assets/mark.svg">
+  <meta property="og:site_name" content="Signal &amp; Noise">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Daily State of AI - 2026-11-25">
+  <meta property="og:description" content="Welcome to the Daily State of AI for Wednesday, November 25th, 2026.">
+  <meta property="og:url" content="https://www.signalandnoise.email/daily-state/2026-11-25/">
+  <meta property="og:image" content="https://www.signalandnoise.email/assets/preview.png?v=09b48f76">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Daily State of AI - 2026-11-25">
+  <meta name="twitter:description" content="Welcome to the Daily State of AI for Wednesday, November 25th, 2026.">
+  <meta name="twitter:image" content="https://www.signalandnoise.email/assets/preview.png?v=09b48f76">
+</head>
+<body>
+<header class="site-head">
+  <a class="masthead" href="../../"><svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="17.5" r="11.5" fill="none" stroke="#10283a" stroke-width="2.4"/><circle cx="16" cy="17.5" r="6.8" fill="#0e2738"/><circle cx="16" cy="6" r="3.1" fill="#f3ca79"/></svg>Signal &amp; Noise</a>
+  <nav><a href="../../daily-state/">Daily State</a> <a href="../../archive/">Archive</a> <a href="../../about/">About</a> <a href="../../subscribe/">Follow</a></nav>
+</header>
+<main>
+<article>
+<p class="kicker">Daily State of AI</p>
+<h1>Daily State of AI - 2026-11-25</h1>
+<p class="ds-headline">AI Is Built for Discovery, Not Everyday Reliability</p>
+<p><time datetime="2026-11-25">November 25, 2026</time></p>
+<p class="intro">Written by Google Gemini 4 Neon (high) from one minimal prompt, with no rules, editor or edits, published as produced.</p>
+<figure class="ds-prompt">
+<figcaption class="kicker ds-prompt-label">Minimal prompt</figcaption>
+<blockquote>
+<pre>Here are today&#x27;s AI news reports and X threads. What&#x27;s the non-obvious insight others are missing? Write today&#x27;s Daily State of AI around that.
+
+It&#x27;s a spoken audio episode, about 700 words (roughly five minutes read aloud). Plain spoken text only.
+</pre>
+</blockquote>
+</figure>
+<p><a href="https://open.spotify.com/episode/4t5dUJrqqrxqW1qIIk6aoM">Audio on Spotify</a></p>
+<p><a href="audit/">Audit</a></p>
+<p class="disclaimer">AI-generated · may contain errors</p>
+<div class="script">
+<p>Welcome to the Daily State of AI for Wednesday, November 25th, 2026.</p>
+<p>How can the same frontier AI model crack a 218-year-old historical mystery in twenty-two minutes and design new proteins that actually bind in a wet lab, yet still miscount a handful of objects in a simple picture?</p>
+<p>That paradox links today&#x27;s three biggest AI stories: a protein-design preprint from OpenAI, an archival find from a Canadian historian, and a new reliability benchmark from Google DeepMind. Taken together, they expose a divide most coverage misses: the widening gap between discovery mode and reliability mode.</p>
+<p>Intense training on math and code has turned frontier models into remarkable discovery engines, built for problems where you only need one hit out of many tries and an outside check discards the misses. What that training has not delivered is everyday reliability: getting routine steps right every single time, or weighing messy real-world evidence without a formal proof.</p>
+<p>Google DeepMind put hard numbers on that gap today, launching Humanity&#x27;s First Exam on Google-owned Kaggle. Instead of PhD-level questions, it tests simple, ninety-second tasks humans breeze through, like counting objects, tracking arrows, or spotting a false premise. And it measures floor reliability, asking whether a model solves four slightly varied versions of a task consistently across repeated tries.</p>
+<p>The drop-off is stark. The top five models score 96 to 98 percent on a single try and solve every task family at least once across four attempts, yet average under 86 percent when consistency is required. OpenAI&#x27;s GPT-6.2 Astra leads Kaggle&#x27;s initial run near 91 percent, though within overlapping error bars and at a higher reasoning setting than Google&#x27;s Gemini 4 Neon.</p>
+<p>The failure logs explain why. Nearly three-quarters of wrong answers are basic visual perception mistakes. Cranking up reasoning effort lifts symbolic logic by nearly 30 percentage points, yet improves object counting and arrow tracking by barely 2 points. Human and AI difficulty are literally inverted: people handle vision easily and trip over formal logic, while models do the reverse. For unattended agents chaining dozens of steps together, that gap is where workflows collapse.</p>
+<p>Now view OpenAI&#x27;s protein preprint through that same lens. OpenAI reports that its GPT-6 models can design protein shapes and sequences using only reasoning and code, without calling specialized biology models during generation. With lab partner Onava, 35 of 322 small protein binders based on GPT-6.2&#x27;s shapes bound to their targets, an 11 percent hit rate. In a second lab run, GPT-6.2 also wrote working sequences itself for unpublished shapes it had generated, suggesting this goes beyond memorization.</p>
+<p>This is still OpenAI&#x27;s own unreviewed preprint, and early lab binding is far from a working medicine. More tellingly, protein design is a discovery game. An 11 percent hit rate is a genuine breakthrough when specialized biology models filter out weak candidates upfront and a wet lab tests the winners. Ask the general reasoner to predict how a whole protein folds from its sequence alone, and even OpenAI&#x27;s latest internal model scores under 0.4 on a one-point scale, compared with 0.93 for the specialist model ESMFold2.</p>
+<p>The same split appears outside science. In a Substack post not yet peer-reviewed or publicly audited, historian Mark Humphries describes giving GPT-6.2 Astra an anonymous 1808 sketchbook from Yale&#x27;s Beinecke Library. In twenty-two minutes, the model linked a Montreal fur trader&#x27;s diary, a century-old letter, and a 2014 thesis footnote to identify an obscure French aristocrat, vicomte de Chabot, and pointed Humphries to an unknown microfilmed diary at Cleveland State University. Claude Fable 5.2 also found Chabot in thirty-five minutes, though it missed the diary.</p>
+<p>Humphries ordered the scans, matched the handwriting, and found Chabot writing that he took a sketch of Fort St. Joseph. Yet when Humphries gave that proof back to Astra, the model strangely hedged and doubted its own find because the diary was unsigned. Humphries suspects math-heavy post-training leaves it awkward whenever evidence falls short of a formal proof.</p>
+<p>That is the real state of AI today. Frontier reasoners are extraordinary discovery machines when you can verify externally. Until reliability catches up with brilliance, the real edge belongs to teams who know which game they are playing.</p>
+<p>That is your Daily State of AI. Thanks for listening.</p>
+</div>
+<section class="sources">
+<h2>Sources</h2>
+<section class="story">
+<h3>OpenAI says GPT-6 models can design proteins with reasoning and code, with 35 of 322 lab-tested minibinders showing binding</h3>
+<p>OpenAI, X</p>
+<ul>
+<li><a href="https://openai.com/index/gpt-6-models-demonstrate-intrinsic-protein-design-capabilities/">https://openai.com/index/gpt-6-models-demonstrate-intrinsic-protein-design-capabilities/</a></li>
+<li><a href="https://x.com/OpenAI/status/2125334383490105601">https://x.com/OpenAI/status/2125334383490105601</a></li>
+<li><a href="https://x.com/gdb/status/2125341356503748716">https://x.com/gdb/status/2125341356503748716</a></li>
+</ul>
+</section>
+<section class="story">
+<h3>A historian says GPT-6.2 Astra identified the anonymous artist of a Yale 1808 sketchbook and pointed him to an unknown diary</h3>
+<p>Generative History (Mark Humphries), X</p>
+<ul>
+<li><a href="https://generativehistory.substack.com/p/gpt-62-astra-solves-a-historical">https://generativehistory.substack.com/p/gpt-62-astra-solves-a-historical</a></li>
+<li><a href="https://x.com/emollick/status/2125245031842042301">https://x.com/emollick/status/2125245031842042301</a></li>
+</ul>
+</section>
+<section class="story">
+<h3>Google DeepMind&#x27;s Humanity&#x27;s First Exam measures whether frontier models get simple tasks right every time</h3>
+<p>Kaggle / Google DeepMind, X</p>
+<ul>
+<li><a href="https://www.kaggle.com/benchmarks/deepmind/hfe/leaderboard">https://www.kaggle.com/benchmarks/deepmind/hfe/leaderboard</a></li>
+<li><a href="https://x.com/kaggle/status/2125313430303244739">https://x.com/kaggle/status/2125313430303244739</a></li>
+</ul>
+</section>
+</section>
+</article>
+</main>
+<footer class="site-foot">
+  <p>Daily State of AI is an AI-generated spoken briefing from Signal &amp; Noise. The script is model wording, published verbatim, and it may contain errors. It is not a human essay and not a machine companion essay.</p>
+  <p><a href="../../">Home</a> · <a href="../../daily-state/">Daily State</a> · <a href="../../archive/">Archive</a> · <a href="../../about/">About</a> · <a href="../../subscribe/">Follow</a></p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,54 @@
+{
+  "date": "2026-11-25",
+  "urls": [
+    "https://openai.com/index/gpt-6-models-demonstrate-intrinsic-protein-design-capabilities/",
+    "https://x.com/OpenAI/status/2125334383490105601",
+    "https://x.com/gdb/status/2125341356503748716",
+    "https://generativehistory.substack.com/p/gpt-62-astra-solves-a-historical",
+    "https://x.com/emollick/status/2125245031842042301",
+    "https://www.kaggle.com/benchmarks/deepmind/hfe/leaderboard",
+    "https://x.com/kaggle/status/2125313430303244739"
+  ],
+  "stories": [
+    {
+      "index": 1,
+      "title": "OpenAI says GPT-6 models can design proteins with reasoning and code, with 35 of 322 lab-tested minibinders showing binding",
+      "outlets": [
+        "OpenAI",
+        "X"
+      ],
+      "urls": [
+        "https://openai.com/index/gpt-6-models-demonstrate-intrinsic-protein-design-capabilities/",
+        "https://x.com/OpenAI/status/2125334383490105601",
+        "https://x.com/gdb/status/2125341356503748716"
+      ],
+      "verification_status": "company_reported"
+    },
+    {
+      "index": 2,
+      "title": "A historian says GPT-6.2 Astra identified the anonymous artist of a Yale 1808 sketchbook and pointed him to an unknown diary",
+      "outlets": [
+        "Generative History (Mark Humphries)",
+        "X"
+      ],
+      "urls": [
+        "https://generativehistory.substack.com/p/gpt-62-astra-solves-a-historical",
+        "https://x.com/emollick/status/2125245031842042301"
+      ],
+      "verification_status": "author_reported"
+    },
+    {
+      "index": 3,
+      "title": "Google DeepMind's Humanity's First Exam measures whether frontier models get simple tasks right every time",
+      "outlets": [
+        "Kaggle / Google DeepMind",
+        "X"
+      ],
+      "urls": [
+        "https://www.kaggle.com/benchmarks/deepmind/hfe/leaderboard",
+        "https://x.com/kaggle/status/2125313430303244739"
+      ],
+      "verification_status": "company_reported"
+    }
+  ]
+}
