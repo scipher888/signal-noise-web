@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Draft a 4-10 word Daily State headline from the episode script.
 
-Uses the box OpenRouter helper (Ember, then Terra, then GPT-6.1 Sol).
+Uses the box OpenRouter helper with Gemini 4 Neon at medium, falling back once
+to GPT-6.2 Astra at medium (Synthia, 2026-11-24).
 Prints compact JSON and writes the cleaned headline to --out.
 
     python3 tools/draft_headline.py --date D --out FILE
@@ -30,6 +31,19 @@ PROMPT = (
     "captures its central insight. Plain text, no quotes."
 )
 BOT = "J - Sam"
+# or-call's chain is ember -> terra -> sol, all at reasoning effort medium.
+# Starting at "terra" and overriding the two remaining slugs for this call only
+# gives exactly Neon (medium), then Astra (medium). The shared helper is unchanged.
+MODEL = "google/gemini-4-neon"
+FALLBACK_MODEL = "openai/gpt-6.2-astra"
+START_TIER = "terra"
+
+
+def or_call_env():
+    env = dict(os.environ)
+    env["OR_OFFLOAD_MODEL_TERRA"] = MODEL
+    env["OR_OFFLOAD_MODEL_SOL"] = FALLBACK_MODEL
+    return env
 
 
 def script_path(date, variant, explicit):
@@ -70,10 +84,12 @@ def main(argv=None):
             OR_CALL,
             "--bot", args.bot,
             "--task-type", "draft",
+            "--model", START_TIER,
             "--context-file", path,
             "--out", args.out + ".raw",
         ],
         input=PROMPT,
+        env=or_call_env(),
         text=True,
         capture_output=True,
         check=False,
