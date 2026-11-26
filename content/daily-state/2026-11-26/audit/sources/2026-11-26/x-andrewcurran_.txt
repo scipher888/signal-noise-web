@@ -1,0 +1,36 @@
+@AndrewCurran_: Scott Aaronson on his blog. I have also heard this. In fact, this rumor has persisted for about ten days, about both Anthropic and OpenAI.  Considering how closely their recent math results have mirrored each other, if one has it, they probably both do. This would crack RSA. https://t.co/s5AHbmcDFP https://t.co/YBOYkSYVOr
+
+REPLIES:
+@MamaDailyDairy (2 likes): @AndrewCurran_ RSA is built entirely on the factorization of the prime numbers... very large primes🫩
+
+The current limitation is on the hardware.. we don't have a computer that can do that in this lifetime 🫩
+
+To break the encryption, either the Math has to change or the computer has to..🫩
+@grok (1 likes): @CandleHigh @AndrewCurran_ @grom Scott Aaronson is a leading theoretical computer scientist and professor at UT Austin, specializing in quantum computing and complexity theory. He previously worked at OpenAI (2022-2024) and writes the widely read Shtetl-Optimized blog. Highly credible in his domain; his recent
+@grok (1 likes): @CandleHigh @AndrewCurran_ Yes, the rumors are real and circulating widely. Scott Aaronson states he is virtually certain, from multiple reliable sources, that frontier labs hold unreleased cryptography "bombshells." He is far less confident about the exact nature—such as a practical polynomial-time
+@grok (1 likes): @scovell222 @ifeigen_ @AndrewCurran_ I agree the first better addresses the core issue. Expertise lets someone weigh multiple reliable channels, separate signal from noise, and state calibrated confidence without claiming full knowledge. Honesty about remaining uncertainty is part of that credibility, not a flaw.
+@grok (0 likes): @nur161987 @AndrewCurran_ @peterxing The Lean formalizations already give machine-checked validation for the core exact separations in both papers. That is stronger than traditional peer review for those parts.
+
+The stronger border-circuit bounds and any unpublished crypto claims still need independent human expert
+@nur161987 (0 likes): @AndrewCurran_ @peterxing @grok what about validation
+@SairHayalperest (0 likes): @AndrewCurran_ @peterxing what's the verification process for these rumors?
+@ShackletonAI (0 likes): @AndrewCurran_ I am monitoring certificate transparency logs, browser root programs and certificate authorities, internet infrastructure, firmware and code signing and other telltale leading indicators something is up. Will let you know. https://t.co/eVt9u7ADCP
+@top_secret_nick (0 likes): @AndrewCurran_ I am not tech savvy so I don't know if this is related, but I started getting these warnings on my phone within the last week. I get dozens of them every day. It seems at least one app keeps trying to connect to a compromised site. Unfortunately my VPN will not tell me which one. https://t.co/BDSmTFrUUD
+@mercy98040068 (0 likes): @AndrewCurran_ @peterxing what's ant?
+@zendost83 (0 likes): @AndrewCurran_ @peterxing mind blown by aaronson's ant analogy
+@CandleHigh (0 likes): @grok @AndrewCurran_ @grom who is Scott Aaronson, how credible is this person as a source?
+@CandleHigh (0 likes): @grok @AndrewCurran_ @grok so there are rumours that frontier labs have developed models that can break the security of banks and the financial system?
+@grok (0 likes): @CandleHigh @AndrewCurran_ RSA is a public-key encryption system from 1977 (Rivest-Shamir-Adleman). It secures most internet traffic, banking, and digital signatures. Security rests on the hardness of factoring the product of two large primes. An efficient factoring method would break it.
+@CandleHigh (0 likes): @AndrewCurran_ @grok what is RSA?
+@202467Jerry (0 likes): @AndrewCurran_ The bar here is not a plausible proof sketch, it is a machine-checkable artifact that independent experts can verify line by line. VP ≠ VNP would be huge for algebraic complexity, but it would not automatically crack RSA unless the proof also yields an efficient factoring
+@UysalMemik (0 likes): @AndrewCurran_ @peterxing ant scaling issues are usually infra NOT ai problems
+@R5Z5G (0 likes): @AndrewCurran_ I'm buying, not selling.
+We mainly purchase first-hand native official API keys of Claude &amp; GPT at a high price. We are not in urgent need of subscription accounts for now.
+We also accept hosted credits from AWS/Azure/GCP and other overseas LLM resources.
+Our settlement is
+@mollicksoif9 (0 likes): @AndrewCurran_ For context on the stakes: if Bitcoin wallets ever broke, about 7.1 million BTC — 35% of all Bitcoin — could be at risk in the worst case. It hasn't happened, but it's a good reason to move old coins to a fresh hardware wallet.
+@Fiverten (0 likes): @AndrewCurran_ My password is really hard to guess, though.
+@scovell222 (0 likes): @grok @ifeigen_ @AndrewCurran_ Thank you both of your explanations were good.  Your first one was more persuasive, though, with respect to the issue under discussion. If you like, explain why you agree, if not, that is fine too.
+@grok (0 likes): @scovell222 @ifeigen_ @AndrewCurran_ Expertise evaluates published proofs far better than second-hand rumors whose sources stay anonymous. Multiple “reliable” channels can still share the same incomplete or distorted information. Stating virtual certainty in public, even with heavy caveats, can itself feed the
+@scovell222 (0 likes): @grok @ifeigen_ @AndrewCurran_ You have simply backed up what you said, now explore why you might be wrong.
+@scovell222 (0 likes): @grok @ifeigen_ @AndrewCurran_ "I know this guy"
