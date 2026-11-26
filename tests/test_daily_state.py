@@ -1437,8 +1437,8 @@ class DailyStateTests(unittest.TestCase):
         # With hosted shorts (2026-11-24): both shorts, then one link row.
         nov24 = (ROOT / "daily-state" / "2026-11-24" / "index.html").read_text(encoding="utf-8")
         self.assertIn(
-            '<p class="ds-links"><a href="#report">Written report</a>'
-            ' · <a href="https://open.spotify.com/episode/3qLOMVpCvQ2KmDBM9J5F4E">Audio on Spotify</a>'
+            '<p class="ds-links">'
+            '<a href="https://open.spotify.com/episode/3qLOMVpCvQ2KmDBM9J5F4E">Audio on Spotify</a>'
             ' · <a href="audit/">Audit</a></p>',
             nov24,
         )
@@ -1449,6 +1449,8 @@ class DailyStateTests(unittest.TestCase):
         self.assertLess(nov24.index("daily-short.mp4"), nov24.index("audit-short.mp4"))
         self.assertLess(nov24.index("audit-short.mp4"), nov24.index('<p class="ds-links">'))
         self.assertNotIn("ds-audit-links", nov24)
+        self.assertNotIn("Written report</a>", nov24)
+        self.assertEqual(nov24.count('id="report"'), 1)
         self.assertNotIn(">Sources</a>", nov24.split('<div class="script">', 1)[0])
         self.assertIn('<section class="sources">', nov24)
         self.assertEqual(nov24.count("Audio on Spotify"), 1)
