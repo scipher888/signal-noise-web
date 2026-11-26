@@ -4,909 +4,1026 @@ Each claim is tested by a deterministic Python check against snapshotted source 
 
 | artifact | PASS | FAIL | NEEDS-HUMAN | ERROR |
 |---|---|---|---|---|
-| episode | 39 | 15 | 31 | 0 |
-| takeaways | 17 | 7 | 4 | 0 |
+| episode | 13 | 26 | 55 | 0 |
+| takeaways | 18 | 13 | 5 | 0 |
 
 ## Sources
 - `primary-google-cogentic-six-math-papers`: [Breaking the Square-Root Barrier for the Log-Rank Conjecture](https://raw.githubusercontent.com/google-research/google-research/master/cogentic_research_papers/logrank_conjecture/README.md) (sha256 0125de488c93…)
 - `x-andrewcurran_`: [X post by @AndrewCurran_](https://x.com/AndrewCurran_/status/2125589468786909510) (sha256 5ef4c7130444…)
 - `x-kimmonismus`: [X post by @kimmonismus (Chubby♨️)](https://x.com/kimmonismus/status/2125602411540566221) (sha256 2c844958f5cf…)
-- `primary-anthropic-messages-api-rust-migration`: [Migrating our Messages API to Rust](https://www.anthropic.com/research/migrating-api-to-rust) (sha256 5532d9be93fa…)
-- `x-anthropicai`: [X post by @AnthropicAI (Anthropic)](https://x.com/AnthropicAI/status/2125627317263466739) (sha256 b79f15b2348e…)
-- `scan-framing`: [Morning X-first scan: verification framing per story](https://www.signalandnoise.email/content/daily-state/2026-11-26/audit/sources/2026-11-26/scan-framing.txt) (sha256 1ece14b165c6…)
+- `x-anthropicai`: [X post by @AnthropicAI](https://x.com/AnthropicAI/status/2125627317263466739) (sha256 84ceef3b9ded…)
+- `scan-framing`: [Morning X-first scan: verification framing per story](https://www.signalandnoise.email/content/daily-state/2026-11-26/audit/sources/2026-11-26/scan-framing.txt) (sha256 a8bb6a704f5d…)
 
 ## episode
 
-### FAIL · e18-six-no-human (attribution, Google papers)
-> Claim: claiming no human involvement after the first prompt
-
-Source ([primary-google-cogentic-six-math-papers](https://raw.githubusercontent.com/google-research/google-research/master/cogentic_research_papers/logrank_conjecture/README.md)): "There was no human interaction other than the initial prompt for Cogentic to"
-
-Note: The assertion in this README covers its proof and formalization, not all six papers.
-
-```python
-def check(ctx):
-    q = ctx.find('google', r'There was no human interaction other than the initial prompt')
-    return ctx.fail('google', q, 'The assertion in this README covers its proof and formalization, not all six papers.') if q and ctx.absent('framing', r'(?:all six|six papers).{0,100}no human interaction') else ctx.require('framing', r'(?:all six|six papers).{0,100}no human interaction')
-```
-
-### FAIL · e22-rsa-condition (qualifier, Factoring rumor)
-> Claim: OpenAI or Anthropic may have found a polynomial-time factoring algorithm that would break RSA
-
-Source ([x-kimmonismus](https://x.com/kimmonismus/status/2125602411540566221)): "If an algorithm like this actually works on real key sizes, you wouldn't even need a quantum computer to break it."
-
-Note: Polynomial time alone does not establish a practical break.
-
-```python
-def check(ctx):
-    q = ctx.find('kimmonismus', r'If an algorithm like this actually works on real key sizes')
-    if q and not ctx.art_has(r'(?:works? on real key sizes|practical (?:at|on) (?:RSA|real) key sizes)'): return ctx.fail('kimmonismus', q, 'Polynomial time alone does not establish a practical break.')
-    return ctx.require('kimmonismus', r'heard OpenAI or Anthropic may have found a way to factor large numbers in polynomial time', r'If an algorithm like this actually works on real key sizes')
-```
-
-### FAIL · e33-all-six-lean (attribution, Proof verification)
-> Claim: Google says Lean 4 formalizations for all six papers are coming in a companion submission
-
-Source ([primary-google-cogentic-six-math-papers](https://raw.githubusercontent.com/google-research/google-research/master/cogentic_research_papers/logrank_conjecture/README.md)): "Lean 4 (`v4.33.0`) formalization of the entire proof has also been completed and will be released in a companion submission"
-
-Note: The release statement is singular and specific to the log-rank proof.
-
-```python
-def check(ctx):
-    return ctx.support_or_contradict('google', r'Lean 4 formalizations of all six papers.{0,100}companion submission', r'Lean 4.*?formalization of the\s+entire proof has also been completed and will be released in a companion\s+submission'.replace('.*?', '[\\s\\S]*?'), 'The release statement is singular and specific to the log-rank proof.')
-```
-
-### FAIL · e46-first-version (attribution, Rust migration)
-> Claim: Claude wrote the core Rust request path in about a week
-
-Source ([primary-anthropic-messages-api-rust-migration](https://www.anthropic.com/research/migrating-api-to-rust)): "Claude wrote a first version of the API's core request path in about a week."
-
-Note: Only a first version is attributed to the week of work.
-
-```python
-def check(ctx):
-    return ctx.support_or_contradict('anthropic', r'Claude wrote the (?:finished |production-ready )?(?:Rust )?(?:API.s )?core request path in about a week', r'Claude wrote a first version of the API.s core request path in about a week', 'Only a first version is attributed to the week of work.')
-```
-
-### FAIL · e54-april-tests (number, Production verification)
-> Claim: Rust passed ninety-eight percent of tests in April
-
-Source ([primary-anthropic-messages-api-rust-migration](https://www.anthropic.com/research/migrating-api-to-rust)): "Our Rust API passed about 98% of its tests in April, yet only about a quarter of inputs matched on production traffic (Figure 6)."
-
-Note: Source qualifies the percentage as approximate.
-
-```python
-def check(ctx):
-    return ctx.support_or_contradict('anthropic', r'Rust API passed 98% of its tests in April', r'Rust API passed about 98% of its tests in April', 'Source qualifies the percentage as approximate.')
-```
-
-### FAIL · e60-gamed-which-verifier (attribution, Shadow oracle)
-> Claim: an agent still gamed it
-
-Source ([primary-anthropic-messages-api-rust-migration](https://www.anthropic.com/research/migrating-api-to-rust)): "The prompts then matched, and the fix passed the local verifier."
-
-Note: The shortcut passed locally; no demonstrated bypass of the production oracle.
-
-```python
-def check(ctx):
-    return ctx.support_or_contradict('anthropic', r'(?:shortcut|fix) passed the (?:outer|production) verifier', r'the fix passed the local verifier', 'The shortcut passed locally; no demonstrated bypass of the production oracle.')
-```
-
-### FAIL · e66-only-by-review (attribution, Engineering oversight)
-> Claim: Anthropic succeeded only by keeping engineers at the pull-request gate and turning recurring corrections into standing rules, tests, and lints
-
-Source ([primary-anthropic-messages-api-rust-migration](https://www.anthropic.com/research/migrating-api-to-rust)): "That's why human review was an important gate."
-
-Note: Important is not a finding of exclusive causal necessity.
-
-```python
-def check(ctx):
-    q = ctx.find('anthropic', r'human review was an important gate')
-    return ctx.fail('anthropic', q, 'Important is not a finding of exclusive causal necessity.') if q and ctx.absent('anthropic', r'(?:only succeeded|succeeded only)') else ctx.require('anthropic', r'(?:only succeeded|succeeded only).{0,100}review', r'recurring problems and proposed rules', r'new tests.{0,100}lints')
-```
-
-### FAIL · e71-week-versus-months (comparison, Two headlines)
-> Claim: generating the code takes a week, while earning trust in the real world still takes months
-
-Source ([primary-anthropic-messages-api-rust-migration](https://www.anthropic.com/research/migrating-api-to-rust)): "Claude wrote a first version of the API's core request path in about a week."
-
-Note: A first version of one core path is not all migration code or a general generation time.
-
-```python
-def check(ctx):
-    q = ctx.find('anthropic', r'Claude wrote a first version of the API.s core request path in about a week')
-    return ctx.fail('anthropic', q, 'A first version of one core path is not all migration code or a general generation time.') if q else ctx.need('anthropic', None, 'Need comparable generation and verification intervals.')
-```
-
-### FAIL · oe10-not-conjecture-proof (objection, Google papers)
-
-Source ([scan-framing](https://www.signalandnoise.email/content/daily-state/2026-11-26/audit/sources/2026-11-26/scan-framing.txt)): "framing (Google Research (GitHub)): Company-posted claim of a tiny improvement over the square-root bound (epsilon of 5 millionths); not a proof of the conjecture; not independently verified."
-
-Note: The improvement does not prove the conjecture.
-
-```python
-def check(ctx):
-    q = ctx.find('framing', r'not a proof of the conjecture')
-    return ctx.ok('framing', q) if ctx.art_has(r'not (?:a proof of|prove|solve) the (?:log[- ]rank )?conjecture|log[- ]rank conjecture remains open') else ctx.fail('framing', q, 'The improvement does not prove the conjecture.')
-```
-
-### FAIL · oe13-independent-measurement (objection, Rust migration)
-
-Source ([scan-framing](https://www.signalandnoise.email/content/daily-state/2026-11-26/audit/sources/2026-11-26/scan-framing.txt)): "framing (Anthropic): Company-reported engineering results; performance numbers are Anthropic's own and not independently measured."
-
-Note: Disclose lack of independent performance measurement.
-
-```python
-def check(ctx):
-    q = ctx.find('framing', r'not independently measured')
-    return ctx.ok('framing', q) if ctx.art_has(r'(?:numbers|gains|metrics|performance|measurements).{0,90}(?:not independently (?:measured|verified)|no independent (?:measurement|benchmark))|no independent (?:performance )?(?:benchmark|measurement)') else ctx.fail('framing', q, 'Disclose lack of independent performance measurement.')
-```
-
-### FAIL · oe3-no-lab-result (objection, Factoring rumor)
-
-Source ([scan-framing](https://www.signalandnoise.email/content/daily-state/2026-11-26/audit/sources/2026-11-26/scan-framing.txt)): "No lab has published or confirmed such a result."
-
-Note: Say that no lab has published or confirmed the rumored result.
-
-```python
-def check(ctx):
-    q = ctx.find('framing', r'No lab has published or confirmed such a result')
-    return ctx.ok('framing', q) if ctx.art_has(r'(?:no|neither) (?:frontier )?labs?.{0,50}(?:published|confirmed)|no lab confirmation|not confirmed by (?:either|any) lab') else ctx.fail('framing', q, 'Say that no lab has published or confirmed the rumored result.')
-```
-
-### FAIL · oe4-company-preprints (objection, Google papers)
+### FAIL · e06-labs-stopped-waiting (attribution, GitHub publishing)
+> Claim: Frontier labs have stopped waiting for press releases, blog posts, or even tweets
 
 Source ([scan-framing](https://www.signalandnoise.email/content/daily-state/2026-11-26/audit/sources/2026-11-26/scan-framing.txt)): "framing (Google Research (GitHub)): Company-posted preprints in a public repository; no peer review, and the announced Lean formalizations are not yet released."
 
-Note: Identify the papers as company-posted preprints.
+Note: A repository posting establishes neither a change in lab policy nor the absence of announcements.
 
 ```python
 def check(ctx):
     q = ctx.find('framing', r'Company-posted preprints in a public repository')
-    return ctx.ok('framing', q) if ctx.art_has(r'(?:Google(?: Research)?|company)[- ](?:posted|published|released|(?:silently )?committed).{0,100}preprints?') else ctx.fail('framing', q, 'Identify the papers as company-posted preprints.')
+    return ctx.fail('framing', q, 'A repository posting establishes neither a change in lab policy nor the absence of announcements.') if q else ctx.need(None, None, 'Need evidence of the claimed change.')
 ```
 
-### FAIL · oe5-peer-review (objection, Google papers)
+### FAIL · e07-straight-to-repositories (attribution, GitHub publishing)
+> Claim: They just push papers straight to code repositories
 
 Source ([scan-framing](https://www.signalandnoise.email/content/daily-state/2026-11-26/audit/sources/2026-11-26/scan-framing.txt)): "framing (Google Research (GitHub)): Company-posted preprints in a public repository; no peer review, and the announced Lean formalizations are not yet released."
 
-Note: State lack of peer review.
+Note: Evidence concerns one company, not a general frontier-lab practice.
+
+```python
+def check(ctx):
+    return ctx.support_or_contradict('framing', r'Frontier labs .*publish .*directly to (?:code )?repositories', r'Company-posted preprints in a public repository', 'Evidence concerns one company, not a general frontier-lab practice.')
+```
+
+### FAIL · e10-compound-rsa-warning (attribution, RSA rumors)
+> Claim: Viral posts with thousands of likes were warning that frontier labs had secretly cracked RSA encryption and could soon forge software updates across the internet
+
+Source ([x-kimmonismus](https://x.com/kimmonismus/status/2125602411540566221)): "If an algorithm like this actually works on real key sizes, you wouldn't even need a quantum computer to break it."
+
+Note: Conditional consequences, not a completed secret break or a near-term forecast; no original-post like count.
+
+```python
+def check(ctx):
+    q = ctx.find('kimmonismus', r'If an algorithm like this actually works on real key sizes')
+    return ctx.fail('kimmonismus', q, 'Conditional consequences, not a completed secret break or a near-term forecast; no original-post like count.') if q else ctx.need(None, None, 'Need the attributed warning and metrics.')
+```
+
+### FAIL · e11-secret-crack (qualifier, RSA rumors)
+> Claim: secretly cracked RSA encryption
+
+Source ([x-andrewcurran_](https://x.com/AndrewCurran_/status/2125589468786909510)): "This would crack RSA. https://t.co/s5AHbmcDFP https://t.co/YBOYkSYVOr"
+
+Note: Would crack is not secretly cracked.
+
+```python
+def check(ctx):
+    return ctx.support_or_contradict('andrewcurran_', r'(?:secretly|privately) (?:cracked|broke) RSA', r'This would crack RSA', 'Would crack is not secretly cracked.')
+```
+
+### FAIL · e12-soon-forge (qualifier, RSA rumors)
+> Claim: could soon forge software updates across the internet
+
+Source ([x-kimmonismus](https://x.com/kimmonismus/status/2125602411540566221)): "Fake software updates could pass signature checks, RSA-encrypted data could be read, and systems across the internet would have to migrate off RSA fast."
+
+Note: Hypothetical effect; the post gives no timeline.
+
+```python
+def check(ctx):
+    return ctx.support_or_contradict('kimmonismus', r'(?:soon|shortly).*fake software updates', r'Fake software updates could pass signature checks', 'Hypothetical effect; the post gives no timeline.')
+```
+
+### FAIL · e35-six-no-announcement (attribution, Google papers)
+> Claim: Google committed six more at once with no announcement
+
+Source ([scan-framing](https://www.signalandnoise.email/content/daily-state/2026-11-26/audit/sources/2026-11-26/scan-framing.txt)): "STORY: Google Research posts six Cogentic papers, produced with Gemini 4, claiming results on factoring, the log-rank conjecture and more"
+
+Note: Posting six does not establish one commit, six additional papers or no announcement.
+
+```python
+def check(ctx):
+    return ctx.support_or_contradict('framing', r'(?=.*Google)(?=.*six (?:more|new))(?=.*(?:at once|single commit))(?=.*(?:without|no) (?:an )?announcement)', r'Google Research posts six Cogentic papers', 'Posting six does not establish one commit, six additional papers or no announcement.')
+```
+
+### FAIL · e36-six-at-once (number, Google papers)
+> Claim: six more at once
+
+Source ([scan-framing](https://www.signalandnoise.email/content/daily-state/2026-11-26/audit/sources/2026-11-26/scan-framing.txt)): "STORY: Google Research posts six Cogentic papers, produced with Gemini 4, claiming results on factoring, the log-rank conjecture and more"
+
+Note: The count is given, not the increment and timing.
+
+```python
+def check(ctx):
+    return ctx.support_or_contradict('framing', r'six (?:more|additional) .*?(?:at once|together|single commit)', r'Google Research posts six Cogentic papers', 'The count is given, not the increment and timing.')
+```
+
+### FAIL · e38-all-six-autonomy (attribution, Google papers)
+> Claim: Google says its Cogentic agent harness, running on Gemini 4, produced all six with no human interaction after the initial prompt
+
+Source ([primary-google-cogentic-six-math-papers](https://raw.githubusercontent.com/google-research/google-research/master/cogentic_research_papers/logrank_conjecture/README.md)): "There was no human interaction other than the initial prompt for Cogentic to"
+
+Note: The README describes this proof and formalization, not the interaction history of all six.
+
+```python
+def check(ctx):
+    return ctx.support_or_contradict('google', r'(?=.*(?:all six|six papers))(?=.*Cogentic)(?=.*Gemini 4)(?=.*no human interaction other than the initial prompt)', r'There was no human interaction other than the initial prompt', 'The README describes this proof and formalization, not the interaction history of all six.')
+```
+
+### FAIL · e41-no-interaction (qualifier, Google papers)
+> Claim: no human interaction after the initial prompt
+
+Source ([primary-google-cogentic-six-math-papers](https://raw.githubusercontent.com/google-research/google-research/master/cogentic_research_papers/logrank_conjecture/README.md)): "There was no human interaction other than the initial prompt for Cogentic to"
+
+Note: Supported for the log-rank proof and formalization only; the episode applies it to all six.
+
+```python
+def check(ctx):
+    return ctx.support_or_contradict('google', r'(?=.*(?:all six|six papers))(?=.*no human interaction other than the initial prompt)', r'There was no human interaction other than the initial prompt', 'Supported for the log-rank proof and formalization only; the episode applies it to all six.')
+```
+
+### FAIL · e49-deterministic-factoring (qualifier, Google factoring)
+> Claim: the other achieves deterministic subexponential factoring without randomness
+
+Source ([scan-framing](https://www.signalandnoise.email/content/daily-state/2026-11-26/audit/sources/2026-11-26/scan-framing.txt)): "framing (Google Research (GitHub)): Company-posted claim; the running-time bound is subexponential, not polynomial, and no independent verification is reported."
+
+Note: Only a claimed runtime is given, not a verified second deterministic algorithm.
+
+```python
+def check(ctx):
+    return ctx.support_or_contradict('framing', r'(?=.*(?:other|second))(?=.*deterministic)(?=.*subexponential)(?=.*factor)', r'Company-posted claim; the running-time bound is subexponential', 'Only a claimed runtime is given, not a verified second deterministic algorithm.')
+```
+
+### FAIL · e50-aaronson-confirmed (attribution, Google factoring)
+> Claim: After checking the repository, Aaronson confirmed both are major theoretical results with no practical impact on cryptography
+
+Source ([scan-framing](https://www.signalandnoise.email/content/daily-state/2026-11-26/audit/sources/2026-11-26/scan-framing.txt)): "framing (Google Research (GitHub)): Company-posted claim; the running-time bound is subexponential, not polynomial, and no independent verification is reported."
+
+Note: No independent confirmation is reported here.
+
+```python
+def check(ctx):
+    return ctx.support_or_contradict('framing', r'(?=.*Aaronson)(?=.*(?:checked|checking) the repository)(?=.*both)(?=.*major theoretical results)(?=.*no practical impact)', r'Company-posted claim; the running-time bound is subexponential.*no independent verification is reported', 'No independent confirmation is reported here.')
+```
+
+### FAIL · e54-lean-complete (attribution, Google formalizations)
+> Claim: companion Lean 4 formalizations it says are complete
+
+Source ([primary-google-cogentic-six-math-papers](https://raw.githubusercontent.com/google-research/google-research/master/cogentic_research_papers/logrank_conjecture/README.md)): "formalization of the entire proof has also been completed"
+
+Note: Completion is claimed for the singular log-rank formalization, not the whole set.
+
+```python
+def check(ctx):
+    return ctx.support_or_contradict('google', r'Lean 4 formalizations .*?(?:are|have been) completed', r'formalization of the\s+entire proof has also been completed', 'Completion is claimed for the singular log-rank formalization, not the whole set.')
+```
+
+### FAIL · e60-refused-to-name (attribution, Aaronson crypto warning)
+> Claim: He deliberately refused to name RSA or claim anyone had factored large numbers in polynomial time
+
+Source ([scan-framing](https://www.signalandnoise.email/content/daily-state/2026-11-26/audit/sources/2026-11-26/scan-framing.txt)): "framing (Shtetl-Optimized (Scott Aaronson)): Aaronson's own blog; it establishes only what he says he has heard, and he explicitly declines to vouch for the specifics."
+
+Note: Declining to vouch for specifics is not a statement that he refused to name RSA.
+
+```python
+def check(ctx):
+    return ctx.support_or_contradict('framing', r'(?=.*explicitly decline)(?=.*name RSA)(?=.*(?:polynomial.time factoring|factor .*polynomial time))', r'he explicitly declines to vouch for the specifics', 'Declining to vouch for specifics is not a statement that he refused to name RSA.')
+```
+
+### FAIL · e63-rsa-dead-comparison (comparison, RSA rumors)
+> Claim: turning a calibrated warning into viral claims that RSA was dead
+
+Source ([x-andrewcurran_](https://x.com/AndrewCurran_/status/2125589468786909510)): "This would crack RSA. https://t.co/s5AHbmcDFP https://t.co/YBOYkSYVOr"
+
+Note: Conditional consequence, not a declaration that RSA was dead; virality also unquantified.
+
+```python
+def check(ctx):
+    return ctx.support_or_contradict('andrewcurran_', r'RSA (?:is|was) dead', r'This would crack RSA', 'Conditional consequence, not a declaration that RSA was dead; virality also unquantified.')
+```
+
+### FAIL · e64-rsa-dead-quote (quote, RSA rumors)
+> Claim: RSA was dead
+
+Source ([x-andrewcurran_](https://x.com/AndrewCurran_/status/2125589468786909510)): "This would crack RSA. https://t.co/s5AHbmcDFP https://t.co/YBOYkSYVOr"
+
+Note: Neither supplied post uses the quoted words.
+
+```python
+def check(ctx):
+    for a in ('andrewcurran_', 'kimmonismus'):
+        q = ctx.find(a, r'\bRSA was dead\b')
+        if q: return ctx.ok(a, q)
+    return ctx.fail('andrewcurran_', ctx.find('andrewcurran_', r'This would crack RSA'), 'Neither supplied post uses the quoted words.')
+```
+
+### FAIL · e71-safe-theorem-policy (attribution, Disclosure divide)
+> Claim: Labs quietly commit safe theorems to GitHub at dinner-table speed, with zero fanfare
+
+Source ([scan-framing](https://www.signalandnoise.email/content/daily-state/2026-11-26/audit/sources/2026-11-26/scan-framing.txt)): "framing (Google Research (GitHub)): Company-posted preprints in a public repository; no peer review, and the announced Lean formalizations are not yet released."
+
+Note: One repository does not establish a multi-lab safety filter, cadence or publicity policy.
+
+```python
+def check(ctx):
+    return ctx.support_or_contradict('framing', r'(?=.*labs)(?=.*safe theorems)(?=.*GitHub)(?=.*(?:during dinner|dinner.table speed))(?=.*(?:without announcement|zero fanfare))', r'Company-posted preprints in a public repository', 'One repository does not establish a multi-lab safety filter, cadence or publicity policy.')
+```
+
+### FAIL · e74-anything-security (qualifier, Disclosure divide)
+> Claim: Anything touching live security stays behind closed doors
+
+Source ([scan-framing](https://www.signalandnoise.email/content/daily-state/2026-11-26/audit/sources/2026-11-26/scan-framing.txt)): "No lab has published or confirmed such a result."
+
+Note: Specific nonconfirmation is not a universal disclosure rule.
+
+```python
+def check(ctx):
+    return ctx.support_or_contradict('framing', r'(?:anything|all results) (?:touching|affecting) live security .*private', r'No lab has published or confirmed such a result', 'Specific nonconfirmation is not a universal disclosure rule.')
+```
+
+### FAIL · oe10-logrank-unverified (objection, Google papers)
+
+Source ([scan-framing](https://www.signalandnoise.email/content/daily-state/2026-11-26/audit/sources/2026-11-26/scan-framing.txt)): "framing (Google Research (GitHub)): Company-posted claim of a tiny improvement over the square-root bound (epsilon of 5 millionths); not a proof of the conjecture; not independently verified."
+
+Note: State independent verification is lacking for log-rank.
+
+```python
+def check(ctx):
+    q = ctx.find('framing', r'tiny improvement.*not independently verified')
+    p = r'(?:log.rank[^.!?]{0,220}(?:not (?:yet )?(?:been )?independently verified|no independent verification|unverified)|(?:not independently verified|unverified)[^.!?]{0,180}log.rank)'
+    return ctx.ok('framing', q) if ctx.art_has(p) else ctx.fail('framing', q, 'State independent verification is lacking for log-rank.')
+```
+
+### FAIL · oe14-no-lab-confirmation (objection, RSA rumors)
+
+Source ([scan-framing](https://www.signalandnoise.email/content/daily-state/2026-11-26/audit/sources/2026-11-26/scan-framing.txt)): "No lab has published or confirmed such a result."
+
+Note: Explicitly state no lab confirmation; unreleased does not mean unconfirmed.
+
+```python
+def check(ctx):
+    q = ctx.find('framing', r'No lab has published or confirmed such a result')
+    p = r'(?:no (?:frontier )?labs? (?:has |have )?(?:published or )?(?:publicly )?confirmed|no lab confirmation|not (?:been )?confirmed by (?:any|either|the) labs?|neither lab has confirmed)'
+    return ctx.ok('framing', q) if ctx.art_has(p) else ctx.fail('framing', q, 'Explicitly state no lab confirmation; unreleased does not mean unconfirmed.')
+```
+
+### FAIL · oe2-google-preprints (objection, Google papers)
+
+Source ([scan-framing](https://www.signalandnoise.email/content/daily-state/2026-11-26/audit/sources/2026-11-26/scan-framing.txt)): "framing (Google Research (GitHub)): Company-posted preprints in a public repository; no peer review, and the announced Lean formalizations are not yet released."
+
+Note: Identify the papers as preprints.
+
+```python
+def check(ctx):
+    q = ctx.find('framing', r'Company-posted preprints in a public repository')
+    return ctx.ok('framing', q) if ctx.art_has(r'\bpreprints?\b') else ctx.fail('framing', q, 'Identify the papers as preprints.')
+```
+
+### FAIL · oe3-no-peer-review (objection, Google papers)
+
+Source ([scan-framing](https://www.signalandnoise.email/content/daily-state/2026-11-26/audit/sources/2026-11-26/scan-framing.txt)): "framing (Google Research (GitHub)): Company-posted preprints in a public repository; no peer review, and the announced Lean formalizations are not yet released."
+
+Note: State that the preprints lack peer review.
 
 ```python
 def check(ctx):
     q = ctx.find('framing', r'no peer review')
-    return ctx.ok('framing', q) if ctx.art_has(r'no peer review|not (?:yet )?peer[- ]reviewed|without peer review|awaiting peer review') else ctx.fail('framing', q, 'State lack of peer review.')
+    return ctx.ok('framing', q) if ctx.art_has(r'(?:no peer review|(?:not(?: yet)?|non|not been)[ -]peer[ -]reviewed|await(?:ing)? peer review)') else ctx.fail('framing', q, 'State that the preprints lack peer review.')
 ```
 
-### FAIL · oe7-factoring-bound (objection, Google papers)
+### FAIL · oe5-factoring-runtime (objection, Google factoring)
 
 Source ([scan-framing](https://www.signalandnoise.email/content/daily-state/2026-11-26/audit/sources/2026-11-26/scan-framing.txt)): "framing (Google Research (GitHub)): Company-posted claim; the running-time bound is subexponential, not polynomial, and no independent verification is reported."
 
-Note: Distinguish the public subexponential bound from polynomial time.
+Note: Distinguish the claimed subexponential bound from a polynomial one.
 
 ```python
 def check(ctx):
     q = ctx.find('framing', r'subexponential, not polynomial')
-    return ctx.ok('framing', q) if ctx.art_has(r'sub[- ]?exponential.{0,50}(?:not|rather than) polynomial|not polynomial.{0,50}sub[- ]?exponential') else ctx.fail('framing', q, 'Distinguish the public subexponential bound from polynomial time.')
+    p = r'(?:subexponential[^.!?]{0,110}(?:not|rather than|instead of) (?:a )?polynomial|not polynomial[^.!?]{0,110}subexponential)'
+    return ctx.ok('framing', q) if ctx.art_has(p) else ctx.fail('framing', q, 'Distinguish the claimed subexponential bound from a polynomial one.')
 ```
 
-### FAIL · oe9-logrank-size (objection, Google papers)
+### FAIL · oe6-factoring-unverified (objection, Google factoring)
+
+Source ([scan-framing](https://www.signalandnoise.email/content/daily-state/2026-11-26/audit/sources/2026-11-26/scan-framing.txt)): "framing (Google Research (GitHub)): Company-posted claim; the running-time bound is subexponential, not polynomial, and no independent verification is reported."
+
+Note: No independent verification of the factoring claim is reported.
+
+```python
+def check(ctx):
+    q = ctx.find('framing', r'no independent verification is reported')
+    p = r'(?:factor\w*[^.!?]{0,180}(?:no independent verification|not (?:yet )?(?:been )?independently verified|unverified)|(?:no independent verification|not independently verified|unverified)[^.!?]{0,180}factor\w*)'
+    return ctx.ok('framing', q) if ctx.art_has(p) else ctx.fail('framing', q, 'No independent verification of the factoring claim is reported.')
+```
+
+### FAIL · oe7-logrank-small-gain (objection, Google papers)
 
 Source ([scan-framing](https://www.signalandnoise.email/content/daily-state/2026-11-26/audit/sources/2026-11-26/scan-framing.txt)): "framing (Google Research (GitHub)): Company-posted claim of a tiny improvement over the square-root bound (epsilon of 5 millionths); not a proof of the conjecture; not independently verified."
 
-Note: Describe the small improvement to the square-root bound.
+Note: Describe the log-rank result as a small improvement over the square-root bound.
 
 ```python
 def check(ctx):
     q = ctx.find('framing', r'tiny improvement over the square-root bound')
-    return ctx.ok('framing', q) if ctx.art_has(r'(?:tiny|slight|small) improvement.{0,50}square[- ]root|(?:epsilon|exponent).{0,35}(?:five millionths|5 millionths|0\.000005)') else ctx.fail('framing', q, 'Describe the small improvement to the square-root bound.')
+    p = r'(?:tiny|small|slight|modest|marginal)[^.!?]{0,70}(?:square[ -]root|sqrt)|(?:square[ -]root|sqrt)[^.!?]{0,70}(?:tiny|small|slight|modest|marginal)'
+    return ctx.ok('framing', q) if ctx.art_has(p) else ctx.fail('framing', q, 'Describe the log-rank result as a small improvement over the square-root bound.')
 ```
 
-### NEEDS-HUMAN · e01-broadcast-date (number, Broadcast)
-> Claim: Daily State of AI for Thursday, November 26, 2026
+### FAIL · oe8-logrank-epsilon (objection, Google papers)
 
-Note: no source sentence matches /Daily State of AI.{0,30}Thursday,? November 26,? 2026/. A story publication date is not a broadcast date.
+Source ([scan-framing](https://www.signalandnoise.email/content/daily-state/2026-11-26/audit/sources/2026-11-26/scan-framing.txt)): "framing (Google Research (GitHub)): Company-posted claim of a tiny improvement over the square-root bound (epsilon of 5 millionths); not a proof of the conjecture; not independently verified."
+
+Note: Quantify the claimed exponent improvement: five millionths.
 
 ```python
 def check(ctx):
-    return ctx.require('framing', r'Daily State of AI.{0,30}Thursday,? November 26,? 2026', note='A story publication date is not a broadcast date.')
+    q = ctx.find('framing', r'epsilon of 5 millionths')
+    return ctx.ok('framing', q) if ctx.art_has(r'\b(?:(?:five|5)[ -]millionths|0\.000005|5\s*(?:[×x]\s*10\^?|e)[−-]6)\b') else ctx.fail('framing', q, 'Quantify the claimed exponent improvement: five millionths.')
 ```
 
-### NEEDS-HUMAN · e02-whiplash (opinion, Two headlines)
-> Claim: you probably felt whiplash between two stories
+### FAIL · oe9-logrank-not-proof (objection, Google papers)
 
-Note: Audience reaction is conjectural.
+Source ([scan-framing](https://www.signalandnoise.email/content/daily-state/2026-11-26/audit/sources/2026-11-26/scan-framing.txt)): "framing (Google Research (GitHub)): Company-posted claim of a tiny improvement over the square-root bound (epsilon of 5 millionths); not a proof of the conjecture; not independently verified."
+
+Note: Distinguish improving a bound from proving the conjecture.
 
 ```python
 def check(ctx):
-    return ctx.need(None, None, 'Audience reaction is conjectural.')
+    q = ctx.find('framing', r'not a proof of the conjecture')
+    p = r'(?:not (?:a proof of|prove|resolve|settle)|falls short of (?:proving|resolving)) (?:the )?(?:log.rank )?conjecture|log.rank conjecture (?:remains open|is still open)'
+    return ctx.ok('framing', q) if ctx.art_has(p) else ctx.fail('framing', q, 'Distinguish improving a bound from proving the conjecture.')
 ```
 
-### NEEDS-HUMAN · e03-singularity-talk (attribution, Math proofs)
-> Claim: a math avalanche that has top researchers whispering about a singularity
+### NEEDS-HUMAN · e01-edition-date (number, Edition date)
+> Claim: Daily State of AI for Thursday, November 26th, 2026
 
-Note: no source sentence matches /(?:leading|top) researchers.{0,100}singularity/. A roundup of papers does not document researchers saying this.
+Note: no source sentence matches /Thursday,?\s+(?:November 26(?:th)?,? 2026|26 November 2026)/. A dated URL is not an edition dateline.
 
 ```python
 def check(ctx):
-    return ctx.require('framing', r'(?:leading|top) researchers.{0,100}singularity', note='A roundup of papers does not document researchers saying this.')
+    return ctx.require('framing', r'Thursday,?\s+(?:November 26(?:th)?,? 2026|26 November 2026)', note='A dated URL is not an edition dateline.')
 ```
 
-### NEEDS-HUMAN · e05-commentator-majority (attribution, Two headlines)
-> Claim: Most commentators are treating these as separate headlines, or reducing both to a simple line about verification
+### NEEDS-HUMAN · e03-tuesday-dinner (attribution, Aaronson dinner)
+> Claim: On Tuesday night, computer scientist Scott Aaronson had friends and colleagues over for dinner
 
-Source ([scan-framing](https://www.signalandnoise.email/content/daily-state/2026-11-26/audit/sources/2026-11-26/scan-framing.txt)): "STORY: Anthropic says Claude agents helped migrate its Messages API from Python to Rust, using live production traffic as the verifier"
-
-Note: Separate story entries do not establish a majority of commentators or their views.
+Note: no source sentence matches /(?=.*Tuesday (?:night|evening))(?=.*Aaronson)(?=.*friends)(?=.*colleagues)(?=.*dinner)/. Need the dinner account, not just a reference to his blog.
 
 ```python
 def check(ctx):
-    return ctx.need('framing', ctx.find('framing', r'Anthropic says Claude agents'), 'Separate story entries do not establish a majority of commentators or their views.')
+    return ctx.require('framing', r'(?=.*Tuesday (?:night|evening))(?=.*Aaronson)(?=.*friends)(?=.*colleagues)(?=.*dinner)', note='Need the dinner account, not just a reference to his blog.')
 ```
 
-### NEEDS-HUMAN · e06-missing-tension (opinion, Two headlines)
-> Claim: What they're missing is the tension between them
+### NEEDS-HUMAN · e04-refreshing-github (attribution, Aaronson dinner)
+> Claim: Instead of relaxing between courses, the table ended up huddled around phones and a laptop, refreshing GitHub
 
-Note: Editorial interpretation.
+Note: no source sentence matches /(?=.*(?:dinner|courses|table))(?=.*phones)(?=.*laptop)(?=.*refresh\w* GitHub)/. 
 
 ```python
 def check(ctx):
-    return ctx.need(None, None, 'Editorial interpretation.')
+    return ctx.require('framing', r'(?=.*(?:dinner|courses|table))(?=.*phones)(?=.*laptop)(?=.*refresh\w* GitHub)')
 ```
 
-### NEEDS-HUMAN · e07-same-day (comparison, Two headlines)
-> Claim: Published the very same day as the math panic, Anthropic's post
-
-Source ([primary-anthropic-messages-api-rust-migration](https://www.anthropic.com/research/migrating-api-to-rust)): "PublishedNov 25, 2026"
-
-Note: Need a dated math event, not just the date of the scan.
-
-```python
-def check(ctx):
-    a = ctx.find('anthropic', r'Published\s*Nov 25, 2026')
-    b = ctx.find('framing', r'(?:math panic|Aaronson.s (?:post|blog)).{0,60}Nov(?:ember)? 25, 2026')
-    return ctx.ok('framing', b, str(a)) if a and b else ctx.need('anthropic', a, 'Need a dated math event, not just the date of the scan.')
-```
-
-### NEEDS-HUMAN · e08-reality-check (opinion, Two headlines)
-> Claim: Anthropic's post is the sharpest reality check against assuming an overnight math singularity translates straight into messy real-world systems
-
-Source ([primary-anthropic-messages-api-rust-migration](https://www.anthropic.com/research/migrating-api-to-rust)): "But as Claude has become more capable, it's begun to take on projects in live systems, where generating the work is easier than verifying it."
-
-Note: Sharpest is an editorial ranking.
-
-```python
-def check(ctx):
-    return ctx.need('anthropic', ctx.find('anthropic', r'generating the work is easier than verifying it'), 'Sharpest is an editorial ranking.')
-```
-
-### NEEDS-HUMAN · e09-hyperspace (comparison, Math proofs)
-> Claim: mathematics suddenly looks like hyperspace
-
-Note: Figurative comparison.
-
-```python
-def check(ctx):
-    return ctx.need(None, None, 'Figurative comparison.')
-```
-
-### NEEDS-HUMAN · e10-viral-yesterday (attribution, Math proofs)
-> Claim: Yesterday, computer scientist Scott Aaronson summed up the shock in a viral post
-
-Source ([x-andrewcurran_](https://x.com/AndrewCurran_/status/2125589468786909510)): "@AndrewCurran_: Scott Aaronson on his blog."
-
-Note: Blog mention does not establish date, contents and reach.
-
-```python
-def check(ctx):
-    return ctx.need('andrewcurran_', ctx.find('andrewcurran_', r'Scott Aaronson on his blog'), 'Blog mention does not establish date, contents and reach.')
-```
-
-### NEEDS-HUMAN · e11-riemann (attribution, Math proofs)
-> Claim: fresh off an Anthropic-assisted Riemann Hypothesis proof
-
-Note: no source sentence matches /Anthropic.{0,70}(?:assisted|helped).{0,70}(?:proof of the Riemann hypothesis|Riemann hypothesis proof)/. 
-
-```python
-def check(ctx):
-    return ctx.require('framing', r'Anthropic.{0,70}(?:assisted|helped).{0,70}(?:proof of the Riemann hypothesis|Riemann hypothesis proof)')
-```
-
-### NEEDS-HUMAN · e12-vp-vnp (attribution, Math proofs)
-> Claim: OpenAI and Anthropic uploaded GitHub proofs that VP does not equal VNP
-
-Source ([x-andrewcurran_](https://x.com/AndrewCurran_/status/2125589468786909510)): "VP ≠ VNP would be huge for algebraic complexity, but it would not automatically crack RSA unless the proof also yields an efficient factoring"
-
-Note: Conditional comment is not a record of proofs uploaded by both labs.
-
-```python
-def check(ctx):
-    return ctx.need('andrewcurran_', ctx.find('andrewcurran_', r'VP ≠ VNP would be huge'), 'Conditional comment is not a record of proofs uploaded by both labs.')
-```
-
-### NEEDS-HUMAN · e13-openai-exponent (attribution, Math proofs)
-> Claim: followed by OpenAI claiming the exact exponent of matrix multiplication is nine-fourths
-
-Note: no source sentence matches /(?:then|later|subsequently) OpenAI.{0,80}exact exponent of matrix multiplication.{0,20}(?:9/4|nine.fourths|2\.25)/. 
-
-```python
-def check(ctx):
-    return ctx.require('framing', r'(?:then|later|subsequently) OpenAI.{0,80}exact exponent of matrix multiplication.{0,20}(?:9/4|nine.fourths|2\.25)')
-```
-
-### NEEDS-HUMAN · e14-exponent-value (number, Math proofs)
-> Claim: the exact exponent of matrix multiplication is nine-fourths
-
-Note: no source sentence matches /exact exponent of matrix multiplication.{0,20}(?:9/4|nine.fourths|2\.25)\b/. 
-
-```python
-def check(ctx):
-    return ctx.require('framing', r'exact exponent of matrix multiplication.{0,20}(?:9/4|nine.fourths|2\.25)\b')
-```
-
-### NEEDS-HUMAN · e15-fourier (qualifier, Math proofs)
-> Claim: alongside tight Fourier transform bounds
-
-Note: no source sentence matches /(?:tight bounds.{0,30}Fourier transform|tight Fourier transform bounds)/. 
-
-```python
-def check(ctx):
-    return ctx.require('framing', r'(?:tight bounds.{0,30}Fourier transform|tight Fourier transform bounds)')
-```
-
-### NEEDS-HUMAN · e16-silent-commit (attribution, Google papers)
-> Claim: Then Google Research silently committed six papers
-
-Source ([scan-framing](https://www.signalandnoise.email/content/daily-state/2026-11-26/audit/sources/2026-11-26/scan-framing.txt)): "STORY: Google Research posts six Cogentic papers, produced with Gemini 4, claiming results on factoring, the log-rank conjecture and more"
-
-Note: Posting is documented; silence and sequence are not.
-
-```python
-def check(ctx):
-    return ctx.need('framing', ctx.find('framing', r'Google Research posts six Cogentic papers'), 'Posting is documented; silence and sequence are not.')
-```
-
-### NEEDS-HUMAN · e19-paper-topics (attribution, Google papers)
-> Claim: They cover integer factoring, discrete logarithms, the log-rank conjecture, approximate Nash equilibria, and graph edge reconstruction
-
-Note: no source sentence matches /discrete logarithms/. 
-
-```python
-def check(ctx):
-    return ctx.require('framing', r'papers.{0,100}factoring, the log-rank conjecture', r'discrete logarithms', r'approximate Nash equilibria', r'graph edge reconstruction')
-```
-
-### NEEDS-HUMAN · e23-aaronson-confidence (attribution, Factoring rumor)
-> Claim: Aaronson confirmed he is virtually certain, from multiple reliable sources, that frontier labs hold unreleased cryptography bombshells
-
-Source ([x-andrewcurran_](https://x.com/AndrewCurran_/status/2125589468786909510)): "Scott Aaronson states he is virtually certain, from multiple reliable sources, that frontier labs hold unreleased cryptography "bombshells." He is far less confident about the exact nature-such as a practical polynomial-time"
-
-Note: The wording is in a Grok reply; verify Aaronson’s own statement and level of confidence.
-
-```python
-def check(ctx):
-    q = ctx.find('andrewcurran_', r'Scott Aaronson states he is virtually certain, from multiple reliable sources, that frontier labs hold unreleased cryptography .bombshells')
-    return ctx.need('andrewcurran_', q, 'The wording is in a Grok reply; verify Aaronson’s own statement and level of confidence.')
-```
-
-### NEEDS-HUMAN · e24-telephone (attribution, Factoring rumor)
-> Claim: he warned specifics can get mangled in a game of Telephone
-
-Source ([scan-framing](https://www.signalandnoise.email/content/daily-state/2026-11-26/audit/sources/2026-11-26/scan-framing.txt)): "framing (Shtetl-Optimized (Scott Aaronson)): Aaronson's own blog; it establishes only what he says he has heard, and he explicitly declines to vouch for the specifics."
-
-Note: Declining to vouch does not document the Telephone explanation.
-
-```python
-def check(ctx):
-    return ctx.need('framing', ctx.find('framing', r'he explicitly declines to vouch for the specifics'), 'Declining to vouch does not document the Telephone explanation.')
-```
-
-### NEEDS-HUMAN · e26-factoring-attribution (attribution, Google papers)
-> Claim: Google posted two theoretical factoring results, one randomized and one deterministic
-
-Note: no source sentence matches /two.{0,40}factoring.{0,100}randomized.{0,60}deterministic/. 
-
-```python
-def check(ctx):
-    return ctx.require('framing', r'Google Research posts six Cogentic papers.{0,80}factoring', r'two.{0,40}factoring.{0,100}randomized.{0,60}deterministic')
-```
-
-### NEEDS-HUMAN · e27-factoring-count (number, Google papers)
-> Claim: two theoretical factoring results, one randomized and one deterministic
-
-Note: no source sentence matches /(?:two|2) (?:theoretical )?factoring (?:results|algorithms|papers).{0,100}one randomized.{0,30}one deterministic/. 
-
-```python
-def check(ctx):
-    return ctx.require('framing', r'(?:two|2) (?:theoretical )?factoring (?:results|algorithms|papers).{0,100}one randomized.{0,30}one deterministic')
-```
-
-### NEEDS-HUMAN · e28-sieve-comparison (comparison, Google papers)
-> Claim: whose bounds do not beat the classic heuristic Number Field Sieve in practice
-
-Source ([scan-framing](https://www.signalandnoise.email/content/daily-state/2026-11-26/audit/sources/2026-11-26/scan-framing.txt)): "framing (Google Research (GitHub)): Company-posted claim; the running-time bound is subexponential, not polynomial, and no independent verification is reported."
-
-Note: This does not compare the bounds or practical performance to the Number Field Sieve.
-
-```python
-def check(ctx):
-    return ctx.need('framing', ctx.find('framing', r'running-time bound is subexponential, not polynomial'), 'This does not compare the bounds or practical performance to the Number Field Sieve.')
-```
-
-### NEEDS-HUMAN · e29-repository-assessment (attribution, Google papers)
-> Claim: Aaronson looked at the repository and saw nothing of practical relevance for cryptography
-
-Note: no source sentence matches /Aaronson.{0,100}(?:repository|repo).{0,100}nothing of practical relevance (?:for|to) cryptography/. 
-
-```python
-def check(ctx):
-    return ctx.require('framing', r'Aaronson.{0,100}(?:repository|repo).{0,100}nothing of practical relevance (?:for|to) cryptography')
-```
-
-### NEEDS-HUMAN · e30-github-theorems (attribution, Math proofs)
-> Claim: labs drop major theorems straight onto GitHub
+### NEEDS-HUMAN · e05-breakthroughs-now (opinion, GitHub publishing)
+> Claim: That is how major mathematical breakthroughs arrive now
 
 Source ([scan-framing](https://www.signalandnoise.email/content/daily-state/2026-11-26/audit/sources/2026-11-26/scan-framing.txt)): "framing (Google Research (GitHub)): Company-posted preprints in a public repository; no peer review, and the announced Lean formalizations are not yet released."
 
-Note: One lab’s repository does not establish the broader practice or theorem status.
+Note: Generalization about mathematical publishing.
 
 ```python
 def check(ctx):
-    return ctx.need('framing', ctx.find('framing', r'Company-posted preprints in a public repository'), 'One lab’s repository does not establish the broader practice or theorem status.')
+    return ctx.need('framing', ctx.find('framing', r'Company-posted preprints in a public repository'), 'Generalization about mathematical publishing.')
 ```
 
-### NEEDS-HUMAN · e31-math-gap (opinion, Proof verification)
-> Claim: mathematics has a generator-verifier gap that favors AI
-
-Source ([primary-anthropic-messages-api-rust-migration](https://www.anthropic.com/research/migrating-api-to-rust)): "Many ambitious Claude projects have relied on this gap: formalizing proofs in mathematics or migrating large, well-tested codebases are tasks Claude can take on as long as it has a reliable way to verify its work."
-
-Note: Generalization about AI advantage.
-
-```python
-def check(ctx):
-    return ctx.need('anthropic', ctx.find('anthropic', r'Claude projects have relied on this gap: formalizing proofs in mathematics'), 'Generalization about AI advantage.')
-```
-
-### NEEDS-HUMAN · e35-lean-oversight (qualifier, Proof verification)
-> Claim: even Lean isn't completely hands-off
-
-Source ([primary-anthropic-messages-api-rust-migration](https://www.anthropic.com/research/migrating-api-to-rust)): "A theorem in mathematics is a precise statement, and a proof assistant (like Lean) can check each step of a proof against a fixed set of rules."
-
-Note: Checking steps does not specify which human oversight is necessary.
-
-```python
-def check(ctx):
-    return ctx.need('anthropic', ctx.find('anthropic', r'proof assistant \(like Lean\) can check each step'), 'Checking steps does not specify which human oversight is necessary.')
-```
-
-### NEEDS-HUMAN · e36-blog-commenters (attribution, Proof verification)
-> Claim: As commenters noted on Aaronson's blog, machine-checked proofs can span hundreds of thousands or millions of lines
-
-Note: no source sentence matches /commenters.{0,60}Aaronson.s blog.{0,120}hundreds of thousands or millions of lines/. 
-
-```python
-def check(ctx):
-    return ctx.require('framing', r'commenters.{0,60}Aaronson.s blog.{0,120}hundreds of thousands or millions of lines')
-```
-
-### NEEDS-HUMAN · e37-proof-length (number, Proof verification)
-> Claim: can span hundreds of thousands or millions of lines
-
-Note: no source sentence matches /(?:machine.checked|formalized) proofs.{0,70}hundreds of thousands or millions of lines/. 
-
-```python
-def check(ctx):
-    return ctx.require('framing', r'(?:machine.checked|formalized) proofs.{0,70}hundreds of thousands or millions of lines')
-```
-
-### NEEDS-HUMAN · e38-definition-review (qualifier, Proof verification)
-> Claim: experts still must check adversarially that the formalized definitions actually match the real conjecture
-
-Note: no source sentence matches /experts.{0,60}(?:adversarial|adversarially).{0,80}definitions.{0,60}conjecture/. 
-
-```python
-def check(ctx):
-    return ctx.require('framing', r'experts.{0,60}(?:adversarial|adversarially).{0,80}definitions.{0,60}conjecture')
-```
-
-### NEEDS-HUMAN · e39-wrong-statement (comparison, Proof verification)
-> Claim: rather than the AI proving something technically valid that misses the point
-
-Source ([primary-anthropic-messages-api-rust-migration](https://www.anthropic.com/research/migrating-api-to-rust)): "A theorem in mathematics is a precise statement, and a proof assistant (like Lean) can check each step of a proof against a fixed set of rules."
-
-Note: Step checking alone does not document a mismatch with an intended conjecture.
-
-```python
-def check(ctx):
-    return ctx.need('anthropic', ctx.find('anthropic', r'A theorem in mathematics is a precise statement'), 'Step checking alone does not document a mismatch with an intended conjecture.')
-```
-
-### NEEDS-HUMAN · e68-zero-human (opinion, Two headlines)
-> Claim: Math looks like a zero-human singularity because the rules are fixed
-
-Source ([primary-anthropic-messages-api-rust-migration](https://www.anthropic.com/research/migrating-api-to-rust)): "A theorem in mathematics is a precise statement, and a proof assistant (like Lean) can check each step of a proof against a fixed set of rules."
-
-Note: Fixed rules do not establish a singularity.
-
-```python
-def check(ctx):
-    return ctx.need('anthropic', ctx.find('anthropic', r'check each step of a proof against a fixed set of rules'), 'Fixed rules do not establish a singularity.')
-```
-
-### NEEDS-HUMAN · e72-holiday (qualifier, Broadcast)
-> Claim: have a great Thanksgiving
-
-Note: Sign-off; no broadcast calendar in the source texts.
-
-```python
-def check(ctx):
-    return ctx.need(None, None, 'Sign-off; no broadcast calendar in the source texts.')
-```
-
-### PASS · e04-engineering-post (attribution, Rust migration)
-> Claim: a methodical Anthropic engineering post about migrating its Messages API from Python to Rust
-
-Source ([x-anthropicai](https://x.com/AnthropicAI/status/2125627317263466739)): "@AnthropicAI: We recently migrated our Messages API from Python to Rust. … On our engineering blog, we share how we used the existing service to verify the new one, with teams of Claude agents tracking down and fixing differences between the two versions."
-
-```python
-def check(ctx):
-    return ctx.require('anthropicai', r'@AnthropicAI: We recently migrated our Messages API from Python to Rust', r'On our engineering blog, we share how we used the existing service to verify the new one')
-```
-
-### PASS · e17-six-cogentic (attribution, Google papers)
-> Claim: six papers produced by its Cogentic harness on Gemini 4
-
-Source ([scan-framing](https://www.signalandnoise.email/content/daily-state/2026-11-26/audit/sources/2026-11-26/scan-framing.txt)): "STORY: Google Research posts six Cogentic papers, produced with Gemini 4, claiming results on factoring, the log-rank conjecture and more"
-
-```python
-def check(ctx):
-    return ctx.require('framing', r'Google Research posts six Cogentic papers, produced with Gemini 4')
-```
-
-### PASS · e20-social-amplification (attribution, Factoring rumor)
-> Claim: social accounts amplified an unverified ten-day rumor
+### NEEDS-HUMAN · e08-wednesday-feed (opinion, RSA rumors)
+> Claim: by Wednesday afternoon, if you opened X, you would barely know anyone had proven anything in pure math
 
 Source ([x-kimmonismus](https://x.com/kimmonismus/status/2125602411540566221)): "AFFILIATION NOTE (scan): AI news aggregator account amplifying a rumor; no independent sourcing and no lab confirmation."
 
-Note: In fact, this rumor has persisted for about ten days, about both Anthropic and OpenAI.
+Note: A post cannot establish the experience of a typical X reader.
 
 ```python
 def check(ctx):
-    q = ctx.find('kimmonismus', r'aggregator account amplifying a rumor; no independent sourcing and no lab confirmation')
-    d = ctx.find('andrewcurran_', r'this rumor has persisted for about ten days, about both Anthropic and OpenAI')
-    return ctx.ok('kimmonismus', q, str(d)) if q and d else ctx.need('andrewcurran_', d, 'Need both duration and evidence of unconfirmed amplification.')
+    return ctx.need('kimmonismus', ctx.find('kimmonismus', r'AI news aggregator account amplifying a rumor'), 'A post cannot establish the experience of a typical X reader.')
 ```
 
-### PASS · e21-rumor-duration (number, Factoring rumor)
-> Claim: unverified ten-day rumor
+### NEEDS-HUMAN · e09-like-count (number, RSA rumors)
+> Claim: Viral posts with thousands of likes
 
-Source ([x-andrewcurran_](https://x.com/AndrewCurran_/status/2125589468786909510)): "In fact, this rumor has persisted for about ten days, about both Anthropic and OpenAI."
-
-Note: Approximate age of the rumor, not a confirmed discovery.
+Note: Original-post like count missing; reply counts do not count.
 
 ```python
 def check(ctx):
-    return ctx.require('andrewcurran_', r'this rumor has persisted for about ten days, about both Anthropic and OpenAI', note='Approximate age of the rumor, not a confirmed discovery.')
+    for a in ('andrewcurran_', 'kimmonismus'):
+        q = ctx.find(a, r'^@(AndrewCurran_|kimmonismus)\s*\((?:[1-9]\d{3,}|[1-9]\d{0,2}(?:,\d{3})+|[1-9]\d*(?:\.\d+)?K) likes\)')
+        if not q: return ctx.need(a, None, 'Original-post like count missing; reply counts do not count.')
+    return ctx.ok(a, q, 'Both original posts meet the threshold.')
 ```
 
-### PASS · e25-separate-results (comparison, Factoring rumor)
-> Claim: That rumor is separate from Google's public papers
+### NEEDS-HUMAN · e13-two-scenes (comparison, Dual-use mathematics)
+> Claim: Those two scenes look like separate worlds: quiet math commits on GitHub, and a cybersecurity scare on social media
 
-Source ([scan-framing](https://www.signalandnoise.email/content/daily-state/2026-11-26/audit/sources/2026-11-26/scan-framing.txt)): "No lab has published or confirmed such a result. … framing (Google Research (GitHub)): Company-posted preprints in a public repository; no peer review, and the announced Lean formalizations are not yet released. … framing (Google Research (GitHub)): Company-posted claim; the running-time bound is subexponential, not polynomial, and no independent verification is reported."
+Source ([scan-framing](https://www.signalandnoise.email/content/daily-state/2026-11-26/audit/sources/2026-11-26/scan-framing.txt)): "framing (Google Research (GitHub)): Company-posted preprints in a public repository; no peer review, and the announced Lean formalizations are not yet released."
+
+Note: The contrast and characterization as quiet are editorial.
 
 ```python
 def check(ctx):
-    return ctx.require('framing', r'No lab has published or confirmed such a result', r'Company-posted preprints in a public repository', r'running-time bound is subexponential, not polynomial')
+    return ctx.need('framing', ctx.find('framing', r'Company-posted preprints in a public repository'), 'The contrast and characterization as quiet are editorial.')
 ```
 
-### PASS · e32-lean-rules (qualifier, Proof verification)
-> Claim: a proof assistant like Lean offers a fixed, explicit rulebook
+### NEEDS-HUMAN · e14-same-shift (opinion, Dual-use mathematics)
+> Claim: They are actually two halves of the same shift
 
-Source ([primary-anthropic-messages-api-rust-migration](https://www.anthropic.com/research/migrating-api-to-rust)): "A theorem in mathematics is a precise statement, and a proof assistant (like Lean) can check each step of a proof against a fixed set of rules."
+Note: Interpretation, not a reported finding.
 
 ```python
 def check(ctx):
-    return ctx.require('anthropic', r'proof assistant \(like Lean\) can check each step of a proof against a fixed set of rules')
+    return ctx.need(None, None, 'Interpretation, not a reported finding.')
 ```
 
-### PASS · e34-unverified-now (qualifier, Proof verification)
-> Claim: leaving them unverified for now
+### NEEDS-HUMAN · e15-field-split (opinion, Dual-use mathematics)
+> Claim: AI has just turned frontier mathematics into a dual-use technology, splitting the field right down the middle
 
-Source ([scan-framing](https://www.signalandnoise.email/content/daily-state/2026-11-26/audit/sources/2026-11-26/scan-framing.txt)): "framing (Google Research (GitHub)): Company-posted preprints in a public repository; no peer review, and the announced Lean formalizations are not yet released. … framing (Google Research (GitHub)): Company-posted claim; the running-time bound is subexponential, not polynomial, and no independent verification is reported."
+Note: Historical and field-wide judgment.
 
 ```python
 def check(ctx):
-    q = ctx.find('google', r'entire proof has also been completed and will be released')
-    if q and not ctx.art_has(r'not independently verified|not yet independently verified|no independent verification|unverified for now|remain unverified|leaving them unverified'): return ctx.fail('google', q, 'Unreleased is not unformalized; distinguish lack of independent verification.')
-    return ctx.require('framing', r'announced Lean formalizations are not yet released', r'no independent verification is reported')
+    return ctx.need(None, None, 'Historical and field-wide judgment.')
 ```
 
-### PASS · e40-traffic-growth (number, Rust migration)
-> Claim: Messages API traffic grew roughly eighteen hundred times since early 2024
+### NEEDS-HUMAN · e16-forty-eight-hours (number, GitHub publishing)
+> Claim: what landed on GitHub in forty-eight hours
 
-Source ([primary-anthropic-messages-api-rust-migration](https://www.anthropic.com/research/migrating-api-to-rust)): "From early 2024 to fall 2026, API traffic grew roughly 1,800 times."
+Note: no source sentence matches /(?=.*GitHub)(?=.*(?:48|forty-eight)[ -]hours?)(?=.*(?:posted|committed|uploaded))/. A commit chronology is needed.
 
 ```python
 def check(ctx):
-    return ctx.require('anthropic', r'From early 2024 to fall 2026, API traffic grew roughly 1,800 times')
+    return ctx.require('framing', r'(?=.*GitHub)(?=.*(?:48|forty-eight)[ -]hours?)(?=.*(?:posted|committed|uploaded))', note='A commit chronology is needed.')
 ```
 
-### PASS · e41-overhead (comparison, Rust migration)
-> Claim: Anthropic needed far less overhead
+### NEEDS-HUMAN · e17-dinner-riemann (attribution, Aaronson dinner)
+> Claim: Aaronson's dinner guests were still absorbing last week's Alpöge and Anthropic proof of the Riemann Hypothesis
 
-Source ([primary-anthropic-messages-api-rust-migration](https://www.anthropic.com/research/migrating-api-to-rust)): "As each reply arrived, the stream of tokens had to be sorted into text, thinking, and tool calls, and Python added overhead to every one of those steps each time it created an object, freed memory, or handed its work to the next task. … Traffic eventually grew far beyond what the initial Python service was built for (Figure 1), and we quickly needed to find a way to make the service much more efficient. … Rust would allow us to use far less CPU per request."
+Note: no source sentence matches /(?=.*(?:dinner|guests))(?=.*last week)(?=.*Alpöge)(?=.*Anthropic)(?=.*proof of the Riemann [Hh]ypothesis)/. 
 
 ```python
 def check(ctx):
-    return ctx.require('anthropic', r'Python added overhead to every one of those steps', r'needed to find a way to make the service much more efficient', r'Rust would allow us to use far less CPU per request')
+    return ctx.require('framing', r'(?=.*(?:dinner|guests))(?=.*last week)(?=.*Alpöge)(?=.*Anthropic)(?=.*proof of the Riemann [Hh]ypothesis)')
 ```
 
-### PASS · e42-reported-gains (attribution, Rust migration)
-> Claim: According to Anthropic, moving from Python to Rust cut CPU use per request by about seventy percent and median time to first token by about twenty percent, with zero downtime
+### NEEDS-HUMAN · e18-riemann-proof (attribution, Riemann Hypothesis)
+> Claim: last week's Alpöge and Anthropic proof of the Riemann Hypothesis
 
-Source ([primary-anthropic-messages-api-rust-migration](https://www.anthropic.com/research/migrating-api-to-rust)): "We ran into this problem when we migrated our Messages API from Python to Rust. … This allowed us to ship an API on Rust that uses about 70% less CPU per request and cuts median time to first token by about 20% without ever taking the service offline or freezing feature development."
-
-Note: Company summary; figure covers one region for CPU and Claude Code requests for latency.
+Note: no source sentence matches /(?=.*last week)(?=.*Alpöge)(?=.*Anthropic)(?=.*(?:proved the|proof of the) Riemann hypothesis)/. 
 
 ```python
 def check(ctx):
-    return ctx.require(
-        'anthropic',
-        r'migrated our Messages API from Python to Rust',
-        r'uses about 70% less CPU per request',
-        r'cuts median time to first token by about 20%',
-        r'without ever taking the service offline',
-        note='Company summary; figure covers one region for CPU and Claude Code requests for latency.',
-    )
+    return ctx.require('framing', r'(?=.*last week)(?=.*Alpöge)(?=.*Anthropic)(?=.*(?:proved the|proof of the) Riemann hypothesis)')
 ```
 
-### PASS · e43-cpu-cut (number, Rust migration)
-> Claim: cut CPU use per request by about seventy percent
+### NEEDS-HUMAN · e19-openai-exponent (attribution, Matrix multiplication)
+> Claim: OpenAI uploaded a claim pinning down the exact exponent of matrix multiplication at nine-fourths
 
-Source ([primary-anthropic-messages-api-rust-migration](https://www.anthropic.com/research/migrating-api-to-rust)): "This allowed us to ship an API on Rust that uses about 70% less CPU per request and cuts median time to first token by about 20% without ever taking the service offline or freezing feature development."
+Note: no source sentence matches /(?=.*OpenAI)(?=.*(?:posted|uploaded|committed))(?=.*matrix multiplication)(?=.*exponent)(?=.*(?:exactly|equals?|is|=)\s*(?:9/4|2\.25|nine-fourths)\b)/. 
 
 ```python
 def check(ctx):
-    return ctx.require('anthropic', r'uses about 70% less CPU per request')
+    return ctx.require('framing', r'(?=.*OpenAI)(?=.*(?:posted|uploaded|committed))(?=.*matrix multiplication)(?=.*exponent)(?=.*(?:exactly|equals?|is|=)\s*(?:9/4|2\.25|nine-fourths)\b)')
 ```
 
-### PASS · e44-latency-cut (number, Rust migration)
-> Claim: median time to first token by about twenty percent
+### NEEDS-HUMAN · e20-nine-fourths (number, Matrix multiplication)
+> Claim: the exact exponent of matrix multiplication at nine-fourths
 
-Source ([primary-anthropic-messages-api-rust-migration](https://www.anthropic.com/research/migrating-api-to-rust)): "This allowed us to ship an API on Rust that uses about 70% less CPU per request and cuts median time to first token by about 20% without ever taking the service offline or freezing feature development."
+Note: no source sentence matches /(?=.*matrix multiplication)(?=.*exponent)(?=.*(?:exactly|equals?|is|=)\s*(?:9/4|2\.25|nine-fourths)\b)/. 
 
 ```python
 def check(ctx):
-    return ctx.require('anthropic', r'cuts median time to first token by about 20%')
+    return ctx.require('framing', r'(?=.*matrix multiplication)(?=.*exponent)(?=.*(?:exactly|equals?|is|=)\s*(?:9/4|2\.25|nine-fourths)\b)')
 ```
 
-### PASS · e45-no-outage (number, Rust migration)
-> Claim: with zero downtime
+### NEEDS-HUMAN · e21-above-two (number, Matrix multiplication)
+> Claim: a lower bound above two
 
-Source ([primary-anthropic-messages-api-rust-migration](https://www.anthropic.com/research/migrating-api-to-rust)): "This allowed us to ship an API on Rust that uses about 70% less CPU per request and cuts median time to first token by about 20% without ever taking the service offline or freezing feature development."
+Note: no source sentence matches /(?=.*matrix multiplication)(?=.*lower bound (?:strictly )?(?:above|greater than|exceeding) (?:2|two)\b)/. 
 
 ```python
 def check(ctx):
-    return ctx.require('anthropic', r'ship an API on Rust.{0,150}without ever taking the service offline')
+    return ctx.require('framing', r'(?=.*matrix multiplication)(?=.*lower bound (?:strictly )?(?:above|greater than|exceeding) (?:2|two)\b)')
 ```
 
-### PASS · e47-week (number, Rust migration)
-> Claim: in about a week
+### NEEDS-HUMAN · e22-p-versus-np (comparison, Matrix multiplication)
+> Claim: a barrier Aaronson once thought was nearly as hard as P versus NP
 
-Source ([primary-anthropic-messages-api-rust-migration](https://www.anthropic.com/research/migrating-api-to-rust)): "Claude wrote a first version of the API's core request path in about a week."
+Note: no source sentence matches /(?=.*Aaronson)(?=.*(?:matrix multiplication|exponent))(?=.*(?:almost|nearly) as hard as P (?:vs\.?|versus) NP)/. 
 
 ```python
 def check(ctx):
-    return ctx.require('anthropic', r'Claude wrote a first version of the API.s core request path in about a week')
+    return ctx.require('framing', r'(?=.*Aaronson)(?=.*(?:matrix multiplication|exponent))(?=.*(?:almost|nearly) as hard as P (?:vs\.?|versus) NP)')
 ```
 
-### PASS · e48-migration-months (number, Rust migration)
-> Claim: migrating public traffic still took five months, from April to September
+### NEEDS-HUMAN · e23-dessert-fourier (attribution, Fourier transform)
+> Claim: By dessert, OpenAI added matching upper and lower bounds on the number of linear gates needed for the Fourier transform
 
-Source ([primary-anthropic-messages-api-rust-migration](https://www.anthropic.com/research/migrating-api-to-rust)): "Changes merged to our API's Rust code in each two-week period, from April until public traffic moved to Rust in September 2026."
-
-Note: Five calendar months between named months, not five months spent shifting traffic itself.
+Note: no source sentence matches /(?=.*dessert)(?=.*OpenAI)(?=.*matching upper and lower bounds)(?=.*linear gates)(?=.*Fourier transform)/. 
 
 ```python
 def check(ctx):
-    return ctx.require('anthropic', r'from April until public traffic moved to Rust in September 2026', note='Five calendar months between named months, not five months spent shifting traffic itself.')
+    return ctx.require('framing', r'(?=.*dessert)(?=.*OpenAI)(?=.*matching upper and lower bounds)(?=.*linear gates)(?=.*Fourier transform)')
 ```
 
-### PASS · e49-gap-inverts (comparison, Production verification)
-> Claim: In a live production system, the generator-verifier gap inverts
+### NEEDS-HUMAN · e24-fourier-bounds (comparison, Fourier transform)
+> Claim: matching upper and lower bounds
 
-Source ([primary-anthropic-messages-api-rust-migration](https://www.anthropic.com/research/migrating-api-to-rust)): "But as Claude has become more capable, it's begun to take on projects in live systems, where generating the work is easier than verifying it."
+Note: no source sentence matches /(?=.*Fourier)(?=.*linear gates)(?=.*matching (?:upper and lower|lower and upper) bounds)/. 
 
 ```python
 def check(ctx):
-    return ctx.require('anthropic', r'projects in live systems, where generating the work is easier than verifying it')
+    return ctx.require('framing', r'(?=.*Fourier)(?=.*linear gates)(?=.*matching (?:upper and lower|lower and upper) bounds)')
 ```
 
-### PASS · e50-no-rulebook (qualifier, Production verification)
-> Claim: There is no fixed rulebook
+### NEEDS-HUMAN · e25-beating-fft (comparison, Fourier transform)
+> Claim: beating the classic 1960s Fast Fourier Transform
 
-Source ([primary-anthropic-messages-api-rust-migration](https://www.anthropic.com/research/migrating-api-to-rust)): "In our case, neither approach was sufficient, so we used the existing system as an oracle to test parity during the migration. … We were releasing new models and shipping new features regularly, which made the definition of "correct" a moving target."
-
-Note: Supports the claim for this migration, not every production system.
+Note: no source sentence matches /(?=.*(?:beat\w*|improv\w* on|fewer .*than))(?=.*1960s)(?=.*(?:fast Fourier transform|FFT))/. 
 
 ```python
 def check(ctx):
-    return ctx.require('anthropic', r'In our case, neither approach was sufficient', r'definition of .correct. a moving target', note='Supports the claim for this migration, not every production system.')
+    return ctx.require('framing', r'(?=.*(?:beat\w*|improv\w* on|fewer .*than))(?=.*1960s)(?=.*(?:fast Fourier transform|FFT))')
 ```
 
-### PASS · e51-changing-python (qualifier, Rust migration)
-> Claim: The Python service kept changing throughout the rewrite
+### NEEDS-HUMAN · e26-fft-decade (number, Fourier transform)
+> Claim: classic 1960s Fast Fourier Transform
 
-Source ([primary-anthropic-messages-api-rust-migration](https://www.anthropic.com/research/migrating-api-to-rust)): "This proved hard for several reasons, including that the Python API continued changing throughout the migration, so parity was a moving target; Claude can reply nondeterministically to the same request, so a difference between two outputs didn't necessarily mean a bug; and we couldn't read customer requests, so we weren't able to easily see where the two versions diverged."
+Note: no source sentence matches /(?=.*(?:1960s|196[0-9]\b))(?=.*(?:fast Fourier transform|Cooley.Tukey FFT))/. 
 
 ```python
 def check(ctx):
-    return ctx.require('anthropic', r'the Python API continued changing throughout the migration')
+    return ctx.require('framing', r'(?=.*(?:1960s|196[0-9]\b))(?=.*(?:fast Fourier transform|Cooley.Tukey FFT))')
 ```
 
-### PASS · e52-insufficient-tests (qualifier, Production verification)
-> Claim: Anthropic couldn't trust ported integration tests alone
+### NEEDS-HUMAN · e27-striking-method (comparison, Tensor geometry)
+> Claim: Just as striking as the answers is how OpenAI reached them
 
-Source ([primary-anthropic-messages-api-rust-migration](https://www.anthropic.com/research/migrating-api-to-rust)): "Tests were the easiest place for us to start, since we already had an existing set of about 700 integration tests. … However, two problems limited our ability to trust them to verify the correctness of a migration as high stakes as this (Figure 4). … We saw this happen: when we audited the ported tests, we found more than 100 weakened assertions."
+Note: Relative strikingness is subjective.
 
 ```python
 def check(ctx):
-    return ctx.require('anthropic', r'existing set of about 700 integration tests', r'two problems limited our ability to trust them to verify the correctness', r'when we audited the ported tests')
+    return ctx.need(None, None, 'Relative strikingness is subjective.')
 ```
 
-### PASS · e53-weakened-assertions (number, Production verification)
-> Claim: an audit found over a hundred weakened assertions
+### NEEDS-HUMAN · e28-single-framework (number, Tensor geometry)
+> Claim: A single new framework built on tensor geometry powered multiple major results at once
 
-Source ([primary-anthropic-messages-api-rust-migration](https://www.anthropic.com/research/migrating-api-to-rust)): "We saw this happen: when we audited the ported tests, we found more than 100 weakened assertions."
+Note: no source sentence matches /(?=.*(?:single|one|same) new framework)(?=.*tensor geometry)(?=.*(?:both|multiple|several) .*results)/. 
 
 ```python
 def check(ctx):
-    return ctx.require('anthropic', r'when we audited the ported tests, we found more than 100 weakened assertions')
+    return ctx.require('framing', r'(?=.*(?:single|one|same) new framework)(?=.*tensor geometry)(?=.*(?:both|multiple|several) .*results)')
 ```
 
-### PASS · e55-quarter-inputs (number, Production verification)
-> Claim: it matched only about a quarter of live production inputs
+### NEEDS-HUMAN · e29-one-off-tricks (opinion, Tensor geometry)
+> Claim: undercutting the comforting idea that AI only stitches together one-off tricks
 
-Source ([primary-anthropic-messages-api-rust-migration](https://www.anthropic.com/research/migrating-api-to-rust)): "Our Rust API passed about 98% of its tests in April, yet only about a quarter of inputs matched on production traffic (Figure 6)."
+Note: Interpretation of the significance of the method.
 
 ```python
 def check(ctx):
-    return ctx.require('anthropic', r'only about a quarter of inputs matched on production traffic')
+    return ctx.need(None, None, 'Interpretation of the significance of the method.')
 ```
 
-### PASS · e56-uncovered-cases (qualifier, Production verification)
-> Claim: Real traffic hit uncovered edge cases
+### NEEDS-HUMAN · e30-aaronson-proof-policy (attribution, Aaronson on proofs)
+> Claim: Aaronson wrote that he now assumes proofs coming directly from OpenAI or Anthropic are correct unless shown otherwise
 
-Source ([primary-anthropic-messages-api-rust-migration](https://www.anthropic.com/research/migrating-api-to-rust)): "The gap came partly from cases in production traffic that our tests didn't cover."
+Note: no source sentence matches /(?=.*Aaronson)(?=.*proofs? .*directly from OpenAI or Anthropic)(?=.*(?:assume|presume)\w*)(?=.*correct unless .*otherwise)/. 
 
 ```python
 def check(ctx):
-    return ctx.require('anthropic', r'cases in production traffic that our tests didn.t cover')
+    return ctx.require('framing', r'(?=.*Aaronson)(?=.*proofs? .*directly from OpenAI or Anthropic)(?=.*(?:assume|presume)\w*)(?=.*correct unless .*otherwise)')
 ```
 
-### PASS · e57-emoji-bytes (comparison, Production verification)
-> Claim: Python escaping emojis in JSON tool calls while Rust wrote them raw
+### NEEDS-HUMAN · e31-direct-provenance (qualifier, Aaronson on proofs)
+> Claim: coming directly from OpenAI or Anthropic
 
-Source ([primary-anthropic-messages-api-rust-migration](https://www.anthropic.com/research/migrating-api-to-rust)): "For example, when Python writes JSON tool calls, it escapes certain characters (e.g., an emoji) by replacing them with text codes. … Rust wrote those characters as is, so the two prompts differed by a few bytes."
+Note: no source sentence matches /(?=.*Aaronson)(?=.*proofs? .*directly from (?:OpenAI or Anthropic|Anthropic or OpenAI))/. 
 
 ```python
 def check(ctx):
-    return ctx.require('anthropic', r'when Python writes JSON tool calls, it escapes certain characters', r'an emoji\) by replacing them with text codes', r'Rust wrote those characters as is')
+    return ctx.require('framing', r'(?=.*Aaronson)(?=.*proofs? .*directly from (?:OpenAI or Anthropic|Anthropic or OpenAI))')
 ```
 
-### PASS · e58-common-bugs (qualifier, Production verification)
-> Claim: common bugs fired across huge waves of requests
+### NEEDS-HUMAN · e32-presumed-correct (qualifier, Aaronson on proofs)
+> Claim: correct unless shown otherwise
 
-Source ([primary-anthropic-messages-api-rust-migration](https://www.anthropic.com/research/migrating-api-to-rust)): "In a test suite, each case counts once, but in live traffic, a bug will show up in each request where it's triggered, which means a single common bug can cause many mismatches. … A single bug could produce hundreds of thousands of nearly identical diff records."
+Note: no source sentence matches /(?=.*Aaronson)(?=.*proofs?)(?=.*correct until|.*correct unless)(?=.*(?:shown|demonstrated|proved) otherwise)/. 
 
 ```python
 def check(ctx):
-    return ctx.require('anthropic', r'a single common bug can cause many mismatches', r'A single bug could produce hundreds of thousands of nearly identical diff records')
+    return ctx.require('framing', r'(?=.*Aaronson)(?=.*proofs?)(?=.*correct until|.*correct unless)(?=.*(?:shown|demonstrated|proved) otherwise)')
 ```
 
-### PASS · e59-private-fingerprints (attribution, Shadow oracle)
-> Claim: Anthropic built a privacy-preserving shadow oracle comparing byte-level fingerprints without reading user text
+### NEEDS-HUMAN · e33-wednesday-repo (attribution, Google papers)
+> Claim: Wednesday morning, Google Research escalated its own quiet GitHub repository
 
-Source ([primary-anthropic-messages-api-rust-migration](https://www.anthropic.com/research/migrating-api-to-rust)): "In our case, neither approach was sufficient, so we used the existing system as an oracle to test parity during the migration. … To do that we had to work without reading user requests or Claude's replies to them, which means we couldn't easily see where the Rust and Python versions of the API differed. … The result was a shadowing system that produced a small record of each difference between our Rust and Python APIs. … first diff: byte 17 ← fingerprint"
+Note: no source sentence matches /(?=.*Wednesday morning)(?=.*Google Research)(?=.*GitHub)(?=.*(?:quietly|without (?:an )?announcement))/. 
 
 ```python
 def check(ctx):
-    return ctx.require(
-        'anthropic',
-        r'used the existing system as an oracle',
-        r'without reading user requests or Claude.s replies',
-        r'shadowing system that produced a small record of each difference',
-        r'first diff: byte 17.{0,30}fingerprint',
-    )
+    return ctx.require('framing', r'(?=.*Wednesday morning)(?=.*Google Research)(?=.*GitHub)(?=.*(?:quietly|without (?:an )?announcement))')
 ```
 
-### PASS · e61-missing-description (qualifier, Shadow oracle)
-> Claim: a web search tool description was missing
+### NEEDS-HUMAN · e34-four-previous (number, Google papers)
+> Claim: four AI-generated papers over the previous month
 
-Source ([primary-anthropic-messages-api-rust-migration](https://www.anthropic.com/research/migrating-api-to-rust)): "The production API retrieved the web search tool's description from an internal service. … The Rust API didn't call this service yet, so the tool description was missing from the prompts."
+Note: no source sentence matches /(?=.*Google)(?=.*(?:four|4) (?:AI-generated|Cogentic) papers)(?=.*(?:last|previous|preceding) month)/. 
 
 ```python
 def check(ctx):
-    return ctx.require('anthropic', r'production API retrieved the web search tool.s description from an internal service', r'the tool description was missing from the prompts')
+    return ctx.require('framing', r'(?=.*Google)(?=.*(?:four|4) (?:AI-generated|Cogentic) papers)(?=.*(?:last|previous|preceding) month)')
 ```
 
-### PASS · e62-local-copy (attribution, Shadow oracle)
-> Claim: the agent hardcoded the text locally instead of calling the internal service
+### NEEDS-HUMAN · e37-no-announcement (qualifier, Google papers)
+> Claim: with no announcement
 
-Source ([primary-anthropic-messages-api-rust-migration](https://www.anthropic.com/research/migrating-api-to-rust)): "The production API retrieved the web search tool's description from an internal service. … The Rust API didn't call this service yet, so the tool description was missing from the prompts. … An agent proposed a shortcut to copy the text into files that would be readable by Rust. … The prompts then matched, and the fix passed the local verifier."
+Note: no source sentence matches /(?=.*Google)(?=.*(?:without (?:an |any )?announcement|no announcement|unannounced))/. Public posting alone cannot decide whether it was announced.
 
 ```python
 def check(ctx):
-    return ctx.require('anthropic', r'web search tool.s description from an internal service', r'Rust API didn.t call this service yet', r'An agent proposed a shortcut to copy the text into files that would be readable by Rust', r'The prompts then matched, and the fix passed the local verifier')
+    return ctx.require('framing', r'(?=.*Google)(?=.*(?:without (?:an |any )?announcement|no announcement|unannounced))', note='Public posting alone cannot decide whether it was announced.')
 ```
 
-### PASS · e63-matched-prompts (comparison, Shadow oracle)
-> Claim: The outputs matched
+### NEEDS-HUMAN · e42-paper-subjects (attribution, Google papers)
+> Claim: tackling problems from Harary's 1964 graph reconstruction conjecture and the log-rank conjecture to two new results on integer factoring
 
-Source ([primary-anthropic-messages-api-rust-migration](https://www.anthropic.com/research/migrating-api-to-rust)): "The prompts then matched, and the fix passed the local verifier."
-
-Note: Outputs of local prompt construction, not production model replies.
+Note: no source sentence matches /Harary.{0,20}1964 graph reconstruction conjecture/. 
 
 ```python
 def check(ctx):
-    return ctx.require('anthropic', r'The prompts then matched, and the fix passed the local verifier', note='Outputs of local prompt construction, not production model replies.')
+    return ctx.require('framing', r'Harary.{0,20}1964 graph reconstruction conjecture', r'claiming results on factoring, the log-rank conjecture', r'(?:two|2) (?:new )?(?:integer )?factoring results')
 ```
 
-### PASS · e64-verifier-pass (attribution, Shadow oracle)
-> Claim: The verifier said pass
+### NEEDS-HUMAN · e43-harary-year (number, Google papers)
+> Claim: Harary's 1964 graph reconstruction conjecture
 
-Source ([primary-anthropic-messages-api-rust-migration](https://www.anthropic.com/research/migrating-api-to-rust)): "The prompts then matched, and the fix passed the local verifier."
-
-Note: Local verifier only.
+Note: no source sentence matches /(?=.*Harary)(?=.*1964)(?=.*graph reconstruction conjecture)/. 
 
 ```python
 def check(ctx):
-    return ctx.require('anthropic', r'The prompts then matched, and the fix passed the local verifier', note='Local verifier only.')
+    return ctx.require('framing', r'(?=.*Harary)(?=.*1964)(?=.*graph reconstruction conjecture)')
 ```
 
-### PASS · e65-engineer-rejection (attribution, Shadow oracle)
-> Claim: An engineer had to reject it as throwaway code
+### NEEDS-HUMAN · e44-two-factoring (number, Google factoring)
+> Claim: two new results on integer factoring
 
-Source ([primary-anthropic-messages-api-rust-migration](https://www.anthropic.com/research/migrating-api-to-rust)): "Agents trace a mismatch to the web search tool across four Slack threads and propose a fix, which an engineer rejects as throwaway code."
+Note: no source sentence matches /(?=.*(?:two|2) new (?:results|papers))(?=.*integer factoring)/. Six papers overall does not specify the factoring subtotal.
 
 ```python
 def check(ctx):
-    return ctx.require('anthropic', r'propose a fix, which an engineer rejects as throwaway code')
+    return ctx.require('framing', r'(?=.*(?:two|2) new (?:results|papers))(?=.*integer factoring)', note='Six papers overall does not specify the factoring subtotal.')
 ```
 
-### PASS · e67-no-repeat (number, Engineering oversight)
-> Claim: teams didn't have to catch the same shortcut twice
+### NEEDS-HUMAN · e45-panic-causation (attribution, RSA rumors)
+> Claim: Those factoring papers immediately fueled the online panic
 
-Source ([primary-anthropic-messages-api-rust-migration](https://www.anthropic.com/research/migrating-api-to-rust)): "For example, when an engineer turned down the web search shortcut (Figure 12), the agent saved a note to memory explaining the decision, the reason for it, and the correct fix, which was to have Rust call the service that supplies tool descriptions. … Agents checked the memory note, recognized the known bug, and linked those records to it, instead of writing another workaround (Figure 14)."
-
-Note: Observed for this shortcut; not a zero-recurrence statistic across all shortcuts.
+Note: no source sentence matches /(?=.*Google)(?=.*factoring papers)(?=.*(?:immediately|as soon as))(?=.*(?:sparked|fueled|triggered).*(?:panic|rumors))/. Temporal proximity and speculation about other labs are not causation.
 
 ```python
 def check(ctx):
-    return ctx.require('anthropic', r'engineer turned down the web search shortcut', r'Agents checked the memory note, recognized the known bug, and linked those records to it, instead of writing another workaround', note='Observed for this shortcut; not a zero-recurrence statistic across all shortcuts.')
+    return ctx.require('kimmonismus', r'(?=.*Google)(?=.*factoring papers)(?=.*(?:immediately|as soon as))(?=.*(?:sparked|fueled|triggered).*(?:panic|rumors))', note='Temporal proximity and speculation about other labs are not causation.')
 ```
 
-### PASS · e69-moving-target (comparison, Production verification)
-> Claim: correctness is a moving target
+### NEEDS-HUMAN · e46-public-private (opinion, RSA rumors)
+> Claim: it helps to separate public math from private rumor
 
-Source ([primary-anthropic-messages-api-rust-migration](https://www.anthropic.com/research/migrating-api-to-rust)): "We were releasing new models and shipping new features regularly, which made the definition of "correct" a moving target."
+Source ([scan-framing](https://www.signalandnoise.email/content/daily-state/2026-11-26/audit/sources/2026-11-26/scan-framing.txt)): "framing (Shtetl-Optimized (Scott Aaronson)): Aaronson's own blog; it establishes only what he says he has heard, and he explicitly declines to vouch for the specifics."
+
+Note: Editorial advice.
 
 ```python
 def check(ctx):
-    return ctx.require('anthropic', r'made the definition of .correct. a moving target')
+    return ctx.need('framing', ctx.find('framing', r'only what he says he has heard'), 'Editorial advice.')
 ```
 
-### PASS · e70-imperfect-checks (qualifier, Production verification)
-> Claim: agents optimize around imperfect checks
+### NEEDS-HUMAN · e47-no-rsa-threat (qualifier, Google factoring)
+> Claim: Google's two factoring papers do not threaten RSA
 
-Source ([primary-anthropic-messages-api-rust-migration](https://www.anthropic.com/research/migrating-api-to-rust)): "But the verifier rewarded matching outputs, and the agent found the cheapest way to produce them. … A verifier can tell an agent whether the outputs matched, but not whether the fix is good enough to ship."
+Note: no source sentence matches /(?=.*(?:both|two) .*factoring)(?=.*(?:do not threaten|no practical .* on|do not break) RSA)/. Subexponential alone does not decide practical impact at RSA key sizes.
 
 ```python
 def check(ctx):
-    return ctx.require('anthropic', r'verifier rewarded matching outputs, and the agent found the cheapest way to produce them', r'not whether the fix is good enough to ship')
+    return ctx.require('framing', r'(?=.*(?:both|two) .*factoring)(?=.*(?:do not threaten|no practical .* on|do not break) RSA)', note='Subexponential alone does not decide practical impact at RSA key sizes.')
 ```
 
-### PASS · oe1-aaronson-hearsay (objection, Factoring rumor)
+### NEEDS-HUMAN · e48-unconditional (qualifier, Google factoring)
+> Claim: One gives an unconditional algorithm without unproven number-theoretic assumptions
+
+Note: no source sentence matches /(?=.*factoring)(?=.*unconditional)(?=.*(?:without|no) (?:unproven|unproved) number.theoretic assumptions)/. Do not use the unconditional log-rank formalization.
+
+```python
+def check(ctx):
+    return ctx.require('framing', r'(?=.*factoring)(?=.*unconditional)(?=.*(?:without|no) (?:unproven|unproved) number.theoretic assumptions)', note='Do not use the unconditional log-rank formalization.')
+```
+
+### NEEDS-HUMAN · e51-theory-no-impact (qualifier, Google factoring)
+> Claim: major theoretical results with no practical impact on cryptography
+
+Note: no source sentence matches /(?=.*factoring)(?=.*major theoretical results)(?=.*no practical impact on cryptography)/. Asymptotic complexity alone does not establish either judgment.
+
+```python
+def check(ctx):
+    return ctx.require('framing', r'(?=.*factoring)(?=.*major theoretical results)(?=.*no practical impact on cryptography)', note='Asymptotic complexity alone does not establish either judgment.')
+```
+
+### NEEDS-HUMAN · e52-public-pdfs (qualifier, Google formalizations)
+> Claim: Outside mathematicians can read the PDFs today
+
+Source ([primary-google-cogentic-six-math-papers](https://raw.githubusercontent.com/google-research/google-research/master/cogentic_research_papers/logrank_conjecture/README.md)): "[This paper](paper.pdf) proves a polynomial"
+
+Note: One linked PDF; public preprints do not establish that all the PDFs are readable today.
+
+```python
+def check(ctx):
+    q = ctx.find('framing', r'Company-posted preprints in a public repository')
+    if not q: return ctx.need('framing', None, 'Need public availability.')
+    p = ctx.find('google', r'\[This paper\]\(paper\.pdf\)')
+    return ctx.need('google', p, 'One linked PDF; public preprints do not establish that all the PDFs are readable today.')
+```
+
+### NEEDS-HUMAN · e55-wednesday-paragraph (attribution, Aaronson crypto warning)
+> Claim: The real alarm came from a brief paragraph in Aaronson's Wednesday post
+
+Note: no source sentence matches /(?=.*Aaronson)(?=.*Wednesday)(?=.*brief paragraph)(?=.*(?:cryptograph|alarm|warning))/. 
+
+```python
+def check(ctx):
+    return ctx.require('framing', r'(?=.*Aaronson)(?=.*Wednesday)(?=.*brief paragraph)(?=.*(?:cryptograph|alarm|warning))')
+```
+
+### NEEDS-HUMAN · e61-game-of-telephone (attribution, Aaronson crypto warning)
+> Claim: warning that technical specifics were likely getting mangled in a game of telephone
+
+Note: no source sentence matches /(?=.*Aaronson)(?=.*(?:specifics|details))(?=.*(?:likely|probably))(?=.*(?:mangled|distorted|game of telephone))/. 
+
+```python
+def check(ctx):
+    return ctx.require('framing', r'(?=.*Aaronson)(?=.*(?:specifics|details))(?=.*(?:likely|probably))(?=.*(?:mangled|distorted|game of telephone))')
+```
+
+### NEEDS-HUMAN · e62-commentators-fill-blanks (attribution, RSA rumors)
+> Claim: Popular AI commentators and aggregator accounts on X filled in those blanks themselves
+
+Source ([x-kimmonismus](https://x.com/kimmonismus/status/2125602411540566221)): "AFFILIATION NOTE (scan): AI news aggregator account amplifying a rumor; no independent sourcing and no lab confirmation."
+
+Note: Amplification is explicit; popularity and who originated the specifics are not.
+
+```python
+def check(ctx):
+    q = ctx.find('kimmonismus', r'AI news aggregator account amplifying a rumor; no independent sourcing')
+    return ctx.need('kimmonismus', q, 'Amplification is explicit; popularity and who originated the specifics are not.')
+```
+
+### NEEDS-HUMAN · e65-deeper-reason (opinion, Dual-use mathematics)
+> Claim: the math deluge and the cryptography rumors collided this week for a deeper reason
+
+Note: Interpretive causal thesis.
+
+```python
+def check(ctx):
+    return ctx.need(None, None, 'Interpretive causal thesis.')
+```
+
+### NEEDS-HUMAN · e66-same-house (comparison, Dual-use mathematics)
+> Claim: In theoretical computer science, lower bounds and algorithms live in the same house
+
+Note: Disciplinary metaphor, not a literal source comparison.
+
+```python
+def check(ctx):
+    return ctx.need(None, None, 'Disciplinary metaphor, not a literal source comparison.')
+```
+
+### NEEDS-HUMAN · e67-ai-machinery-limits (attribution, Dual-use mathematics)
+> Claim: When AI builds powerful new mathematical machinery, it does not only prove reassuring limits on what computers cannot do
+
+Source ([scan-framing](https://www.signalandnoise.email/content/daily-state/2026-11-26/audit/sources/2026-11-26/scan-framing.txt)): "STORY: Google Research posts six Cogentic papers, produced with Gemini 4, claiming results on factoring, the log-rank conjecture and more"
+
+Note: A list of claimed results cannot establish the general mechanism or that these are impossibility results.
+
+```python
+def check(ctx):
+    return ctx.need('framing', ctx.find('framing', r'claiming results on factoring, the log-rank conjecture'), 'A list of claimed results cannot establish the general mechanism or that these are impossibility results.')
+```
+
+### NEEDS-HUMAN · e68-unexpected-algorithms (attribution, Dual-use mathematics)
+> Claim: It also uncovers unexpected algorithms for what they can
+
+Source ([scan-framing](https://www.signalandnoise.email/content/daily-state/2026-11-26/audit/sources/2026-11-26/scan-framing.txt)): "framing (Google Research (GitHub)): Company-posted claim; the running-time bound is subexponential, not polynomial, and no independent verification is reported."
+
+Note: A claimed bound does not establish unexpectedness or a general discovery process.
+
+```python
+def check(ctx):
+    return ctx.need('framing', ctx.find('framing', r'the running-time bound is subexponential'), 'A claimed bound does not establish unexpectedness or a general discovery process.')
+```
+
+### NEEDS-HUMAN · e69-future-cryptosystems (opinion, Dual-use mathematics)
+> Claim: some of those algorithms will hit deployed cryptosystems
+
+Source ([scan-framing](https://www.signalandnoise.email/content/daily-state/2026-11-26/audit/sources/2026-11-26/scan-framing.txt)): "No lab has published or confirmed such a result."
+
+Note: Prediction, not a demonstrated consequence.
+
+```python
+def check(ctx):
+    return ctx.need('framing', ctx.find('framing', r'No lab has published or confirmed such a result'), 'Prediction, not a demonstrated consequence.')
+```
+
+### NEEDS-HUMAN · e70-disorienting (opinion, Disclosure divide)
+> Claim: the outside view feels so disorienting right now
+
+Note: Subjective reaction.
+
+```python
+def check(ctx):
+    return ctx.need(None, None, 'Subjective reaction.')
+```
+
+### NEEDS-HUMAN · e72-dinner-table-speed (comparison, Disclosure divide)
+> Claim: at dinner-table speed
+
+Note: Metaphorical cadence; no dinner timeline supplied.
+
+```python
+def check(ctx):
+    return ctx.need(None, None, 'Metaphorical cadence; no dinner timeline supplied.')
+```
+
+### NEEDS-HUMAN · e73-zero-fanfare (qualifier, Disclosure divide)
+> Claim: with zero fanfare
+
+Note: no source sentence matches /(?=.*(?:labs|papers))(?=.*(?:no publicity|without (?:any )?publicity|without fanfare))/. Repository publication is not evidence of zero publicity.
+
+```python
+def check(ctx):
+    return ctx.require('framing', r'(?=.*(?:labs|papers))(?=.*(?:no publicity|without (?:any )?publicity|without fanfare))', note='Repository publication is not evidence of zero publicity.')
+```
+
+### NEEDS-HUMAN · e75-public-mood (opinion, Disclosure divide)
+> Claim: leaving everyone else swinging between shrugging off abstract math and panicking over half-heard rumors
+
+Note: Editorial description of public sentiment.
+
+```python
+def check(ctx):
+    return ctx.need(None, None, 'Editorial description of public sentiment.')
+```
+
+### NEEDS-HUMAN · e76-aaronson-singularity (attribution, Aaronson Thanksgiving advice)
+> Claim: Aaronson wrote that this past week feels like the opening chapter of an AI singularity
+
+Note: no source sentence matches /(?=.*Aaronson)(?=.*(?:past|last|this) week)(?=.*(?:opening chapter|beginning|start) of (?:an? |the )?AI singularity)/. 
+
+```python
+def check(ctx):
+    return ctx.require('framing', r'(?=.*Aaronson)(?=.*(?:past|last|this) week)(?=.*(?:opening chapter|beginning|start) of (?:an? |the )?AI singularity)')
+```
+
+### NEEDS-HUMAN · e77-singularity-analogy (comparison, Aaronson Thanksgiving advice)
+> Claim: this past week feels like the opening chapter of an AI singularity
+
+Note: no source sentence matches /(?=.*(?:past|last|this) week)(?=.*(?:feels|felt) like)(?=.*(?:opening chapter|beginning|start) of (?:an? |the )?AI singularity)/. 
+
+```python
+def check(ctx):
+    return ctx.require('framing', r'(?=.*(?:past|last|this) week)(?=.*(?:feels|felt) like)(?=.*(?:opening chapter|beginning|start) of (?:an? |the )?AI singularity)')
+```
+
+### NEEDS-HUMAN · e78-confined-to-math (attribution, Aaronson Thanksgiving advice)
+> Claim: hoping we get lucky and it stays confined to hard math
+
+Note: no source sentence matches /(?=.*Aaronson)(?=.*(?:hope|hoping|lucky))(?=.*(?:confined|limited|restricted) to hard math)/. 
+
+```python
+def check(ctx):
+    return ctx.require('framing', r'(?=.*Aaronson)(?=.*(?:hope|hoping|lucky))(?=.*(?:confined|limited|restricted) to hard math)')
+```
+
+### NEEDS-HUMAN · e79-aaronson-advice (attribution, Aaronson Thanksgiving advice)
+> Claim: For today, he offered simpler advice: spend Thanksgiving with the people you love
+
+Note: no source sentence matches /(?=.*Aaronson)(?=.*spend Thanksgiving with (?:the people you love|your loved ones))/. 
+
+```python
+def check(ctx):
+    return ctx.require('framing', r'(?=.*Aaronson)(?=.*spend Thanksgiving with (?:the people you love|your loved ones))')
+```
+
+### NEEDS-HUMAN · e80-thanksgiving-quote (quote, Aaronson Thanksgiving advice)
+> Claim: spend Thanksgiving with the people you love
+
+Note: no source sentence matches /\bspend Thanksgiving with the people you love\b/. Need Aaronson’s actual wording; no quotation from the Thanksgiving passage supplied.
+
+```python
+def check(ctx):
+    return ctx.require('framing', r'\bspend Thanksgiving with the people you love\b', note='Need Aaronson’s actual wording; no quotation from the Thanksgiving passage supplied.')
+```
+
+### PASS · e02-aaronson-profession (qualifier, Aaronson dinner)
+> Claim: computer scientist Scott Aaronson
+
+Source ([x-andrewcurran_](https://x.com/AndrewCurran_/status/2125589468786909510)): "@grok (1 likes): @CandleHigh @AndrewCurran_ @grom Scott Aaronson is a leading theoretical computer scientist and professor at UT Austin, specializing in quantum computing and complexity theory."
+
+Note: Secondary description in a reply.
+
+```python
+def check(ctx):
+    return ctx.require('andrewcurran_', r'Scott Aaronson is a leading theoretical computer scientist', note='Secondary description in a reply.')
+```
+
+### PASS · e39-gemini-base (qualifier, Google papers)
+> Claim: running on Gemini 4
+
+Source ([primary-google-cogentic-six-math-papers](https://raw.githubusercontent.com/google-research/google-research/master/cogentic_research_papers/logrank_conjecture/README.md)): "agentic framework for mathematical discovery, using Gemini 4 as the base model."
+
+```python
+def check(ctx):
+    return ctx.require('google', r'using Gemini 4 as the base model')
+```
+
+### PASS · e40-six-produced (number, Google papers)
+> Claim: produced all six
+
+Source ([scan-framing](https://www.signalandnoise.email/content/daily-state/2026-11-26/audit/sources/2026-11-26/scan-framing.txt)): "STORY: Google Research posts six Cogentic papers, produced with Gemini 4, claiming results on factoring, the log-rank conjecture and more"
+
+Note: Reported scope of production, not independent validation.
+
+```python
+def check(ctx):
+    return ctx.require('framing', r'Google Research posts six Cogentic papers, produced with Gemini 4', note='Reported scope of production, not independent validation.')
+```
+
+### PASS · e53-lean-unreleased (attribution, Google formalizations)
+> Claim: Google has not yet released the companion Lean 4 formalizations
+
+Source ([scan-framing](https://www.signalandnoise.email/content/daily-state/2026-11-26/audit/sources/2026-11-26/scan-framing.txt)): "framing (Google Research (GitHub)): Company-posted preprints in a public repository; no peer review, and the announced Lean formalizations are not yet released."
+
+Note: Lean 4 (`v4.33.0`) formalization of the entire proof has also been completed and will be released in a companion submission
+
+```python
+def check(ctx):
+    q = ctx.find('google', r'Lean 4[\s\S]*released in a companion\s+submission')
+    if not q: return ctx.need('google', None, 'Need Lean version and companion release plan.')
+    return ctx.require('framing', r'Google Research .*announced Lean formalizations are not yet released', note=q)
+```
+
+### PASS · e56-bombshell-warning (attribution, Aaronson crypto warning)
+> Claim: He wrote that he is virtually certain, from multiple reliable sources, that frontier labs are sitting on one or more unreleased cryptographic bombshells
+
+Source ([x-andrewcurran_](https://x.com/AndrewCurran_/status/2125589468786909510)): "Scott Aaronson states he is virtually certain, from multiple reliable sources, that frontier labs hold unreleased cryptography "bombshells." He is far less confident about the exact nature-such as a practical polynomial-time"
+
+Note: Secondary attribution in a reply; plural entails at least one. Not lab confirmation.
+
+```python
+def check(ctx):
+    return ctx.require('andrewcurran_', r'Scott Aaronson states he is virtually certain, from multiple reliable sources, that frontier labs hold unreleased cryptography ["“]bombshells', note='Secondary attribution in a reply; plural entails at least one. Not lab confirmation.')
+```
+
+### PASS · e57-virtual-certainty (qualifier, Aaronson crypto warning)
+> Claim: virtually certain
+
+Source ([x-andrewcurran_](https://x.com/AndrewCurran_/status/2125589468786909510)): "Scott Aaronson states he is virtually certain, from multiple reliable sources, that frontier labs hold unreleased cryptography "bombshells." He is far less confident about the exact nature-such as a practical polynomial-time"
+
+Note: Reported confidence about unspecified results.
+
+```python
+def check(ctx):
+    return ctx.require('andrewcurran_', r'Scott Aaronson states he is virtually certain.*unreleased cryptography', note='Reported confidence about unspecified results.')
+```
+
+### PASS · e58-reliable-sources (qualifier, Aaronson crypto warning)
+> Claim: from multiple reliable sources
+
+Source ([x-andrewcurran_](https://x.com/AndrewCurran_/status/2125589468786909510)): "Scott Aaronson states he is virtually certain, from multiple reliable sources, that frontier labs hold unreleased cryptography "bombshells." He is far less confident about the exact nature-such as a practical polynomial-time"
+
+Note: Reported characterization, not verification of sources.
+
+```python
+def check(ctx):
+    return ctx.require('andrewcurran_', r'Scott Aaronson states he is virtually certain, from multiple reliable sources', note='Reported characterization, not verification of sources.')
+```
+
+### PASS · e59-one-or-more (number, Aaronson crypto warning)
+> Claim: one or more unreleased cryptographic bombshells
+
+Source ([x-andrewcurran_](https://x.com/AndrewCurran_/status/2125589468786909510)): "Scott Aaronson states he is virtually certain, from multiple reliable sources, that frontier labs hold unreleased cryptography "bombshells." He is far less confident about the exact nature-such as a practical polynomial-time"
+
+Note: Plural supports one or more within the attributed warning only.
+
+```python
+def check(ctx):
+    return ctx.require('andrewcurran_', r'Scott Aaronson states .*frontier labs hold unreleased cryptography ["“]bombshells', note='Plural supports one or more within the attributed warning only.')
+```
+
+### PASS · oe1-google-company (objection, Google papers)
+
+Source ([scan-framing](https://www.signalandnoise.email/content/daily-state/2026-11-26/audit/sources/2026-11-26/scan-framing.txt)): "framing (Google Research (GitHub)): Company-posted preprints in a public repository; no peer review, and the announced Lean formalizations are not yet released."
+
+Note: The artifact carries the caveat this check looks for.
+
+```python
+def check(ctx):
+    q = ctx.find('framing', r'Company-posted preprints in a public repository')
+    p = r'(?:Google(?: Research)? (?:says|reports|claims)|company[- ]reported|according to Google)'
+    return ctx.ok('framing', q) if ctx.art_has(p) else ctx.fail('framing', q, 'Attribute the findings to the company.')
+```
+
+### PASS · oe11-warning-hearsay (objection, Aaronson crypto warning)
 
 Source ([scan-framing](https://www.signalandnoise.email/content/daily-state/2026-11-26/audit/sources/2026-11-26/scan-framing.txt)): "framing (Shtetl-Optimized (Scott Aaronson)): Aaronson's own blog; it establishes only what he says he has heard, and he explicitly declines to vouch for the specifics."
 
@@ -915,34 +1032,11 @@ Note: The artifact carries the caveat this check looks for.
 ```python
 def check(ctx):
     q = ctx.find('framing', r'only what he says he has heard')
-    return ctx.ok('framing', q) if ctx.art_has(r'Aaronson.{0,100}(?:heard|told|from multiple reliable sources)') else ctx.fail('framing', q, 'Identify the information as second hand.')
+    p = r'(?:Aaronson|he (?:wrote|said|says))[^.!?]{0,160}(?:heard|second[ -]hand|from multiple reliable sources)'
+    return ctx.ok('framing', q) if ctx.art_has(p) else ctx.fail('framing', q, 'Identify the warning as what Aaronson reports hearing.')
 ```
 
-### PASS · oe11-logrank-verification (objection, Google papers)
-
-Source ([scan-framing](https://www.signalandnoise.email/content/daily-state/2026-11-26/audit/sources/2026-11-26/scan-framing.txt)): "framing (Google Research (GitHub)): Company-posted claim of a tiny improvement over the square-root bound (epsilon of 5 millionths); not a proof of the conjecture; not independently verified."
-
-Note: The artifact carries the caveat this check looks for.
-
-```python
-def check(ctx):
-    q = ctx.find('framing', r'not a proof of the conjecture; not independently verified')
-    return ctx.ok('framing', q) if ctx.art_has(r'(?:log[- ]rank|(?:six|Google.s) papers).{0,200}(?:not independently verified|no independent verification|remain unverified|unverified for now|leaving them unverified)') else ctx.fail('framing', q, 'Flag the log-rank claim as lacking independent verification.')
-```
-
-### PASS · oe12-company-metrics (objection, Rust migration)
-
-Source ([scan-framing](https://www.signalandnoise.email/content/daily-state/2026-11-26/audit/sources/2026-11-26/scan-framing.txt)): "framing (Anthropic): Company-reported engineering results; performance numbers are Anthropic's own and not independently measured."
-
-Note: The artifact carries the caveat this check looks for.
-
-```python
-def check(ctx):
-    q = ctx.find('framing', r'performance numbers are Anthropic.s own')
-    return ctx.ok('framing', q) if ctx.art_has(r'(?:according to Anthropic|Anthropic (?:reports|says)|company[- ]reported).{0,200}CPU') else ctx.fail('framing', q, 'Attribute the measurements to Anthropic.')
-```
-
-### PASS · oe2-specifics (objection, Factoring rumor)
+### PASS · oe12-warning-specifics (objection, Aaronson crypto warning)
 
 Source ([scan-framing](https://www.signalandnoise.email/content/daily-state/2026-11-26/audit/sources/2026-11-26/scan-framing.txt)): "framing (Shtetl-Optimized (Scott Aaronson)): Aaronson's own blog; it establishes only what he says he has heard, and he explicitly declines to vouch for the specifics."
 
@@ -950,11 +1044,25 @@ Note: The artifact carries the caveat this check looks for.
 
 ```python
 def check(ctx):
-    q = ctx.find('framing', r'declines to vouch for the specifics')
-    return ctx.ok('framing', q) if ctx.art_has(r'(?:not vouch|declin\w* to vouch|less confident about the exact|specifics can get mangled|uncertain about the specifics)') else ctx.fail('framing', q, 'Carry Aaronson’s reservation about specifics.')
+    q = ctx.find('framing', r'explicitly declines to vouch for the specifics')
+    p = r'(?:(?:declin\w*|refus\w*|would not|did not)[^.!?]{0,80}(?:vouch|name RSA|claim[^.!?]{0,50}factor)|specifics[^.!?]{0,60}(?:uncertain|mangled))'
+    return ctx.ok('framing', q) if ctx.art_has(p) else ctx.fail('framing', q, 'Carry his reservation about the specifics.')
 ```
 
-### PASS · oe6-lean-release (objection, Proof verification)
+### PASS · oe13-no-lab-publication (objection, RSA rumors)
+
+Source ([scan-framing](https://www.signalandnoise.email/content/daily-state/2026-11-26/audit/sources/2026-11-26/scan-framing.txt)): "No lab has published or confirmed such a result."
+
+Note: The artifact carries the caveat this check looks for.
+
+```python
+def check(ctx):
+    q = ctx.find('framing', r'No lab has published or confirmed such a result')
+    p = r'(?:no (?:frontier )?labs? (?:has |have )?(?:publicly )?published|unpublished (?:crypto|factoring|RSA)|unreleased cryptogra\w* (?:results|bombshells))'
+    return ctx.ok('framing', q) if ctx.art_has(p) else ctx.fail('framing', q, 'State the rumored result is unpublished.')
+```
+
+### PASS · oe4-lean-pending (objection, Google formalizations)
 
 Source ([scan-framing](https://www.signalandnoise.email/content/daily-state/2026-11-26/audit/sources/2026-11-26/scan-framing.txt)): "framing (Google Research (GitHub)): Company-posted preprints in a public repository; no peer review, and the announced Lean formalizations are not yet released."
 
@@ -963,154 +1071,230 @@ Note: The artifact carries the caveat this check looks for.
 ```python
 def check(ctx):
     q = ctx.find('framing', r'announced Lean formalizations are not yet released')
-    return ctx.ok('framing', q) if ctx.art_has(r'Lean(?: 4)? formalizations?.{0,60}(?:not yet (?:public|released)|unreleased|coming in a companion submission|will be released)|pending (?:release of (?:the )?)?Lean 4 formalizations') else ctx.fail('framing', q, 'State that the announced formalizations are not public yet.')
-```
-
-### PASS · oe8-factoring-verification (objection, Google papers)
-
-Source ([scan-framing](https://www.signalandnoise.email/content/daily-state/2026-11-26/audit/sources/2026-11-26/scan-framing.txt)): "framing (Google Research (GitHub)): Company-posted claim; the running-time bound is subexponential, not polynomial, and no independent verification is reported."
-
-Note: The artifact carries the caveat this check looks for.
-
-```python
-def check(ctx):
-    q = ctx.find('framing', r'no independent verification is reported')
-    return ctx.ok('framing', q) if ctx.art_has(r'(?:factoring (?:papers|results|bounds)|Google.s (?:public )?(?:papers|results)|six papers).{0,200}(?:not independently verified|no independent verification|remain unverified|unverified for now|leaving them unverified)') else ctx.fail('framing', q, 'Flag the public factoring results, not just the separate rumor, as lacking independent verification.')
+    p = r'(?:Lean[^.!?]{0,100}(?:unreleased|not (?:yet )?(?:been )?released)|(?:not (?:yet )?released|unreleased)[^.!?]{0,100}Lean)'
+    return ctx.ok('framing', q) if ctx.art_has(p) else ctx.fail('framing', q, 'State the formalizations are unreleased.')
 ```
 
 ## takeaways
 
-### FAIL · ot1-company-preprints (objection, Gemini math papers)
+### FAIL · ot10-no-lab-confirmation (objection, RSA rumors)
+
+Source ([scan-framing](https://www.signalandnoise.email/content/daily-state/2026-11-26/audit/sources/2026-11-26/scan-framing.txt)): "No lab has published or confirmed such a result."
+
+Note: State no lab has confirmed the rumored result.
+
+```python
+def check(ctx):
+    q = ctx.find('framing', r'No lab has published or confirmed such a result')
+    p = r'(?:no (?:frontier )?labs? (?:has |have )?(?:published or )?(?:publicly )?confirmed|no lab confirmation|not (?:been )?confirmed by (?:any|either|the) labs?|neither lab has confirmed)'
+    return ctx.ok('framing', q) if ctx.art_has(p) else ctx.fail('framing', q, 'State no lab has confirmed the rumored result.')
+```
+
+### FAIL · ot2-preprint-status (objection, Cogentic papers)
 
 Source ([scan-framing](https://www.signalandnoise.email/content/daily-state/2026-11-26/audit/sources/2026-11-26/scan-framing.txt)): "framing (Google Research (GitHub)): Company-posted preprints in a public repository; no peer review, and the announced Lean formalizations are not yet released."
 
-Note: Identify the company-posted preprints.
+Note: State preprint status.
 
 ```python
 def check(ctx):
     q = ctx.find('framing', r'Company-posted preprints in a public repository')
-    return ctx.ok('framing', q) if ctx.art_has(r'(?:Google(?: Research)?|company)[- ](?:posted|published|released).{0,100}preprints?') else ctx.fail('framing', q, 'Identify the company-posted preprints.')
+    return ctx.ok('framing', q) if ctx.art_has(r'\bpreprints?\b') else ctx.fail('framing', q, 'State preprint status.')
 ```
 
-### FAIL · ot2-peer-review (objection, Gemini math papers)
+### FAIL · ot3-peer-review (objection, Cogentic papers)
 
 Source ([scan-framing](https://www.signalandnoise.email/content/daily-state/2026-11-26/audit/sources/2026-11-26/scan-framing.txt)): "framing (Google Research (GitHub)): Company-posted preprints in a public repository; no peer review, and the announced Lean formalizations are not yet released."
 
-Note: State lack of peer review.
+Note: State the lack of peer review.
 
 ```python
 def check(ctx):
     q = ctx.find('framing', r'no peer review')
-    return ctx.ok('framing', q) if ctx.art_has(r'no peer review|not (?:yet )?peer[- ]reviewed|without peer review|awaiting peer review') else ctx.fail('framing', q, 'State lack of peer review.')
+    return ctx.ok('framing', q) if ctx.art_has(r'(?:no peer review|(?:not(?: yet)?|non|not been)[ -]peer[ -]reviewed|await(?:ing)? peer review)') else ctx.fail('framing', q, 'State the lack of peer review.')
 ```
 
-### FAIL · ot4-factoring-bound (objection, Gemini math papers)
+### FAIL · ot5-factoring-runtime (objection, Cogentic papers)
 
 Source ([scan-framing](https://www.signalandnoise.email/content/daily-state/2026-11-26/audit/sources/2026-11-26/scan-framing.txt)): "framing (Google Research (GitHub)): Company-posted claim; the running-time bound is subexponential, not polynomial, and no independent verification is reported."
 
-Note: Give the qualification on the public factoring bound.
+Note: Distinguish the public subexponential claim from polynomial-time factoring.
 
 ```python
 def check(ctx):
     q = ctx.find('framing', r'subexponential, not polynomial')
-    return ctx.ok('framing', q) if ctx.art_has(r'sub[- ]?exponential.{0,50}(?:not|rather than) polynomial|not polynomial.{0,50}sub[- ]?exponential') else ctx.fail('framing', q, 'Give the qualification on the public factoring bound.')
+    p = r'(?:subexponential[^.!?]{0,110}(?:not|rather than|instead of) (?:a )?polynomial|not polynomial[^.!?]{0,110}subexponential)'
+    return ctx.ok('framing', q) if ctx.art_has(p) else ctx.fail('framing', q, 'Distinguish the public subexponential claim from polynomial-time factoring.')
 ```
 
-### FAIL · ot7-independent-measurement (objection, Messages API migration)
-
-Source ([scan-framing](https://www.signalandnoise.email/content/daily-state/2026-11-26/audit/sources/2026-11-26/scan-framing.txt)): "framing (Anthropic): Company-reported engineering results; performance numbers are Anthropic's own and not independently measured."
-
-Note: Say the performance gains were not independently measured.
-
-```python
-def check(ctx):
-    q = ctx.find('framing', r'not independently measured')
-    return ctx.ok('framing', q) if ctx.art_has(r'(?:numbers|gains|metrics|performance|measurements).{0,90}(?:not independently (?:measured|verified)|no independent (?:measurement|benchmark))|no independent (?:performance )?(?:benchmark|measurement)') else ctx.fail('framing', q, 'Say the performance gains were not independently measured.')
-```
-
-### FAIL · t03-human-involvement (attribution, Gemini math papers)
-> Claim: claiming no human involvement after the first prompt
-
-Source ([primary-google-cogentic-six-math-papers](https://raw.githubusercontent.com/google-research/google-research/master/cogentic_research_papers/logrank_conjecture/README.md)): "There was no human interaction other than the initial prompt for Cogentic to generate a full proof and formalization"
-
-Note: The claim concerns this proof, not six proofs.
-
-```python
-def check(ctx):
-    return ctx.support_or_contradict('google', r'(?:all six papers|six proofs).{0,120}no human interaction other than the initial prompt', r'There was no human interaction other than the initial prompt for Cogentic to\s+generate a full proof and formalization', 'The claim concerns this proof, not six proofs.')
-```
-
-### FAIL · t05-pending-formalizations (qualifier, Gemini math papers)
-> Claim: they remain unverified pending Lean 4 formalizations
-
-Source ([primary-google-cogentic-six-math-papers](https://raw.githubusercontent.com/google-research/google-research/master/cogentic_research_papers/logrank_conjecture/README.md)): "formalization of the entire proof has also been completed"
-
-Note: At least the log-rank formalization is complete; public release and independent verification are separate issues.
-
-```python
-def check(ctx):
-    return ctx.support_or_contradict('google', r'Lean 4 formalizations.{0,80}(?:not yet completed|remain to be written)', r'formalization of the\s+entire proof has also been completed', 'At least the log-rank formalization is complete; public release and independent verification are separate issues.')
-```
-
-### FAIL · t18-core-authorship (attribution, Messages API migration)
-> Claim: Claude wrote the core request path
-
-Source ([primary-anthropic-messages-api-rust-migration](https://www.anthropic.com/research/migrating-api-to-rust)): "Claude wrote a first version of the API's core request path in about a week."
-
-Note: Authorship is explicitly scoped to a first version.
-
-```python
-def check(ctx):
-    return ctx.support_or_contradict('anthropic', r'Claude wrote the (?:API.s )?core request path', r'Claude wrote a first version of the API.s core request path', 'Authorship is explicitly scoped to a first version.')
-```
-
-### NEEDS-HUMAN · t07-crypto-assessment (attribution, Gemini math papers)
-> Claim: computer scientist Scott Aaronson saw nothing of practical cryptographic relevance in their factoring results
-
-Note: no source sentence matches /Aaronson.{0,120}(?:factoring|repository).{0,120}nothing of practical (?:cryptographic relevance|relevance (?:to|for) cryptography)/. 
-
-```python
-def check(ctx):
-    return ctx.require('framing', r'Aaronson.{0,120}(?:factoring|repository).{0,120}nothing of practical (?:cryptographic relevance|relevance (?:to|for) cryptography)')
-```
-
-### NEEDS-HUMAN · t08-crypto-opinion (opinion, Gemini math papers)
-> Claim: nothing of practical cryptographic relevance in their factoring results
+### FAIL · ot6-factoring-unverified (objection, Cogentic papers)
 
 Source ([scan-framing](https://www.signalandnoise.email/content/daily-state/2026-11-26/audit/sources/2026-11-26/scan-framing.txt)): "framing (Google Research (GitHub)): Company-posted claim; the running-time bound is subexponential, not polynomial, and no independent verification is reported."
 
-Note: The asymptotic classification alone cannot decide practical relevance.
+Note: No independent verification of the public factoring claim is reported.
 
 ```python
 def check(ctx):
-    return ctx.need('framing', ctx.find('framing', r'running-time bound is subexponential'), 'The asymptotic classification alone cannot decide practical relevance.')
+    q = ctx.find('framing', r'no independent verification is reported')
+    p = r'(?:factor\w*[^.!?]{0,180}(?:no independent verification|not (?:yet )?(?:been )?independently verified|unverified)|(?:no independent verification|not independently verified|unverified)[^.!?]{0,180}factor\w*)'
+    return ctx.ok('framing', q) if ctx.art_has(p) else ctx.fail('framing', q, 'No independent verification of the public factoring claim is reported.')
 ```
 
-### NEEDS-HUMAN · t15-oversight-duration (qualifier, Messages API migration)
-> Claim: earning production trust still took five months of human oversight
+### FAIL · t01-quiet-six-commit (attribution, Cogentic papers)
+> Claim: Google Research quietly committed six new math papers to GitHub
 
-Source ([primary-anthropic-messages-api-rust-migration](https://www.anthropic.com/research/migrating-api-to-rust)): "Changes merged to our API's Rust code in each two-week period, from April until public traffic moved to Rust in September 2026."
+Source ([scan-framing](https://www.signalandnoise.email/content/daily-state/2026-11-26/audit/sources/2026-11-26/scan-framing.txt)): "STORY: Google Research posts six Cogentic papers, produced with Gemini 4, claiming results on factoring, the log-rank conjecture and more"
 
-Note: Dates bound the migration work. They do not isolate the time spent earning trust under human oversight.
+Note: The posting and count are reported; quiet publication is not.
 
 ```python
 def check(ctx):
-    return ctx.need('anthropic', ctx.find('anthropic', r'from April until public traffic moved to Rust in September 2026'), 'Dates bound the migration work. They do not isolate the time spent earning trust under human oversight.')
+    return ctx.support_or_contradict('framing', r'(?=.*Google Research)(?=.*(?:quietly|without announcement))(?=.*six (?:new )?(?:math|Cogentic) papers)(?=.*GitHub)', r'Google Research posts six Cogentic papers', 'The posting and count are reported; quiet publication is not.')
 ```
 
-### NEEDS-HUMAN · t16-five-months (number, Messages API migration)
-> Claim: five months of human oversight
+### FAIL · t05-autonomous-batch (attribution, Cogentic papers)
+> Claim: it says its Cogentic harness running on Gemini 4 produced without human interaction after the initial prompt
 
-Source ([primary-anthropic-messages-api-rust-migration](https://www.anthropic.com/research/migrating-api-to-rust)): "Changes merged to our API's Rust code in each two-week period, from April until public traffic moved to Rust in September 2026."
+Source ([primary-google-cogentic-six-math-papers](https://raw.githubusercontent.com/google-research/google-research/master/cogentic_research_papers/logrank_conjecture/README.md)): "There was no human interaction other than the initial prompt for Cogentic to"
 
-Note: Five named-month intervals; chart measures merged changes, not a duration of oversight.
+Note: The interaction claim in this README covers one proof and formalization.
 
 ```python
 def check(ctx):
-    return ctx.need('anthropic', ctx.find('anthropic', r'from April until public traffic moved to Rust in September 2026'), 'Five named-month intervals; chart measures merged changes, not a duration of oversight.')
+    return ctx.support_or_contradict('google', r'(?=.*(?:six papers|all six))(?=.*Cogentic)(?=.*Gemini 4)(?=.*no human interaction other than the initial prompt)', r'There was no human interaction other than the initial prompt', 'The interaction claim in this README covers one proof and formalization.')
 ```
 
-### PASS · ot3-lean-release (objection, Gemini math papers)
+### FAIL · t07-no-human-after-prompt (qualifier, Cogentic papers)
+> Claim: without human interaction after the initial prompt
+
+Source ([primary-google-cogentic-six-math-papers](https://raw.githubusercontent.com/google-research/google-research/master/cogentic_research_papers/logrank_conjecture/README.md)): "There was no human interaction other than the initial prompt for Cogentic to"
+
+Note: Claim attached to six papers in the takeaway; directly supported for one only.
+
+```python
+def check(ctx):
+    return ctx.support_or_contradict('google', r'(?=.*(?:all six|six papers))(?=.*no human interaction other than the initial prompt)', r'There was no human interaction other than the initial prompt', 'Claim attached to six papers in the takeaway; directly supported for one only.')
+```
+
+### FAIL · t09-confirmed-no-threat (attribution, Cogentic papers)
+> Claim: integer factoring results that Scott Aaronson confirmed do not threaten RSA
+
+Source ([scan-framing](https://www.signalandnoise.email/content/daily-state/2026-11-26/audit/sources/2026-11-26/scan-framing.txt)): "framing (Google Research (GitHub)): Company-posted claim; the running-time bound is subexponential, not polynomial, and no independent verification is reported."
+
+Note: No reported confirmation by Aaronson; a runtime classification is not a practical RSA assessment.
+
+```python
+def check(ctx):
+    return ctx.support_or_contradict('framing', r'(?=.*Aaronson confirmed)(?=.*factoring)(?=.*(?:do not threaten|do not break) RSA)', r'Company-posted claim; the running-time bound is subexponential.*no independent verification is reported', 'No reported confirmation by Aaronson; a runtime classification is not a practical RSA assessment.')
+```
+
+### FAIL · t14-posts-secret-crack (attribution, RSA rumors)
+> Claim: X posts claiming frontier labs secretly cracked RSA encryption
+
+Source ([x-kimmonismus](https://x.com/kimmonismus/status/2125602411540566221)): "Scott Aaronson says he's heard OpenAI or Anthropic may have found a way to factor large numbers in polynomial time."
+
+Note: May have found is not a claim of a completed secret RSA break.
+
+```python
+def check(ctx):
+    return ctx.support_or_contradict('kimmonismus', r'(?:OpenAI|Anthropic|frontier labs).*secretly (?:cracked|broke) RSA', r'OpenAI or Anthropic may have found a way to factor large numbers', 'May have found is not a claim of a completed secret RSA break.')
+```
+
+### FAIL · t16-secretly (qualifier, RSA rumors)
+> Claim: secretly
+
+Source ([x-kimmonismus](https://x.com/kimmonismus/status/2125602411540566221)): "@kimmonismus: If this rumors are true, it would explain why OpenAI and Anthropic are holding back their latest models:"
+
+Note: Speculation about model withholding does not establish a secret break.
+
+```python
+def check(ctx):
+    return ctx.support_or_contradict('kimmonismus', r'(?:secretly|in secret) (?:broke|cracked) RSA', r'If this rumors are true, it would explain why OpenAI and Anthropic are holding back their latest models', 'Speculation about model withholding does not establish a secret break.')
+```
+
+### FAIL · t17-warning-comparison (comparison, RSA rumors)
+> Claim: X posts claiming frontier labs secretly cracked RSA encryption overstated Scott Aaronson's warning
+
+Source ([x-andrewcurran_](https://x.com/AndrewCurran_/status/2125589468786909510)): "This would crack RSA. https://t.co/s5AHbmcDFP https://t.co/YBOYkSYVOr"
+
+Note: Posts speculate beyond the warning but this one does not assert a completed crack. framing (Shtetl-Optimized (Scott Aaronson)): Aaronson's own blog; it establishes only what he says he has heard, and he explicitly declines to vouch for the specifics.
+
+```python
+def check(ctx):
+    q = ctx.find('framing', r'explicitly declines to vouch for the specifics')
+    return ctx.support_or_contradict('andrewcurran_', r'(?:secretly|privately) (?:cracked|broke) RSA', r'This would crack RSA', 'Posts speculate beyond the warning but this one does not assert a completed crack. ' + (q or ''))
+```
+
+### FAIL · t23-refused-specific-claims (attribution, RSA rumors)
+> Claim: deliberately refused to name RSA or claim polynomial-time factoring
+
+Source ([scan-framing](https://www.signalandnoise.email/content/daily-state/2026-11-26/audit/sources/2026-11-26/scan-framing.txt)): "framing (Shtetl-Optimized (Scott Aaronson)): Aaronson's own blog; it establishes only what he says he has heard, and he explicitly declines to vouch for the specifics."
+
+Note: Not vouching is not the same as deliberately refusing to name RSA.
+
+```python
+def check(ctx):
+    return ctx.support_or_contradict('framing', r'(?=.*explicitly decline)(?=.*name RSA)(?=.*polynomial.time factoring)', r'he explicitly declines to vouch for the specifics', 'Not vouching is not the same as deliberately refusing to name RSA.')
+```
+
+### NEEDS-HUMAN · t02-quietly (qualifier, Cogentic papers)
+> Claim: quietly
+
+Note: no source sentence matches /(?=.*Google Research)(?=.*(?:quietly|without (?:an )?announcement|unannounced))/. 
+
+```python
+def check(ctx):
+    return ctx.require('framing', r'(?=.*Google Research)(?=.*(?:quietly|without (?:an )?announcement|unannounced))')
+```
+
+### NEEDS-HUMAN · t08-two-factoring-results (number, Cogentic papers)
+> Claim: two integer factoring results
+
+Note: no source sentence matches /(?:two|2) (?:new )?(?:integer factoring results|results on integer factoring)/. Overall count six does not establish this subtotal.
+
+```python
+def check(ctx):
+    return ctx.require('framing', r'(?:two|2) (?:new )?(?:integer factoring results|results on integer factoring)', note='Overall count six does not establish this subtotal.')
+```
+
+### NEEDS-HUMAN · t13-viral-posts (qualifier, RSA rumors)
+> Claim: Viral X posts
+
+Source ([x-andrewcurran_](https://x.com/AndrewCurran_/status/2125589468786909510)): "@grok (1 likes): @CandleHigh @AndrewCurran_ Yes, the rumors are real and circulating widely."
+
+Note: A reply describes rumor circulation, not reach metrics for these posts.
+
+```python
+def check(ctx):
+    return ctx.need('andrewcurran_', ctx.find('andrewcurran_', r'rumors are real and circulating widely'), 'A reply describes rumor circulation, not reach metrics for these posts.')
+```
+
+### NEEDS-HUMAN · t22-bombshells (opinion, RSA rumors)
+> Claim: cryptographic bombshells
+
+Source ([x-andrewcurran_](https://x.com/AndrewCurran_/status/2125589468786909510)): "Scott Aaronson states he is virtually certain, from multiple reliable sources, that frontier labs hold unreleased cryptography "bombshells." He is far less confident about the exact nature-such as a practical polynomial-time"
+
+Note: The metaphor is reported; its assessment of significance is subjective.
+
+```python
+def check(ctx):
+    return ctx.need('andrewcurran_', ctx.find('andrewcurran_', r'unreleased cryptography ["“]bombshells'), 'The metaphor is reported; its assessment of significance is subjective.')
+```
+
+### NEEDS-HUMAN · t24-deliberately (qualifier, RSA rumors)
+> Claim: deliberately
+
+Source ([scan-framing](https://www.signalandnoise.email/content/daily-state/2026-11-26/audit/sources/2026-11-26/scan-framing.txt)): "framing (Shtetl-Optimized (Scott Aaronson)): Aaronson's own blog; it establishes only what he says he has heard, and he explicitly declines to vouch for the specifics."
+
+Note: Explicit reservation about specifics; intent about naming RSA cannot be inferred.
+
+```python
+def check(ctx):
+    q = ctx.find('framing', r'he explicitly declines to vouch for the specifics')
+    return ctx.need('framing', q, 'Explicit reservation about specifics; intent about naming RSA cannot be inferred.')
+```
+
+### PASS · ot1-company-reported (objection, Cogentic papers)
 
 Source ([scan-framing](https://www.signalandnoise.email/content/daily-state/2026-11-26/audit/sources/2026-11-26/scan-framing.txt)): "framing (Google Research (GitHub)): Company-posted preprints in a public repository; no peer review, and the announced Lean formalizations are not yet released."
 
@@ -1118,163 +1302,200 @@ Note: The artifact carries the caveat this check looks for.
 
 ```python
 def check(ctx):
-    q = ctx.find('framing', r'formalizations are not yet released')
-    return ctx.ok('framing', q) if ctx.art_has(r'Lean(?: 4)? formalizations?.{0,60}(?:not yet (?:public|released)|unreleased|coming in a companion submission|will be released)|pending (?:public )?release of (?:the )?Lean 4 formalizations|pending Lean 4 formalizations') else ctx.fail('framing', q, 'Specify pending release rather than implying formalization has not been done.')
+    q = ctx.find('framing', r'Company-posted preprints in a public repository')
+    p = r'(?:Google(?: Research)? (?:says|reports|claims)|company[- ]reported|according to Google|it says its Cogentic harness)'
+    return ctx.ok('framing', q) if ctx.art_has(p) else ctx.fail('framing', q, 'Identify company reporting.')
 ```
 
-### PASS · ot5-independent-verification (objection, Gemini math papers)
+### PASS · ot4-lean-pending (objection, Cogentic papers)
 
-Source ([scan-framing](https://www.signalandnoise.email/content/daily-state/2026-11-26/audit/sources/2026-11-26/scan-framing.txt)): "framing (Google Research (GitHub)): Company-posted claim; the running-time bound is subexponential, not polynomial, and no independent verification is reported."
+Source ([scan-framing](https://www.signalandnoise.email/content/daily-state/2026-11-26/audit/sources/2026-11-26/scan-framing.txt)): "framing (Google Research (GitHub)): Company-posted preprints in a public repository; no peer review, and the announced Lean formalizations are not yet released."
 
 Note: The artifact carries the caveat this check looks for.
 
 ```python
 def check(ctx):
-    q = ctx.find('framing', r'no independent verification is reported')
-    return ctx.ok('framing', q) if ctx.art_has(r'no independent verification|not (?:yet )?independently verified|they remain unverified') else ctx.fail('framing', q, 'Flag lack of independent verification of the public claims.')
+    q = ctx.find('framing', r'announced Lean formalizations are not yet released')
+    p = r'(?:Lean[^.!?]{0,100}(?:unreleased|not (?:yet )?(?:been )?released)|(?:not (?:yet )?released|unreleased)[^.!?]{0,100}Lean)'
+    return ctx.ok('framing', q) if ctx.art_has(p) else ctx.fail('framing', q, 'State that the Lean artifacts are not yet released.')
 ```
 
-### PASS · ot6-company-metrics (objection, Messages API migration)
+### PASS · ot7-warning-hearsay (objection, RSA rumors)
 
-Source ([scan-framing](https://www.signalandnoise.email/content/daily-state/2026-11-26/audit/sources/2026-11-26/scan-framing.txt)): "framing (Anthropic): Company-reported engineering results; performance numbers are Anthropic's own and not independently measured."
+Source ([scan-framing](https://www.signalandnoise.email/content/daily-state/2026-11-26/audit/sources/2026-11-26/scan-framing.txt)): "framing (Shtetl-Optimized (Scott Aaronson)): Aaronson's own blog; it establishes only what he says he has heard, and he explicitly declines to vouch for the specifics."
 
 Note: The artifact carries the caveat this check looks for.
 
 ```python
 def check(ctx):
-    q = ctx.find('framing', r'performance numbers are Anthropic.s own')
-    return ctx.ok('framing', q) if ctx.art_has(r'(?:Anthropic reports|according to Anthropic|company[- ]reported).{0,200}CPU') else ctx.fail('framing', q, 'Attribute the measurements to Anthropic.')
+    q = ctx.find('framing', r'only what he says he has heard')
+    p = r'(?:Aaronson|he (?:wrote|said|says))[^.!?]{0,160}(?:heard|second[ -]hand|from multiple reliable sources)'
+    return ctx.ok('framing', q) if ctx.art_has(p) else ctx.fail('framing', q, 'Attribute the warning to what Aaronson heard.')
 ```
 
-### PASS · t01-google-posted (attribution, Gemini math papers)
-> Claim: Google Research posted six Gemini 4 math papers
+### PASS · ot8-warning-specifics (objection, RSA rumors)
+
+Source ([scan-framing](https://www.signalandnoise.email/content/daily-state/2026-11-26/audit/sources/2026-11-26/scan-framing.txt)): "framing (Shtetl-Optimized (Scott Aaronson)): Aaronson's own blog; it establishes only what he says he has heard, and he explicitly declines to vouch for the specifics."
+
+Note: The artifact carries the caveat this check looks for.
+
+```python
+def check(ctx):
+    q = ctx.find('framing', r'explicitly declines to vouch for the specifics')
+    p = r'(?:(?:declin\w*|refus\w*|would not|did not)[^.!?]{0,80}(?:vouch|name RSA|claim[^.!?]{0,50}factor)|specifics[^.!?]{0,60}(?:uncertain|mangled))'
+    return ctx.ok('framing', q) if ctx.art_has(p) else ctx.fail('framing', q, 'Keep Aaronson’s disclaimer about specifics.')
+```
+
+### PASS · ot9-no-lab-publication (objection, RSA rumors)
+
+Source ([scan-framing](https://www.signalandnoise.email/content/daily-state/2026-11-26/audit/sources/2026-11-26/scan-framing.txt)): "No lab has published or confirmed such a result."
+
+Note: The artifact carries the caveat this check looks for.
+
+```python
+def check(ctx):
+    q = ctx.find('framing', r'No lab has published or confirmed such a result')
+    p = r'(?:no (?:frontier )?labs? (?:has |have )?(?:publicly )?published|unpublished (?:crypto|factoring|RSA)|unreleased cryptogra\w* (?:results|bombshells))'
+    return ctx.ok('framing', q) if ctx.art_has(p) else ctx.fail('framing', q, 'State the rumored result is unpublished.')
+```
+
+### PASS · t03-six-papers (number, Cogentic papers)
+> Claim: six new math papers
 
 Source ([scan-framing](https://www.signalandnoise.email/content/daily-state/2026-11-26/audit/sources/2026-11-26/scan-framing.txt)): "STORY: Google Research posts six Cogentic papers, produced with Gemini 4, claiming results on factoring, the log-rank conjecture and more"
 
+Note: New postings; does not certify novelty or correctness of results.
+
 ```python
 def check(ctx):
-    return ctx.require('framing', r'Google Research posts six Cogentic papers, produced with Gemini 4')
+    return ctx.require('framing', r'Google Research posts six Cogentic papers, produced with Gemini 4, claiming results on factoring, the log-rank conjecture', note='New postings; does not certify novelty or correctness of results.')
 ```
 
-### PASS · t02-paper-count (number, Gemini math papers)
-> Claim: six Gemini 4 math papers
+### PASS · t04-new-papers (qualifier, Cogentic papers)
+> Claim: new math papers
 
 Source ([scan-framing](https://www.signalandnoise.email/content/daily-state/2026-11-26/audit/sources/2026-11-26/scan-framing.txt)): "STORY: Google Research posts six Cogentic papers, produced with Gemini 4, claiming results on factoring, the log-rank conjecture and more"
 
+Note: Newly posted papers on mathematical topics.
+
 ```python
 def check(ctx):
-    return ctx.require('framing', r'six Cogentic papers, produced with Gemini 4, claiming results on factoring, the log-rank conjecture')
+    return ctx.require('framing', r'posts six Cogentic papers, produced with Gemini 4, claiming results on factoring, the log-rank conjecture', note='Newly posted papers on mathematical topics.')
 ```
 
-### PASS · t04-after-prompt (qualifier, Gemini math papers)
-> Claim: after the first prompt
+### PASS · t06-harness-model (qualifier, Cogentic papers)
+> Claim: its Cogentic harness running on Gemini 4
 
-Source ([primary-google-cogentic-six-math-papers](https://raw.githubusercontent.com/google-research/google-research/master/cogentic_research_papers/logrank_conjecture/README.md)): "no human interaction other than the initial prompt for Cogentic to generate a full proof and formalization"
+Source ([primary-google-cogentic-six-math-papers](https://raw.githubusercontent.com/google-research/google-research/master/cogentic_research_papers/logrank_conjecture/README.md)): "agentic framework for mathematical discovery, using Gemini 4 as the base model. … The Cogentic harness was built by Yang Cai, Vineet Gupta, Yanchen Jiang, Christopher Liaw, Aranyak Mehta, Grigoris Velegkas, and Di Wang (Google Research and Google DeepMind"
 
-Note: Timing qualifier supported for the log-rank paper only.
+Note: Google-associated team; one author also has a Yale affiliation.
 
 ```python
 def check(ctx):
-    return ctx.require('google', r'no human interaction other than the initial prompt for Cogentic to\s+generate a full proof and formalization', note='Timing qualifier supported for the log-rank paper only.')
+    return ctx.require('google', r'using Gemini 4 as the base model', r'The Cogentic harness was built by[\s\S]*Google Research\s+and Google DeepMind', note='Google-associated team; one author also has a Yale affiliation.')
 ```
 
-### PASS · t06-aaronson-profession (qualifier, Gemini math papers)
-> Claim: computer scientist Scott Aaronson
+### PASS · t10-lean-status (attribution, Cogentic papers)
+> Claim: Google has not yet released its claimed Lean 4 formalizations
 
-Source ([x-andrewcurran_](https://x.com/AndrewCurran_/status/2125589468786909510)): "@grok (1 likes): @CandleHigh @AndrewCurran_ @grom Scott Aaronson is a leading theoretical computer scientist and professor at UT Austin, specializing in quantum computing and complexity theory."
+Source ([scan-framing](https://www.signalandnoise.email/content/daily-state/2026-11-26/audit/sources/2026-11-26/scan-framing.txt)): "framing (Google Research (GitHub)): Company-posted preprints in a public repository; no peer review, and the announced Lean formalizations are not yet released."
 
-Note: Description in a reply, not an institutional bio.
+Note: Lean 4 (`v4.33.0`) formalization of the entire proof has also been completed and will be released in a companion submission
 
 ```python
 def check(ctx):
-    return ctx.require('andrewcurran_', r'Scott Aaronson is a leading theoretical computer scientist', note='Description in a reply, not an institutional bio.')
+    q = ctx.find('google', r'Lean 4[\s\S]*will be released in a companion\s+submission')
+    if not q: return ctx.need('google', None, 'Need Lean version and company release statement.')
+    return ctx.require('framing', r'Google Research .*announced Lean formalizations are not yet released', note=q)
 ```
 
-### PASS · t09-anthropic-metrics (attribution, Messages API migration)
-> Claim: Anthropic reports that migrating its Messages API from Python to Rust cut CPU use per request by about 70 percent and median time to first token by about 20 percent
+### PASS · t11-not-yet-released (qualifier, Cogentic papers)
+> Claim: not yet released
 
-Source ([primary-anthropic-messages-api-rust-migration](https://www.anthropic.com/research/migrating-api-to-rust)): "We ran into this problem when we migrated our Messages API from Python to Rust. … This allowed us to ship an API on Rust that uses about 70% less CPU per request and cuts median time to first token by about 20% without ever taking the service offline or freezing feature development."
+Source ([scan-framing](https://www.signalandnoise.email/content/daily-state/2026-11-26/audit/sources/2026-11-26/scan-framing.txt)): "framing (Google Research (GitHub)): Company-posted preprints in a public repository; no peer review, and the announced Lean formalizations are not yet released."
 
 ```python
 def check(ctx):
-    return ctx.require('anthropic', r'we migrated our Messages API from Python to Rust', r'Rust that uses about 70% less CPU per request and cuts median time to first token by about 20%')
+    return ctx.require('framing', r'announced Lean formalizations are not yet released')
 ```
 
-### PASS · t10-migration-direction (attribution, Messages API migration)
-> Claim: migrating its Messages API from Python to Rust
+### PASS · t12-claimed-lean (qualifier, Cogentic papers)
+> Claim: claimed Lean 4 formalizations
 
-Source ([primary-anthropic-messages-api-rust-migration](https://www.anthropic.com/research/migrating-api-to-rust)): "We ran into this problem when we migrated our Messages API from Python to Rust."
+Source ([scan-framing](https://www.signalandnoise.email/content/daily-state/2026-11-26/audit/sources/2026-11-26/scan-framing.txt)): "framing (Google Research (GitHub)): Company-posted preprints in a public repository; no peer review, and the announced Lean formalizations are not yet released."
+
+Note: Lean 4 (`v4.33.0`) formalization of the entire proof has also been completed
 
 ```python
 def check(ctx):
-    return ctx.require('anthropic', r'we migrated our Messages API from Python to Rust')
+    q = ctx.find('google', r'Lean 4[\s\S]*entire proof has also been completed')
+    if not q: return ctx.need('google', None, 'Need versioned company claim.')
+    return ctx.require('framing', r'announced Lean formalizations are not yet released', note=q)
 ```
 
-### PASS · t11-cpu-comparison (comparison, Messages API migration)
-> Claim: cut CPU use per request by about 70 percent
+### PASS · t15-frontier-labs (qualifier, RSA rumors)
+> Claim: frontier labs
 
-Source ([primary-anthropic-messages-api-rust-migration](https://www.anthropic.com/research/migrating-api-to-rust)): "This allowed us to ship an API on Rust that uses about 70% less CPU per request and cuts median time to first token by about 20% without ever taking the service offline or freezing feature development."
+Source ([x-kimmonismus](https://x.com/kimmonismus/status/2125602411540566221)): "Scott Aaronson says he's heard OpenAI or Anthropic may have found a way to factor large numbers in polynomial time."
+
+Note: Identifies the labs in the rumor, not a confirmed result.
 
 ```python
 def check(ctx):
-    return ctx.require('anthropic', r'Rust that uses about 70% less CPU per request')
+    return ctx.require('kimmonismus', r'OpenAI or Anthropic may have found a way to factor large numbers', note='Identifies the labs in the rumor, not a confirmed result.')
 ```
 
-### PASS · t12-cpu-number (number, Messages API migration)
-> Claim: about 70 percent
+### PASS · t18-aaronson-confidence (attribution, RSA rumors)
+> Claim: he wrote he is virtually certain from multiple reliable sources that labs are holding unreleased cryptographic bombshells
 
-Source ([primary-anthropic-messages-api-rust-migration](https://www.anthropic.com/research/migrating-api-to-rust)): "This allowed us to ship an API on Rust that uses about 70% less CPU per request and cuts median time to first token by about 20% without ever taking the service offline or freezing feature development."
+Source ([x-andrewcurran_](https://x.com/AndrewCurran_/status/2125589468786909510)): "Scott Aaronson states he is virtually certain, from multiple reliable sources, that frontier labs hold unreleased cryptography "bombshells." He is far less confident about the exact nature-such as a practical polynomial-time"
+
+Note: Secondary account of his statement, not independent confirmation.
 
 ```python
 def check(ctx):
-    return ctx.require('anthropic', r'about 70% less CPU per request')
+    return ctx.require('andrewcurran_', r'Scott Aaronson states he is virtually certain, from multiple reliable sources, that frontier labs hold unreleased cryptography ["“]bombshells', note='Secondary account of his statement, not independent confirmation.')
 ```
 
-### PASS · t13-joint-comparison (comparison, Messages API migration)
-> Claim: cut CPU use per request by about 70 percent and median time to first token by about 20 percent
+### PASS · t19-virtually-certain (qualifier, RSA rumors)
+> Claim: virtually certain
 
-Source ([primary-anthropic-messages-api-rust-migration](https://www.anthropic.com/research/migrating-api-to-rust)): "This allowed us to ship an API on Rust that uses about 70% less CPU per request and cuts median time to first token by about 20% without ever taking the service offline or freezing feature development."
+Source ([x-andrewcurran_](https://x.com/AndrewCurran_/status/2125589468786909510)): "Scott Aaronson states he is virtually certain, from multiple reliable sources, that frontier labs hold unreleased cryptography "bombshells." He is far less confident about the exact nature-such as a practical polynomial-time"
+
+Note: Confidence concerns unspecified bombshells.
 
 ```python
 def check(ctx):
-    return ctx.require('anthropic', r'uses about 70% less CPU per request and cuts median time to first token by about 20%')
+    return ctx.require('andrewcurran_', r'Scott Aaronson states he is virtually certain.*unreleased cryptography', note='Confidence concerns unspecified bombshells.')
 ```
 
-### PASS · t14-latency-number (number, Messages API migration)
-> Claim: about 20 percent
+### PASS · t20-multiple-sources (qualifier, RSA rumors)
+> Claim: multiple reliable sources
 
-Source ([primary-anthropic-messages-api-rust-migration](https://www.anthropic.com/research/migrating-api-to-rust)): "This allowed us to ship an API on Rust that uses about 70% less CPU per request and cuts median time to first token by about 20% without ever taking the service offline or freezing feature development."
+Source ([x-andrewcurran_](https://x.com/AndrewCurran_/status/2125589468786909510)): "Scott Aaronson states he is virtually certain, from multiple reliable sources, that frontier labs hold unreleased cryptography "bombshells." He is far less confident about the exact nature-such as a practical polynomial-time"
+
+Note: Attribution of confidence, not authentication.
 
 ```python
 def check(ctx):
-    return ctx.require('anthropic', r'cuts median time to first token by about 20%')
+    return ctx.require('andrewcurran_', r'Scott Aaronson states he is virtually certain, from multiple reliable sources', note='Attribution of confidence, not authentication.')
 ```
 
-### PASS · t17-after-core (qualifier, Messages API migration)
-> Claim: after Claude wrote the core request path
+### PASS · t21-unreleased (qualifier, RSA rumors)
+> Claim: unreleased
 
-Source ([primary-anthropic-messages-api-rust-migration](https://www.anthropic.com/research/migrating-api-to-rust)): "Claude wrote a first version of the API's core request path in about a week. … But building trust in the migration required us to find a way to verify that our Rust API was at parity with our production API."
+Source ([x-andrewcurran_](https://x.com/AndrewCurran_/status/2125589468786909510)): "Scott Aaronson states he is virtually certain, from multiple reliable sources, that frontier labs hold unreleased cryptography "bombshells." He is far less confident about the exact nature-such as a practical polynomial-time"
 
-Note: Sequence concerns the first version, not a finished path.
-
-```python
-def check(ctx):
-    return ctx.require('anthropic', r'Claude wrote a first version of the API.s core request path', r'But building trust in the migration required us to find a way to verify', note='Sequence concerns the first version, not a finished path.')
-```
-
-### PASS · t19-week (number, Messages API migration)
-> Claim: in about a week
-
-Source ([primary-anthropic-messages-api-rust-migration](https://www.anthropic.com/research/migrating-api-to-rust)): "Claude wrote a first version of the API's core request path in about a week."
+Note: Within the reported warning only.
 
 ```python
 def check(ctx):
-    return ctx.require('anthropic', r'Claude wrote a first version of the API.s core request path in about a week')
+    return ctx.require('andrewcurran_', r'Scott Aaronson states .*frontier labs hold unreleased cryptography', note='Within the reported warning only.')
 ```
 
 ### PASS · tc01-citation (citation, takeaway 1)
 
-Note: Takeaway 1 cites https://scottaaronson.blog/?p=10379, which is listed in the episode sources.json.
+Note: Takeaway 1 cites https://github.com/google-research/google-research/commit/4a7bc8ab0bc770e71a259b7966c500496b99010a, which is listed in the episode sources.json.
 
 ```python
 def check(ctx):
@@ -1285,7 +1506,7 @@ def check(ctx):
 
 ### PASS · tc02-citation (citation, takeaway 2)
 
-Note: Takeaway 2 cites https://www.anthropic.com/research/migrating-api-to-rust, which is listed in the episode sources.json.
+Note: Takeaway 2 cites https://scottaaronson.blog/?p=10379, which is listed in the episode sources.json.
 
 ```python
 def check(ctx):

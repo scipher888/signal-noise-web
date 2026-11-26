@@ -1,6 +1,6 @@
 {
  "date": "2026-11-26",
- "bundle_sha256": "6b93850e25c31ac80d671fe1eb8728f4e35b56398d03515a4a0070319ff91d50",
+ "bundle_sha256": "80e6b0d4b14d986acba139b2bf8d53048e99c6a29f176767807e2bf5987fa5b9",
  "sources": {
   "primary-google-cogentic-six-math-papers": {
    "file": "primary-google-cogentic-six-math-papers.txt",
@@ -23,26 +23,19 @@
    "kind": "x_post",
    "sha256": "2c844958f5cf02ad116c74d3c56ef4b0dec742e017382c82f4fc1be51a9311d2"
   },
-  "primary-anthropic-messages-api-rust-migration": {
-   "file": "primary-anthropic-messages-api-rust-migration.txt",
-   "url": "https://www.anthropic.com/research/migrating-api-to-rust",
-   "title": "Migrating our Messages API to Rust",
-   "kind": "primary",
-   "sha256": "5532d9be93fa8706f8c9be3b422caa92647fb49e035de7d3a5ce4d63a771cfc0"
-  },
   "x-anthropicai": {
    "file": "x-anthropicai.txt",
    "url": "https://x.com/AnthropicAI/status/2125627317263466739",
-   "title": "X post by @AnthropicAI (Anthropic)",
+   "title": "X post by @AnthropicAI",
    "kind": "x_post",
-   "sha256": "b79f15b2348eb0a758f84e768c69c9e3cb1ce6acc6c930e012c6a5c41d2e7d27"
+   "sha256": "84ceef3b9ded72ee4f1643e93d443346c9f77f29a1c55dcd1598f88a17df5548"
   },
   "scan-framing": {
    "file": "scan-framing.txt",
    "url": "https://www.signalandnoise.email/content/daily-state/2026-11-26/audit/sources/2026-11-26/scan-framing.txt",
    "title": "Morning X-first scan: verification framing per story",
    "kind": "scan",
-   "sha256": "1ece14b165c69334da0db0ae4a395f815c66692aadf7f7fb422d0215f3b60f88"
+   "sha256": "a8bb6a704f5de7336234eaa0f8403080cb7cb2e2c35d743d39225f6a25dbff40"
   }
  }
 }

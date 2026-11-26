@@ -10,8 +10,8 @@
  "edits_after_generation": "none (model self-revision only; published as produced)",
  "fallback": "none (fail closed)",
  "prompts": {
-  "episode": "Here are today's AI news reports and X threads. What's the non-obvious insight others are missing? Write today's Daily State of AI around that.\n\nIt's a spoken audio episode, about 700 words (roughly five minutes read aloud). Plain spoken text only.\n",
-  "critique": "Review this draft against the sources and the goal, list the most important problems, and say what to change.",
+  "episode": "Here are today's AI news reports and X threads, along with our recent aired episodes.\n\nFind the sharpest, genuinely fresh angle in today's material—one that doesn't echo recent episodes in thesis or framing—and write today's Daily State of AI around it. Let the material choose the structure, and vary the opening and narrative shape from recent days.\n\nIt's a spoken audio episode, about 700 words (roughly five minutes read aloud). Plain spoken text only.\n",
+  "critique": "Review this draft against the sources, recent episodes, and the goal. List the most important problems—including any thematic or structural echo of recent days—and say what to change.",
   "revise": "Revise using the critique. Reply with only the revised episode."
  },
  "model_attempts": [
@@ -22,15 +22,33 @@
    "attempt": 1,
    "outcome": "ok",
    "error": null,
-   "seconds": 162.317,
+   "seconds": 159.878,
    "finish_reason": "stop",
    "served_model": "google/gemini-4-neon",
-   "input_tokens": 35117,
-   "output_tokens": 14283,
-   "reasoning_tokens": 13376,
-   "cost_usd": 0.319596,
+   "input_tokens": 31052,
+   "output_tokens": 12262,
+   "reasoning_tokens": 11362,
+   "cost_usd": 0.277086,
    "streamed": true,
-   "generation_id": "gen-1795701600-Q78wkQAyG6WAvXMjLVDb"
+   "generation_id": "gen-1795710724-WBHiw77geezKxoeiMlzb"
+  },
+  {
+   "stage": "critique",
+   "model": "google/gemini-4-neon",
+   "reasoning_effort": "high",
+   "attempt": 1,
+   "outcome": "http_504",
+   "error": "provider error in stream",
+   "seconds": 42.547
+  },
+  {
+   "stage": "critique",
+   "model": "google/gemini-4-neon",
+   "reasoning_effort": "high",
+   "attempt": 1,
+   "outcome": "http_429",
+   "error": "provider error in stream",
+   "seconds": 43.951
   },
   {
    "stage": "critique",
@@ -39,15 +57,15 @@
    "attempt": 1,
    "outcome": "ok",
    "error": null,
-   "seconds": 129.74,
+   "seconds": 110.531,
    "finish_reason": "stop",
    "served_model": "google/gemini-4-neon",
-   "input_tokens": 36055,
-   "output_tokens": 8557,
-   "reasoning_tokens": 6669,
-   "cost_usd": 0.23652,
+   "input_tokens": 31997,
+   "output_tokens": 6581,
+   "reasoning_tokens": 4917,
+   "cost_usd": 0.194706,
    "streamed": true,
-   "generation_id": "gen-1795701762-9ZKDBvbjKN2bXKf7CqBi"
+   "generation_id": "gen-1795713036-JIGCLr7HTcDF2eFaibSk"
   },
   {
    "stage": "revise",
@@ -56,25 +74,43 @@
    "attempt": 1,
    "outcome": "ok",
    "error": null,
-   "seconds": 54.436,
+   "seconds": 102.243,
    "finish_reason": "stop",
    "served_model": "google/gemini-4-neon",
-   "input_tokens": 37965,
-   "output_tokens": 6733,
-   "reasoning_tokens": 5812,
-   "cost_usd": 0.21489,
+   "input_tokens": 33683,
+   "output_tokens": 6773,
+   "reasoning_tokens": 5885,
+   "cost_usd": 0.11416575,
    "streamed": true,
-   "generation_id": "gen-1795701892-TASDbYPh6WKsd9ySqQaN"
+   "generation_id": "gen-1795713146-r59UaUQjAqvyUpTn16bS"
+  },
+  {
+   "stage": "headline",
+   "model": "google/gemini-4-neon",
+   "reasoning_effort": "medium",
+   "attempt": 1,
+   "outcome": "empty",
+   "error": "response content was empty",
+   "seconds": 4.07
+  },
+  {
+   "stage": "headline",
+   "model": "openai/gpt-6.2-astra",
+   "reasoning_effort": "medium",
+   "attempt": 1,
+   "outcome": "ok",
+   "error": null,
+   "seconds": 2.19
   }
  ],
- "words": 726,
- "duration_seconds": 283.22,
- "bundle_sha256": "6b93850e25c31ac80d671fe1eb8728f4e35b56398d03515a4a0070319ff91d50",
- "script_sha256": "bdd1091bcb083ff87187aa1da381ad59f8ebc1513942f73f156ddfd5c31bb2b5",
+ "words": 710,
+ "duration_seconds": 270.14,
+ "bundle_sha256": "80e6b0d4b14d986acba139b2bf8d53048e99c6a29f176767807e2bf5987fa5b9",
+ "script_sha256": "8ba87ec67c08013de2ffd422d6e560a9c1d35cfb5e202198c6837261458c823a",
  "material": {
   "source": "box_material",
-  "sha256": "b674b476fb290a76eeb5a8f89adf4878188da72598b2f4b801f41fe2327c7c89",
-  "chars": 138860
+  "sha256": "81b064efb914b9556f7cdee9b6c14c6dc827da71bd53a1cd1e03d59e3e2fc37b",
+  "chars": 108722
  },
  "audit": {
   "gate": false,

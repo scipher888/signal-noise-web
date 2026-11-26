@@ -7,9 +7,7 @@
     "https://raw.githubusercontent.com/google-research/google-research/master/cogentic_research_papers/logrank_conjecture/README.md",
     "https://x.com/AndrewCurran_/status/2125596087520223658",
     "https://x.com/kimmonismus/status/2125574747882704951",
-    "https://x.com/kimmonismus/status/2125602411540566221",
-    "https://www.anthropic.com/research/migrating-api-to-rust",
-    "https://x.com/AnthropicAI/status/2125627317263466739"
+    "https://x.com/kimmonismus/status/2125602411540566221"
   ],
   "stories": [
     {
@@ -28,19 +26,6 @@
         "https://x.com/AndrewCurran_/status/2125596087520223658",
         "https://x.com/kimmonismus/status/2125574747882704951",
         "https://x.com/kimmonismus/status/2125602411540566221"
-      ],
-      "verification_status": "company_reported"
-    },
-    {
-      "index": 2,
-      "title": "Anthropic says Claude agents helped migrate its Messages API from Python to Rust, using live production traffic as the verifier",
-      "outlets": [
-        "Anthropic",
-        "X"
-      ],
-      "urls": [
-        "https://www.anthropic.com/research/migrating-api-to-rust",
-        "https://x.com/AnthropicAI/status/2125627317263466739"
       ],
       "verification_status": "company_reported"
     }

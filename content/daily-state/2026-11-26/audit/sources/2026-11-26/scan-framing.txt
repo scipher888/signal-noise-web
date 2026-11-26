@@ -4,7 +4,3 @@ framing (Shtetl-Optimized (Scott Aaronson)): Aaronson's own blog; it establishes
 framing (Google Research (GitHub)): Company-posted preprints in a public repository; no peer review, and the announced Lean formalizations are not yet released.
 framing (Google Research (GitHub)): Company-posted claim; the running-time bound is subexponential, not polynomial, and no independent verification is reported.
 framing (Google Research (GitHub)): Company-posted claim of a tiny improvement over the square-root bound (epsilon of 5 millionths); not a proof of the conjecture; not independently verified.
-
-STORY: Anthropic says Claude agents helped migrate its Messages API from Python to Rust, using live production traffic as the verifier
-verification_status: company_reported
-framing (Anthropic): Company-reported engineering results; performance numbers are Anthropic's own and not independently measured.
