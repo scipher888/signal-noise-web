@@ -30,7 +30,7 @@
       ]
     }
   },
-  "video_url": null,
+  "video_url": "https://x.com/signalnoisepub/status/2126017240558682509",
   "sources_url": "/daily-state/2026-11-26/sources/",
   "audit": {
     "gate": false,
@@ -41,7 +41,10 @@
     "sources_sha256": "7307ac9310edef06a52133ed86c8906bc800404ed579305410f804746d3d5648",
     "neon_run_sha256": "94f6f3242d60f297796fb5412c44c18caf4374bf820950074f8ad736c13362fa",
     "episode_sha256": null,
-    "short_sha256": null
+    "short_sha256": null,
+    "daily_short_sha256": "8a5d3c69ff90bf29b99aa1b0631ea854599671d7e1a8c933afc7cd184ac1d5f5",
+    "audit_short_sha256": "f6fb78d65a582630f203eee1b422847777e94bd3a4f51e16215431160065d615"
   },
-  "headline": "AI Turns Frontier Mathematics Into a Dual-Use Technology"
+  "headline": "AI Turns Frontier Mathematics Into a Dual-Use Technology",
+  "audit_short_url": "https://x.com/signalnoisepub/status/2126017500664209784"
 }
