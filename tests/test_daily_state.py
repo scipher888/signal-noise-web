@@ -1157,6 +1157,15 @@ class DailyStateTests(unittest.TestCase):
                 if editor_mode:
                     self.assertIn(paragraph, editor_lines)
                     self.assertEqual(page.disclaimer, "%s · %s" % (HOUSE, notes))
+                elif audit_mode and loaded.get("shorts"):
+                    # Hosted shorts lead; one link row (report, Spotify, Audit) sits above the label.
+                    self.assertEqual(paragraph, plain_line)
+                    self.assertEqual(page.disclaimer, HOUSE)
+                    self.assertEqual(html.count(audit_link), 1)
+                    row = html.index('<p class="ds-links">')
+                    self.assertLess(row, html.index(audit_link))
+                    self.assertLess(html.index(audit_link), start)
+                    self.assertLess(html.index("<video "), row)
                 elif audit_mode:
                     self.assertEqual(paragraph, plain_line)
                     self.assertEqual(page.disclaimer, HOUSE)
@@ -1416,17 +1425,29 @@ class DailyStateTests(unittest.TestCase):
         self.assertNotIn("ds-audit-links", older)
         self.assertNotIn(">Short</a>", older)
         self.assertIn('<section class="sources">', older)
+        # Without site-hosted shorts (2026-11-22) the two link lines stay as published.
+        nov22 = (ROOT / "daily-state" / "2026-11-22" / "index.html").read_text(encoding="utf-8")
+        self.assertIn(
+            '<p><a href="https://open.spotify.com/episode/2DGJEhaWb2udcfSAGJOWHn">Audio on Spotify</a>'
+            ' · <a href="https://x.com/signalnoisepub/status/2124626912333177200">Short</a></p>',
+            nov22,
+        )
+        self.assertIn('<p><a href="audit/">Audit</a></p>', nov22)
+        self.assertNotIn("<video", nov22)
+        # With hosted shorts (2026-11-24): both shorts, then one link row.
         nov24 = (ROOT / "daily-state" / "2026-11-24" / "index.html").read_text(encoding="utf-8")
         self.assertIn(
-            '<p><a href="https://open.spotify.com/episode/3qLOMVpCvQ2KmDBM9J5F4E">Audio on Spotify</a>'
-            ' · <a href="https://x.com/signalnoisepub/status/2125298407271227416">Short</a></p>',
+            '<p class="ds-links"><a href="#report">Written report</a>'
+            ' · <a href="https://open.spotify.com/episode/3qLOMVpCvQ2KmDBM9J5F4E">Audio on Spotify</a>'
+            ' · <a href="audit/">Audit</a></p>',
             nov24,
         )
-        self.assertIn(
-            '<p><a href="audit/">Audit</a>'
-            ' · <a href="https://x.com/signalnoisepub/status/2125317078139953354">Audit short</a></p>',
-            nov24,
-        )
+        self.assertEqual(nov24.count(
+            '<a href="https://x.com/signalnoisepub/status/2125298407271227416">Watch on X</a>'), 1)
+        self.assertEqual(nov24.count(
+            '<a href="https://x.com/signalnoisepub/status/2125317078139953354">Watch on X</a>'), 1)
+        self.assertLess(nov24.index("daily-short.mp4"), nov24.index("audit-short.mp4"))
+        self.assertLess(nov24.index("audit-short.mp4"), nov24.index('<p class="ds-links">'))
         self.assertNotIn("ds-audit-links", nov24)
         self.assertNotIn(">Sources</a>", nov24.split('<div class="script">', 1)[0])
         self.assertIn('<section class="sources">', nov24)

@@ -41,7 +41,8 @@
     "sources_sha256": "b33d07decd2639ff00bd92d1e9105a181ee7522e13dd9d6d56b118563f6cf688",
     "neon_run_sha256": "61521463fba5a361c94f08096a6269748ca3045b43e433fae33b8da366678374",
     "episode_sha256": null,
-    "short_sha256": null
+    "short_sha256": null,
+    "daily_short_sha256": "314b7732f950eff0a1594ba7b79411dc8e05789e5ef37b4cfe3fe7181ce5fa14"
   },
   "headline": "Perplexity limits miss post-training gains."
 }
