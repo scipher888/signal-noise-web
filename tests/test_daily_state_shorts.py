@@ -159,6 +159,51 @@ class HostedShortsTest(unittest.TestCase):
         self.assertEqual(listing, daily_state.render_listing_html(
             daily_state.load_editions(str(self.repo.root))))
 
+    def prune(self, newest):
+        with mock.patch.object(neon_edition, "REPO", str(self.repo.root)):
+            return neon_edition.prune_hosted_shorts(newest)
+
+    def test_shorts_30_days_old_stay(self):
+        self.set_both()
+        self.assertEqual(self.prune("2026-12-22"), [])  # DATE + 30 days
+        self.assertTrue((self.repo.edition_dir() / "daily-short.mp4").exists())
+
+    def test_shorts_31_days_old_fall_back_to_x_links(self):
+        self.set_both()
+        def script(page):
+            return page.split('<div class="script">', 1)[1].split("</div>", 1)[0]
+        report_before = script(self.page())
+        changed = self.prune("2026-12-23")  # DATE + 31 days
+        directory = self.repo.edition_dir()
+        for name in ("daily-short.mp4", "audit-short.mp4"):
+            self.assertFalse((directory / name).exists())
+            self.assertIn(f"content/daily-state/{DATE}/{name}", changed)
+        self.assertIn(f"daily-state/{DATE}/index.html", changed)
+        edition = self.edition()
+        self.assertNotIn("daily_short_sha256", edition["hashes"])
+        self.assertNotIn("audit_short_sha256", edition["hashes"])
+        self.assertEqual(edition["video_url"], X_SHORT)
+        self.assertEqual(edition["audit_short_url"], X_AUDIT_SHORT)
+        page = self.page()
+        self.assertEqual(page, self.repo.load()["html"])
+        self.assertNotIn("<video", page)
+        self.assertNotIn("daily-short", page)
+        self.assertIn(f'{SPOTIFY_ANCHOR} · <a href="{X_SHORT}">Short</a>', page)
+        self.assertIn(f'<a href="audit/">Audit</a> · <a href="{X_AUDIT_SHORT}">Audit short</a>', page)
+        self.assertEqual(page.count(HOUSE), 1)
+        self.assertEqual(script(page), report_before)
+        self.assertEqual(self.prune("2026-12-23"), [])
+
+    def test_retention_runs_when_a_new_short_is_hosted(self):
+        self.set_both()
+        with mock.patch.object(neon_edition, "prune_hosted_shorts", return_value=[]) as prune:
+            self.assertEqual(self.run_tool(
+                "set-short-url", "--date", DATE, "--url", X_SHORT, "--mp4", str(self.daily)), 0)
+            self.assertEqual(self.run_tool(
+                "set-audit-short-url", "--date", DATE, "--url", X_AUDIT_SHORT, "--mp4", str(self.audit)), 0)
+            self.assertEqual(self.run_tool("set-short-url", "--date", DATE, "--url", X_SHORT), 0)
+        self.assertEqual([call.args for call in prune.call_args_list], [(DATE,), (DATE,)])
+
 
 class PublishedShortsTest(unittest.TestCase):
     """The live repo: 2026-11-25 leads with both hosted shorts; older pages are untouched."""

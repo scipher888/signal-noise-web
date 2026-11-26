@@ -37,7 +37,9 @@ local short.mp4 is not required. This is the post-publish step: the 7:20
 edition may ship before Max posts the Neon short around 10 AM. With --mp4 PATH
 it also copies the posted short, unchanged, into the edition as
 daily-short.mp4 (hash in edition.json, poster frame when ffmpeg is present),
-and the edition page and the listing lead with the playable short.
+and the edition page and the listing lead with the playable short. It then
+drops hosted shorts (mp4, poster and hash fields) of editions more than 30
+days older than D, keeps their X links, and regenerates those pages.
 
 set-audit-short-url writes a public X URL into edition.json audit_short_url
 and regenerates that date's audit page and edition page. The URL must be
@@ -67,7 +69,7 @@ import shutil
 import sys
 import urllib.parse
 import urllib.request
-from datetime import datetime, timezone
+from datetime import date as date_cls, datetime, timezone
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(HERE)
@@ -405,6 +407,57 @@ def _remove_created(paths):
             os.remove(path)
 
 
+# Hosted shorts stay on the site for this many days; older days fall back to
+# their X links (Synthia, 2026-11-25). Git history keeps the old files.
+HOSTED_SHORT_DAYS = 30
+
+
+def prune_hosted_shorts(newest):
+    """Drop hosted shorts more than HOSTED_SHORT_DAYS older than newest.
+
+    Removes the mp4 and poster files and their hash fields, keeps every X URL,
+    and regenerates that day's edition page. Returns the repo paths changed.
+    """
+    cutoff = date_cls.fromisoformat(newest).toordinal() - HOSTED_SHORT_DAYS
+    root = daily_state.content_root(REPO)
+    changed = []
+    for iso in daily_state.list_edition_dates(REPO):
+        if date_cls.fromisoformat(iso).toordinal() >= cutoff:
+            continue
+        directory = os.path.join(root, iso)
+        names = [
+            name for entry in daily_state.HOSTED_SHORTS for name in (entry[1], entry[2])
+            if os.path.isfile(os.path.join(directory, name))
+        ]
+        if not names:
+            continue
+        edition_path = os.path.join(directory, "edition.json")
+        previous = daily_state.read_stable(edition_path)
+        edition = json.loads(previous.decode("utf-8"))
+        for entry in daily_state.HOSTED_SHORTS:
+            edition["hashes"].pop(entry[3], None)
+        saved = {name: daily_state.read_stable(os.path.join(directory, name)) for name in names}
+        for name in names:
+            os.remove(os.path.join(directory, name))
+        daily_state._write_text_atomic(
+            edition_path, json.dumps(edition, indent=2, ensure_ascii=False) + "\n"
+        )
+        try:
+            loaded = daily_state.load_edition(REPO, iso)
+        except daily_state.Hold:
+            for name, data in saved.items():
+                with open(os.path.join(directory, name), "wb") as handle:
+                    handle.write(data)
+            daily_state._write_text_atomic(edition_path, previous.decode("utf-8"))
+            raise
+        page_rel = f"daily-state/{iso}/index.html"
+        daily_state._write_text_atomic(os.path.join(REPO, page_rel), loaded["html"])
+        rel_dir = os.path.relpath(directory, REPO).replace(os.sep, "/")
+        changed += [f"{rel_dir}/{name}" for name in names]
+        changed += [f"{rel_dir}/edition.json", page_rel]
+    return changed
+
+
 def refresh_listing_needed():
     path = os.path.join(REPO, daily_state.LISTING_REL)
     expected = daily_state.render_listing_html(daily_state.load_editions(REPO))
@@ -483,6 +536,8 @@ def set_short_url(args):
         os.makedirs(os.path.dirname(page_path), exist_ok=True)
         daily_state._write_text_atomic(page_path, html_text)
         wrote.append(page_rel)
+    if args.mp4:
+        wrote += prune_hosted_shorts(date)
     listing = refresh_listing()
     if listing:
         wrote.append(listing)
@@ -557,11 +612,12 @@ def set_audit_short_url(args):
 
     current_audit = _current(audit_path)
     current_edition = _current(edition_page_path)
+    pruned = prune_hosted_shorts(date) if args.mp4 else []
     listing_stale = refresh_listing_needed()
-    if already and current_audit == audit_html and current_edition == edition_html and not listing_stale:
+    if already and current_audit == audit_html and current_edition == edition_html and not listing_stale and not pruned:
         print(json.dumps({"noop": True, "date": date, "audit_short_url": url}))
         return 0
-    wrote = [os.path.relpath(path, REPO) for path in created]
+    wrote = [os.path.relpath(path, REPO) for path in created] + pruned
     if current_audit != audit_html:
         os.makedirs(os.path.dirname(audit_path), exist_ok=True)
         daily_state._write_text_atomic(audit_path, audit_html)
