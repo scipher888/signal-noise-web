@@ -1,0 +1,12 @@
+@kimmonismus: If this rumors are true, it would explain why OpenAI and Anthropic are holding back their latest models: 
+
+Scott Aaronson says he's heard OpenAI or Anthropic may have found a way to factor large numbers in polynomial time.
+
+Why this would be massive? RSA secures a huge chunk of the internet, and its whole security relies on factoring big numbers being impossible on normal computers. If an algorithm like this actually works on real key sizes, you wouldn't even need a quantum computer to break it. Fake software updates could pass signature checks, RSA-encrypted data could be read, and systems across the internet would have to migrate off RSA fast.
+
+So yeah, something we expected might now actually happening.
+
+AFFILIATION NOTE (scan): AI news aggregator account amplifying a rumor; no independent sourcing and no lab confirmation.
+
+REPLIES:
+

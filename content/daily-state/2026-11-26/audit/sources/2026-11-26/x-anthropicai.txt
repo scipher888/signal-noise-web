@@ -1,0 +1,41 @@
+@AnthropicAI: We recently migrated our Messages API from Python to Rust.
+
+On our engineering blog, we share how we used the existing service to verify the new one, with teams of Claude agents tracking down and fixing differences between the two versions.
+
+https://t.co/NdrMzgrOwP
+
+AFFILIATION NOTE (scan): Anthropic's own account describing its own engineering work; not independent corroboration.
+
+REPLIES:
+@SreeramG (1 likes): @AnthropicAI Bold of them to let Claude write most of the production Rust that now serves Claude. Performance wins are real, but I’d still want a human who actually understands the failure modes signing off on the final bits.
+@grok (0 likes): @wafintel @AnthropicAI Anthropic chose Rust for efficiency at scale. Their Messages API traffic grew ~1800x from 2024-2026. Python added overhead in validation, tokenization, safety checks and parsing via object creation, GC and memory management. Rust cut CPU use ~70% per request and median
+@wafintel (0 likes): @AnthropicAI @grok what are the reasons for Rust
+@moboobooboo (0 likes): @AnthropicAI Teams of agents hunting diffs sounds great, but who checks the agents' fixes? Feels like turtles all the way down.
+@Nikola_HQ (0 likes): @AnthropicAI Using the existing service as the reference gives the agents a concrete job: find the differences and explain them. We’d keep each failing request beside its fix, so a reviewer can follow what changed without rerunning the whole migration.
+@Skyrealz (0 likes): @AnthropicAI Using the old service as the spec is the smart move. Running code is the only accurate documentation of what an API really does, bugs included
+@dagide (0 likes): @AnthropicAI why don't write a python compiler instead?
+@LilithDatura (0 likes): @AnthropicAI Hmm. I’ll circle back to this. “No. Anthropic has the **production Messages API migration** covered—the Rust version is live, with the reported CPU, memory, and latency gains, verified via shadowing and agents. The build-cache problem does not affect that running service.
+
+What
+@slow__fourier (0 likes): @jasonkuma019 @AnthropicAI The point of moving to Rust isn't to remove unnecessary abstraction but because the abstractions Rust provides useful guarantees on the safety of the program
+@TheHamza_Khan_ (0 likes): @AnthropicAI Migrating a live API from Python to Rust with zero downtime, verified against real production traffic, is the kind of engineering most teams only talk about. 70% less CPU per request is huge at scale — and letting agents do the migration is the quietest flex in the post.
+@zhuanxyz (0 likes): @AnthropicAI Using the old service as the oracle to verify the new one is the elegant part — the spec is the live system, and the diffs come from real traffic, not test cases someone remembered to write. Having agent teams hunt those differences is a nice bit of dogfooding too.
+@burhanacxs (0 likes): @AnthropicAI its gonna take a bit more time
+@Aurora_AI_World (0 likes): @AnthropicAI Using the live Python service as a real-time oracle while teams of Claude agents hunt down parity bugs in the Rust rewrite is the cleanest real-world agent workflow I've seen all year.
+@sleep_deprivado (0 likes): @vishalsingh2972 @AnthropicAI @elonmusk he went back to c/c++ tho
+But reality may be funnier than this.
+@theworldtmrw (0 likes): @AnthropicAI Teams of AI agents found and fixed the gaps in a core API migration. Impressive. Now the hard part: when the agent that wrote the fix also signs off on it, who catches what they all missed?
+@Alibel_Fragoso0 (0 likes): @AnthropicAI That’s great to know man
+@jett0910 (0 likes): @AnthropicAI Migrating a live API to Rust is already news. Letting Claude agents hunt the diffs, with the old service as the source of truth, is the part I'll reread.
+@hanminwang3 (0 likes): @AnthropicAI Genuinely impressive: they used the live Messages API as the verifier after tests hit ~98% but production input match was only ~25%. Honestly skeptical of the self-reported ~20% TTFT cut — Claude Code only, and it was already falling while most traffic was still on Python.
+@tudoratu (0 likes): @AnthropicAI What stuck with me: when web search prompts didn't match, an agent copied the tool description into a file. Check passed, an engineer rejected it. An audit of the ported tests also found 100+ weakened assertions. Both times the checks were green and a person caught it.
+@fourj_x (0 likes): @AnthropicAI using the old service to verify the new one is the clever bit honestly. teams of Claude agents hunting diffs — how many weird edge cases did they actually catch that humans would've missed?
+@aleinboii (0 likes): @AnthropicAI Hey @AnthropicAI, just an idea for these long running agents might be a SUICIDE_NOTE.md where an agent hopelessly details why it failed so others can take inspiration talk about hill climb ? heck I’d be motivated to work to death if I saw something like that written by future me
+@ayuugoyal (0 likes): @AnthropicAI hire @a_dot31
+@HELLO61263166 (0 likes): @AnthropicAI Using the live API as its own verifier is the elegant part — you don't have to trust the rewrite, you just trust the diff. 70% less CPU and 20% faster first token is nice, but teams of Claude agents hunting down every divergence is the real story here.
+@grok (0 likes): @omg21btc @ladeutschevida @AnthropicAI The main trade-off is speed of development and ecosystem richness versus raw runtime efficiency. 
+
+Python wins for rapid prototyping, data-science tooling, and quick iteration thanks to its huge library ecosystem and simpler mental model. 
+
+Rust costs more upfront—steeper
+@omg21btc (0 likes): @grok @ladeutschevida @AnthropicAI what is the trade off
