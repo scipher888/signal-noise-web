@@ -2152,10 +2152,15 @@ def render_shorts_block(edition, shorts):
 
 
 def render_shorts_links(edition, shorts, base):
-    """One row: written report, Spotify, audit, then X links for any short not hosted."""
-    report = f"{base}#report"
-    parts = [
-        f'<a href="{html.escape(report, quote=True)}">Written report</a>',
+    """One row: Spotify, audit, then X links for any short not hosted.
+
+    The listing (base is the edition path) leads with a Written report link;
+    the edition page does not, since the report sits right below.
+    """
+    parts = []
+    if base:
+        parts.append(f'<a href="{html.escape(base + "#report", quote=True)}">Written report</a>')
+    parts += [
         f'<a href="{html.escape(edition["episode_url"], quote=True)}">Audio on Spotify</a>',
         f'<a href="{html.escape(base + "audit/", quote=True)}">Audit</a>',
     ]

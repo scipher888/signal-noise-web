@@ -65,8 +65,10 @@ class HostedShortsTest(unittest.TestCase):
         self.assertEqual(page.count(f'<a href="{X_SHORT}">Watch on X</a>'), 1)
         self.assertEqual(page.count(f'<a href="{X_AUDIT_SHORT}">Watch on X</a>'), 1)
         self.assertIn(
-            f'<p class="ds-links"><a href="#report">Written report</a> · {SPOTIFY_ANCHOR}'
-            ' · <a href="audit/">Audit</a></p>', page)
+            f'<p class="ds-links">{SPOTIFY_ANCHOR} · <a href="audit/">Audit</a></p>', page)
+        # The report is right below, so the edition row has no Written report link.
+        self.assertNotIn("Written report</a>", page)
+        self.assertEqual(page.count('id="report"'), 1)
         # The 11:15 routine's checks.
         self.assertEqual(page.count(HOUSE), 1)
         self.assertEqual(page.count('<a href="audit/">Audit</a>'), 1)
@@ -153,7 +155,9 @@ class HostedShortsTest(unittest.TestCase):
         row = listing.index('<p class="ds-links">')
         month = listing.index("<h2>November 2026</h2>")
         self.assertTrue(daily < audit < row < month)
-        self.assertIn(f'<a href="{DATE}/#report">Written report</a>', listing)
+        self.assertIn(
+            f'<p class="ds-links"><a href="{DATE}/#report">Written report</a> · {SPOTIFY_ANCHOR}'
+            f' · <a href="{DATE}/audit/">Audit</a></p>', listing)
         self.assertIn(f'<a href="{DATE}/audit/">Audit</a>', listing)
         self.assertEqual(listing.count(SPOTIFY_ANCHOR), 1)
         self.assertEqual(listing, daily_state.render_listing_html(
