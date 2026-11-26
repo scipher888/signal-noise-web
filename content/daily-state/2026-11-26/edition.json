@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-26",
+  "mode": "audit",
+  "variant": null,
+  "title": "Daily State of AI - 2026-11-26",
+  "canonical_url": "https://www.signalandnoise.email/daily-state/2026-11-26/",
+  "model": "google/gemini-4-neon",
+  "reasoning_effort": "high",
+  "audio_url": null,
+  "episode_id": "7oeLE6PCfXE6IhdSVbLu3b",
+  "episode_url": "https://open.spotify.com/episode/7oeLE6PCfXE6IhdSVbLu3b",
+  "verified_at": "2026-11-26T15:59Z",
+  "verification": {
+    "method": "public_episode_and_show",
+    "checked_at": "2026-11-26T15:59Z",
+    "episode": {
+      "title": "Math Has Fixed Rules. Production Doesn’t. | Daily State of AI - 2026-11-26",
+      "canonical_url": "https://open.spotify.com/episode/7oeLE6PCfXE6IhdSVbLu3b",
+      "id": "7oeLE6PCfXE6IhdSVbLu3b"
+    },
+    "show": {
+      "id": "1AC7qV1tyVIICLtJVwBapp",
+      "episodes": [
+        {
+          "id": "7oeLE6PCfXE6IhdSVbLu3b",
+          "title": "Math Has Fixed Rules. Production Doesn’t. | Daily State of AI - 2026-11-26",
+          "uri": "spotify:episode:7oeLE6PCfXE6IhdSVbLu3b"
+        }
+      ]
+    }
+  },
+  "video_url": null,
+  "sources_url": "/daily-state/2026-11-26/sources/",
+  "audit": {
+    "gate": false,
+    "attach": "after_publish"
+  },
+  "hashes": {
+    "script_sha256": "bdd1091bcb083ff87187aa1da381ad59f8ebc1513942f73f156ddfd5c31bb2b5",
+    "sources_sha256": "14499fc851c816bc5733bd75564f237886c365f4f2d267b832cb13ed33eb7c6f",
+    "neon_run_sha256": "50fd9bb72503aee5f8df95c408cc71b861ee5705f2cda388a0320a5b7ed4ea3d",
+    "episode_sha256": null,
+    "short_sha256": null
+  },
+  "headline": "Math Has Fixed Rules. Production Doesn’t."
+}
