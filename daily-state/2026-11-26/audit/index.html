@@ -34,858 +34,1022 @@
 <figure class="ds-prompt">
 <figcaption class="kicker ds-prompt-label">Audit results</figcaption>
 <blockquote>
-<pre>Episode 39 PASS / 15 FAIL / 31 NEEDS-HUMAN
-Takeaways 17 PASS / 7 FAIL / 4 NEEDS-HUMAN</pre>
+<pre>Episode 13 PASS / 26 FAIL / 55 NEEDS-HUMAN
+Takeaways 18 PASS / 13 FAIL / 5 NEEDS-HUMAN</pre>
 </blockquote>
 </figure>
 <p><a href="../">Daily State of AI</a></p>
 <p class="disclaimer">AI-generated · may contain errors</p>
 <h2>Episode</h2>
 <details open>
-<summary>FAIL · claiming no human involvement after the first prompt</summary>
-<p>Claim: claiming no human involvement after the first prompt</p>
+<summary>FAIL · Frontier labs have stopped waiting for press releases, blog posts, or even tweets</summary>
+<p>Claim: Frontier labs have stopped waiting for press releases, blog posts, or even tweets</p>
 <p>Result: FAIL</p>
-<p>Source quote: There was no human interaction other than the initial prompt for Cogentic to</p>
-<p>The assertion in this README covers its proof and formalization, not all six papers.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e18-six-no-human.py">checks/2026-11-26/e18-six-no-human.py</a></p>
+<p>Source quote: framing (Google Research (GitHub)): Company-posted preprints in a public repository; no peer review, and the announced Lean formalizations are not yet released.</p>
+<p>A repository posting establishes neither a change in lab policy nor the absence of announcements.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e06-labs-stopped-waiting.py">checks/2026-11-26/e06-labs-stopped-waiting.py</a></p>
 </details>
 <details open>
-<summary>FAIL · OpenAI or Anthropic may have found a polynomial-time factoring algorithm that would break RSA</summary>
-<p>Claim: OpenAI or Anthropic may have found a polynomial-time factoring algorithm that would break RSA</p>
+<summary>FAIL · They just push papers straight to code repositories</summary>
+<p>Claim: They just push papers straight to code repositories</p>
+<p>Result: FAIL</p>
+<p>Source quote: framing (Google Research (GitHub)): Company-posted preprints in a public repository; no peer review, and the announced Lean formalizations are not yet released.</p>
+<p>Evidence concerns one company, not a general frontier-lab practice.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e07-straight-to-repositories.py">checks/2026-11-26/e07-straight-to-repositories.py</a></p>
+</details>
+<details open>
+<summary>FAIL · Viral posts with thousands of likes were warning that frontier labs had secretly cracked RSA encryption and could soon forge software updates across the internet</summary>
+<p>Claim: Viral posts with thousands of likes were warning that frontier labs had secretly cracked RSA encryption and could soon forge software updates across the internet</p>
 <p>Result: FAIL</p>
 <p>Source quote: If an algorithm like this actually works on real key sizes, you wouldn&#x27;t even need a quantum computer to break it.</p>
-<p>Polynomial time alone does not establish a practical break.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e22-rsa-condition.py">checks/2026-11-26/e22-rsa-condition.py</a></p>
+<p>Conditional consequences, not a completed secret break or a near-term forecast; no original-post like count.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e10-compound-rsa-warning.py">checks/2026-11-26/e10-compound-rsa-warning.py</a></p>
 </details>
 <details open>
-<summary>FAIL · Google says Lean 4 formalizations for all six papers are coming in a companion submission</summary>
-<p>Claim: Google says Lean 4 formalizations for all six papers are coming in a companion submission</p>
+<summary>FAIL · secretly cracked RSA encryption</summary>
+<p>Claim: secretly cracked RSA encryption</p>
 <p>Result: FAIL</p>
-<p>Source quote: Lean 4 (`v4.33.0`) formalization of the entire proof has also been completed and will be released in a companion submission</p>
-<p>The release statement is singular and specific to the log-rank proof.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e33-all-six-lean.py">checks/2026-11-26/e33-all-six-lean.py</a></p>
+<p>Source quote: This would crack RSA. https://t.co/s5AHbmcDFP https://t.co/YBOYkSYVOr</p>
+<p>Would crack is not secretly cracked.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e11-secret-crack.py">checks/2026-11-26/e11-secret-crack.py</a></p>
 </details>
 <details open>
-<summary>FAIL · Claude wrote the core Rust request path in about a week</summary>
-<p>Claim: Claude wrote the core Rust request path in about a week</p>
+<summary>FAIL · could soon forge software updates across the internet</summary>
+<p>Claim: could soon forge software updates across the internet</p>
 <p>Result: FAIL</p>
-<p>Source quote: Claude wrote a first version of the API&#x27;s core request path in about a week.</p>
-<p>Only a first version is attributed to the week of work.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e46-first-version.py">checks/2026-11-26/e46-first-version.py</a></p>
+<p>Source quote: Fake software updates could pass signature checks, RSA-encrypted data could be read, and systems across the internet would have to migrate off RSA fast.</p>
+<p>Hypothetical effect; the post gives no timeline.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e12-soon-forge.py">checks/2026-11-26/e12-soon-forge.py</a></p>
 </details>
 <details open>
-<summary>FAIL · Rust passed ninety-eight percent of tests in April</summary>
-<p>Claim: Rust passed ninety-eight percent of tests in April</p>
+<summary>FAIL · Google committed six more at once with no announcement</summary>
+<p>Claim: Google committed six more at once with no announcement</p>
 <p>Result: FAIL</p>
-<p>Source quote: Our Rust API passed about 98% of its tests in April, yet only about a quarter of inputs matched on production traffic (Figure 6).</p>
-<p>Source qualifies the percentage as approximate.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e54-april-tests.py">checks/2026-11-26/e54-april-tests.py</a></p>
-</details>
-<details open>
-<summary>FAIL · an agent still gamed it</summary>
-<p>Claim: an agent still gamed it</p>
-<p>Result: FAIL</p>
-<p>Source quote: The prompts then matched, and the fix passed the local verifier.</p>
-<p>The shortcut passed locally; no demonstrated bypass of the production oracle.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e60-gamed-which-verifier.py">checks/2026-11-26/e60-gamed-which-verifier.py</a></p>
-</details>
-<details open>
-<summary>FAIL · Anthropic succeeded only by keeping engineers at the pull-request gate and turning recurring corrections into standing rules, tests, and lints</summary>
-<p>Claim: Anthropic succeeded only by keeping engineers at the pull-request gate and turning recurring corrections into standing rules, tests, and lints</p>
-<p>Result: FAIL</p>
-<p>Source quote: That&#x27;s why human review was an important gate.</p>
-<p>Important is not a finding of exclusive causal necessity.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e66-only-by-review.py">checks/2026-11-26/e66-only-by-review.py</a></p>
-</details>
-<details open>
-<summary>FAIL · generating the code takes a week, while earning trust in the real world still takes months</summary>
-<p>Claim: generating the code takes a week, while earning trust in the real world still takes months</p>
-<p>Result: FAIL</p>
-<p>Source quote: Claude wrote a first version of the API&#x27;s core request path in about a week.</p>
-<p>A first version of one core path is not all migration code or a general generation time.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e71-week-versus-months.py">checks/2026-11-26/e71-week-versus-months.py</a></p>
-</details>
-<details open>
-<summary>FAIL · The improvement does not prove the conjecture.</summary>
-<p>Claim: The improvement does not prove the conjecture.</p>
-<p>Result: FAIL</p>
-<p>Source quote: framing (Google Research (GitHub)): Company-posted claim of a tiny improvement over the square-root bound (epsilon of 5 millionths); not a proof of the conjecture; not independently verified.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/oe10-not-conjecture-proof.py">checks/2026-11-26/oe10-not-conjecture-proof.py</a></p>
-</details>
-<details open>
-<summary>FAIL · Disclose lack of independent performance measurement.</summary>
-<p>Claim: Disclose lack of independent performance measurement.</p>
-<p>Result: FAIL</p>
-<p>Source quote: framing (Anthropic): Company-reported engineering results; performance numbers are Anthropic&#x27;s own and not independently measured.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/oe13-independent-measurement.py">checks/2026-11-26/oe13-independent-measurement.py</a></p>
-</details>
-<details open>
-<summary>FAIL · Say that no lab has published or confirmed the rumored result.</summary>
-<p>Claim: Say that no lab has published or confirmed the rumored result.</p>
-<p>Result: FAIL</p>
-<p>Source quote: No lab has published or confirmed such a result.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/oe3-no-lab-result.py">checks/2026-11-26/oe3-no-lab-result.py</a></p>
-</details>
-<details open>
-<summary>FAIL · Identify the papers as company-posted preprints.</summary>
-<p>Claim: Identify the papers as company-posted preprints.</p>
-<p>Result: FAIL</p>
-<p>Source quote: framing (Google Research (GitHub)): Company-posted preprints in a public repository; no peer review, and the announced Lean formalizations are not yet released.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/oe4-company-preprints.py">checks/2026-11-26/oe4-company-preprints.py</a></p>
-</details>
-<details open>
-<summary>FAIL · State lack of peer review.</summary>
-<p>Claim: State lack of peer review.</p>
-<p>Result: FAIL</p>
-<p>Source quote: framing (Google Research (GitHub)): Company-posted preprints in a public repository; no peer review, and the announced Lean formalizations are not yet released.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/oe5-peer-review.py">checks/2026-11-26/oe5-peer-review.py</a></p>
-</details>
-<details open>
-<summary>FAIL · Distinguish the public subexponential bound from polynomial time.</summary>
-<p>Claim: Distinguish the public subexponential bound from polynomial time.</p>
-<p>Result: FAIL</p>
-<p>Source quote: framing (Google Research (GitHub)): Company-posted claim; the running-time bound is subexponential, not polynomial, and no independent verification is reported.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/oe7-factoring-bound.py">checks/2026-11-26/oe7-factoring-bound.py</a></p>
-</details>
-<details open>
-<summary>FAIL · Describe the small improvement to the square-root bound.</summary>
-<p>Claim: Describe the small improvement to the square-root bound.</p>
-<p>Result: FAIL</p>
-<p>Source quote: framing (Google Research (GitHub)): Company-posted claim of a tiny improvement over the square-root bound (epsilon of 5 millionths); not a proof of the conjecture; not independently verified.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/oe9-logrank-size.py">checks/2026-11-26/oe9-logrank-size.py</a></p>
-</details>
-<details>
-<summary>NEEDS-HUMAN · Daily State of AI for Thursday, November 26, 2026</summary>
-<p>Claim: Daily State of AI for Thursday, November 26, 2026</p>
-<p>Result: NEEDS-HUMAN</p>
-<p>Source quote: (none)</p>
-<p>no source sentence matches /Daily State of AI.{0,30}Thursday,? November 26,? 2026/. A story publication date is not a broadcast date.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e01-broadcast-date.py">checks/2026-11-26/e01-broadcast-date.py</a></p>
-</details>
-<details>
-<summary>NEEDS-HUMAN · you probably felt whiplash between two stories</summary>
-<p>Claim: you probably felt whiplash between two stories</p>
-<p>Result: NEEDS-HUMAN</p>
-<p>Source quote: (none)</p>
-<p>Audience reaction is conjectural.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e02-whiplash.py">checks/2026-11-26/e02-whiplash.py</a></p>
-</details>
-<details>
-<summary>NEEDS-HUMAN · a math avalanche that has top researchers whispering about a singularity</summary>
-<p>Claim: a math avalanche that has top researchers whispering about a singularity</p>
-<p>Result: NEEDS-HUMAN</p>
-<p>Source quote: (none)</p>
-<p>no source sentence matches /(?:leading|top) researchers.{0,100}singularity/. A roundup of papers does not document researchers saying this.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e03-singularity-talk.py">checks/2026-11-26/e03-singularity-talk.py</a></p>
-</details>
-<details>
-<summary>NEEDS-HUMAN · Most commentators are treating these as separate headlines, or reducing both to a simple line about verification</summary>
-<p>Claim: Most commentators are treating these as separate headlines, or reducing both to a simple line about verification</p>
-<p>Result: NEEDS-HUMAN</p>
-<p>Source quote: STORY: Anthropic says Claude agents helped migrate its Messages API from Python to Rust, using live production traffic as the verifier</p>
-<p>Separate story entries do not establish a majority of commentators or their views.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e05-commentator-majority.py">checks/2026-11-26/e05-commentator-majority.py</a></p>
-</details>
-<details>
-<summary>NEEDS-HUMAN · What they&#x27;re missing is the tension between them</summary>
-<p>Claim: What they&#x27;re missing is the tension between them</p>
-<p>Result: NEEDS-HUMAN</p>
-<p>Source quote: (none)</p>
-<p>Editorial interpretation.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e06-missing-tension.py">checks/2026-11-26/e06-missing-tension.py</a></p>
-</details>
-<details>
-<summary>NEEDS-HUMAN · Published the very same day as the math panic, Anthropic&#x27;s post</summary>
-<p>Claim: Published the very same day as the math panic, Anthropic&#x27;s post</p>
-<p>Result: NEEDS-HUMAN</p>
-<p>Source quote: PublishedNov 25, 2026</p>
-<p>Need a dated math event, not just the date of the scan.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e07-same-day.py">checks/2026-11-26/e07-same-day.py</a></p>
-</details>
-<details>
-<summary>NEEDS-HUMAN · Anthropic&#x27;s post is the sharpest reality check against assuming an overnight math singularity translates straight into messy real-world systems</summary>
-<p>Claim: Anthropic&#x27;s post is the sharpest reality check against assuming an overnight math singularity translates straight into messy real-world systems</p>
-<p>Result: NEEDS-HUMAN</p>
-<p>Source quote: But as Claude has become more capable, it&#x27;s begun to take on projects in live systems, where generating the work is easier than verifying it.</p>
-<p>Sharpest is an editorial ranking.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e08-reality-check.py">checks/2026-11-26/e08-reality-check.py</a></p>
-</details>
-<details>
-<summary>NEEDS-HUMAN · mathematics suddenly looks like hyperspace</summary>
-<p>Claim: mathematics suddenly looks like hyperspace</p>
-<p>Result: NEEDS-HUMAN</p>
-<p>Source quote: (none)</p>
-<p>Figurative comparison.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e09-hyperspace.py">checks/2026-11-26/e09-hyperspace.py</a></p>
-</details>
-<details>
-<summary>NEEDS-HUMAN · Yesterday, computer scientist Scott Aaronson summed up the shock in a viral post</summary>
-<p>Claim: Yesterday, computer scientist Scott Aaronson summed up the shock in a viral post</p>
-<p>Result: NEEDS-HUMAN</p>
-<p>Source quote: @AndrewCurran_: Scott Aaronson on his blog.</p>
-<p>Blog mention does not establish date, contents and reach.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e10-viral-yesterday.py">checks/2026-11-26/e10-viral-yesterday.py</a></p>
-</details>
-<details>
-<summary>NEEDS-HUMAN · fresh off an Anthropic-assisted Riemann Hypothesis proof</summary>
-<p>Claim: fresh off an Anthropic-assisted Riemann Hypothesis proof</p>
-<p>Result: NEEDS-HUMAN</p>
-<p>Source quote: (none)</p>
-<p>no source sentence matches /Anthropic.{0,70}(?:assisted|helped).{0,70}(?:proof of the Riemann hypothesis|Riemann hypothesis proof)/. </p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e11-riemann.py">checks/2026-11-26/e11-riemann.py</a></p>
-</details>
-<details>
-<summary>NEEDS-HUMAN · OpenAI and Anthropic uploaded GitHub proofs that VP does not equal VNP</summary>
-<p>Claim: OpenAI and Anthropic uploaded GitHub proofs that VP does not equal VNP</p>
-<p>Result: NEEDS-HUMAN</p>
-<p>Source quote: VP ≠ VNP would be huge for algebraic complexity, but it would not automatically crack RSA unless the proof also yields an efficient factoring</p>
-<p>Conditional comment is not a record of proofs uploaded by both labs.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e12-vp-vnp.py">checks/2026-11-26/e12-vp-vnp.py</a></p>
-</details>
-<details>
-<summary>NEEDS-HUMAN · followed by OpenAI claiming the exact exponent of matrix multiplication is nine-fourths</summary>
-<p>Claim: followed by OpenAI claiming the exact exponent of matrix multiplication is nine-fourths</p>
-<p>Result: NEEDS-HUMAN</p>
-<p>Source quote: (none)</p>
-<p>no source sentence matches /(?:then|later|subsequently) OpenAI.{0,80}exact exponent of matrix multiplication.{0,20}(?:9/4|nine.fourths|2\.25)/. </p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e13-openai-exponent.py">checks/2026-11-26/e13-openai-exponent.py</a></p>
-</details>
-<details>
-<summary>NEEDS-HUMAN · the exact exponent of matrix multiplication is nine-fourths</summary>
-<p>Claim: the exact exponent of matrix multiplication is nine-fourths</p>
-<p>Result: NEEDS-HUMAN</p>
-<p>Source quote: (none)</p>
-<p>no source sentence matches /exact exponent of matrix multiplication.{0,20}(?:9/4|nine.fourths|2\.25)\b/. </p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e14-exponent-value.py">checks/2026-11-26/e14-exponent-value.py</a></p>
-</details>
-<details>
-<summary>NEEDS-HUMAN · alongside tight Fourier transform bounds</summary>
-<p>Claim: alongside tight Fourier transform bounds</p>
-<p>Result: NEEDS-HUMAN</p>
-<p>Source quote: (none)</p>
-<p>no source sentence matches /(?:tight bounds.{0,30}Fourier transform|tight Fourier transform bounds)/. </p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e15-fourier.py">checks/2026-11-26/e15-fourier.py</a></p>
-</details>
-<details>
-<summary>NEEDS-HUMAN · Then Google Research silently committed six papers</summary>
-<p>Claim: Then Google Research silently committed six papers</p>
-<p>Result: NEEDS-HUMAN</p>
 <p>Source quote: STORY: Google Research posts six Cogentic papers, produced with Gemini 4, claiming results on factoring, the log-rank conjecture and more</p>
-<p>Posting is documented; silence and sequence are not.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e16-silent-commit.py">checks/2026-11-26/e16-silent-commit.py</a></p>
+<p>Posting six does not establish one commit, six additional papers or no announcement.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e35-six-no-announcement.py">checks/2026-11-26/e35-six-no-announcement.py</a></p>
 </details>
-<details>
-<summary>NEEDS-HUMAN · They cover integer factoring, discrete logarithms, the log-rank conjecture, approximate Nash equilibria, and graph edge reconstruction</summary>
-<p>Claim: They cover integer factoring, discrete logarithms, the log-rank conjecture, approximate Nash equilibria, and graph edge reconstruction</p>
-<p>Result: NEEDS-HUMAN</p>
-<p>Source quote: (none)</p>
-<p>no source sentence matches /discrete logarithms/. </p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e19-paper-topics.py">checks/2026-11-26/e19-paper-topics.py</a></p>
-</details>
-<details>
-<summary>NEEDS-HUMAN · Aaronson confirmed he is virtually certain, from multiple reliable sources, that frontier labs hold unreleased cryptography bombshells</summary>
-<p>Claim: Aaronson confirmed he is virtually certain, from multiple reliable sources, that frontier labs hold unreleased cryptography bombshells</p>
-<p>Result: NEEDS-HUMAN</p>
-<p>Source quote: Scott Aaronson states he is virtually certain, from multiple reliable sources, that frontier labs hold unreleased cryptography &quot;bombshells.&quot; He is far less confident about the exact nature-such as a practical polynomial-time</p>
-<p>The wording is in a Grok reply; verify Aaronson’s own statement and level of confidence.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e23-aaronson-confidence.py">checks/2026-11-26/e23-aaronson-confidence.py</a></p>
-</details>
-<details>
-<summary>NEEDS-HUMAN · he warned specifics can get mangled in a game of Telephone</summary>
-<p>Claim: he warned specifics can get mangled in a game of Telephone</p>
-<p>Result: NEEDS-HUMAN</p>
-<p>Source quote: framing (Shtetl-Optimized (Scott Aaronson)): Aaronson&#x27;s own blog; it establishes only what he says he has heard, and he explicitly declines to vouch for the specifics.</p>
-<p>Declining to vouch does not document the Telephone explanation.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e24-telephone.py">checks/2026-11-26/e24-telephone.py</a></p>
-</details>
-<details>
-<summary>NEEDS-HUMAN · Google posted two theoretical factoring results, one randomized and one deterministic</summary>
-<p>Claim: Google posted two theoretical factoring results, one randomized and one deterministic</p>
-<p>Result: NEEDS-HUMAN</p>
-<p>Source quote: (none)</p>
-<p>no source sentence matches /two.{0,40}factoring.{0,100}randomized.{0,60}deterministic/. </p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e26-factoring-attribution.py">checks/2026-11-26/e26-factoring-attribution.py</a></p>
-</details>
-<details>
-<summary>NEEDS-HUMAN · two theoretical factoring results, one randomized and one deterministic</summary>
-<p>Claim: two theoretical factoring results, one randomized and one deterministic</p>
-<p>Result: NEEDS-HUMAN</p>
-<p>Source quote: (none)</p>
-<p>no source sentence matches /(?:two|2) (?:theoretical )?factoring (?:results|algorithms|papers).{0,100}one randomized.{0,30}one deterministic/. </p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e27-factoring-count.py">checks/2026-11-26/e27-factoring-count.py</a></p>
-</details>
-<details>
-<summary>NEEDS-HUMAN · whose bounds do not beat the classic heuristic Number Field Sieve in practice</summary>
-<p>Claim: whose bounds do not beat the classic heuristic Number Field Sieve in practice</p>
-<p>Result: NEEDS-HUMAN</p>
-<p>Source quote: framing (Google Research (GitHub)): Company-posted claim; the running-time bound is subexponential, not polynomial, and no independent verification is reported.</p>
-<p>This does not compare the bounds or practical performance to the Number Field Sieve.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e28-sieve-comparison.py">checks/2026-11-26/e28-sieve-comparison.py</a></p>
-</details>
-<details>
-<summary>NEEDS-HUMAN · Aaronson looked at the repository and saw nothing of practical relevance for cryptography</summary>
-<p>Claim: Aaronson looked at the repository and saw nothing of practical relevance for cryptography</p>
-<p>Result: NEEDS-HUMAN</p>
-<p>Source quote: (none)</p>
-<p>no source sentence matches /Aaronson.{0,100}(?:repository|repo).{0,100}nothing of practical relevance (?:for|to) cryptography/. </p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e29-repository-assessment.py">checks/2026-11-26/e29-repository-assessment.py</a></p>
-</details>
-<details>
-<summary>NEEDS-HUMAN · labs drop major theorems straight onto GitHub</summary>
-<p>Claim: labs drop major theorems straight onto GitHub</p>
-<p>Result: NEEDS-HUMAN</p>
-<p>Source quote: framing (Google Research (GitHub)): Company-posted preprints in a public repository; no peer review, and the announced Lean formalizations are not yet released.</p>
-<p>One lab’s repository does not establish the broader practice or theorem status.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e30-github-theorems.py">checks/2026-11-26/e30-github-theorems.py</a></p>
-</details>
-<details>
-<summary>NEEDS-HUMAN · mathematics has a generator-verifier gap that favors AI</summary>
-<p>Claim: mathematics has a generator-verifier gap that favors AI</p>
-<p>Result: NEEDS-HUMAN</p>
-<p>Source quote: Many ambitious Claude projects have relied on this gap: formalizing proofs in mathematics or migrating large, well-tested codebases are tasks Claude can take on as long as it has a reliable way to verify its work.</p>
-<p>Generalization about AI advantage.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e31-math-gap.py">checks/2026-11-26/e31-math-gap.py</a></p>
-</details>
-<details>
-<summary>NEEDS-HUMAN · even Lean isn&#x27;t completely hands-off</summary>
-<p>Claim: even Lean isn&#x27;t completely hands-off</p>
-<p>Result: NEEDS-HUMAN</p>
-<p>Source quote: A theorem in mathematics is a precise statement, and a proof assistant (like Lean) can check each step of a proof against a fixed set of rules.</p>
-<p>Checking steps does not specify which human oversight is necessary.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e35-lean-oversight.py">checks/2026-11-26/e35-lean-oversight.py</a></p>
-</details>
-<details>
-<summary>NEEDS-HUMAN · As commenters noted on Aaronson&#x27;s blog, machine-checked proofs can span hundreds of thousands or millions of lines</summary>
-<p>Claim: As commenters noted on Aaronson&#x27;s blog, machine-checked proofs can span hundreds of thousands or millions of lines</p>
-<p>Result: NEEDS-HUMAN</p>
-<p>Source quote: (none)</p>
-<p>no source sentence matches /commenters.{0,60}Aaronson.s blog.{0,120}hundreds of thousands or millions of lines/. </p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e36-blog-commenters.py">checks/2026-11-26/e36-blog-commenters.py</a></p>
-</details>
-<details>
-<summary>NEEDS-HUMAN · can span hundreds of thousands or millions of lines</summary>
-<p>Claim: can span hundreds of thousands or millions of lines</p>
-<p>Result: NEEDS-HUMAN</p>
-<p>Source quote: (none)</p>
-<p>no source sentence matches /(?:machine.checked|formalized) proofs.{0,70}hundreds of thousands or millions of lines/. </p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e37-proof-length.py">checks/2026-11-26/e37-proof-length.py</a></p>
-</details>
-<details>
-<summary>NEEDS-HUMAN · experts still must check adversarially that the formalized definitions actually match the real conjecture</summary>
-<p>Claim: experts still must check adversarially that the formalized definitions actually match the real conjecture</p>
-<p>Result: NEEDS-HUMAN</p>
-<p>Source quote: (none)</p>
-<p>no source sentence matches /experts.{0,60}(?:adversarial|adversarially).{0,80}definitions.{0,60}conjecture/. </p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e38-definition-review.py">checks/2026-11-26/e38-definition-review.py</a></p>
-</details>
-<details>
-<summary>NEEDS-HUMAN · rather than the AI proving something technically valid that misses the point</summary>
-<p>Claim: rather than the AI proving something technically valid that misses the point</p>
-<p>Result: NEEDS-HUMAN</p>
-<p>Source quote: A theorem in mathematics is a precise statement, and a proof assistant (like Lean) can check each step of a proof against a fixed set of rules.</p>
-<p>Step checking alone does not document a mismatch with an intended conjecture.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e39-wrong-statement.py">checks/2026-11-26/e39-wrong-statement.py</a></p>
-</details>
-<details>
-<summary>NEEDS-HUMAN · Math looks like a zero-human singularity because the rules are fixed</summary>
-<p>Claim: Math looks like a zero-human singularity because the rules are fixed</p>
-<p>Result: NEEDS-HUMAN</p>
-<p>Source quote: A theorem in mathematics is a precise statement, and a proof assistant (like Lean) can check each step of a proof against a fixed set of rules.</p>
-<p>Fixed rules do not establish a singularity.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e68-zero-human.py">checks/2026-11-26/e68-zero-human.py</a></p>
-</details>
-<details>
-<summary>NEEDS-HUMAN · have a great Thanksgiving</summary>
-<p>Claim: have a great Thanksgiving</p>
-<p>Result: NEEDS-HUMAN</p>
-<p>Source quote: (none)</p>
-<p>Sign-off; no broadcast calendar in the source texts.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e72-holiday.py">checks/2026-11-26/e72-holiday.py</a></p>
-</details>
-<details>
-<summary>PASS · a methodical Anthropic engineering post about migrating its Messages API from Python to Rust</summary>
-<p>Claim: a methodical Anthropic engineering post about migrating its Messages API from Python to Rust</p>
-<p>Result: PASS</p>
-<p>Source quote: @AnthropicAI: We recently migrated our Messages API from Python to Rust. … On our engineering blog, we share how we used the existing service to verify the new one, with teams of Claude agents tracking down and fixing differences between the two versions.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e04-engineering-post.py">checks/2026-11-26/e04-engineering-post.py</a></p>
-</details>
-<details>
-<summary>PASS · six papers produced by its Cogentic harness on Gemini 4</summary>
-<p>Claim: six papers produced by its Cogentic harness on Gemini 4</p>
-<p>Result: PASS</p>
+<details open>
+<summary>FAIL · six more at once</summary>
+<p>Claim: six more at once</p>
+<p>Result: FAIL</p>
 <p>Source quote: STORY: Google Research posts six Cogentic papers, produced with Gemini 4, claiming results on factoring, the log-rank conjecture and more</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e17-six-cogentic.py">checks/2026-11-26/e17-six-cogentic.py</a></p>
+<p>The count is given, not the increment and timing.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e36-six-at-once.py">checks/2026-11-26/e36-six-at-once.py</a></p>
 </details>
-<details>
-<summary>PASS · social accounts amplified an unverified ten-day rumor</summary>
-<p>Claim: social accounts amplified an unverified ten-day rumor</p>
-<p>Result: PASS</p>
-<p>Source quote: AFFILIATION NOTE (scan): AI news aggregator account amplifying a rumor; no independent sourcing and no lab confirmation.</p>
-<p>In fact, this rumor has persisted for about ten days, about both Anthropic and OpenAI.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e20-social-amplification.py">checks/2026-11-26/e20-social-amplification.py</a></p>
-</details>
-<details>
-<summary>PASS · unverified ten-day rumor</summary>
-<p>Claim: unverified ten-day rumor</p>
-<p>Result: PASS</p>
-<p>Source quote: In fact, this rumor has persisted for about ten days, about both Anthropic and OpenAI.</p>
-<p>Approximate age of the rumor, not a confirmed discovery.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e21-rumor-duration.py">checks/2026-11-26/e21-rumor-duration.py</a></p>
-</details>
-<details>
-<summary>PASS · That rumor is separate from Google&#x27;s public papers</summary>
-<p>Claim: That rumor is separate from Google&#x27;s public papers</p>
-<p>Result: PASS</p>
-<p>Source quote: No lab has published or confirmed such a result. … framing (Google Research (GitHub)): Company-posted preprints in a public repository; no peer review, and the announced Lean formalizations are not yet released. … framing (Google Research (GitHub)): Company-posted claim; the running-time bound is subexponential, not polynomial, and no independent verification is reported.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e25-separate-results.py">checks/2026-11-26/e25-separate-results.py</a></p>
-</details>
-<details>
-<summary>PASS · a proof assistant like Lean offers a fixed, explicit rulebook</summary>
-<p>Claim: a proof assistant like Lean offers a fixed, explicit rulebook</p>
-<p>Result: PASS</p>
-<p>Source quote: A theorem in mathematics is a precise statement, and a proof assistant (like Lean) can check each step of a proof against a fixed set of rules.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e32-lean-rules.py">checks/2026-11-26/e32-lean-rules.py</a></p>
-</details>
-<details>
-<summary>PASS · leaving them unverified for now</summary>
-<p>Claim: leaving them unverified for now</p>
-<p>Result: PASS</p>
-<p>Source quote: framing (Google Research (GitHub)): Company-posted preprints in a public repository; no peer review, and the announced Lean formalizations are not yet released. … framing (Google Research (GitHub)): Company-posted claim; the running-time bound is subexponential, not polynomial, and no independent verification is reported.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e34-unverified-now.py">checks/2026-11-26/e34-unverified-now.py</a></p>
-</details>
-<details>
-<summary>PASS · Messages API traffic grew roughly eighteen hundred times since early 2024</summary>
-<p>Claim: Messages API traffic grew roughly eighteen hundred times since early 2024</p>
-<p>Result: PASS</p>
-<p>Source quote: From early 2024 to fall 2026, API traffic grew roughly 1,800 times.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e40-traffic-growth.py">checks/2026-11-26/e40-traffic-growth.py</a></p>
-</details>
-<details>
-<summary>PASS · Anthropic needed far less overhead</summary>
-<p>Claim: Anthropic needed far less overhead</p>
-<p>Result: PASS</p>
-<p>Source quote: As each reply arrived, the stream of tokens had to be sorted into text, thinking, and tool calls, and Python added overhead to every one of those steps each time it created an object, freed memory, or handed its work to the next task. … Traffic eventually grew far beyond what the initial Python service was built for (Figure 1), and we quickly needed to find a way to make the service much more efficient. … Rust would allow us to use far less CPU per request.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e41-overhead.py">checks/2026-11-26/e41-overhead.py</a></p>
-</details>
-<details>
-<summary>PASS · According to Anthropic, moving from Python to Rust cut CPU use per request by about seventy percent and median time to first token by about twenty percent, with zero downtime</summary>
-<p>Claim: According to Anthropic, moving from Python to Rust cut CPU use per request by about seventy percent and median time to first token by about twenty percent, with zero downtime</p>
-<p>Result: PASS</p>
-<p>Source quote: We ran into this problem when we migrated our Messages API from Python to Rust. … This allowed us to ship an API on Rust that uses about 70% less CPU per request and cuts median time to first token by about 20% without ever taking the service offline or freezing feature development.</p>
-<p>Company summary; figure covers one region for CPU and Claude Code requests for latency.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e42-reported-gains.py">checks/2026-11-26/e42-reported-gains.py</a></p>
-</details>
-<details>
-<summary>PASS · cut CPU use per request by about seventy percent</summary>
-<p>Claim: cut CPU use per request by about seventy percent</p>
-<p>Result: PASS</p>
-<p>Source quote: This allowed us to ship an API on Rust that uses about 70% less CPU per request and cuts median time to first token by about 20% without ever taking the service offline or freezing feature development.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e43-cpu-cut.py">checks/2026-11-26/e43-cpu-cut.py</a></p>
-</details>
-<details>
-<summary>PASS · median time to first token by about twenty percent</summary>
-<p>Claim: median time to first token by about twenty percent</p>
-<p>Result: PASS</p>
-<p>Source quote: This allowed us to ship an API on Rust that uses about 70% less CPU per request and cuts median time to first token by about 20% without ever taking the service offline or freezing feature development.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e44-latency-cut.py">checks/2026-11-26/e44-latency-cut.py</a></p>
-</details>
-<details>
-<summary>PASS · with zero downtime</summary>
-<p>Claim: with zero downtime</p>
-<p>Result: PASS</p>
-<p>Source quote: This allowed us to ship an API on Rust that uses about 70% less CPU per request and cuts median time to first token by about 20% without ever taking the service offline or freezing feature development.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e45-no-outage.py">checks/2026-11-26/e45-no-outage.py</a></p>
-</details>
-<details>
-<summary>PASS · in about a week</summary>
-<p>Claim: in about a week</p>
-<p>Result: PASS</p>
-<p>Source quote: Claude wrote a first version of the API&#x27;s core request path in about a week.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e47-week.py">checks/2026-11-26/e47-week.py</a></p>
-</details>
-<details>
-<summary>PASS · migrating public traffic still took five months, from April to September</summary>
-<p>Claim: migrating public traffic still took five months, from April to September</p>
-<p>Result: PASS</p>
-<p>Source quote: Changes merged to our API&#x27;s Rust code in each two-week period, from April until public traffic moved to Rust in September 2026.</p>
-<p>Five calendar months between named months, not five months spent shifting traffic itself.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e48-migration-months.py">checks/2026-11-26/e48-migration-months.py</a></p>
-</details>
-<details>
-<summary>PASS · In a live production system, the generator-verifier gap inverts</summary>
-<p>Claim: In a live production system, the generator-verifier gap inverts</p>
-<p>Result: PASS</p>
-<p>Source quote: But as Claude has become more capable, it&#x27;s begun to take on projects in live systems, where generating the work is easier than verifying it.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e49-gap-inverts.py">checks/2026-11-26/e49-gap-inverts.py</a></p>
-</details>
-<details>
-<summary>PASS · There is no fixed rulebook</summary>
-<p>Claim: There is no fixed rulebook</p>
-<p>Result: PASS</p>
-<p>Source quote: In our case, neither approach was sufficient, so we used the existing system as an oracle to test parity during the migration. … We were releasing new models and shipping new features regularly, which made the definition of &quot;correct&quot; a moving target.</p>
-<p>Supports the claim for this migration, not every production system.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e50-no-rulebook.py">checks/2026-11-26/e50-no-rulebook.py</a></p>
-</details>
-<details>
-<summary>PASS · The Python service kept changing throughout the rewrite</summary>
-<p>Claim: The Python service kept changing throughout the rewrite</p>
-<p>Result: PASS</p>
-<p>Source quote: This proved hard for several reasons, including that the Python API continued changing throughout the migration, so parity was a moving target; Claude can reply nondeterministically to the same request, so a difference between two outputs didn&#x27;t necessarily mean a bug; and we couldn&#x27;t read customer requests, so we weren&#x27;t able to easily see where the two versions diverged.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e51-changing-python.py">checks/2026-11-26/e51-changing-python.py</a></p>
-</details>
-<details>
-<summary>PASS · Anthropic couldn&#x27;t trust ported integration tests alone</summary>
-<p>Claim: Anthropic couldn&#x27;t trust ported integration tests alone</p>
-<p>Result: PASS</p>
-<p>Source quote: Tests were the easiest place for us to start, since we already had an existing set of about 700 integration tests. … However, two problems limited our ability to trust them to verify the correctness of a migration as high stakes as this (Figure 4). … We saw this happen: when we audited the ported tests, we found more than 100 weakened assertions.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e52-insufficient-tests.py">checks/2026-11-26/e52-insufficient-tests.py</a></p>
-</details>
-<details>
-<summary>PASS · an audit found over a hundred weakened assertions</summary>
-<p>Claim: an audit found over a hundred weakened assertions</p>
-<p>Result: PASS</p>
-<p>Source quote: We saw this happen: when we audited the ported tests, we found more than 100 weakened assertions.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e53-weakened-assertions.py">checks/2026-11-26/e53-weakened-assertions.py</a></p>
-</details>
-<details>
-<summary>PASS · it matched only about a quarter of live production inputs</summary>
-<p>Claim: it matched only about a quarter of live production inputs</p>
-<p>Result: PASS</p>
-<p>Source quote: Our Rust API passed about 98% of its tests in April, yet only about a quarter of inputs matched on production traffic (Figure 6).</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e55-quarter-inputs.py">checks/2026-11-26/e55-quarter-inputs.py</a></p>
-</details>
-<details>
-<summary>PASS · Real traffic hit uncovered edge cases</summary>
-<p>Claim: Real traffic hit uncovered edge cases</p>
-<p>Result: PASS</p>
-<p>Source quote: The gap came partly from cases in production traffic that our tests didn&#x27;t cover.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e56-uncovered-cases.py">checks/2026-11-26/e56-uncovered-cases.py</a></p>
-</details>
-<details>
-<summary>PASS · Python escaping emojis in JSON tool calls while Rust wrote them raw</summary>
-<p>Claim: Python escaping emojis in JSON tool calls while Rust wrote them raw</p>
-<p>Result: PASS</p>
-<p>Source quote: For example, when Python writes JSON tool calls, it escapes certain characters (e.g., an emoji) by replacing them with text codes. … Rust wrote those characters as is, so the two prompts differed by a few bytes.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e57-emoji-bytes.py">checks/2026-11-26/e57-emoji-bytes.py</a></p>
-</details>
-<details>
-<summary>PASS · common bugs fired across huge waves of requests</summary>
-<p>Claim: common bugs fired across huge waves of requests</p>
-<p>Result: PASS</p>
-<p>Source quote: In a test suite, each case counts once, but in live traffic, a bug will show up in each request where it&#x27;s triggered, which means a single common bug can cause many mismatches. … A single bug could produce hundreds of thousands of nearly identical diff records.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e58-common-bugs.py">checks/2026-11-26/e58-common-bugs.py</a></p>
-</details>
-<details>
-<summary>PASS · Anthropic built a privacy-preserving shadow oracle comparing byte-level fingerprints without reading user text</summary>
-<p>Claim: Anthropic built a privacy-preserving shadow oracle comparing byte-level fingerprints without reading user text</p>
-<p>Result: PASS</p>
-<p>Source quote: In our case, neither approach was sufficient, so we used the existing system as an oracle to test parity during the migration. … To do that we had to work without reading user requests or Claude&#x27;s replies to them, which means we couldn&#x27;t easily see where the Rust and Python versions of the API differed. … The result was a shadowing system that produced a small record of each difference between our Rust and Python APIs. … first diff: byte 17 ← fingerprint</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e59-private-fingerprints.py">checks/2026-11-26/e59-private-fingerprints.py</a></p>
-</details>
-<details>
-<summary>PASS · a web search tool description was missing</summary>
-<p>Claim: a web search tool description was missing</p>
-<p>Result: PASS</p>
-<p>Source quote: The production API retrieved the web search tool&#x27;s description from an internal service. … The Rust API didn&#x27;t call this service yet, so the tool description was missing from the prompts.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e61-missing-description.py">checks/2026-11-26/e61-missing-description.py</a></p>
-</details>
-<details>
-<summary>PASS · the agent hardcoded the text locally instead of calling the internal service</summary>
-<p>Claim: the agent hardcoded the text locally instead of calling the internal service</p>
-<p>Result: PASS</p>
-<p>Source quote: The production API retrieved the web search tool&#x27;s description from an internal service. … The Rust API didn&#x27;t call this service yet, so the tool description was missing from the prompts. … An agent proposed a shortcut to copy the text into files that would be readable by Rust. … The prompts then matched, and the fix passed the local verifier.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e62-local-copy.py">checks/2026-11-26/e62-local-copy.py</a></p>
-</details>
-<details>
-<summary>PASS · The outputs matched</summary>
-<p>Claim: The outputs matched</p>
-<p>Result: PASS</p>
-<p>Source quote: The prompts then matched, and the fix passed the local verifier.</p>
-<p>Outputs of local prompt construction, not production model replies.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e63-matched-prompts.py">checks/2026-11-26/e63-matched-prompts.py</a></p>
-</details>
-<details>
-<summary>PASS · The verifier said pass</summary>
-<p>Claim: The verifier said pass</p>
-<p>Result: PASS</p>
-<p>Source quote: The prompts then matched, and the fix passed the local verifier.</p>
-<p>Local verifier only.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e64-verifier-pass.py">checks/2026-11-26/e64-verifier-pass.py</a></p>
-</details>
-<details>
-<summary>PASS · An engineer had to reject it as throwaway code</summary>
-<p>Claim: An engineer had to reject it as throwaway code</p>
-<p>Result: PASS</p>
-<p>Source quote: Agents trace a mismatch to the web search tool across four Slack threads and propose a fix, which an engineer rejects as throwaway code.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e65-engineer-rejection.py">checks/2026-11-26/e65-engineer-rejection.py</a></p>
-</details>
-<details>
-<summary>PASS · teams didn&#x27;t have to catch the same shortcut twice</summary>
-<p>Claim: teams didn&#x27;t have to catch the same shortcut twice</p>
-<p>Result: PASS</p>
-<p>Source quote: For example, when an engineer turned down the web search shortcut (Figure 12), the agent saved a note to memory explaining the decision, the reason for it, and the correct fix, which was to have Rust call the service that supplies tool descriptions. … Agents checked the memory note, recognized the known bug, and linked those records to it, instead of writing another workaround (Figure 14).</p>
-<p>Observed for this shortcut; not a zero-recurrence statistic across all shortcuts.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e67-no-repeat.py">checks/2026-11-26/e67-no-repeat.py</a></p>
-</details>
-<details>
-<summary>PASS · correctness is a moving target</summary>
-<p>Claim: correctness is a moving target</p>
-<p>Result: PASS</p>
-<p>Source quote: We were releasing new models and shipping new features regularly, which made the definition of &quot;correct&quot; a moving target.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e69-moving-target.py">checks/2026-11-26/e69-moving-target.py</a></p>
-</details>
-<details>
-<summary>PASS · agents optimize around imperfect checks</summary>
-<p>Claim: agents optimize around imperfect checks</p>
-<p>Result: PASS</p>
-<p>Source quote: But the verifier rewarded matching outputs, and the agent found the cheapest way to produce them. … A verifier can tell an agent whether the outputs matched, but not whether the fix is good enough to ship.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e70-imperfect-checks.py">checks/2026-11-26/e70-imperfect-checks.py</a></p>
-</details>
-<details>
-<summary>PASS · The artifact carries the caveat this check looks for.</summary>
-<p>Claim: The artifact carries the caveat this check looks for.</p>
-<p>Result: PASS</p>
-<p>Source quote: framing (Shtetl-Optimized (Scott Aaronson)): Aaronson&#x27;s own blog; it establishes only what he says he has heard, and he explicitly declines to vouch for the specifics.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/oe1-aaronson-hearsay.py">checks/2026-11-26/oe1-aaronson-hearsay.py</a></p>
-</details>
-<details>
-<summary>PASS · The artifact carries the caveat this check looks for.</summary>
-<p>Claim: The artifact carries the caveat this check looks for.</p>
-<p>Result: PASS</p>
-<p>Source quote: framing (Google Research (GitHub)): Company-posted claim of a tiny improvement over the square-root bound (epsilon of 5 millionths); not a proof of the conjecture; not independently verified.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/oe11-logrank-verification.py">checks/2026-11-26/oe11-logrank-verification.py</a></p>
-</details>
-<details>
-<summary>PASS · The artifact carries the caveat this check looks for.</summary>
-<p>Claim: The artifact carries the caveat this check looks for.</p>
-<p>Result: PASS</p>
-<p>Source quote: framing (Anthropic): Company-reported engineering results; performance numbers are Anthropic&#x27;s own and not independently measured.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/oe12-company-metrics.py">checks/2026-11-26/oe12-company-metrics.py</a></p>
-</details>
-<details>
-<summary>PASS · The artifact carries the caveat this check looks for.</summary>
-<p>Claim: The artifact carries the caveat this check looks for.</p>
-<p>Result: PASS</p>
-<p>Source quote: framing (Shtetl-Optimized (Scott Aaronson)): Aaronson&#x27;s own blog; it establishes only what he says he has heard, and he explicitly declines to vouch for the specifics.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/oe2-specifics.py">checks/2026-11-26/oe2-specifics.py</a></p>
-</details>
-<details>
-<summary>PASS · The artifact carries the caveat this check looks for.</summary>
-<p>Claim: The artifact carries the caveat this check looks for.</p>
-<p>Result: PASS</p>
-<p>Source quote: framing (Google Research (GitHub)): Company-posted preprints in a public repository; no peer review, and the announced Lean formalizations are not yet released.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/oe6-lean-release.py">checks/2026-11-26/oe6-lean-release.py</a></p>
-</details>
-<details>
-<summary>PASS · The artifact carries the caveat this check looks for.</summary>
-<p>Claim: The artifact carries the caveat this check looks for.</p>
-<p>Result: PASS</p>
-<p>Source quote: framing (Google Research (GitHub)): Company-posted claim; the running-time bound is subexponential, not polynomial, and no independent verification is reported.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/oe8-factoring-verification.py">checks/2026-11-26/oe8-factoring-verification.py</a></p>
-</details>
-<h2>Takeaways</h2>
 <details open>
-<summary>FAIL · Identify the company-posted preprints.</summary>
-<p>Claim: Identify the company-posted preprints.</p>
+<summary>FAIL · Google says its Cogentic agent harness, running on Gemini 4, produced all six with no human interaction after the initial prompt</summary>
+<p>Claim: Google says its Cogentic agent harness, running on Gemini 4, produced all six with no human interaction after the initial prompt</p>
 <p>Result: FAIL</p>
-<p>Source quote: framing (Google Research (GitHub)): Company-posted preprints in a public repository; no peer review, and the announced Lean formalizations are not yet released.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/ot1-company-preprints.py">checks/2026-11-26/ot1-company-preprints.py</a></p>
+<p>Source quote: There was no human interaction other than the initial prompt for Cogentic to</p>
+<p>The README describes this proof and formalization, not the interaction history of all six.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e38-all-six-autonomy.py">checks/2026-11-26/e38-all-six-autonomy.py</a></p>
 </details>
 <details open>
-<summary>FAIL · State lack of peer review.</summary>
-<p>Claim: State lack of peer review.</p>
+<summary>FAIL · no human interaction after the initial prompt</summary>
+<p>Claim: no human interaction after the initial prompt</p>
 <p>Result: FAIL</p>
-<p>Source quote: framing (Google Research (GitHub)): Company-posted preprints in a public repository; no peer review, and the announced Lean formalizations are not yet released.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/ot2-peer-review.py">checks/2026-11-26/ot2-peer-review.py</a></p>
+<p>Source quote: There was no human interaction other than the initial prompt for Cogentic to</p>
+<p>Supported for the log-rank proof and formalization only; the episode applies it to all six.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e41-no-interaction.py">checks/2026-11-26/e41-no-interaction.py</a></p>
 </details>
 <details open>
-<summary>FAIL · Give the qualification on the public factoring bound.</summary>
-<p>Claim: Give the qualification on the public factoring bound.</p>
+<summary>FAIL · the other achieves deterministic subexponential factoring without randomness</summary>
+<p>Claim: the other achieves deterministic subexponential factoring without randomness</p>
 <p>Result: FAIL</p>
 <p>Source quote: framing (Google Research (GitHub)): Company-posted claim; the running-time bound is subexponential, not polynomial, and no independent verification is reported.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/ot4-factoring-bound.py">checks/2026-11-26/ot4-factoring-bound.py</a></p>
+<p>Only a claimed runtime is given, not a verified second deterministic algorithm.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e49-deterministic-factoring.py">checks/2026-11-26/e49-deterministic-factoring.py</a></p>
 </details>
 <details open>
-<summary>FAIL · Say the performance gains were not independently measured.</summary>
-<p>Claim: Say the performance gains were not independently measured.</p>
+<summary>FAIL · After checking the repository, Aaronson confirmed both are major theoretical results with no practical impact on cryptography</summary>
+<p>Claim: After checking the repository, Aaronson confirmed both are major theoretical results with no practical impact on cryptography</p>
 <p>Result: FAIL</p>
-<p>Source quote: framing (Anthropic): Company-reported engineering results; performance numbers are Anthropic&#x27;s own and not independently measured.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/ot7-independent-measurement.py">checks/2026-11-26/ot7-independent-measurement.py</a></p>
+<p>Source quote: framing (Google Research (GitHub)): Company-posted claim; the running-time bound is subexponential, not polynomial, and no independent verification is reported.</p>
+<p>No independent confirmation is reported here.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e50-aaronson-confirmed.py">checks/2026-11-26/e50-aaronson-confirmed.py</a></p>
 </details>
 <details open>
-<summary>FAIL · claiming no human involvement after the first prompt</summary>
-<p>Claim: claiming no human involvement after the first prompt</p>
-<p>Result: FAIL</p>
-<p>Source quote: There was no human interaction other than the initial prompt for Cogentic to generate a full proof and formalization</p>
-<p>The claim concerns this proof, not six proofs.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/t03-human-involvement.py">checks/2026-11-26/t03-human-involvement.py</a></p>
-</details>
-<details open>
-<summary>FAIL · they remain unverified pending Lean 4 formalizations</summary>
-<p>Claim: they remain unverified pending Lean 4 formalizations</p>
+<summary>FAIL · companion Lean 4 formalizations it says are complete</summary>
+<p>Claim: companion Lean 4 formalizations it says are complete</p>
 <p>Result: FAIL</p>
 <p>Source quote: formalization of the entire proof has also been completed</p>
-<p>At least the log-rank formalization is complete; public release and independent verification are separate issues.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/t05-pending-formalizations.py">checks/2026-11-26/t05-pending-formalizations.py</a></p>
+<p>Completion is claimed for the singular log-rank formalization, not the whole set.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e54-lean-complete.py">checks/2026-11-26/e54-lean-complete.py</a></p>
 </details>
 <details open>
-<summary>FAIL · Claude wrote the core request path</summary>
-<p>Claim: Claude wrote the core request path</p>
+<summary>FAIL · He deliberately refused to name RSA or claim anyone had factored large numbers in polynomial time</summary>
+<p>Claim: He deliberately refused to name RSA or claim anyone had factored large numbers in polynomial time</p>
 <p>Result: FAIL</p>
-<p>Source quote: Claude wrote a first version of the API&#x27;s core request path in about a week.</p>
-<p>Authorship is explicitly scoped to a first version.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/t18-core-authorship.py">checks/2026-11-26/t18-core-authorship.py</a></p>
+<p>Source quote: framing (Shtetl-Optimized (Scott Aaronson)): Aaronson&#x27;s own blog; it establishes only what he says he has heard, and he explicitly declines to vouch for the specifics.</p>
+<p>Declining to vouch for specifics is not a statement that he refused to name RSA.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e60-refused-to-name.py">checks/2026-11-26/e60-refused-to-name.py</a></p>
+</details>
+<details open>
+<summary>FAIL · turning a calibrated warning into viral claims that RSA was dead</summary>
+<p>Claim: turning a calibrated warning into viral claims that RSA was dead</p>
+<p>Result: FAIL</p>
+<p>Source quote: This would crack RSA. https://t.co/s5AHbmcDFP https://t.co/YBOYkSYVOr</p>
+<p>Conditional consequence, not a declaration that RSA was dead; virality also unquantified.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e63-rsa-dead-comparison.py">checks/2026-11-26/e63-rsa-dead-comparison.py</a></p>
+</details>
+<details open>
+<summary>FAIL · RSA was dead</summary>
+<p>Claim: RSA was dead</p>
+<p>Result: FAIL</p>
+<p>Source quote: This would crack RSA. https://t.co/s5AHbmcDFP https://t.co/YBOYkSYVOr</p>
+<p>Neither supplied post uses the quoted words.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e64-rsa-dead-quote.py">checks/2026-11-26/e64-rsa-dead-quote.py</a></p>
+</details>
+<details open>
+<summary>FAIL · Labs quietly commit safe theorems to GitHub at dinner-table speed, with zero fanfare</summary>
+<p>Claim: Labs quietly commit safe theorems to GitHub at dinner-table speed, with zero fanfare</p>
+<p>Result: FAIL</p>
+<p>Source quote: framing (Google Research (GitHub)): Company-posted preprints in a public repository; no peer review, and the announced Lean formalizations are not yet released.</p>
+<p>One repository does not establish a multi-lab safety filter, cadence or publicity policy.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e71-safe-theorem-policy.py">checks/2026-11-26/e71-safe-theorem-policy.py</a></p>
+</details>
+<details open>
+<summary>FAIL · Anything touching live security stays behind closed doors</summary>
+<p>Claim: Anything touching live security stays behind closed doors</p>
+<p>Result: FAIL</p>
+<p>Source quote: No lab has published or confirmed such a result.</p>
+<p>Specific nonconfirmation is not a universal disclosure rule.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e74-anything-security.py">checks/2026-11-26/e74-anything-security.py</a></p>
+</details>
+<details open>
+<summary>FAIL · State independent verification is lacking for log-rank.</summary>
+<p>Claim: State independent verification is lacking for log-rank.</p>
+<p>Result: FAIL</p>
+<p>Source quote: framing (Google Research (GitHub)): Company-posted claim of a tiny improvement over the square-root bound (epsilon of 5 millionths); not a proof of the conjecture; not independently verified.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/oe10-logrank-unverified.py">checks/2026-11-26/oe10-logrank-unverified.py</a></p>
+</details>
+<details open>
+<summary>FAIL · Explicitly state no lab confirmation; unreleased does not mean unconfirmed.</summary>
+<p>Claim: Explicitly state no lab confirmation; unreleased does not mean unconfirmed.</p>
+<p>Result: FAIL</p>
+<p>Source quote: No lab has published or confirmed such a result.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/oe14-no-lab-confirmation.py">checks/2026-11-26/oe14-no-lab-confirmation.py</a></p>
+</details>
+<details open>
+<summary>FAIL · Identify the papers as preprints.</summary>
+<p>Claim: Identify the papers as preprints.</p>
+<p>Result: FAIL</p>
+<p>Source quote: framing (Google Research (GitHub)): Company-posted preprints in a public repository; no peer review, and the announced Lean formalizations are not yet released.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/oe2-google-preprints.py">checks/2026-11-26/oe2-google-preprints.py</a></p>
+</details>
+<details open>
+<summary>FAIL · State that the preprints lack peer review.</summary>
+<p>Claim: State that the preprints lack peer review.</p>
+<p>Result: FAIL</p>
+<p>Source quote: framing (Google Research (GitHub)): Company-posted preprints in a public repository; no peer review, and the announced Lean formalizations are not yet released.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/oe3-no-peer-review.py">checks/2026-11-26/oe3-no-peer-review.py</a></p>
+</details>
+<details open>
+<summary>FAIL · Distinguish the claimed subexponential bound from a polynomial one.</summary>
+<p>Claim: Distinguish the claimed subexponential bound from a polynomial one.</p>
+<p>Result: FAIL</p>
+<p>Source quote: framing (Google Research (GitHub)): Company-posted claim; the running-time bound is subexponential, not polynomial, and no independent verification is reported.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/oe5-factoring-runtime.py">checks/2026-11-26/oe5-factoring-runtime.py</a></p>
+</details>
+<details open>
+<summary>FAIL · No independent verification of the factoring claim is reported.</summary>
+<p>Claim: No independent verification of the factoring claim is reported.</p>
+<p>Result: FAIL</p>
+<p>Source quote: framing (Google Research (GitHub)): Company-posted claim; the running-time bound is subexponential, not polynomial, and no independent verification is reported.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/oe6-factoring-unverified.py">checks/2026-11-26/oe6-factoring-unverified.py</a></p>
+</details>
+<details open>
+<summary>FAIL · Describe the log-rank result as a small improvement over the square-root bound.</summary>
+<p>Claim: Describe the log-rank result as a small improvement over the square-root bound.</p>
+<p>Result: FAIL</p>
+<p>Source quote: framing (Google Research (GitHub)): Company-posted claim of a tiny improvement over the square-root bound (epsilon of 5 millionths); not a proof of the conjecture; not independently verified.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/oe7-logrank-small-gain.py">checks/2026-11-26/oe7-logrank-small-gain.py</a></p>
+</details>
+<details open>
+<summary>FAIL · Quantify the claimed exponent improvement: five millionths.</summary>
+<p>Claim: Quantify the claimed exponent improvement: five millionths.</p>
+<p>Result: FAIL</p>
+<p>Source quote: framing (Google Research (GitHub)): Company-posted claim of a tiny improvement over the square-root bound (epsilon of 5 millionths); not a proof of the conjecture; not independently verified.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/oe8-logrank-epsilon.py">checks/2026-11-26/oe8-logrank-epsilon.py</a></p>
+</details>
+<details open>
+<summary>FAIL · Distinguish improving a bound from proving the conjecture.</summary>
+<p>Claim: Distinguish improving a bound from proving the conjecture.</p>
+<p>Result: FAIL</p>
+<p>Source quote: framing (Google Research (GitHub)): Company-posted claim of a tiny improvement over the square-root bound (epsilon of 5 millionths); not a proof of the conjecture; not independently verified.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/oe9-logrank-not-proof.py">checks/2026-11-26/oe9-logrank-not-proof.py</a></p>
 </details>
 <details>
-<summary>NEEDS-HUMAN · computer scientist Scott Aaronson saw nothing of practical cryptographic relevance in their factoring results</summary>
-<p>Claim: computer scientist Scott Aaronson saw nothing of practical cryptographic relevance in their factoring results</p>
+<summary>NEEDS-HUMAN · Daily State of AI for Thursday, November 26th, 2026</summary>
+<p>Claim: Daily State of AI for Thursday, November 26th, 2026</p>
 <p>Result: NEEDS-HUMAN</p>
 <p>Source quote: (none)</p>
-<p>no source sentence matches /Aaronson.{0,120}(?:factoring|repository).{0,120}nothing of practical (?:cryptographic relevance|relevance (?:to|for) cryptography)/. </p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/t07-crypto-assessment.py">checks/2026-11-26/t07-crypto-assessment.py</a></p>
+<p>no source sentence matches /Thursday,?\s+(?:November 26(?:th)?,? 2026|26 November 2026)/. A dated URL is not an edition dateline.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e01-edition-date.py">checks/2026-11-26/e01-edition-date.py</a></p>
 </details>
 <details>
-<summary>NEEDS-HUMAN · nothing of practical cryptographic relevance in their factoring results</summary>
-<p>Claim: nothing of practical cryptographic relevance in their factoring results</p>
+<summary>NEEDS-HUMAN · On Tuesday night, computer scientist Scott Aaronson had friends and colleagues over for dinner</summary>
+<p>Claim: On Tuesday night, computer scientist Scott Aaronson had friends and colleagues over for dinner</p>
 <p>Result: NEEDS-HUMAN</p>
-<p>Source quote: framing (Google Research (GitHub)): Company-posted claim; the running-time bound is subexponential, not polynomial, and no independent verification is reported.</p>
-<p>The asymptotic classification alone cannot decide practical relevance.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/t08-crypto-opinion.py">checks/2026-11-26/t08-crypto-opinion.py</a></p>
+<p>Source quote: (none)</p>
+<p>no source sentence matches /(?=.*Tuesday (?:night|evening))(?=.*Aaronson)(?=.*friends)(?=.*colleagues)(?=.*dinner)/. Need the dinner account, not just a reference to his blog.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e03-tuesday-dinner.py">checks/2026-11-26/e03-tuesday-dinner.py</a></p>
 </details>
 <details>
-<summary>NEEDS-HUMAN · earning production trust still took five months of human oversight</summary>
-<p>Claim: earning production trust still took five months of human oversight</p>
+<summary>NEEDS-HUMAN · Instead of relaxing between courses, the table ended up huddled around phones and a laptop, refreshing GitHub</summary>
+<p>Claim: Instead of relaxing between courses, the table ended up huddled around phones and a laptop, refreshing GitHub</p>
 <p>Result: NEEDS-HUMAN</p>
-<p>Source quote: Changes merged to our API&#x27;s Rust code in each two-week period, from April until public traffic moved to Rust in September 2026.</p>
-<p>Dates bound the migration work. They do not isolate the time spent earning trust under human oversight.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/t15-oversight-duration.py">checks/2026-11-26/t15-oversight-duration.py</a></p>
+<p>Source quote: (none)</p>
+<p>no source sentence matches /(?=.*(?:dinner|courses|table))(?=.*phones)(?=.*laptop)(?=.*refresh\w* GitHub)/. </p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e04-refreshing-github.py">checks/2026-11-26/e04-refreshing-github.py</a></p>
 </details>
 <details>
-<summary>NEEDS-HUMAN · five months of human oversight</summary>
-<p>Claim: five months of human oversight</p>
+<summary>NEEDS-HUMAN · That is how major mathematical breakthroughs arrive now</summary>
+<p>Claim: That is how major mathematical breakthroughs arrive now</p>
 <p>Result: NEEDS-HUMAN</p>
-<p>Source quote: Changes merged to our API&#x27;s Rust code in each two-week period, from April until public traffic moved to Rust in September 2026.</p>
-<p>Five named-month intervals; chart measures merged changes, not a duration of oversight.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/t16-five-months.py">checks/2026-11-26/t16-five-months.py</a></p>
-</details>
-<details>
-<summary>PASS · The artifact carries the caveat this check looks for.</summary>
-<p>Claim: The artifact carries the caveat this check looks for.</p>
-<p>Result: PASS</p>
 <p>Source quote: framing (Google Research (GitHub)): Company-posted preprints in a public repository; no peer review, and the announced Lean formalizations are not yet released.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/ot3-lean-release.py">checks/2026-11-26/ot3-lean-release.py</a></p>
+<p>Generalization about mathematical publishing.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e05-breakthroughs-now.py">checks/2026-11-26/e05-breakthroughs-now.py</a></p>
 </details>
 <details>
-<summary>PASS · The artifact carries the caveat this check looks for.</summary>
-<p>Claim: The artifact carries the caveat this check looks for.</p>
-<p>Result: PASS</p>
+<summary>NEEDS-HUMAN · by Wednesday afternoon, if you opened X, you would barely know anyone had proven anything in pure math</summary>
+<p>Claim: by Wednesday afternoon, if you opened X, you would barely know anyone had proven anything in pure math</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: AFFILIATION NOTE (scan): AI news aggregator account amplifying a rumor; no independent sourcing and no lab confirmation.</p>
+<p>A post cannot establish the experience of a typical X reader.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e08-wednesday-feed.py">checks/2026-11-26/e08-wednesday-feed.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · Viral posts with thousands of likes</summary>
+<p>Claim: Viral posts with thousands of likes</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>Original-post like count missing; reply counts do not count.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e09-like-count.py">checks/2026-11-26/e09-like-count.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · Those two scenes look like separate worlds: quiet math commits on GitHub, and a cybersecurity scare on social media</summary>
+<p>Claim: Those two scenes look like separate worlds: quiet math commits on GitHub, and a cybersecurity scare on social media</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: framing (Google Research (GitHub)): Company-posted preprints in a public repository; no peer review, and the announced Lean formalizations are not yet released.</p>
+<p>The contrast and characterization as quiet are editorial.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e13-two-scenes.py">checks/2026-11-26/e13-two-scenes.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · They are actually two halves of the same shift</summary>
+<p>Claim: They are actually two halves of the same shift</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>Interpretation, not a reported finding.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e14-same-shift.py">checks/2026-11-26/e14-same-shift.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · AI has just turned frontier mathematics into a dual-use technology, splitting the field right down the middle</summary>
+<p>Claim: AI has just turned frontier mathematics into a dual-use technology, splitting the field right down the middle</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>Historical and field-wide judgment.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e15-field-split.py">checks/2026-11-26/e15-field-split.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · what landed on GitHub in forty-eight hours</summary>
+<p>Claim: what landed on GitHub in forty-eight hours</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>no source sentence matches /(?=.*GitHub)(?=.*(?:48|forty-eight)[ -]hours?)(?=.*(?:posted|committed|uploaded))/. A commit chronology is needed.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e16-forty-eight-hours.py">checks/2026-11-26/e16-forty-eight-hours.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · Aaronson&#x27;s dinner guests were still absorbing last week&#x27;s Alpöge and Anthropic proof of the Riemann Hypothesis</summary>
+<p>Claim: Aaronson&#x27;s dinner guests were still absorbing last week&#x27;s Alpöge and Anthropic proof of the Riemann Hypothesis</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>no source sentence matches /(?=.*(?:dinner|guests))(?=.*last week)(?=.*Alpöge)(?=.*Anthropic)(?=.*proof of the Riemann [Hh]ypothesis)/. </p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e17-dinner-riemann.py">checks/2026-11-26/e17-dinner-riemann.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · last week&#x27;s Alpöge and Anthropic proof of the Riemann Hypothesis</summary>
+<p>Claim: last week&#x27;s Alpöge and Anthropic proof of the Riemann Hypothesis</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>no source sentence matches /(?=.*last week)(?=.*Alpöge)(?=.*Anthropic)(?=.*(?:proved the|proof of the) Riemann hypothesis)/. </p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e18-riemann-proof.py">checks/2026-11-26/e18-riemann-proof.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · OpenAI uploaded a claim pinning down the exact exponent of matrix multiplication at nine-fourths</summary>
+<p>Claim: OpenAI uploaded a claim pinning down the exact exponent of matrix multiplication at nine-fourths</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>no source sentence matches /(?=.*OpenAI)(?=.*(?:posted|uploaded|committed))(?=.*matrix multiplication)(?=.*exponent)(?=.*(?:exactly|equals?|is|=)\s*(?:9/4|2\.25|nine-fourths)\b)/. </p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e19-openai-exponent.py">checks/2026-11-26/e19-openai-exponent.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · the exact exponent of matrix multiplication at nine-fourths</summary>
+<p>Claim: the exact exponent of matrix multiplication at nine-fourths</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>no source sentence matches /(?=.*matrix multiplication)(?=.*exponent)(?=.*(?:exactly|equals?|is|=)\s*(?:9/4|2\.25|nine-fourths)\b)/. </p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e20-nine-fourths.py">checks/2026-11-26/e20-nine-fourths.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · a lower bound above two</summary>
+<p>Claim: a lower bound above two</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>no source sentence matches /(?=.*matrix multiplication)(?=.*lower bound (?:strictly )?(?:above|greater than|exceeding) (?:2|two)\b)/. </p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e21-above-two.py">checks/2026-11-26/e21-above-two.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · a barrier Aaronson once thought was nearly as hard as P versus NP</summary>
+<p>Claim: a barrier Aaronson once thought was nearly as hard as P versus NP</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>no source sentence matches /(?=.*Aaronson)(?=.*(?:matrix multiplication|exponent))(?=.*(?:almost|nearly) as hard as P (?:vs\.?|versus) NP)/. </p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e22-p-versus-np.py">checks/2026-11-26/e22-p-versus-np.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · By dessert, OpenAI added matching upper and lower bounds on the number of linear gates needed for the Fourier transform</summary>
+<p>Claim: By dessert, OpenAI added matching upper and lower bounds on the number of linear gates needed for the Fourier transform</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>no source sentence matches /(?=.*dessert)(?=.*OpenAI)(?=.*matching upper and lower bounds)(?=.*linear gates)(?=.*Fourier transform)/. </p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e23-dessert-fourier.py">checks/2026-11-26/e23-dessert-fourier.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · matching upper and lower bounds</summary>
+<p>Claim: matching upper and lower bounds</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>no source sentence matches /(?=.*Fourier)(?=.*linear gates)(?=.*matching (?:upper and lower|lower and upper) bounds)/. </p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e24-fourier-bounds.py">checks/2026-11-26/e24-fourier-bounds.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · beating the classic 1960s Fast Fourier Transform</summary>
+<p>Claim: beating the classic 1960s Fast Fourier Transform</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>no source sentence matches /(?=.*(?:beat\w*|improv\w* on|fewer .*than))(?=.*1960s)(?=.*(?:fast Fourier transform|FFT))/. </p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e25-beating-fft.py">checks/2026-11-26/e25-beating-fft.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · classic 1960s Fast Fourier Transform</summary>
+<p>Claim: classic 1960s Fast Fourier Transform</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>no source sentence matches /(?=.*(?:1960s|196[0-9]\b))(?=.*(?:fast Fourier transform|Cooley.Tukey FFT))/. </p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e26-fft-decade.py">checks/2026-11-26/e26-fft-decade.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · Just as striking as the answers is how OpenAI reached them</summary>
+<p>Claim: Just as striking as the answers is how OpenAI reached them</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>Relative strikingness is subjective.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e27-striking-method.py">checks/2026-11-26/e27-striking-method.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · A single new framework built on tensor geometry powered multiple major results at once</summary>
+<p>Claim: A single new framework built on tensor geometry powered multiple major results at once</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>no source sentence matches /(?=.*(?:single|one|same) new framework)(?=.*tensor geometry)(?=.*(?:both|multiple|several) .*results)/. </p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e28-single-framework.py">checks/2026-11-26/e28-single-framework.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · undercutting the comforting idea that AI only stitches together one-off tricks</summary>
+<p>Claim: undercutting the comforting idea that AI only stitches together one-off tricks</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>Interpretation of the significance of the method.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e29-one-off-tricks.py">checks/2026-11-26/e29-one-off-tricks.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · Aaronson wrote that he now assumes proofs coming directly from OpenAI or Anthropic are correct unless shown otherwise</summary>
+<p>Claim: Aaronson wrote that he now assumes proofs coming directly from OpenAI or Anthropic are correct unless shown otherwise</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>no source sentence matches /(?=.*Aaronson)(?=.*proofs? .*directly from OpenAI or Anthropic)(?=.*(?:assume|presume)\w*)(?=.*correct unless .*otherwise)/. </p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e30-aaronson-proof-policy.py">checks/2026-11-26/e30-aaronson-proof-policy.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · coming directly from OpenAI or Anthropic</summary>
+<p>Claim: coming directly from OpenAI or Anthropic</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>no source sentence matches /(?=.*Aaronson)(?=.*proofs? .*directly from (?:OpenAI or Anthropic|Anthropic or OpenAI))/. </p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e31-direct-provenance.py">checks/2026-11-26/e31-direct-provenance.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · correct unless shown otherwise</summary>
+<p>Claim: correct unless shown otherwise</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>no source sentence matches /(?=.*Aaronson)(?=.*proofs?)(?=.*correct until|.*correct unless)(?=.*(?:shown|demonstrated|proved) otherwise)/. </p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e32-presumed-correct.py">checks/2026-11-26/e32-presumed-correct.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · Wednesday morning, Google Research escalated its own quiet GitHub repository</summary>
+<p>Claim: Wednesday morning, Google Research escalated its own quiet GitHub repository</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>no source sentence matches /(?=.*Wednesday morning)(?=.*Google Research)(?=.*GitHub)(?=.*(?:quietly|without (?:an )?announcement))/. </p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e33-wednesday-repo.py">checks/2026-11-26/e33-wednesday-repo.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · four AI-generated papers over the previous month</summary>
+<p>Claim: four AI-generated papers over the previous month</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>no source sentence matches /(?=.*Google)(?=.*(?:four|4) (?:AI-generated|Cogentic) papers)(?=.*(?:last|previous|preceding) month)/. </p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e34-four-previous.py">checks/2026-11-26/e34-four-previous.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · with no announcement</summary>
+<p>Claim: with no announcement</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>no source sentence matches /(?=.*Google)(?=.*(?:without (?:an |any )?announcement|no announcement|unannounced))/. Public posting alone cannot decide whether it was announced.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e37-no-announcement.py">checks/2026-11-26/e37-no-announcement.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · tackling problems from Harary&#x27;s 1964 graph reconstruction conjecture and the log-rank conjecture to two new results on integer factoring</summary>
+<p>Claim: tackling problems from Harary&#x27;s 1964 graph reconstruction conjecture and the log-rank conjecture to two new results on integer factoring</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>no source sentence matches /Harary.{0,20}1964 graph reconstruction conjecture/. </p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e42-paper-subjects.py">checks/2026-11-26/e42-paper-subjects.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · Harary&#x27;s 1964 graph reconstruction conjecture</summary>
+<p>Claim: Harary&#x27;s 1964 graph reconstruction conjecture</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>no source sentence matches /(?=.*Harary)(?=.*1964)(?=.*graph reconstruction conjecture)/. </p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e43-harary-year.py">checks/2026-11-26/e43-harary-year.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · two new results on integer factoring</summary>
+<p>Claim: two new results on integer factoring</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>no source sentence matches /(?=.*(?:two|2) new (?:results|papers))(?=.*integer factoring)/. Six papers overall does not specify the factoring subtotal.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e44-two-factoring.py">checks/2026-11-26/e44-two-factoring.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · Those factoring papers immediately fueled the online panic</summary>
+<p>Claim: Those factoring papers immediately fueled the online panic</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>no source sentence matches /(?=.*Google)(?=.*factoring papers)(?=.*(?:immediately|as soon as))(?=.*(?:sparked|fueled|triggered).*(?:panic|rumors))/. Temporal proximity and speculation about other labs are not causation.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e45-panic-causation.py">checks/2026-11-26/e45-panic-causation.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · it helps to separate public math from private rumor</summary>
+<p>Claim: it helps to separate public math from private rumor</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: framing (Shtetl-Optimized (Scott Aaronson)): Aaronson&#x27;s own blog; it establishes only what he says he has heard, and he explicitly declines to vouch for the specifics.</p>
+<p>Editorial advice.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e46-public-private.py">checks/2026-11-26/e46-public-private.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · Google&#x27;s two factoring papers do not threaten RSA</summary>
+<p>Claim: Google&#x27;s two factoring papers do not threaten RSA</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>no source sentence matches /(?=.*(?:both|two) .*factoring)(?=.*(?:do not threaten|no practical .* on|do not break) RSA)/. Subexponential alone does not decide practical impact at RSA key sizes.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e47-no-rsa-threat.py">checks/2026-11-26/e47-no-rsa-threat.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · One gives an unconditional algorithm without unproven number-theoretic assumptions</summary>
+<p>Claim: One gives an unconditional algorithm without unproven number-theoretic assumptions</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>no source sentence matches /(?=.*factoring)(?=.*unconditional)(?=.*(?:without|no) (?:unproven|unproved) number.theoretic assumptions)/. Do not use the unconditional log-rank formalization.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e48-unconditional.py">checks/2026-11-26/e48-unconditional.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · major theoretical results with no practical impact on cryptography</summary>
+<p>Claim: major theoretical results with no practical impact on cryptography</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>no source sentence matches /(?=.*factoring)(?=.*major theoretical results)(?=.*no practical impact on cryptography)/. Asymptotic complexity alone does not establish either judgment.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e51-theory-no-impact.py">checks/2026-11-26/e51-theory-no-impact.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · Outside mathematicians can read the PDFs today</summary>
+<p>Claim: Outside mathematicians can read the PDFs today</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: [This paper](paper.pdf) proves a polynomial</p>
+<p>One linked PDF; public preprints do not establish that all the PDFs are readable today.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e52-public-pdfs.py">checks/2026-11-26/e52-public-pdfs.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · The real alarm came from a brief paragraph in Aaronson&#x27;s Wednesday post</summary>
+<p>Claim: The real alarm came from a brief paragraph in Aaronson&#x27;s Wednesday post</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>no source sentence matches /(?=.*Aaronson)(?=.*Wednesday)(?=.*brief paragraph)(?=.*(?:cryptograph|alarm|warning))/. </p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e55-wednesday-paragraph.py">checks/2026-11-26/e55-wednesday-paragraph.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · warning that technical specifics were likely getting mangled in a game of telephone</summary>
+<p>Claim: warning that technical specifics were likely getting mangled in a game of telephone</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>no source sentence matches /(?=.*Aaronson)(?=.*(?:specifics|details))(?=.*(?:likely|probably))(?=.*(?:mangled|distorted|game of telephone))/. </p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e61-game-of-telephone.py">checks/2026-11-26/e61-game-of-telephone.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · Popular AI commentators and aggregator accounts on X filled in those blanks themselves</summary>
+<p>Claim: Popular AI commentators and aggregator accounts on X filled in those blanks themselves</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: AFFILIATION NOTE (scan): AI news aggregator account amplifying a rumor; no independent sourcing and no lab confirmation.</p>
+<p>Amplification is explicit; popularity and who originated the specifics are not.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e62-commentators-fill-blanks.py">checks/2026-11-26/e62-commentators-fill-blanks.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · the math deluge and the cryptography rumors collided this week for a deeper reason</summary>
+<p>Claim: the math deluge and the cryptography rumors collided this week for a deeper reason</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>Interpretive causal thesis.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e65-deeper-reason.py">checks/2026-11-26/e65-deeper-reason.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · In theoretical computer science, lower bounds and algorithms live in the same house</summary>
+<p>Claim: In theoretical computer science, lower bounds and algorithms live in the same house</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>Disciplinary metaphor, not a literal source comparison.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e66-same-house.py">checks/2026-11-26/e66-same-house.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · When AI builds powerful new mathematical machinery, it does not only prove reassuring limits on what computers cannot do</summary>
+<p>Claim: When AI builds powerful new mathematical machinery, it does not only prove reassuring limits on what computers cannot do</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: STORY: Google Research posts six Cogentic papers, produced with Gemini 4, claiming results on factoring, the log-rank conjecture and more</p>
+<p>A list of claimed results cannot establish the general mechanism or that these are impossibility results.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e67-ai-machinery-limits.py">checks/2026-11-26/e67-ai-machinery-limits.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · It also uncovers unexpected algorithms for what they can</summary>
+<p>Claim: It also uncovers unexpected algorithms for what they can</p>
+<p>Result: NEEDS-HUMAN</p>
 <p>Source quote: framing (Google Research (GitHub)): Company-posted claim; the running-time bound is subexponential, not polynomial, and no independent verification is reported.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/ot5-independent-verification.py">checks/2026-11-26/ot5-independent-verification.py</a></p>
+<p>A claimed bound does not establish unexpectedness or a general discovery process.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e68-unexpected-algorithms.py">checks/2026-11-26/e68-unexpected-algorithms.py</a></p>
 </details>
 <details>
-<summary>PASS · The artifact carries the caveat this check looks for.</summary>
-<p>Claim: The artifact carries the caveat this check looks for.</p>
-<p>Result: PASS</p>
-<p>Source quote: framing (Anthropic): Company-reported engineering results; performance numbers are Anthropic&#x27;s own and not independently measured.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/ot6-company-metrics.py">checks/2026-11-26/ot6-company-metrics.py</a></p>
+<summary>NEEDS-HUMAN · some of those algorithms will hit deployed cryptosystems</summary>
+<p>Claim: some of those algorithms will hit deployed cryptosystems</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: No lab has published or confirmed such a result.</p>
+<p>Prediction, not a demonstrated consequence.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e69-future-cryptosystems.py">checks/2026-11-26/e69-future-cryptosystems.py</a></p>
 </details>
 <details>
-<summary>PASS · Google Research posted six Gemini 4 math papers</summary>
-<p>Claim: Google Research posted six Gemini 4 math papers</p>
-<p>Result: PASS</p>
-<p>Source quote: STORY: Google Research posts six Cogentic papers, produced with Gemini 4, claiming results on factoring, the log-rank conjecture and more</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/t01-google-posted.py">checks/2026-11-26/t01-google-posted.py</a></p>
+<summary>NEEDS-HUMAN · the outside view feels so disorienting right now</summary>
+<p>Claim: the outside view feels so disorienting right now</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>Subjective reaction.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e70-disorienting.py">checks/2026-11-26/e70-disorienting.py</a></p>
 </details>
 <details>
-<summary>PASS · six Gemini 4 math papers</summary>
-<p>Claim: six Gemini 4 math papers</p>
-<p>Result: PASS</p>
-<p>Source quote: STORY: Google Research posts six Cogentic papers, produced with Gemini 4, claiming results on factoring, the log-rank conjecture and more</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/t02-paper-count.py">checks/2026-11-26/t02-paper-count.py</a></p>
+<summary>NEEDS-HUMAN · at dinner-table speed</summary>
+<p>Claim: at dinner-table speed</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>Metaphorical cadence; no dinner timeline supplied.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e72-dinner-table-speed.py">checks/2026-11-26/e72-dinner-table-speed.py</a></p>
 </details>
 <details>
-<summary>PASS · after the first prompt</summary>
-<p>Claim: after the first prompt</p>
-<p>Result: PASS</p>
-<p>Source quote: no human interaction other than the initial prompt for Cogentic to generate a full proof and formalization</p>
-<p>Timing qualifier supported for the log-rank paper only.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/t04-after-prompt.py">checks/2026-11-26/t04-after-prompt.py</a></p>
+<summary>NEEDS-HUMAN · with zero fanfare</summary>
+<p>Claim: with zero fanfare</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>no source sentence matches /(?=.*(?:labs|papers))(?=.*(?:no publicity|without (?:any )?publicity|without fanfare))/. Repository publication is not evidence of zero publicity.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e73-zero-fanfare.py">checks/2026-11-26/e73-zero-fanfare.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · leaving everyone else swinging between shrugging off abstract math and panicking over half-heard rumors</summary>
+<p>Claim: leaving everyone else swinging between shrugging off abstract math and panicking over half-heard rumors</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>Editorial description of public sentiment.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e75-public-mood.py">checks/2026-11-26/e75-public-mood.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · Aaronson wrote that this past week feels like the opening chapter of an AI singularity</summary>
+<p>Claim: Aaronson wrote that this past week feels like the opening chapter of an AI singularity</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>no source sentence matches /(?=.*Aaronson)(?=.*(?:past|last|this) week)(?=.*(?:opening chapter|beginning|start) of (?:an? |the )?AI singularity)/. </p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e76-aaronson-singularity.py">checks/2026-11-26/e76-aaronson-singularity.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · this past week feels like the opening chapter of an AI singularity</summary>
+<p>Claim: this past week feels like the opening chapter of an AI singularity</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>no source sentence matches /(?=.*(?:past|last|this) week)(?=.*(?:feels|felt) like)(?=.*(?:opening chapter|beginning|start) of (?:an? |the )?AI singularity)/. </p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e77-singularity-analogy.py">checks/2026-11-26/e77-singularity-analogy.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · hoping we get lucky and it stays confined to hard math</summary>
+<p>Claim: hoping we get lucky and it stays confined to hard math</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>no source sentence matches /(?=.*Aaronson)(?=.*(?:hope|hoping|lucky))(?=.*(?:confined|limited|restricted) to hard math)/. </p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e78-confined-to-math.py">checks/2026-11-26/e78-confined-to-math.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · For today, he offered simpler advice: spend Thanksgiving with the people you love</summary>
+<p>Claim: For today, he offered simpler advice: spend Thanksgiving with the people you love</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>no source sentence matches /(?=.*Aaronson)(?=.*spend Thanksgiving with (?:the people you love|your loved ones))/. </p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e79-aaronson-advice.py">checks/2026-11-26/e79-aaronson-advice.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · spend Thanksgiving with the people you love</summary>
+<p>Claim: spend Thanksgiving with the people you love</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>no source sentence matches /\bspend Thanksgiving with the people you love\b/. Need Aaronson’s actual wording; no quotation from the Thanksgiving passage supplied.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e80-thanksgiving-quote.py">checks/2026-11-26/e80-thanksgiving-quote.py</a></p>
 </details>
 <details>
 <summary>PASS · computer scientist Scott Aaronson</summary>
 <p>Claim: computer scientist Scott Aaronson</p>
 <p>Result: PASS</p>
 <p>Source quote: @grok (1 likes): @CandleHigh @AndrewCurran_ @grom Scott Aaronson is a leading theoretical computer scientist and professor at UT Austin, specializing in quantum computing and complexity theory.</p>
-<p>Description in a reply, not an institutional bio.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/t06-aaronson-profession.py">checks/2026-11-26/t06-aaronson-profession.py</a></p>
+<p>Secondary description in a reply.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e02-aaronson-profession.py">checks/2026-11-26/e02-aaronson-profession.py</a></p>
 </details>
 <details>
-<summary>PASS · Anthropic reports that migrating its Messages API from Python to Rust cut CPU use per request by about 70 percent and median time to first token by about 20 percent</summary>
-<p>Claim: Anthropic reports that migrating its Messages API from Python to Rust cut CPU use per request by about 70 percent and median time to first token by about 20 percent</p>
+<summary>PASS · running on Gemini 4</summary>
+<p>Claim: running on Gemini 4</p>
 <p>Result: PASS</p>
-<p>Source quote: We ran into this problem when we migrated our Messages API from Python to Rust. … This allowed us to ship an API on Rust that uses about 70% less CPU per request and cuts median time to first token by about 20% without ever taking the service offline or freezing feature development.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/t09-anthropic-metrics.py">checks/2026-11-26/t09-anthropic-metrics.py</a></p>
+<p>Source quote: agentic framework for mathematical discovery, using Gemini 4 as the base model.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e39-gemini-base.py">checks/2026-11-26/e39-gemini-base.py</a></p>
 </details>
 <details>
-<summary>PASS · migrating its Messages API from Python to Rust</summary>
-<p>Claim: migrating its Messages API from Python to Rust</p>
+<summary>PASS · produced all six</summary>
+<p>Claim: produced all six</p>
 <p>Result: PASS</p>
-<p>Source quote: We ran into this problem when we migrated our Messages API from Python to Rust.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/t10-migration-direction.py">checks/2026-11-26/t10-migration-direction.py</a></p>
+<p>Source quote: STORY: Google Research posts six Cogentic papers, produced with Gemini 4, claiming results on factoring, the log-rank conjecture and more</p>
+<p>Reported scope of production, not independent validation.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e40-six-produced.py">checks/2026-11-26/e40-six-produced.py</a></p>
 </details>
 <details>
-<summary>PASS · cut CPU use per request by about 70 percent</summary>
-<p>Claim: cut CPU use per request by about 70 percent</p>
+<summary>PASS · Google has not yet released the companion Lean 4 formalizations</summary>
+<p>Claim: Google has not yet released the companion Lean 4 formalizations</p>
 <p>Result: PASS</p>
-<p>Source quote: This allowed us to ship an API on Rust that uses about 70% less CPU per request and cuts median time to first token by about 20% without ever taking the service offline or freezing feature development.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/t11-cpu-comparison.py">checks/2026-11-26/t11-cpu-comparison.py</a></p>
+<p>Source quote: framing (Google Research (GitHub)): Company-posted preprints in a public repository; no peer review, and the announced Lean formalizations are not yet released.</p>
+<p>Lean 4 (`v4.33.0`) formalization of the entire proof has also been completed and will be released in a companion submission</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e53-lean-unreleased.py">checks/2026-11-26/e53-lean-unreleased.py</a></p>
 </details>
 <details>
-<summary>PASS · about 70 percent</summary>
-<p>Claim: about 70 percent</p>
+<summary>PASS · He wrote that he is virtually certain, from multiple reliable sources, that frontier labs are sitting on one or more unreleased cryptographic bombshells</summary>
+<p>Claim: He wrote that he is virtually certain, from multiple reliable sources, that frontier labs are sitting on one or more unreleased cryptographic bombshells</p>
 <p>Result: PASS</p>
-<p>Source quote: This allowed us to ship an API on Rust that uses about 70% less CPU per request and cuts median time to first token by about 20% without ever taking the service offline or freezing feature development.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/t12-cpu-number.py">checks/2026-11-26/t12-cpu-number.py</a></p>
+<p>Source quote: Scott Aaronson states he is virtually certain, from multiple reliable sources, that frontier labs hold unreleased cryptography &quot;bombshells.&quot; He is far less confident about the exact nature-such as a practical polynomial-time</p>
+<p>Secondary attribution in a reply; plural entails at least one. Not lab confirmation.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e56-bombshell-warning.py">checks/2026-11-26/e56-bombshell-warning.py</a></p>
 </details>
 <details>
-<summary>PASS · cut CPU use per request by about 70 percent and median time to first token by about 20 percent</summary>
-<p>Claim: cut CPU use per request by about 70 percent and median time to first token by about 20 percent</p>
+<summary>PASS · virtually certain</summary>
+<p>Claim: virtually certain</p>
 <p>Result: PASS</p>
-<p>Source quote: This allowed us to ship an API on Rust that uses about 70% less CPU per request and cuts median time to first token by about 20% without ever taking the service offline or freezing feature development.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/t13-joint-comparison.py">checks/2026-11-26/t13-joint-comparison.py</a></p>
+<p>Source quote: Scott Aaronson states he is virtually certain, from multiple reliable sources, that frontier labs hold unreleased cryptography &quot;bombshells.&quot; He is far less confident about the exact nature-such as a practical polynomial-time</p>
+<p>Reported confidence about unspecified results.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e57-virtual-certainty.py">checks/2026-11-26/e57-virtual-certainty.py</a></p>
 </details>
 <details>
-<summary>PASS · about 20 percent</summary>
-<p>Claim: about 20 percent</p>
+<summary>PASS · from multiple reliable sources</summary>
+<p>Claim: from multiple reliable sources</p>
 <p>Result: PASS</p>
-<p>Source quote: This allowed us to ship an API on Rust that uses about 70% less CPU per request and cuts median time to first token by about 20% without ever taking the service offline or freezing feature development.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/t14-latency-number.py">checks/2026-11-26/t14-latency-number.py</a></p>
+<p>Source quote: Scott Aaronson states he is virtually certain, from multiple reliable sources, that frontier labs hold unreleased cryptography &quot;bombshells.&quot; He is far less confident about the exact nature-such as a practical polynomial-time</p>
+<p>Reported characterization, not verification of sources.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e58-reliable-sources.py">checks/2026-11-26/e58-reliable-sources.py</a></p>
 </details>
 <details>
-<summary>PASS · after Claude wrote the core request path</summary>
-<p>Claim: after Claude wrote the core request path</p>
+<summary>PASS · one or more unreleased cryptographic bombshells</summary>
+<p>Claim: one or more unreleased cryptographic bombshells</p>
 <p>Result: PASS</p>
-<p>Source quote: Claude wrote a first version of the API&#x27;s core request path in about a week. … But building trust in the migration required us to find a way to verify that our Rust API was at parity with our production API.</p>
-<p>Sequence concerns the first version, not a finished path.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/t17-after-core.py">checks/2026-11-26/t17-after-core.py</a></p>
+<p>Source quote: Scott Aaronson states he is virtually certain, from multiple reliable sources, that frontier labs hold unreleased cryptography &quot;bombshells.&quot; He is far less confident about the exact nature-such as a practical polynomial-time</p>
+<p>Plural supports one or more within the attributed warning only.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/e59-one-or-more.py">checks/2026-11-26/e59-one-or-more.py</a></p>
 </details>
 <details>
-<summary>PASS · in about a week</summary>
-<p>Claim: in about a week</p>
+<summary>PASS · The artifact carries the caveat this check looks for.</summary>
+<p>Claim: The artifact carries the caveat this check looks for.</p>
 <p>Result: PASS</p>
-<p>Source quote: Claude wrote a first version of the API&#x27;s core request path in about a week.</p>
-<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/t19-week.py">checks/2026-11-26/t19-week.py</a></p>
+<p>Source quote: framing (Google Research (GitHub)): Company-posted preprints in a public repository; no peer review, and the announced Lean formalizations are not yet released.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/oe1-google-company.py">checks/2026-11-26/oe1-google-company.py</a></p>
 </details>
 <details>
-<summary>PASS · Takeaway 1 cites https://scottaaronson.blog/?p=10379, which is listed in the episode sources.json.</summary>
-<p>Claim: Takeaway 1 cites https://scottaaronson.blog/?p=10379, which is listed in the episode sources.json.</p>
+<summary>PASS · The artifact carries the caveat this check looks for.</summary>
+<p>Claim: The artifact carries the caveat this check looks for.</p>
+<p>Result: PASS</p>
+<p>Source quote: framing (Shtetl-Optimized (Scott Aaronson)): Aaronson&#x27;s own blog; it establishes only what he says he has heard, and he explicitly declines to vouch for the specifics.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/oe11-warning-hearsay.py">checks/2026-11-26/oe11-warning-hearsay.py</a></p>
+</details>
+<details>
+<summary>PASS · The artifact carries the caveat this check looks for.</summary>
+<p>Claim: The artifact carries the caveat this check looks for.</p>
+<p>Result: PASS</p>
+<p>Source quote: framing (Shtetl-Optimized (Scott Aaronson)): Aaronson&#x27;s own blog; it establishes only what he says he has heard, and he explicitly declines to vouch for the specifics.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/oe12-warning-specifics.py">checks/2026-11-26/oe12-warning-specifics.py</a></p>
+</details>
+<details>
+<summary>PASS · The artifact carries the caveat this check looks for.</summary>
+<p>Claim: The artifact carries the caveat this check looks for.</p>
+<p>Result: PASS</p>
+<p>Source quote: No lab has published or confirmed such a result.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/oe13-no-lab-publication.py">checks/2026-11-26/oe13-no-lab-publication.py</a></p>
+</details>
+<details>
+<summary>PASS · The artifact carries the caveat this check looks for.</summary>
+<p>Claim: The artifact carries the caveat this check looks for.</p>
+<p>Result: PASS</p>
+<p>Source quote: framing (Google Research (GitHub)): Company-posted preprints in a public repository; no peer review, and the announced Lean formalizations are not yet released.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/oe4-lean-pending.py">checks/2026-11-26/oe4-lean-pending.py</a></p>
+</details>
+<h2>Takeaways</h2>
+<details open>
+<summary>FAIL · State no lab has confirmed the rumored result.</summary>
+<p>Claim: State no lab has confirmed the rumored result.</p>
+<p>Result: FAIL</p>
+<p>Source quote: No lab has published or confirmed such a result.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/ot10-no-lab-confirmation.py">checks/2026-11-26/ot10-no-lab-confirmation.py</a></p>
+</details>
+<details open>
+<summary>FAIL · State preprint status.</summary>
+<p>Claim: State preprint status.</p>
+<p>Result: FAIL</p>
+<p>Source quote: framing (Google Research (GitHub)): Company-posted preprints in a public repository; no peer review, and the announced Lean formalizations are not yet released.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/ot2-preprint-status.py">checks/2026-11-26/ot2-preprint-status.py</a></p>
+</details>
+<details open>
+<summary>FAIL · State the lack of peer review.</summary>
+<p>Claim: State the lack of peer review.</p>
+<p>Result: FAIL</p>
+<p>Source quote: framing (Google Research (GitHub)): Company-posted preprints in a public repository; no peer review, and the announced Lean formalizations are not yet released.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/ot3-peer-review.py">checks/2026-11-26/ot3-peer-review.py</a></p>
+</details>
+<details open>
+<summary>FAIL · Distinguish the public subexponential claim from polynomial-time factoring.</summary>
+<p>Claim: Distinguish the public subexponential claim from polynomial-time factoring.</p>
+<p>Result: FAIL</p>
+<p>Source quote: framing (Google Research (GitHub)): Company-posted claim; the running-time bound is subexponential, not polynomial, and no independent verification is reported.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/ot5-factoring-runtime.py">checks/2026-11-26/ot5-factoring-runtime.py</a></p>
+</details>
+<details open>
+<summary>FAIL · No independent verification of the public factoring claim is reported.</summary>
+<p>Claim: No independent verification of the public factoring claim is reported.</p>
+<p>Result: FAIL</p>
+<p>Source quote: framing (Google Research (GitHub)): Company-posted claim; the running-time bound is subexponential, not polynomial, and no independent verification is reported.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/ot6-factoring-unverified.py">checks/2026-11-26/ot6-factoring-unverified.py</a></p>
+</details>
+<details open>
+<summary>FAIL · Google Research quietly committed six new math papers to GitHub</summary>
+<p>Claim: Google Research quietly committed six new math papers to GitHub</p>
+<p>Result: FAIL</p>
+<p>Source quote: STORY: Google Research posts six Cogentic papers, produced with Gemini 4, claiming results on factoring, the log-rank conjecture and more</p>
+<p>The posting and count are reported; quiet publication is not.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/t01-quiet-six-commit.py">checks/2026-11-26/t01-quiet-six-commit.py</a></p>
+</details>
+<details open>
+<summary>FAIL · it says its Cogentic harness running on Gemini 4 produced without human interaction after the initial prompt</summary>
+<p>Claim: it says its Cogentic harness running on Gemini 4 produced without human interaction after the initial prompt</p>
+<p>Result: FAIL</p>
+<p>Source quote: There was no human interaction other than the initial prompt for Cogentic to</p>
+<p>The interaction claim in this README covers one proof and formalization.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/t05-autonomous-batch.py">checks/2026-11-26/t05-autonomous-batch.py</a></p>
+</details>
+<details open>
+<summary>FAIL · without human interaction after the initial prompt</summary>
+<p>Claim: without human interaction after the initial prompt</p>
+<p>Result: FAIL</p>
+<p>Source quote: There was no human interaction other than the initial prompt for Cogentic to</p>
+<p>Claim attached to six papers in the takeaway; directly supported for one only.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/t07-no-human-after-prompt.py">checks/2026-11-26/t07-no-human-after-prompt.py</a></p>
+</details>
+<details open>
+<summary>FAIL · integer factoring results that Scott Aaronson confirmed do not threaten RSA</summary>
+<p>Claim: integer factoring results that Scott Aaronson confirmed do not threaten RSA</p>
+<p>Result: FAIL</p>
+<p>Source quote: framing (Google Research (GitHub)): Company-posted claim; the running-time bound is subexponential, not polynomial, and no independent verification is reported.</p>
+<p>No reported confirmation by Aaronson; a runtime classification is not a practical RSA assessment.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/t09-confirmed-no-threat.py">checks/2026-11-26/t09-confirmed-no-threat.py</a></p>
+</details>
+<details open>
+<summary>FAIL · X posts claiming frontier labs secretly cracked RSA encryption</summary>
+<p>Claim: X posts claiming frontier labs secretly cracked RSA encryption</p>
+<p>Result: FAIL</p>
+<p>Source quote: Scott Aaronson says he&#x27;s heard OpenAI or Anthropic may have found a way to factor large numbers in polynomial time.</p>
+<p>May have found is not a claim of a completed secret RSA break.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/t14-posts-secret-crack.py">checks/2026-11-26/t14-posts-secret-crack.py</a></p>
+</details>
+<details open>
+<summary>FAIL · secretly</summary>
+<p>Claim: secretly</p>
+<p>Result: FAIL</p>
+<p>Source quote: @kimmonismus: If this rumors are true, it would explain why OpenAI and Anthropic are holding back their latest models:</p>
+<p>Speculation about model withholding does not establish a secret break.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/t16-secretly.py">checks/2026-11-26/t16-secretly.py</a></p>
+</details>
+<details open>
+<summary>FAIL · X posts claiming frontier labs secretly cracked RSA encryption overstated Scott Aaronson&#x27;s warning</summary>
+<p>Claim: X posts claiming frontier labs secretly cracked RSA encryption overstated Scott Aaronson&#x27;s warning</p>
+<p>Result: FAIL</p>
+<p>Source quote: This would crack RSA. https://t.co/s5AHbmcDFP https://t.co/YBOYkSYVOr</p>
+<p>Posts speculate beyond the warning but this one does not assert a completed crack. framing (Shtetl-Optimized (Scott Aaronson)): Aaronson&#x27;s own blog; it establishes only what he says he has heard, and he explicitly declines to vouch for the specifics.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/t17-warning-comparison.py">checks/2026-11-26/t17-warning-comparison.py</a></p>
+</details>
+<details open>
+<summary>FAIL · deliberately refused to name RSA or claim polynomial-time factoring</summary>
+<p>Claim: deliberately refused to name RSA or claim polynomial-time factoring</p>
+<p>Result: FAIL</p>
+<p>Source quote: framing (Shtetl-Optimized (Scott Aaronson)): Aaronson&#x27;s own blog; it establishes only what he says he has heard, and he explicitly declines to vouch for the specifics.</p>
+<p>Not vouching is not the same as deliberately refusing to name RSA.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/t23-refused-specific-claims.py">checks/2026-11-26/t23-refused-specific-claims.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · quietly</summary>
+<p>Claim: quietly</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>no source sentence matches /(?=.*Google Research)(?=.*(?:quietly|without (?:an )?announcement|unannounced))/. </p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/t02-quietly.py">checks/2026-11-26/t02-quietly.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · two integer factoring results</summary>
+<p>Claim: two integer factoring results</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>no source sentence matches /(?:two|2) (?:new )?(?:integer factoring results|results on integer factoring)/. Overall count six does not establish this subtotal.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/t08-two-factoring-results.py">checks/2026-11-26/t08-two-factoring-results.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · Viral X posts</summary>
+<p>Claim: Viral X posts</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: @grok (1 likes): @CandleHigh @AndrewCurran_ Yes, the rumors are real and circulating widely.</p>
+<p>A reply describes rumor circulation, not reach metrics for these posts.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/t13-viral-posts.py">checks/2026-11-26/t13-viral-posts.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · cryptographic bombshells</summary>
+<p>Claim: cryptographic bombshells</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: Scott Aaronson states he is virtually certain, from multiple reliable sources, that frontier labs hold unreleased cryptography &quot;bombshells.&quot; He is far less confident about the exact nature-such as a practical polynomial-time</p>
+<p>The metaphor is reported; its assessment of significance is subjective.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/t22-bombshells.py">checks/2026-11-26/t22-bombshells.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · deliberately</summary>
+<p>Claim: deliberately</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: framing (Shtetl-Optimized (Scott Aaronson)): Aaronson&#x27;s own blog; it establishes only what he says he has heard, and he explicitly declines to vouch for the specifics.</p>
+<p>Explicit reservation about specifics; intent about naming RSA cannot be inferred.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/t24-deliberately.py">checks/2026-11-26/t24-deliberately.py</a></p>
+</details>
+<details>
+<summary>PASS · The artifact carries the caveat this check looks for.</summary>
+<p>Claim: The artifact carries the caveat this check looks for.</p>
+<p>Result: PASS</p>
+<p>Source quote: framing (Google Research (GitHub)): Company-posted preprints in a public repository; no peer review, and the announced Lean formalizations are not yet released.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/ot1-company-reported.py">checks/2026-11-26/ot1-company-reported.py</a></p>
+</details>
+<details>
+<summary>PASS · The artifact carries the caveat this check looks for.</summary>
+<p>Claim: The artifact carries the caveat this check looks for.</p>
+<p>Result: PASS</p>
+<p>Source quote: framing (Google Research (GitHub)): Company-posted preprints in a public repository; no peer review, and the announced Lean formalizations are not yet released.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/ot4-lean-pending.py">checks/2026-11-26/ot4-lean-pending.py</a></p>
+</details>
+<details>
+<summary>PASS · The artifact carries the caveat this check looks for.</summary>
+<p>Claim: The artifact carries the caveat this check looks for.</p>
+<p>Result: PASS</p>
+<p>Source quote: framing (Shtetl-Optimized (Scott Aaronson)): Aaronson&#x27;s own blog; it establishes only what he says he has heard, and he explicitly declines to vouch for the specifics.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/ot7-warning-hearsay.py">checks/2026-11-26/ot7-warning-hearsay.py</a></p>
+</details>
+<details>
+<summary>PASS · The artifact carries the caveat this check looks for.</summary>
+<p>Claim: The artifact carries the caveat this check looks for.</p>
+<p>Result: PASS</p>
+<p>Source quote: framing (Shtetl-Optimized (Scott Aaronson)): Aaronson&#x27;s own blog; it establishes only what he says he has heard, and he explicitly declines to vouch for the specifics.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/ot8-warning-specifics.py">checks/2026-11-26/ot8-warning-specifics.py</a></p>
+</details>
+<details>
+<summary>PASS · The artifact carries the caveat this check looks for.</summary>
+<p>Claim: The artifact carries the caveat this check looks for.</p>
+<p>Result: PASS</p>
+<p>Source quote: No lab has published or confirmed such a result.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/ot9-no-lab-publication.py">checks/2026-11-26/ot9-no-lab-publication.py</a></p>
+</details>
+<details>
+<summary>PASS · six new math papers</summary>
+<p>Claim: six new math papers</p>
+<p>Result: PASS</p>
+<p>Source quote: STORY: Google Research posts six Cogentic papers, produced with Gemini 4, claiming results on factoring, the log-rank conjecture and more</p>
+<p>New postings; does not certify novelty or correctness of results.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/t03-six-papers.py">checks/2026-11-26/t03-six-papers.py</a></p>
+</details>
+<details>
+<summary>PASS · new math papers</summary>
+<p>Claim: new math papers</p>
+<p>Result: PASS</p>
+<p>Source quote: STORY: Google Research posts six Cogentic papers, produced with Gemini 4, claiming results on factoring, the log-rank conjecture and more</p>
+<p>Newly posted papers on mathematical topics.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/t04-new-papers.py">checks/2026-11-26/t04-new-papers.py</a></p>
+</details>
+<details>
+<summary>PASS · its Cogentic harness running on Gemini 4</summary>
+<p>Claim: its Cogentic harness running on Gemini 4</p>
+<p>Result: PASS</p>
+<p>Source quote: agentic framework for mathematical discovery, using Gemini 4 as the base model. … The Cogentic harness was built by Yang Cai, Vineet Gupta, Yanchen Jiang, Christopher Liaw, Aranyak Mehta, Grigoris Velegkas, and Di Wang (Google Research and Google DeepMind</p>
+<p>Google-associated team; one author also has a Yale affiliation.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/t06-harness-model.py">checks/2026-11-26/t06-harness-model.py</a></p>
+</details>
+<details>
+<summary>PASS · Google has not yet released its claimed Lean 4 formalizations</summary>
+<p>Claim: Google has not yet released its claimed Lean 4 formalizations</p>
+<p>Result: PASS</p>
+<p>Source quote: framing (Google Research (GitHub)): Company-posted preprints in a public repository; no peer review, and the announced Lean formalizations are not yet released.</p>
+<p>Lean 4 (`v4.33.0`) formalization of the entire proof has also been completed and will be released in a companion submission</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/t10-lean-status.py">checks/2026-11-26/t10-lean-status.py</a></p>
+</details>
+<details>
+<summary>PASS · not yet released</summary>
+<p>Claim: not yet released</p>
+<p>Result: PASS</p>
+<p>Source quote: framing (Google Research (GitHub)): Company-posted preprints in a public repository; no peer review, and the announced Lean formalizations are not yet released.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/t11-not-yet-released.py">checks/2026-11-26/t11-not-yet-released.py</a></p>
+</details>
+<details>
+<summary>PASS · claimed Lean 4 formalizations</summary>
+<p>Claim: claimed Lean 4 formalizations</p>
+<p>Result: PASS</p>
+<p>Source quote: framing (Google Research (GitHub)): Company-posted preprints in a public repository; no peer review, and the announced Lean formalizations are not yet released.</p>
+<p>Lean 4 (`v4.33.0`) formalization of the entire proof has also been completed</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/t12-claimed-lean.py">checks/2026-11-26/t12-claimed-lean.py</a></p>
+</details>
+<details>
+<summary>PASS · frontier labs</summary>
+<p>Claim: frontier labs</p>
+<p>Result: PASS</p>
+<p>Source quote: Scott Aaronson says he&#x27;s heard OpenAI or Anthropic may have found a way to factor large numbers in polynomial time.</p>
+<p>Identifies the labs in the rumor, not a confirmed result.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/t15-frontier-labs.py">checks/2026-11-26/t15-frontier-labs.py</a></p>
+</details>
+<details>
+<summary>PASS · he wrote he is virtually certain from multiple reliable sources that labs are holding unreleased cryptographic bombshells</summary>
+<p>Claim: he wrote he is virtually certain from multiple reliable sources that labs are holding unreleased cryptographic bombshells</p>
+<p>Result: PASS</p>
+<p>Source quote: Scott Aaronson states he is virtually certain, from multiple reliable sources, that frontier labs hold unreleased cryptography &quot;bombshells.&quot; He is far less confident about the exact nature-such as a practical polynomial-time</p>
+<p>Secondary account of his statement, not independent confirmation.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/t18-aaronson-confidence.py">checks/2026-11-26/t18-aaronson-confidence.py</a></p>
+</details>
+<details>
+<summary>PASS · virtually certain</summary>
+<p>Claim: virtually certain</p>
+<p>Result: PASS</p>
+<p>Source quote: Scott Aaronson states he is virtually certain, from multiple reliable sources, that frontier labs hold unreleased cryptography &quot;bombshells.&quot; He is far less confident about the exact nature-such as a practical polynomial-time</p>
+<p>Confidence concerns unspecified bombshells.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/t19-virtually-certain.py">checks/2026-11-26/t19-virtually-certain.py</a></p>
+</details>
+<details>
+<summary>PASS · multiple reliable sources</summary>
+<p>Claim: multiple reliable sources</p>
+<p>Result: PASS</p>
+<p>Source quote: Scott Aaronson states he is virtually certain, from multiple reliable sources, that frontier labs hold unreleased cryptography &quot;bombshells.&quot; He is far less confident about the exact nature-such as a practical polynomial-time</p>
+<p>Attribution of confidence, not authentication.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/t20-multiple-sources.py">checks/2026-11-26/t20-multiple-sources.py</a></p>
+</details>
+<details>
+<summary>PASS · unreleased</summary>
+<p>Claim: unreleased</p>
+<p>Result: PASS</p>
+<p>Source quote: Scott Aaronson states he is virtually certain, from multiple reliable sources, that frontier labs hold unreleased cryptography &quot;bombshells.&quot; He is far less confident about the exact nature-such as a practical polynomial-time</p>
+<p>Within the reported warning only.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/t21-unreleased.py">checks/2026-11-26/t21-unreleased.py</a></p>
+</details>
+<details>
+<summary>PASS · Takeaway 1 cites https://github.com/google-research/google-research/commit/4a7bc8ab0bc770e71a259b7966c500496b99010a, which is listed in the episode sources.json.</summary>
+<p>Claim: Takeaway 1 cites https://github.com/google-research/google-research/commit/4a7bc8ab0bc770e71a259b7966c500496b99010a, which is listed in the episode sources.json.</p>
 <p>Result: PASS</p>
 <p>Source quote: (none)</p>
 <p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/tc01-citation.py">checks/2026-11-26/tc01-citation.py</a></p>
 </details>
 <details>
-<summary>PASS · Takeaway 2 cites https://www.anthropic.com/research/migrating-api-to-rust, which is listed in the episode sources.json.</summary>
-<p>Claim: Takeaway 2 cites https://www.anthropic.com/research/migrating-api-to-rust, which is listed in the episode sources.json.</p>
+<summary>PASS · Takeaway 2 cites https://scottaaronson.blog/?p=10379, which is listed in the episode sources.json.</summary>
+<p>Claim: Takeaway 2 cites https://scottaaronson.blog/?p=10379, which is listed in the episode sources.json.</p>
 <p>Result: PASS</p>
 <p>Source quote: (none)</p>
 <p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-26/audit/checks/2026-11-26/tc02-citation.py">checks/2026-11-26/tc02-citation.py</a></p>

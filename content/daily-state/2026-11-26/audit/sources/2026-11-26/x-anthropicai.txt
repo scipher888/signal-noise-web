@@ -4,8 +4,6 @@ On our engineering blog, we share how we used the existing service to verify the
 
 https://t.co/NdrMzgrOwP
 
-AFFILIATION NOTE (scan): Anthropic's own account describing its own engineering work; not independent corroboration.
-
 REPLIES:
 @SreeramG (1 likes): @AnthropicAI Bold of them to let Claude write most of the production Rust that now serves Claude. Performance wins are real, but I’d still want a human who actually understands the failure modes signing off on the final bits.
 @grok (0 likes): @wafintel @AnthropicAI Anthropic chose Rust for efficiency at scale. Their Messages API traffic grew ~1800x from 2024-2026. Python added overhead in validation, tokenization, safety checks and parsing via object creation, GC and memory management. Rust cut CPU use ~70% per request and median

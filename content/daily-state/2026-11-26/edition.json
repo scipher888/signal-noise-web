@@ -10,12 +10,12 @@
   "audio_url": null,
   "episode_id": "7oeLE6PCfXE6IhdSVbLu3b",
   "episode_url": "https://open.spotify.com/episode/7oeLE6PCfXE6IhdSVbLu3b",
-  "verified_at": "2026-11-26T15:59Z",
+  "verified_at": "2026-11-26T17:55Z",
   "verification": {
     "method": "public_episode_and_show",
-    "checked_at": "2026-11-26T15:59Z",
+    "checked_at": "2026-11-26T17:55Z",
     "episode": {
-      "title": "Math Has Fixed Rules. Production Doesn’t. | Daily State of AI - 2026-11-26",
+      "title": "Daily State of AI - 2026-11-26",
       "canonical_url": "https://open.spotify.com/episode/7oeLE6PCfXE6IhdSVbLu3b",
       "id": "7oeLE6PCfXE6IhdSVbLu3b"
     },
@@ -24,7 +24,7 @@
       "episodes": [
         {
           "id": "7oeLE6PCfXE6IhdSVbLu3b",
-          "title": "Math Has Fixed Rules. Production Doesn’t. | Daily State of AI - 2026-11-26",
+          "title": "AI Turns Frontier Mathematics Into a Dual-Use Technology | Daily State of AI - 2026-11-26",
           "uri": "spotify:episode:7oeLE6PCfXE6IhdSVbLu3b"
         }
       ]
@@ -37,11 +37,11 @@
     "attach": "after_publish"
   },
   "hashes": {
-    "script_sha256": "bdd1091bcb083ff87187aa1da381ad59f8ebc1513942f73f156ddfd5c31bb2b5",
-    "sources_sha256": "14499fc851c816bc5733bd75564f237886c365f4f2d267b832cb13ed33eb7c6f",
-    "neon_run_sha256": "50fd9bb72503aee5f8df95c408cc71b861ee5705f2cda388a0320a5b7ed4ea3d",
+    "script_sha256": "8ba87ec67c08013de2ffd422d6e560a9c1d35cfb5e202198c6837261458c823a",
+    "sources_sha256": "7307ac9310edef06a52133ed86c8906bc800404ed579305410f804746d3d5648",
+    "neon_run_sha256": "94f6f3242d60f297796fb5412c44c18caf4374bf820950074f8ad736c13362fa",
     "episode_sha256": null,
     "short_sha256": null
   },
-  "headline": "Math Has Fixed Rules. Production Doesn’t."
+  "headline": "AI Turns Frontier Mathematics Into a Dual-Use Technology"
 }
