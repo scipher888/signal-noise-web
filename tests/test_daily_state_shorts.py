@@ -204,6 +204,24 @@ class HostedShortsTest(unittest.TestCase):
             self.assertEqual(self.run_tool("set-short-url", "--date", DATE, "--url", X_SHORT), 0)
         self.assertEqual([call.args for call in prune.call_args_list], [(DATE,), (DATE,)])
 
+    def test_shorts_sit_side_by_side_and_stack_on_a_portrait_phone(self):
+        self.set_both()
+        page = self.page()
+        style = daily_state.SHORTS_STYLE
+        self.assertEqual(page.count(style), 1)
+        self.assertIn(".ds-shorts{display:flex;flex-wrap:wrap;justify-content:center", style)
+        self.assertIn("width:min(calc(50% - 0.6rem),calc(82vh * 9 / 16))", style)
+        self.assertIn("aspect-ratio:9/16", style)
+        self.assertIn("@media (orientation:portrait) and (max-width:700px)", style)
+        # Each caption stays under its own video; the link row follows both.
+        daily = page.index(f'src="{DAILY_SRC}"')
+        daily_caption = page.index(f'<a href="{X_SHORT}">Watch on X</a>')
+        audit = page.index(f'src="{AUDIT_SRC}"')
+        audit_caption = page.index(f'<a href="{X_AUDIT_SHORT}">Watch on X</a>')
+        self.assertTrue(daily < daily_caption < audit < audit_caption < page.index('<p class="ds-links">'))
+        listing = (self.repo.root / "daily-state" / "index.html").read_text(encoding="utf-8")
+        self.assertEqual(listing.count(style), 1)
+
 
 class PublishedShortsTest(unittest.TestCase):
     """The live repo: 2026-11-25 leads with both hosted shorts; older pages are untouched."""

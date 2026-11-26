@@ -2063,11 +2063,15 @@ def assert_audit_edition_page(html_text, edition, prompt, *, shorts=None):
 
 SHORTS_STYLE = (
     "<style>"
-    ".ds-shorts{margin:1.4rem 0 0.4rem}"
-    ".ds-short{margin:0 0 1.5rem}"
-    ".ds-short video{display:block;width:100%;max-width:400px;aspect-ratio:9/16;"
-    "background:#000;border-radius:6px}"
-    ".ds-short figcaption{font-family:var(--sans);font-size:0.85rem;color:var(--muted);margin-top:0.5rem}"
+    # Side by side and centered; each short up to half the width, height capped
+    # so both fit on a laptop or a landscape phone. Stacked on a portrait phone.
+    ".ds-shorts{display:flex;flex-wrap:wrap;justify-content:center;gap:1.2rem;margin:1.4rem 0 0.4rem}"
+    ".ds-short{flex:0 0 auto;width:min(calc(50% - 0.6rem),calc(82vh * 9 / 16));margin:0 0 1.1rem}"
+    ".ds-short video{display:block;width:100%;aspect-ratio:9/16;background:#000;border-radius:6px}"
+    "@media (orientation:portrait) and (max-width:700px){"
+    ".ds-short{width:100%;max-width:400px;margin:0 0 0.4rem}}"
+    ".ds-short figcaption{font-family:var(--sans);font-size:0.85rem;color:var(--muted);"
+    "margin-top:0.5rem;text-align:center}"
     ".ds-short figcaption a{color:var(--ink-soft);text-decoration-color:var(--line)}"
     ".ds-short figcaption a:hover{text-decoration-color:var(--sun)}"
     "</style>\n"
