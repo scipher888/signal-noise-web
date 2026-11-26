@@ -1,0 +1,83 @@
+{
+ "date": "2026-11-26",
+ "status": "ok",
+ "pipeline": "neon",
+ "model": "google/gemini-4-neon",
+ "reasoning_effort": "high",
+ "system_prompt": null,
+ "editor": null,
+ "qa": null,
+ "edits_after_generation": "none (model self-revision only; published as produced)",
+ "fallback": "none (fail closed)",
+ "prompts": {
+  "episode": "Here are today's AI news reports and X threads. What's the non-obvious insight others are missing? Write today's Daily State of AI around that.\n\nIt's a spoken audio episode, about 700 words (roughly five minutes read aloud). Plain spoken text only.\n",
+  "critique": "Review this draft against the sources and the goal, list the most important problems, and say what to change.",
+  "revise": "Revise using the critique. Reply with only the revised episode."
+ },
+ "model_attempts": [
+  {
+   "stage": "writer",
+   "model": "google/gemini-4-neon",
+   "reasoning_effort": "high",
+   "attempt": 1,
+   "outcome": "ok",
+   "error": null,
+   "seconds": 162.317,
+   "finish_reason": "stop",
+   "served_model": "google/gemini-4-neon",
+   "input_tokens": 35117,
+   "output_tokens": 14283,
+   "reasoning_tokens": 13376,
+   "cost_usd": 0.319596,
+   "streamed": true,
+   "generation_id": "gen-1795701600-Q78wkQAyG6WAvXMjLVDb"
+  },
+  {
+   "stage": "critique",
+   "model": "google/gemini-4-neon",
+   "reasoning_effort": "high",
+   "attempt": 1,
+   "outcome": "ok",
+   "error": null,
+   "seconds": 129.74,
+   "finish_reason": "stop",
+   "served_model": "google/gemini-4-neon",
+   "input_tokens": 36055,
+   "output_tokens": 8557,
+   "reasoning_tokens": 6669,
+   "cost_usd": 0.23652,
+   "streamed": true,
+   "generation_id": "gen-1795701762-9ZKDBvbjKN2bXKf7CqBi"
+  },
+  {
+   "stage": "revise",
+   "model": "google/gemini-4-neon",
+   "reasoning_effort": "high",
+   "attempt": 1,
+   "outcome": "ok",
+   "error": null,
+   "seconds": 54.436,
+   "finish_reason": "stop",
+   "served_model": "google/gemini-4-neon",
+   "input_tokens": 37965,
+   "output_tokens": 6733,
+   "reasoning_tokens": 5812,
+   "cost_usd": 0.21489,
+   "streamed": true,
+   "generation_id": "gen-1795701892-TASDbYPh6WKsd9ySqQaN"
+  }
+ ],
+ "words": 726,
+ "duration_seconds": 283.22,
+ "bundle_sha256": "6b93850e25c31ac80d671fe1eb8728f4e35b56398d03515a4a0070319ff91d50",
+ "script_sha256": "bdd1091bcb083ff87187aa1da381ad59f8ebc1513942f73f156ddfd5c31bb2b5",
+ "material": {
+  "source": "box_material",
+  "sha256": "b674b476fb290a76eeb5a8f89adf4878188da72598b2f4b801f41fe2327c7c89",
+  "chars": 138860
+ },
+ "audit": {
+  "gate": false,
+  "status": "runs after publish"
+ }
+}
