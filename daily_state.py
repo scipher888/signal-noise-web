@@ -165,7 +165,18 @@ AUDIT_RECEIPT_KEYS = frozenset({"sha256", "gate", "episode", "short"})
 # edition receipt cannot carry its hash; audit.json is tied to the edition by
 # its script hash instead.
 ROOT_AUDIT_REQUIRED_FILES = ("edition.json", "script.txt", "sources.json", "neon_run.json", "episode.mp3")
-ROOT_AUDIT_OPTIONAL_FILES = ("short.mp4",)
+# Site-hosted shorts (from 2026-11-23, Synthia 2026-11-25): the daily short and
+# the audit short, with optional poster frames. When either mp4 is present the
+# edition page and the listing lead with the playable shorts. short.mp4 above
+# stays the legacy file and never triggers that layout.
+HOSTED_SHORTS = (
+    ("daily", "daily-short.mp4", "daily-short.jpg", "daily_short_sha256", "Daily short"),
+    ("audit", "audit-short.mp4", "audit-short.jpg", "audit_short_sha256", "Audit short"),
+)
+HOSTED_SHORT_HASH_KEYS = frozenset(item[3] for item in HOSTED_SHORTS)
+ROOT_AUDIT_OPTIONAL_FILES = ("short.mp4",) + tuple(
+    name for item in HOSTED_SHORTS for name in (item[1], item[2])
+)
 ROOT_AUDIT_HASH_KEYS = frozenset({
     "script_sha256", "sources_sha256", "neon_run_sha256", "episode_sha256", "short_sha256",
 })
@@ -1984,7 +1995,7 @@ def check_audit_hashes(edition, raw):
             raise Hold(f"{key} does not match the frozen bytes")
 
 
-def assert_audit_edition_page(html_text, edition, prompt):
+def assert_audit_edition_page(html_text, edition, prompt, *, shorts=None):
     title = edition["title"]
     h1 = f"<h1>{html.escape(title, quote=True)}</h1>"
     if h1 not in html_text:
@@ -1998,7 +2009,9 @@ def assert_audit_edition_page(html_text, edition, prompt):
     canonical_link = f'<link rel="canonical" href="{escaped}">'
     if canonical_link not in html_text:
         raise Hold("canonical url does not match the edition")
-    if edition.get("variant") is None and root_audit_keeps_player(edition, edition["date"]):
+    if shorts:
+        assert_shorts_first(html_text, edition, shorts)
+    elif edition.get("variant") is None and root_audit_keeps_player(edition, edition["date"]):
         audio = f'<audio controls src="{html.escape(edition["audio_url"], quote=True)}"></audio>'
         spotify = (
             f'<a href="{html.escape(edition["episode_url"], quote=True)}">Audio on Spotify</a>'
@@ -2019,14 +2032,17 @@ def assert_audit_edition_page(html_text, edition, prompt):
             raise Hold("hard stop: audio: missing or broken audio reference")
         if "open.spotify.com" in html_text or "Audio on Spotify" in html_text:
             raise Hold("audit edition must not link Spotify")
-    if edition["video_url"] is not None:
+    if shorts:
+        pass
+    elif edition["video_url"] is not None:
         short = f'<a href="{html.escape(edition["video_url"], quote=True)}">Short</a>'
         if html_text.count(short) != 1:
             raise Hold("hard stop: video: missing short")
     elif ">Short</a>" in html_text:
         raise Hold("hard stop: video: short link without a short")
     assert_sources_reachable(html_text, edition)
-    assert_audit_nav(html_text, edition)
+    if not shorts:
+        assert_audit_nav(html_text, edition)
     disclaimer = f'<p class="disclaimer">{AI_LABEL_EXACT}</p>'
     if html_text.count(disclaimer) != 1 or html_text.count(AI_LABEL_EXACT) != 1:
         raise Hold("hard stop: label: AI-generated label must appear exactly once")
@@ -2045,7 +2061,146 @@ def assert_audit_edition_page(html_text, edition, prompt):
         raise Hold("audit edition must not carry a QA receipt")
 
 
-def render_audit_edition_html(edition, paragraphs, sources, prompt, variant):
+SHORTS_STYLE = (
+    "<style>"
+    ".ds-shorts{margin:1.4rem 0 0.4rem}"
+    ".ds-short{margin:0 0 1.5rem}"
+    ".ds-short video{display:block;width:100%;max-width:400px;aspect-ratio:9/16;"
+    "background:#000;border-radius:6px}"
+    ".ds-short figcaption{font-family:var(--sans);font-size:0.85rem;color:var(--muted);margin-top:0.5rem}"
+    ".ds-short figcaption a{color:var(--ink-soft);text-decoration-color:var(--line)}"
+    ".ds-short figcaption a:hover{text-decoration-color:var(--sun)}"
+    "</style>\n"
+)
+
+
+def _jpeg_problem(path):
+    try:
+        with open(path, "rb") as handle:
+            header = handle.read(3)
+    except OSError:
+        return "missing poster"
+    return None if header == b"\xff\xd8\xff" else "broken poster"
+
+
+def load_hosted_shorts(directory, iso_date, edition, files, raw, spotify):
+    """Site-hosted daily and audit shorts, hashed in edition.json. {} when none."""
+    shorts = {}
+    hashes = edition["hashes"]
+    for kind, mp4, poster, key, _label in HOSTED_SHORTS:
+        if mp4 not in files:
+            if hashes.get(key) is not None:
+                raise Hold(f"{key} is set without {mp4}")
+            if poster in files:
+                raise Hold(f"{poster} is set without {mp4}")
+            continue
+        if not spotify:
+            raise Hold(f"{mp4} needs a Spotify-linked edition")
+        if hashes.get(key) != sha256_bytes(raw[mp4]):
+            raise Hold(f"{key} does not match the frozen bytes")
+        problem = _local_media_problem("video", mp4, directory)
+        if problem:
+            raise Hold(f"hard stop: video: {problem}")
+        item = {"src": variant_asset_url(iso_date, None, mp4), "poster": None}
+        if poster in files:
+            problem = _jpeg_problem(os.path.join(directory, poster))
+            if problem:
+                raise Hold(f"{poster}: {problem}")
+            item["poster"] = variant_asset_url(iso_date, None, poster)
+        shorts[kind] = item
+    return shorts
+
+
+def short_x_urls(edition):
+    """The posted X URLs for the daily and audit shorts, when recorded."""
+    daily = edition.get("video_url")
+    return {
+        "daily": daily if type(daily) is str and is_x_post_url(daily) else None,
+        "audit": edition.get("audit_short_url") or None,
+    }
+
+
+def render_short_figure(item, label, x_url):
+    poster = f' poster="{html.escape(item["poster"], quote=True)}"' if item.get("poster") else ""
+    watch = (
+        f' · <a href="{html.escape(x_url, quote=True)}">Watch on X</a>' if x_url else ""
+    )
+    return (
+        '<figure class="ds-short">\n'
+        f'<video controls playsinline preload="metadata"{poster} '
+        f'src="{html.escape(item["src"], quote=True)}"></video>\n'
+        f"<figcaption>{label}{watch}</figcaption>\n"
+        "</figure>\n"
+    )
+
+
+def render_shorts_block(edition, shorts):
+    """Daily short, then audit short, each playable. Empty when none is hosted."""
+    if not shorts:
+        return ""
+    urls = short_x_urls(edition)
+    figures = "".join(
+        render_short_figure(shorts[kind], label, urls[kind])
+        for kind, _mp4, _poster, _key, label in HOSTED_SHORTS
+        if kind in shorts
+    )
+    return SHORTS_STYLE + '<section class="ds-shorts">\n' + figures + "</section>\n"
+
+
+def render_shorts_links(edition, shorts, base):
+    """One row: written report, Spotify, audit, then X links for any short not hosted."""
+    report = f"{base}#report"
+    parts = [
+        f'<a href="{html.escape(report, quote=True)}">Written report</a>',
+        f'<a href="{html.escape(edition["episode_url"], quote=True)}">Audio on Spotify</a>',
+        f'<a href="{html.escape(base + "audit/", quote=True)}">Audit</a>',
+    ]
+    if "daily" not in shorts and edition.get("video_url"):
+        parts.append(f'<a href="{html.escape(edition["video_url"], quote=True)}">Short</a>')
+    if "audit" not in shorts and edition.get("audit_short_url"):
+        parts.append(
+            f'<a href="{html.escape(edition["audit_short_url"], quote=True)}">Audit short</a>'
+        )
+    return '<p class="ds-links">' + " · ".join(parts) + "</p>\n"
+
+
+def assert_shorts_first(html_text, edition, shorts):
+    """Shorts first, then the link row, then the label, then the written report."""
+    spotify = f'<a href="{html.escape(edition["episode_url"], quote=True)}">Audio on Spotify</a>'
+    if html_text.count(spotify) != 1:
+        raise Hold("hard stop: audio: missing or broken Spotify episode link")
+    if "<audio" in html_text:
+        raise Hold("hard stop: audio: a Spotify edition must not self-host episode.mp3")
+    if html_text.count('<a href="audit/">Audit</a>') != 1:
+        raise Hold("hard stop: label: missing Audit link")
+    row = render_shorts_links(edition, shorts, "").rstrip("\n")
+    if html_text.count(row) != 1:
+        raise Hold("edition link row does not match")
+    urls = short_x_urls(edition)
+    last_video = -1
+    for kind, _mp4, _poster, _key, _label in HOSTED_SHORTS:
+        if kind not in shorts:
+            continue
+        src = f'src="{html.escape(shorts[kind]["src"], quote=True)}"></video>'
+        if html_text.count(src) != 1:
+            raise Hold(f"hard stop: video: missing {kind} short")
+        if html_text.index(src) < last_video:
+            raise Hold("the daily short must sit above the audit short")
+        last_video = html_text.index(src)
+        if urls[kind]:
+            watch = f'<a href="{html.escape(urls[kind], quote=True)}">Watch on X</a>'
+            if html_text.count(watch) != 1:
+                raise Hold(f"{kind} short is missing its Watch on X link")
+    if html_text.count("<video ") != len(shorts):
+        raise Hold("hard stop: video: unexpected video on the edition page")
+    disclaimer = f'<p class="disclaimer">{AI_LABEL_EXACT}</p>'
+    if not last_video < html_text.index(row) < html_text.find(disclaimer):
+        raise Hold("shorts, then links, then the label, must lead the page")
+    if not html_text.find(disclaimer) < html_text.find('id="report"') < html_text.find('<div class="script">'):
+        raise Hold("the written report must follow the label")
+
+
+def render_audit_edition_html(edition, paragraphs, sources, prompt, variant, *, shorts=None):
     body = "\n".join(
         f"<p>{html.escape(paragraph, quote=True)}</p>"
         for paragraph in body_paragraphs(paragraphs)
@@ -2069,6 +2224,34 @@ def render_audit_edition_html(edition, paragraphs, sources, prompt, variant):
     if variant is None and root_audit_uses_spotify(edition):
         spotify_link = (
             f"<a href=\"{html.escape(edition['episode_url'], quote=True)}\">Audio on Spotify</a>"
+        )
+    if shorts:
+        main = (
+            "<article>\n"
+            "<p class=\"kicker\">Daily State of AI</p>\n"
+            f"<h1>{html.escape(edition['title'], quote=True)}</h1>\n"
+            f"{headline_block(edition)}"
+            f"<p><time datetime=\"{edition['date']}\">{html.escape(shown)}</time></p>\n"
+            f"{render_shorts_block(edition, shorts)}"
+            f"{render_shorts_links(edition, shorts, '')}"
+            f'<p class="disclaimer">{AI_LABEL_EXACT}</p>\n'
+            "<section id=\"report\" class=\"ds-report\">\n"
+            "<p class=\"kicker\">Written report</p>\n"
+            f"<p class=\"intro\">{note}</p>\n"
+            f"{quoted}\n"
+            "<div class=\"script\">\n"
+            f"{body}\n"
+            "</div>\n"
+            "<section class=\"sources\">\n"
+            "<h2>Sources</h2>\n"
+            f"{render_sources(sources)}\n"
+            "</section>\n"
+            "</section>\n"
+            "</article>"
+        )
+        return render_page(
+            edition["title"], description_from_paragraphs(paragraphs), "../../",
+            main, f"/daily-state/{edition['date']}/", "article",
         )
     player = None
     primary_parts = []
@@ -2435,7 +2618,7 @@ def validate_root_audit_edition(edition, iso_date, has_short):
     if edition["audit"] != ROOT_AUDIT_RECEIPT:
         raise Hold("audit edition must not be recorded as a gate")
     hashes = edition["hashes"]
-    require_keys(hashes, ROOT_AUDIT_HASH_KEYS, "hashes")
+    require_keys(hashes, ROOT_AUDIT_HASH_KEYS, "hashes", optional=HOSTED_SHORT_HASH_KEYS)
     for key in ROOT_AUDIT_HASH_KEYS:
         value = hashes[key]
         if key == "short_sha256" and not has_short:
@@ -2508,10 +2691,11 @@ def _load_root_audit_edition(directory, iso_date, *, link_opener=None):
         problem = _local_media_problem("video", "short.mp4", directory)
         if problem:
             raise Hold(f"hard stop: video: {problem}")
+    shorts = load_hosted_shorts(directory, iso_date, edition, files, raw, spotify)
     prompt = run["prompts"]["episode"]
-    html_text = render_audit_edition_html(edition, paragraphs, sources, prompt, None)
+    html_text = render_audit_edition_html(edition, paragraphs, sources, prompt, None, shorts=shorts)
     sources_html = render_sources_page_html(iso_date, sources, None, edition)
-    assert_audit_edition_page(html_text, edition, prompt)
+    assert_audit_edition_page(html_text, edition, prompt, shorts=shorts)
     assert_sources_page(sources_html, iso_date, sources, None, edition)
     counts = None
     if dirs == ["audit"]:
@@ -2539,6 +2723,7 @@ def _load_root_audit_edition(directory, iso_date, *, link_opener=None):
         "editor_mode": False,
         "audit_mode": True,
         "root_audit": True,
+        "shorts": shorts,
         "html": html_text,
         "notes_html": None,
         "audit_html": audit_html,
@@ -2683,6 +2868,33 @@ def commit_home_teaser(repo, loaded, write):
     return {"wrote": 1, "noop": False}
 
 
+def latest_hosted_shorts(editions):
+    """Newest parent edition with site-hosted shorts, or None."""
+    hosted = [item for item in editions if not item.get("variant") and item.get("shorts")]
+    return sorted(hosted, key=_listing_key)[0] if hosted else None
+
+
+def render_latest_shorts(editions):
+    """Listing top: the newest hosted daily short, its audit short, then its link row."""
+    item = latest_hosted_shorts(editions)
+    if item is None:
+        return ""
+    document = item["edition"]
+    iso_date = item["date"]
+    shown = build.display_date(iso_date, "day")
+    href = f"{iso_date}/"
+    title = edition_headline(document) or shown
+    return (
+        '<section class="ds-latest">\n'
+        '<p class="kicker">Latest</p>\n'
+        f'<p class="row"><a href="{href}">{html.escape(title, quote=True)}</a> '
+        f'<span class="meta"><time datetime="{iso_date}">{html.escape(shown)}</time></span></p>\n'
+        f"{render_shorts_block(document, item['shorts'])}"
+        f"{render_shorts_links(document, item['shorts'], href)}"
+        "</section>\n"
+    )
+
+
 def render_listing_html(editions):
     ordered = sorted(editions, key=_listing_key)
     rows = []
@@ -2703,7 +2915,8 @@ def render_listing_html(editions):
         )
     main = (
         "<h1>Daily State of AI</h1>\n"
-        "<p class=\"intro\">Written editions of the daily spoken briefing. "
+        + render_latest_shorts(editions)
+        + "<p class=\"intro\">Written editions of the daily spoken briefing. "
         "Each page is the approved script, with its sources and a link to the audio.</p>\n"
         + "\n".join(rows)
     )

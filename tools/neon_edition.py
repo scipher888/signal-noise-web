@@ -4,8 +4,8 @@
     python3 tools/neon_edition.py build --date D --episode-dir DIR [--short MP4 --short-report JSON]
         [--episode-url URL] [--verification JSON]
     python3 tools/neon_edition.py attach-audit --date D --audit-out DIR --kit DIR
-    python3 tools/neon_edition.py set-short-url --date D --url URL
-    python3 tools/neon_edition.py set-audit-short-url --date D --url URL
+    python3 tools/neon_edition.py set-short-url --date D --url URL [--mp4 PATH]
+    python3 tools/neon_edition.py set-audit-short-url --date D --url URL [--mp4 PATH]
     python3 tools/neon_edition.py set-headline --date D --headline TEXT [--variant neon]
 
 build copies the frozen Neon run (script.txt, sources.json and run.json from
@@ -34,7 +34,10 @@ regenerates that date's edition page. The URL must be
 https://x.com/signalnoisepub/status/<digits>; any query string, fragment, or
 trailing /video/1 is stripped. Rerunning with the same URL is a no-op. A
 local short.mp4 is not required. This is the post-publish step: the 7:20
-edition may ship before Max posts the Neon short around 10 AM.
+edition may ship before Max posts the Neon short around 10 AM. With --mp4 PATH
+it also copies the posted short, unchanged, into the edition as
+daily-short.mp4 (hash in edition.json, poster frame when ffmpeg is present),
+and the edition page and the listing lead with the playable short.
 
 set-audit-short-url writes a public X URL into edition.json audit_short_url
 and regenerates that date's audit page and edition page. The URL must be
@@ -42,8 +45,8 @@ https://x.com/signalnoisepub/status/<digits>; any query string, fragment, or
 trailing /video/1 is stripped. When the field is set, the audit page and the edition page each
 show one "Audit short" link, in the same style as the other artifact links.
 When it is absent, neither page renders that link. Rerunning with the same URL is a no-op. This is the
-post-publish step after the audit short is posted as a reply in that day's
-Daily State short thread.
+post-publish step after the audit short is posted on X. --mp4 PATH works
+as for set-short-url and hosts the posted audit short as audit-short.mp4.
 
 set-headline writes an optional 4-10 word (max 14) teaser into edition.json
 and regenerates the edition page, the Daily State listing, and the homepage
@@ -353,6 +356,77 @@ def normalize_short_x_url(url):
     return f"https://x.com/{SHORT_X_USER}/status/{segs[2]}"
 
 
+# Keep each committed short well under GitHub's 100 MB file limit (no LFS).
+MAX_SHORT_BYTES = 50 * 1024 * 1024
+
+
+def stage_hosted_short(dest, kind, mp4_path, edition):
+    """Copy a posted short into the edition as daily-short.mp4 or audit-short.mp4.
+
+    Records its sha256 in edition.json hashes and adds a poster frame when
+    ffmpeg is available. The video bytes are copied as posted. Returns the
+    paths this call created, for rollback.
+    """
+    item = next(entry for entry in daily_state.HOSTED_SHORTS if entry[0] == kind)
+    _kind, mp4_name, poster_name, hash_key, _label = item
+    if not os.path.isfile(mp4_path):
+        raise daily_state.Hold(f"{kind} short mp4 is missing")
+    size = os.path.getsize(mp4_path)
+    if size > MAX_SHORT_BYTES:
+        raise daily_state.Hold(f"{kind} short mp4 is {size} bytes, over {MAX_SHORT_BYTES}")
+    digest = sha256_file(mp4_path)
+    target = os.path.join(dest, mp4_name)
+    created = []
+    if os.path.exists(target):
+        if sha256_file(target) != digest:
+            raise daily_state.Hold(f"{mp4_name} is already published with different bytes")
+    else:
+        shutil.copyfile(mp4_path, target)
+        created.append(target)
+    edition["hashes"][hash_key] = digest
+    poster = os.path.join(dest, poster_name)
+    if not os.path.exists(poster) and shutil.which("ffmpeg"):
+        import subprocess
+        result = subprocess.run(
+            ["ffmpeg", "-v", "error", "-y", "-ss", "1", "-i", target, "-frames:v", "1",
+             "-vf", "scale=540:-2", "-q:v", "4", poster],
+            capture_output=True,
+        )
+        if result.returncode == 0 and os.path.isfile(poster):
+            created.append(poster)
+        elif os.path.exists(poster):
+            os.remove(poster)
+    return created
+
+
+def _remove_created(paths):
+    for path in paths:
+        if os.path.exists(path):
+            os.remove(path)
+
+
+def refresh_listing_needed():
+    path = os.path.join(REPO, daily_state.LISTING_REL)
+    expected = daily_state.render_listing_html(daily_state.load_editions(REPO))
+    if not os.path.isfile(path):
+        return True
+    with open(path, encoding="utf-8") as handle:
+        return handle.read() != expected
+
+
+def refresh_listing():
+    """Rewrite the Daily State listing when its top shorts changed. Returns the rel path or None."""
+    rel = daily_state.LISTING_REL
+    path = os.path.join(REPO, rel)
+    expected = daily_state.render_listing_html(daily_state.load_editions(REPO))
+    if os.path.isfile(path):
+        with open(path, encoding="utf-8") as handle:
+            if handle.read() == expected:
+                return None
+    daily_state._write_text_atomic(path, expected)
+    return rel
+
+
 def set_short_url(args):
     date = args.date
     if not daily_state.is_real_date(date):
@@ -373,34 +447,50 @@ def set_short_url(args):
     page_rel = f"daily-state/{date}/index.html"
     page_path = os.path.join(REPO, page_rel)
     previous = raw
-    already = edition.get("video_url") == url
+    created = []
+    try:
+        if args.mp4:
+            created = stage_hosted_short(dest, "daily", args.mp4, edition)
+    except (OSError, daily_state.Hold) as exc:
+        _remove_created(created)
+        return fail(str(exc))
+    edition["video_url"] = url
+    text = json.dumps(edition, indent=2, ensure_ascii=False) + "\n"
+    already = text.encode("utf-8") == previous and not created
+
+    def rollback():
+        _remove_created(created)
+        if not already:
+            daily_state._write_text_atomic(edition_path, previous.decode("utf-8"))
+
     if not already:
-        edition["video_url"] = url
-        daily_state._write_text_atomic(
-            edition_path, json.dumps(edition, indent=2, ensure_ascii=False) + "\n"
-        )
+        daily_state._write_text_atomic(edition_path, text)
     try:
         loaded = daily_state.load_edition(REPO, date)
     except daily_state.Hold as exc:
-        if not already:
-            daily_state._write_text_atomic(edition_path, previous.decode("utf-8"))
+        rollback()
         return fail(str(exc))
     html_text = loaded["html"]
-    marker = f'<a href="{url}">Short</a>'
-    if marker not in html_text:
-        if not already:
-            daily_state._write_text_atomic(edition_path, previous.decode("utf-8"))
+    if f'href="{url}"' not in html_text:
+        rollback()
         return fail("edition page is missing the Short link")
     current = None
     if os.path.isfile(page_path) and not os.path.islink(page_path):
         with open(page_path, encoding="utf-8") as handle:
             current = handle.read()
-    if already and current == html_text:
+    wrote = []
+    if current != html_text:
+        os.makedirs(os.path.dirname(page_path), exist_ok=True)
+        daily_state._write_text_atomic(page_path, html_text)
+        wrote.append(page_rel)
+    listing = refresh_listing()
+    if listing:
+        wrote.append(listing)
+    if already and not wrote:
         print(json.dumps({"noop": True, "date": date, "video_url": url}))
         return 0
-    os.makedirs(os.path.dirname(page_path), exist_ok=True)
-    daily_state._write_text_atomic(page_path, html_text)
-    print(json.dumps({"date": date, "video_url": url, "wrote": [page_rel]}))
+    wrote = [os.path.relpath(path, REPO) for path in created] + wrote
+    print(json.dumps({"date": date, "video_url": url, "wrote": wrote}))
     return 0
 
 
@@ -427,29 +517,36 @@ def set_audit_short_url(args):
     audit_path = os.path.join(REPO, audit_rel)
     edition_page_path = os.path.join(REPO, edition_rel)
     previous = raw
-    already = edition.get("audit_short_url") == url
+    created = []
+    try:
+        if args.mp4:
+            created = stage_hosted_short(dest, "audit", args.mp4, edition)
+    except (OSError, daily_state.Hold) as exc:
+        _remove_created(created)
+        return fail(str(exc))
+    edition["audit_short_url"] = url
+    text = json.dumps(edition, indent=2, ensure_ascii=False) + "\n"
+    already = text.encode("utf-8") == previous and not created
+
+    def rollback():
+        _remove_created(created)
+        if not already:
+            daily_state._write_text_atomic(edition_path, previous.decode("utf-8"))
+
     if not already:
-        edition["audit_short_url"] = url
-        daily_state._write_text_atomic(
-            edition_path, json.dumps(edition, indent=2, ensure_ascii=False) + "\n"
-        )
+        daily_state._write_text_atomic(edition_path, text)
     try:
         loaded = daily_state.load_edition(REPO, date)
     except daily_state.Hold as exc:
-        if not already:
-            daily_state._write_text_atomic(edition_path, previous.decode("utf-8"))
+        rollback()
         return fail(str(exc))
     audit_html = loaded["audit_html"]
     edition_html = loaded["html"]
-    audit_marker = f'<a href="{url}">Audit short</a>'
-    edition_marker = f'<a href="{url}">Audit short</a>'
-    if audit_marker not in audit_html:
-        if not already:
-            daily_state._write_text_atomic(edition_path, previous.decode("utf-8"))
+    if f'<a href="{url}">Audit short</a>' not in audit_html:
+        rollback()
         return fail("audit page is missing the audit short link")
-    if edition_marker not in edition_html:
-        if not already:
-            daily_state._write_text_atomic(edition_path, previous.decode("utf-8"))
+    if f'href="{url}"' not in edition_html:
+        rollback()
         return fail("edition page is missing the audit short link")
 
     def _current(path):
@@ -460,10 +557,11 @@ def set_audit_short_url(args):
 
     current_audit = _current(audit_path)
     current_edition = _current(edition_page_path)
-    if already and current_audit == audit_html and current_edition == edition_html:
+    listing_stale = refresh_listing_needed()
+    if already and current_audit == audit_html and current_edition == edition_html and not listing_stale:
         print(json.dumps({"noop": True, "date": date, "audit_short_url": url}))
         return 0
-    wrote = []
+    wrote = [os.path.relpath(path, REPO) for path in created]
     if current_audit != audit_html:
         os.makedirs(os.path.dirname(audit_path), exist_ok=True)
         daily_state._write_text_atomic(audit_path, audit_html)
@@ -472,6 +570,9 @@ def set_audit_short_url(args):
         os.makedirs(os.path.dirname(edition_page_path), exist_ok=True)
         daily_state._write_text_atomic(edition_page_path, edition_html)
         wrote.append(edition_rel)
+    listing = refresh_listing()
+    if listing:
+        wrote.append(listing)
     print(json.dumps({"date": date, "audit_short_url": url, "wrote": wrote}))
     return 0
 
@@ -547,9 +648,11 @@ def main(argv=None):
     s = sub.add_parser("set-short-url")
     s.add_argument("--date", required=True)
     s.add_argument("--url", required=True)
+    s.add_argument("--mp4", default=None)
     a_short = sub.add_parser("set-audit-short-url")
     a_short.add_argument("--date", required=True)
     a_short.add_argument("--url", required=True)
+    a_short.add_argument("--mp4", default=None)
     h = sub.add_parser("set-headline")
     h.add_argument("--date", required=True)
     h.add_argument("--headline", required=True)

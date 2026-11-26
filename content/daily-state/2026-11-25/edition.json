@@ -41,7 +41,9 @@
     "sources_sha256": "5c06c152a78c9f2a0210b05ed889d4489822c6d5415a3620c64a8804f74a3d8b",
     "neon_run_sha256": "0f3dddf9fc3d356ec38b5ddf5ed40bf8cd03d0b53a207b9bd52f630d7bacb7ce",
     "episode_sha256": null,
-    "short_sha256": null
+    "short_sha256": null,
+    "daily_short_sha256": "886c706aba3842f2db1096c701fb72a59f0123226f949bda5e1241a49d174739",
+    "audit_short_sha256": "d9b8f8d04fe2e7d1f02c0d8b9d0cdf0b592a81d6bcfec9915c7cd9309779d801"
   },
   "headline": "AI Is Built for Discovery, Not Everyday Reliability",
   "audit_short_url": "https://x.com/signalnoisepub/status/2125659366691086409"
