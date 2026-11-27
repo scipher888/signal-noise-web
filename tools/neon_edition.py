@@ -5,7 +5,7 @@
         [--episode-url URL] [--verification JSON]
     python3 tools/neon_edition.py attach-audit --date D --audit-out DIR [--kit DIR]
     python3 tools/neon_edition.py set-short-url --date D --url URL [--mp4 PATH]
-    python3 tools/neon_edition.py set-audit-short-url --date D --url URL [--mp4 PATH]
+    python3 tools/neon_edition.py set-audit-short-url --date D [--url URL] [--mp4 PATH]
     python3 tools/neon_edition.py set-headline --date D --headline TEXT [--variant neon]
 
 build copies the frozen Neon run (script.txt, sources.json and run.json from
@@ -48,14 +48,18 @@ and the edition page and the listing lead with the playable short. It then
 drops hosted shorts (mp4, poster and hash fields) of editions more than 30
 days older than D, keeps their X links, and regenerates those pages.
 
-set-audit-short-url writes a public X URL into edition.json audit_short_url
-and regenerates that date's audit page and edition page. The URL must be
+set-audit-short-url hosts the audit short and/or records its public X URL,
+then regenerates that date's audit page and edition page. At least one of
+--url or --mp4 is required. The URL, when given, must be
 https://x.com/signalnoisepub/status/<digits>; any query string, fragment, or
-trailing /video/1 is stripped. When the field is set, the audit page and the edition page each
-show one "Audit short" link, in the same style as the other artifact links.
-When it is absent, neither page renders that link. Rerunning with the same URL is a no-op. This is the
-post-publish step after the audit short is posted on X. --mp4 PATH works
-as for set-short-url and hosts the posted audit short as audit-short.mp4.
+trailing /video/1 is stripped, and is written to edition.json audit_short_url.
+When the field is set, the listing, edition page, and audit page each show
+one "Watch on X" or "Audit short" link. When it is absent, those pages still
+embed a hosted audit-short.mp4, with the caption "Audit short" and no X link.
+Rerunning with the same URL and bytes is a no-op. --mp4 PATH works as for
+set-short-url and hosts the audit short as audit-short.mp4. From 2026-11-27
+the audit short is website-only, so the daily routine passes --mp4 and omits
+--url.
 
 set-headline writes an optional 4-10 word (max 14) teaser into edition.json
 and regenerates the edition page, the Daily State listing, and the homepage
@@ -431,7 +435,9 @@ def prune_hosted_shorts(newest):
     """Drop hosted shorts more than HOSTED_SHORT_DAYS older than newest.
 
     Removes the mp4 and poster files and their hash fields, keeps every X URL,
-    and regenerates that day's edition page. Returns the repo paths changed.
+    and regenerates that day's edition page and audit page. A website-only
+    audit short (no audit_short_url) leaves no X link after it is pruned.
+    Returns the repo paths changed.
     """
     cutoff = date_cls.fromisoformat(newest).toordinal() - HOSTED_SHORT_DAYS
     root = daily_state.content_root(REPO)
@@ -470,6 +476,11 @@ def prune_hosted_shorts(newest):
         rel_dir = os.path.relpath(directory, REPO).replace(os.sep, "/")
         changed += [f"{rel_dir}/{name}" for name in names]
         changed += [f"{rel_dir}/edition.json", page_rel]
+        if loaded.get("audit_html"):
+            audit_rel = f"daily-state/{iso}/audit/index.html"
+            os.makedirs(os.path.dirname(os.path.join(REPO, audit_rel)), exist_ok=True)
+            daily_state._write_text_atomic(os.path.join(REPO, audit_rel), loaded["audit_html"])
+            changed.append(audit_rel)
     return changed
 
 
@@ -569,10 +580,16 @@ def set_audit_short_url(args):
     date = args.date
     if not daily_state.is_real_date(date):
         return fail("date is invalid")
-    try:
-        url = normalize_short_x_url(args.url)
-    except daily_state.Hold as exc:
-        return fail(str(exc).replace("short url must be", "audit short url must be"))
+    url_arg = getattr(args, "url", None)
+    mp4_arg = getattr(args, "mp4", None)
+    if not url_arg and not mp4_arg:
+        return fail("set-audit-short-url requires --url or --mp4")
+    url = None
+    if url_arg:
+        try:
+            url = normalize_short_x_url(url_arg)
+        except daily_state.Hold as exc:
+            return fail(str(exc).replace("short url must be", "audit short url must be"))
     dest = os.path.join(daily_state.content_root(REPO), date)
     if not daily_state.directory_declares_root_audit(dest):
         return fail("no daily audit edition for this date")
@@ -589,12 +606,13 @@ def set_audit_short_url(args):
     previous = raw
     created = []
     try:
-        if args.mp4:
-            created = stage_hosted_short(dest, "audit", args.mp4, edition)
+        if mp4_arg:
+            created = stage_hosted_short(dest, "audit", mp4_arg, edition)
     except (OSError, daily_state.Hold) as exc:
         _remove_created(created)
         return fail(str(exc))
-    edition["audit_short_url"] = url
+    if url:
+        edition["audit_short_url"] = url
     text = json.dumps(edition, indent=2, ensure_ascii=False) + "\n"
     already = text.encode("utf-8") == previous and not created
 
@@ -612,12 +630,20 @@ def set_audit_short_url(args):
         return fail(str(exc))
     audit_html = loaded["audit_html"]
     edition_html = loaded["html"]
-    if f'<a href="{url}">Audit short</a>' not in audit_html:
-        rollback()
-        return fail("audit page is missing the audit short link")
-    if f'href="{url}"' not in edition_html:
-        rollback()
-        return fail("edition page is missing the audit short link")
+    if url:
+        if f'href="{url}"' not in audit_html:
+            rollback()
+            return fail("audit page is missing the audit short link")
+        if f'href="{url}"' not in edition_html:
+            rollback()
+            return fail("edition page is missing the audit short link")
+    else:
+        if "audit-short.mp4" not in audit_html:
+            rollback()
+            return fail("audit page is missing the hosted audit short")
+        if "audit-short.mp4" not in edition_html:
+            rollback()
+            return fail("edition page is missing the hosted audit short")
 
     def _current(path):
         if os.path.isfile(path) and not os.path.islink(path):
@@ -630,7 +656,10 @@ def set_audit_short_url(args):
     pruned = prune_hosted_shorts(date) if args.mp4 else []
     listing_stale = refresh_listing_needed()
     if already and current_audit == audit_html and current_edition == edition_html and not listing_stale and not pruned:
-        print(json.dumps({"noop": True, "date": date, "audit_short_url": url}))
+        payload = {"noop": True, "date": date}
+        if url:
+            payload["audit_short_url"] = url
+        print(json.dumps(payload))
         return 0
     wrote = [os.path.relpath(path, REPO) for path in created] + pruned
     if current_audit != audit_html:
@@ -644,7 +673,10 @@ def set_audit_short_url(args):
     listing = refresh_listing()
     if listing:
         wrote.append(listing)
-    print(json.dumps({"date": date, "audit_short_url": url, "wrote": wrote}))
+    payload = {"date": date, "wrote": wrote}
+    if url:
+        payload["audit_short_url"] = url
+    print(json.dumps(payload))
     return 0
 
 
@@ -723,7 +755,7 @@ def main(argv=None):
     s.add_argument("--mp4", default=None)
     a_short = sub.add_parser("set-audit-short-url")
     a_short.add_argument("--date", required=True)
-    a_short.add_argument("--url", required=True)
+    a_short.add_argument("--url", default=None)
     a_short.add_argument("--mp4", default=None)
     h = sub.add_parser("set-headline")
     h.add_argument("--date", required=True)

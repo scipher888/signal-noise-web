@@ -1457,7 +1457,7 @@ class DailyStateTests(unittest.TestCase):
         self.assertEqual(nov24.count('<a href="audit/">Audit</a>'), 1)
 
     def test_published_audit_page_mirrors_edition_link_style(self):
-        """Audit header: check sentence, Audit results callout, then edition link, optional Audit short, and the house label."""
+        """Audit header: check sentence, Audit results callout, hosted audit short, edition link, and the house label."""
         house = '<p class="disclaimer">%s</p>' % HOUSE
         edition_link = '<p><a href="../">Daily State of AI</a></p>'
         explanation = (
@@ -1468,12 +1468,16 @@ class DailyStateTests(unittest.TestCase):
             encoding="utf-8"
         )
         short = (
-            '<p><a href="https://x.com/signalnoisepub/status/2125317078139953354">'
-            "Audit short</a></p>"
+            '<figcaption>Audit short · <a href="https://x.com/signalnoisepub/status/2125317078139953354">'
+            "Watch on X</a></figcaption>"
         )
+        video = 'src="/content/daily-state/2026-11-24/audit-short.mp4">'
         self.assertIn(explanation, nov24)
         self.assertEqual(nov24.count(edition_link), 1)
         self.assertEqual(nov24.count(short), 1)
+        self.assertEqual(nov24.count(video), 1)
+        self.assertEqual(nov24.count("<video "), 1)
+        self.assertNotIn(">Audit short</a>", nov24)
         self.assertEqual(nov24.count(house), 1)
         self.assertEqual(nov24.count(HOUSE), 1)
         episode = "Episode 33 PASS / 2 FAIL / 11 NEEDS-HUMAN"
@@ -1490,9 +1494,10 @@ class DailyStateTests(unittest.TestCase):
         self.assertLess(nov24.index(explanation), nov24.index(caption))
         self.assertLess(nov24.index(caption), nov24.index(episode))
         self.assertLess(nov24.index(episode), nov24.index(takeaways))
-        self.assertLess(nov24.index(takeaways), nov24.index(edition_link))
-        self.assertLess(nov24.index(edition_link), nov24.index(short))
-        self.assertLess(nov24.index(short), nov24.index(house))
+        self.assertLess(nov24.index(takeaways), nov24.index(video))
+        self.assertLess(nov24.index(video), nov24.index(short))
+        self.assertLess(nov24.index(short), nov24.index(edition_link))
+        self.assertLess(nov24.index(edition_link), nov24.index(house))
         self.assertLess(nov24.index(house), nov24.index("<h2>Episode</h2>"))
         self.assertNotIn("Watch the audit short", nov24)
         self.assertNotIn("ds-audit-short", nov24)
