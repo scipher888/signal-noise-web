@@ -135,8 +135,10 @@ EDITION_KEYS = {
 EDITION_OPTIONAL = {"spotify_episode_fallback", "pipeline", "editor", "hard_stops", "video_url", "headline"}
 HEADLINE_OPTIONAL = frozenset({"headline"})
 # audit_short_url is optional on audit editions (root and variant). When set, the
-# audit page and the edition page each show one "Audit short" link; when absent,
-# neither page renders that link.
+# audit page and the edition page each show one "Audit short" (or "Watch on X")
+# link; when absent, neither page renders that link. A hosted audit-short.mp4
+# still plays on the listing, the edition page, and the audit page without an
+# X URL.
 AUDIT_EDITION_OPTIONAL = frozenset({"headline", "audit_short_url"})
 AUDIT_SHORT_URL_ERROR = "audit short url must be https://x.com/signalnoisepub/status/<id>"
 SHORT_X_HOSTS = {"x.com", "www.x.com"}
@@ -1213,8 +1215,14 @@ def validate_optional_audit_short_url(edition):
         raise Hold(AUDIT_SHORT_URL_ERROR)
 
 
-def render_audit_short_link(edition):
-    """Same-style link line on the audit page, or empty when audit_short_url is unset."""
+def render_audit_short_link(edition, shorts=None):
+    """Same-style link line on the audit page, or empty when audit_short_url is unset.
+
+    When the audit short is hosted, the playable figure carries any Watch on X
+    link, so this text line is omitted.
+    """
+    if shorts and "audit" in shorts:
+        return ""
     url = edition.get("audit_short_url")
     if not url:
         return ""
@@ -1226,16 +1234,16 @@ def render_audit_edition_link():
     return '<p><a href="../">Daily State of AI</a></p>\n'
 
 
-def render_audit_page_nav(edition):
+def render_audit_page_nav(edition, shorts=None):
     """Edition link, optional Audit short, then the house disclaimer, in the edition link style."""
     return (
         render_audit_edition_link()
-        + render_audit_short_link(edition)
+        + render_audit_short_link(edition, shorts)
         + f'<p class="disclaimer">{AI_LABEL_EXACT}</p>\n'
     )
 
 
-def assert_audit_short_link(html_text, edition):
+def assert_audit_short_link(html_text, edition, shorts=None):
     url = edition.get("audit_short_url")
     edition_link = '<p><a href="../">Daily State of AI</a></p>'
     if html_text.count(edition_link) != 1:
@@ -1262,8 +1270,41 @@ def assert_audit_short_link(html_text, edition):
             raise Hold("Audit results box must sit below the Python-check sentence")
         if callout_at > html_text.index(edition_link):
             raise Hold("Audit results box must sit above the Daily State of AI link")
+    hosted = bool(shorts and "audit" in shorts)
+    if hosted:
+        item = shorts["audit"]
+        src = f'src="{html.escape(item["src"], quote=True)}"></video>'
+        if html_text.count(src) != 1:
+            raise Hold("audit page is missing the hosted audit short")
+        if html_text.count("<video ") != 1:
+            raise Hold("audit page has an unexpected video")
+        if url:
+            caption = (
+                f'<figcaption>Audit short · <a href="{html.escape(url, quote=True)}">'
+                "Watch on X</a></figcaption>"
+            )
+        else:
+            caption = "<figcaption>Audit short</figcaption>"
+        if html_text.count(caption) != 1:
+            raise Hold("audit short caption does not match")
+        if not url and (
+            re.search(r">Audit short</a>", html_text)
+            or re.search(r">Watch on X</a>", html_text)
+        ):
+            raise Hold("audit page has an audit short link without audit_short_url")
+        if url and re.search(r">Audit short</a>", html_text):
+            raise Hold("hosted audit short should use Watch on X, not a second Audit short link")
+        if html_text.index(src) > html_text.index(disclaimer):
+            raise Hold("hosted audit short must sit above the disclaimer")
+        if callout_at != -1 and html_text.index(src) < callout_at:
+            raise Hold("hosted audit short must sit below the Audit results box")
+        if html_text.index(src) > html_text.index(edition_link):
+            raise Hold("hosted audit short must sit above the Daily State of AI link")
+        return
+    if "<video " in html_text or 'class="ds-short"' in html_text:
+        raise Hold("audit page has an audit short without a hosted file")
     if not url:
-        if re.search(r">Audit short</a>", html_text):
+        if re.search(r">Audit short</a>", html_text) or re.search(r">Watch on X</a>", html_text):
             raise Hold("audit page has an audit short link without audit_short_url")
         return
     expected_link = f'<a href="{html.escape(url, quote=True)}">Audit short</a>'
@@ -2227,6 +2268,19 @@ def render_shorts_block(edition, shorts):
     return SHORTS_STYLE + '<section class="ds-shorts">\n' + figures + "</section>\n"
 
 
+def render_audit_short_block(edition, shorts):
+    """Playable audit short on the audit page, or empty when it is not hosted."""
+    if not shorts or "audit" not in shorts:
+        return ""
+    urls = short_x_urls(edition)
+    return (
+        SHORTS_STYLE
+        + '<section class="ds-shorts">\n'
+        + render_short_figure(shorts["audit"], "Audit short", urls["audit"])
+        + "</section>\n"
+    )
+
+
 def render_shorts_links(edition, shorts, base):
     """One row: Spotify, audit, then X links for any short not hosted.
 
@@ -2263,7 +2317,7 @@ def assert_shorts_first(html_text, edition, shorts):
         raise Hold("edition link row does not match")
     urls = short_x_urls(edition)
     last_video = -1
-    for kind, _mp4, _poster, _key, _label in HOSTED_SHORTS:
+    for kind, _mp4, _poster, _key, label in HOSTED_SHORTS:
         if kind not in shorts:
             continue
         src = f'src="{html.escape(shorts[kind]["src"], quote=True)}"></video>'
@@ -2273,9 +2327,16 @@ def assert_shorts_first(html_text, edition, shorts):
             raise Hold("the daily short must sit above the audit short")
         last_video = html_text.index(src)
         if urls[kind]:
-            watch = f'<a href="{html.escape(urls[kind], quote=True)}">Watch on X</a>'
-            if html_text.count(watch) != 1:
-                raise Hold(f"{kind} short is missing its Watch on X link")
+            caption = (
+                f"<figcaption>{label} · "
+                f'<a href="{html.escape(urls[kind], quote=True)}">Watch on X</a></figcaption>'
+            )
+        else:
+            caption = f"<figcaption>{label}</figcaption>"
+        if html_text.count(caption) != 1:
+            raise Hold(f"{kind} short caption does not match")
+        if not urls[kind] and f"{label} · " in html_text:
+            raise Hold(f"{kind} short has an empty Watch on X link")
     if html_text.count("<video ") != len(shorts):
         raise Hold("hard stop: video: unexpected video on the edition page")
     disclaimer = f'<p class="disclaimer">{AI_LABEL_EXACT}</p>'
@@ -2528,7 +2589,7 @@ def render_ethical_floor(floor):
     return "\n".join(out)
 
 
-def render_audit_html(edition, results, counts, variant, floor=None):
+def render_audit_html(edition, results, counts, variant, floor=None, *, shorts=None):
     iso_date = edition["date"]
     title = f"Audit — {edition['title']}"
     shown = build.display_date(iso_date, "day")
@@ -2568,7 +2629,8 @@ def render_audit_html(edition, results, counts, variant, floor=None):
         f"<p><time datetime=\"{iso_date}\">{html.escape(shown)}</time></p>\n"
         f"{explanation}"
         + render_audit_counts_callout(summary_lines)
-        + render_audit_page_nav(edition)
+        + render_audit_short_block(edition, shorts)
+        + render_audit_page_nav(edition, shorts)
         + render_ethical_floor(floor)
         + "\n".join(groups)
         + "\n<p><a href=\"../\">Back to the edition</a></p>\n"
@@ -2586,11 +2648,11 @@ def render_audit_html(edition, results, counts, variant, floor=None):
         path,
         "article",
     )
-    assert_audit_short_link(page, edition)
+    assert_audit_short_link(page, edition, shorts)
     return page
 
 
-def render_audit_pending_html(edition):
+def render_audit_pending_html(edition, *, shorts=None):
     """Placeholder until the executable audit is attached. Only this page may change later."""
     iso_date = edition["date"]
     title = f"Audit — {edition['title']}"
@@ -2606,7 +2668,8 @@ def render_audit_pending_html(edition):
         f"<h1>{html.escape(title, quote=True)}</h1>\n"
         f"<p><time datetime=\"{iso_date}\">{html.escape(shown)}</time></p>\n"
         f"{pending_lead}"
-        f"{render_audit_page_nav(edition)}"
+        f"{render_audit_short_block(edition, shorts)}"
+        f"{render_audit_page_nav(edition, shorts)}"
         "<p><a href=\"../\">Back to the edition</a></p>\n"
         "</article>"
     )
@@ -2618,7 +2681,7 @@ def render_audit_pending_html(edition):
         f"/daily-state/{iso_date}/audit/",
         "article",
     )
-    assert_audit_short_link(page, edition)
+    assert_audit_short_link(page, edition, shorts)
     return page
 
 
@@ -2666,7 +2729,7 @@ def _load_audit_edition(directory, iso_date, variant, *, link_opener=None):
         raise Hold(f"hard stop: video: {problem}")
     prompt = run["prompts"]["episode"]
     html_text = render_audit_edition_html(edition, paragraphs, sources, prompt, variant)
-    audit_html = render_audit_html(edition, results, counts, variant)
+    audit_html = render_audit_html(edition, results, counts, variant, shorts=None)
     sources_html = render_sources_page_html(iso_date, sources, variant, edition)
     assert_audit_edition_page(html_text, edition, prompt)
     assert_sources_page(sources_html, iso_date, sources, variant, edition)
@@ -2874,9 +2937,9 @@ def _load_root_audit_edition(directory, iso_date, *, link_opener=None):
         floor = audit.get("ethical_floor")
         if floor_edited and not (type(floor) is dict and str(floor.get("status") or "").startswith("fixed")):
             raise Hold("neon run names an ethical floor fix that the audit does not record")
-        audit_html = render_audit_html(edition, results, counts, None, floor)
+        audit_html = render_audit_html(edition, results, counts, None, floor, shorts=shorts)
     else:
-        audit_html = render_audit_pending_html(edition)
+        audit_html = render_audit_pending_html(edition, shorts=shorts)
     if link_opener is not None:
         raise_hard_stops(source_link_hard_stops(sources["urls"], link_opener))
     loaded = {

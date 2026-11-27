@@ -47,6 +47,12 @@ class HostedShortsTest(unittest.TestCase):
     def page(self):
         return (self.repo.root / "daily-state" / DATE / "index.html").read_text(encoding="utf-8")
 
+    def audit_page(self):
+        return (self.repo.root / "daily-state" / DATE / "audit" / "index.html").read_text(encoding="utf-8")
+
+    def listing(self):
+        return (self.repo.root / "daily-state" / "index.html").read_text(encoding="utf-8")
+
     def edition(self):
         return json.loads((self.repo.edition_dir() / "edition.json").read_text())
 
@@ -76,6 +82,15 @@ class HostedShortsTest(unittest.TestCase):
         self.assertNotIn(">Short</a>", page)
         self.assertNotIn(">Audit short</a>", page)
         self.assertIn('<section class="sources">', page)
+        audit = self.audit_page()
+        self.assertEqual(audit.count(f'src="{AUDIT_SRC}"'), 1)
+        self.assertEqual(audit.count("<video "), 1)
+        self.assertIn(
+            f'<figcaption>Audit short · <a href="{X_AUDIT_SHORT}">Watch on X</a></figcaption>',
+            audit,
+        )
+        self.assertNotIn(">Audit short</a>", audit)
+        self.assertLess(audit.index(f'src="{AUDIT_SRC}"'), audit.index('<a href="../">Daily State of AI</a>'))
 
     def test_videos_are_copied_unchanged_and_hashed(self):
         self.set_both()
@@ -225,6 +240,90 @@ class HostedShortsTest(unittest.TestCase):
         self.assertTrue(daily < daily_caption < audit < audit_caption < page.index('<p class="ds-links">'))
         listing = (self.repo.root / "daily-state" / "index.html").read_text(encoding="utf-8")
         self.assertEqual(listing.count(style), 1)
+
+    def test_set_audit_short_url_requires_url_or_mp4(self):
+        self.assertEqual(self.run_tool("set-audit-short-url", "--date", DATE), 1)
+        self.assertNotIn("audit_short_url", self.edition())
+        self.assertFalse((self.repo.edition_dir() / "audit-short.mp4").exists())
+
+    def test_website_only_audit_short_hosts_without_an_x_url(self):
+        self.assertEqual(self.run_tool(
+            "set-short-url", "--date", DATE, "--url", X_SHORT, "--mp4", str(self.daily)), 0)
+        self.assertEqual(self.run_tool(
+            "set-audit-short-url", "--date", DATE, "--mp4", str(self.audit)), 0)
+        edition = self.edition()
+        self.assertNotIn("audit_short_url", edition)
+        self.assertEqual(edition["hashes"]["audit_short_sha256"], sha(AUDIT_MP4))
+        self.assertEqual((self.repo.edition_dir() / "audit-short.mp4").read_bytes(), AUDIT_MP4)
+        page = self.page()
+        self.assertEqual(page.count(f'src="{AUDIT_SRC}"'), 1)
+        self.assertIn("<figcaption>Audit short</figcaption>", page)
+        self.assertIn(
+            f'<figcaption>Daily short · <a href="{X_SHORT}">Watch on X</a></figcaption>', page)
+        self.assertEqual(page.count("Watch on X"), 1)
+        self.assertNotIn(">Audit short</a>", page)
+        self.assertNotIn(f"{X_AUDIT_SHORT}", page)
+        listing = self.listing()
+        self.assertEqual(listing.count(f'src="{AUDIT_SRC}"'), 1)
+        self.assertIn("<figcaption>Audit short</figcaption>", listing)
+        self.assertEqual(listing.count("Watch on X"), 1)
+        audit = self.audit_page()
+        self.assertEqual(audit.count(f'src="{AUDIT_SRC}"'), 1)
+        self.assertEqual(audit.count("<video "), 1)
+        self.assertIn("<figcaption>Audit short</figcaption>", audit)
+        self.assertNotIn("Watch on X", audit)
+        self.assertNotIn(">Audit short</a>", audit)
+        self.assertNotIn('href=""', audit)
+        self.assertLess(audit.index(f'src="{AUDIT_SRC}"'), audit.index('<a href="../">Daily State of AI</a>'))
+        # Rerun is a no-op.
+        before = (self.repo.edition_dir() / "edition.json").read_bytes()
+        page_before, audit_before, listing_before = page, audit, listing
+        self.assertEqual(self.run_tool(
+            "set-audit-short-url", "--date", DATE, "--mp4", str(self.audit)), 0)
+        self.assertEqual((self.repo.edition_dir() / "edition.json").read_bytes(), before)
+        self.assertEqual(self.page(), page_before)
+        self.assertEqual(self.audit_page(), audit_before)
+        self.assertEqual(self.listing(), listing_before)
+
+    def test_pruned_website_only_audit_short_renders_cleanly(self):
+        self.assertEqual(self.run_tool(
+            "set-short-url", "--date", DATE, "--url", X_SHORT, "--mp4", str(self.daily)), 0)
+        self.assertEqual(self.run_tool(
+            "set-audit-short-url", "--date", DATE, "--mp4", str(self.audit)), 0)
+        changed = self.prune("2026-12-23")  # DATE + 31 days
+        directory = self.repo.edition_dir()
+        self.assertFalse((directory / "audit-short.mp4").exists())
+        self.assertFalse((directory / "daily-short.mp4").exists())
+        self.assertIn(f"content/daily-state/{DATE}/audit-short.mp4", changed)
+        self.assertIn(f"daily-state/{DATE}/index.html", changed)
+        self.assertIn(f"daily-state/{DATE}/audit/index.html", changed)
+        edition = self.edition()
+        self.assertNotIn("audit_short_sha256", edition["hashes"])
+        self.assertNotIn("daily_short_sha256", edition["hashes"])
+        self.assertNotIn("audit_short_url", edition)
+        self.assertEqual(edition["video_url"], X_SHORT)
+        page = self.page()
+        self.assertEqual(page, self.repo.load()["html"])
+        self.assertNotIn("<video", page)
+        self.assertNotIn("ds-short", page)
+        self.assertNotIn("audit-short", page)
+        self.assertNotIn(">Audit short</a>", page)
+        self.assertNotIn("Watch on X", page)
+        self.assertIn(f'{SPOTIFY_ANCHOR} · <a href="{X_SHORT}">Short</a>', page)
+        self.assertIn('<a href="audit/">Audit</a></p>', page)
+        audit = self.audit_page()
+        self.assertEqual(audit, self.repo.load()["audit_html"])
+        self.assertNotIn("<video", audit)
+        self.assertNotIn("ds-short", audit)
+        self.assertNotIn("audit-short", audit)
+        self.assertNotIn(">Audit short</a>", audit)
+        self.assertNotIn("Watch on X", audit)
+        self.assertNotIn('href=""', audit)
+        self.assertIn('<a href="../">Daily State of AI</a>', audit)
+        self.assertEqual(audit.count(HOUSE), 1)
+        listing = self.listing()
+        # The listing is refreshed by the next set-* call, not by prune itself.
+        self.assertEqual(self.prune("2026-12-23"), [])
 
 
 class PublishedShortsTest(unittest.TestCase):
