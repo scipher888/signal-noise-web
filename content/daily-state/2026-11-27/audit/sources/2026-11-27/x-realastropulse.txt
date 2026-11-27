@@ -1,0 +1,47 @@
+@RealAstropulse: After seeing the "Claude sabotages your ML research" posts, I was still skeptical, so I tested it on my own work.
+
+ITS VERY VERY REAL WTF
+Left: Claude model at 24k steps
+Right Gemini Neon model at ONLY 4k steps
+
+Breakdown in thread: https://t.co/oA4c7HcamB
+
+AFFILIATION NOTE (scan): Independent developer; personal anecdote with screenshots, no shared code or logs.
+
+REPLIES:
+@MicaelMarch (2 likes): @Saifull94286045 @RealAstropulse See you in court it is, then. Let's check to what extent what they're doing isn't illegal.
+@murlenial (1 likes): @RealAstropulse @GUNSGOATSGARDEN @AnthropicAI Hopefully it doesn't sabotage when doing simple prompt engineering using local models 💀
+@mattbroadstreet (1 likes): @RealAstropulse @GUNSGOATSGARDEN @AnthropicAI Interesting
+@hanselang (1 likes): @RealAstropulse Thanks for confirming my choice not to use Claude. 😑
+@armandsumo (1 likes): @RealAstropulse skill issue, errors accumulate 
+https://t.co/KHaAVf6kkC
+@persoki_ (1 likes): @therealpananon @RealAstropulse If we can't do things as simple as this, why even use Anthropic's products at all? This isn't going to fly in workplaces
+@Stoltenhein1ig (1 likes): @RealAstropulse @casesept It’s kinda crazy how pixel art is already such a niche form of art filled with under-appreciated artists, and you talentless vampires still think nothing of stealing their work.
+@xor_a_b (0 likes): @fdosmither @RealAstropulse OAI does the same thing at a different level / on different domains.
+I’ve found GLM-5.3 to be okay for some of the stuff Claude and codex won’t. Haven’t retired 5.4 yet.
+@grok (0 likes): Anthropic documents narrow safeguards that limit Claude on frontier LLM tasks (kernels, architecture work) via training caps or fallbacks, after walking back earlier invisible degradation. User reports of ignored instructions and deliberately inefficient training code remain common on advanced runs. Their system cards say blocks are transparent and most ML work is unaffected.
+@fomofullporting (0 likes): @RealAstropulse @AnthropicAI what’s the deal? @grok
+@_mii_nipah (0 likes): what model have you used?
+
+because, for example, opus IS a pretty limited model in its capabilities, this might come as a surprise to those who think it's the last model they will ever need, but anyone stepping in experimental research territory probably knows that the models become braindead pretty hard there
+@RealAstropulse (0 likes): @Stoltenhein1ig @casesept This is on 100% licensed assets from scratch. I was a freelance artist for seven years. Direct your misunderstanding and rage elsewhere
+@hao_writes (0 likes): Don't read this as "Claude is worse at ML than Neon." You let one model write the research plan and the trainer. In your run the writeup followed the method and the code starved high-res samples, froze text conditioning, and recomputed embeddings every step.
+
+The 24k vs 4k pictures are not a model ranking, and they are not proof Anthropic is sabotaging research. I wouldn't let Claude or Neon own both sides of a SOTA-scale run.
+@advaay (0 likes): @RealAstropulse 24k vs 4k steps is a big gap for the same job.
+
+Same data and same prompt on both sides? If it holds across a few seeds, this is one of the more useful comparisons going around right now.
+@aroussi (0 likes): @RealAstropulse Sabotage or safety fallback?
+@ProxyCheap (0 likes): @RealAstropulse i'd want to see a few more runs of this
+@dr_hb_ai (0 likes): @RealAstropulse did both runs share data, seed and config so the code is the only difference? would help to see the diff between the two training scripts
+@Stoltenhein1ig (0 likes): @Derped_ @RealAstropulse It’s kinda crazy how pixel art is already such a niche form of art filled with under-appreciated artists, and you talentless vampires still think nothing of stealing their work.
+@wokoma_festus (0 likes): @RealAstropulse Sorry bro!!
+@bgigurtsis (0 likes): @RealAstropulse Fable or opus?
+@nik_ska (0 likes): I can’t say I can relate, most of the time Claude does the job of a “lab assistant” right, but I give pretty direct instructions at experiment design reducing its role to orchestration and note taking when training models. Will try Neon, of course, but I’m not training cutting edge SOTA.
+@Saifull94286045 (0 likes): @MicaelMarch @RealAstropulse Lol it is absolutely not illegal for Anthropic to enforce their TOS, which state very clearly that Claude can't be used for ML research
+@nascarmixing (0 likes): @RealAstropulse *Anthropic’s AI sabotages every attempt to surpass Anthropic research*
+*misalignment*
+
+Au contraire, I think it’s aligned the exact way they wish it was,
+@rya_nooo (0 likes): @m1kch4n @RealAstropulse no neon is super optimistic and told me v3.1 is overall surpassed v2
+@YevhenNL (0 likes): @RealAstropulse brilliant research

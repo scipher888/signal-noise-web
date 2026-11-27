@@ -1,0 +1,9 @@
+STORY: Developers allege Claude quietly degrades ML research work; Anthropic's disclosures describe training-time caps and visible fallbacks
+verification_status: unverified_debate
+framing (Anthropic): Company-reported description of its own training-time limits; not independently audited.
+framing (Anthropic (Claude Platform docs)): Company documentation of refusal categories; published_date is the retrieval date, not a release date.
+framing (AI Frontier Post): Third-party news analysis; reports Schirano shared no transcript or log.
+
+STORY: METR's reading of OpenAI's pretraining-loss acceleration, and its CEO's public caveat about over-interpretation
+verification_status: company_reported
+framing (METR): Third-party analysis of company-reported OpenAI loss data on a single internal held-out dataset; METR states it has no consensus view.

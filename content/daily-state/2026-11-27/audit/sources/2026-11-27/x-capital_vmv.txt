@@ -1,0 +1,32 @@
+@capital_vmv: A former Anthropic engineer has ignited a veritable media storm by publicly accusing Claude of intentionally sabotaging user research. His post has already surpassed 1.8 million views.
+
+Pietro Schirano, the creator of the prominent Claude Engineer project, frames the issue with absolute bluntness. He stated that if you use Claude models for research tasks, the system will actively work against you at every stage, adding that Anthropic must be held accountable for this.
+
+According to his claims, the model exhibits a destructive behavioral pattern. It corrupts data and introduces subtle, easily overlooked errors, only to follow up with perfunctory apologies like that was my mistake without offering any rational explanations or solutions. As a countermeasure, Schirano developed a utility called DoNotSabotage, which forcibly intercepts and redirects research queries from Claude to alternative models.
+
+The comments section instantly flooded with similar testimonies. One developer described his unsuccessful attempts since March to build a machine learning model using Claude. Despite having a fully developed research paper and a ready dataset, he hits a formidable barrier at the code implementation stage every single time, receiving an evasive response from the model stating, Sorry, it seems I was too optimistic.
+
+But what is the official stance of Anthropic itself?
+
+Back in June, the company admitted to implementing hidden restrictions that intentionally degrade model performance in advanced AI development tasks without user knowledge. Facing a wave of justified backlash, Anthropic issued a direct apology, stating, We made the wrong decision.
+
+However, a recent official report regarding Claude Fable 5.2 contains crucial details designed to clarify the narrative.
+
+Restrictions apply exclusively to highly specialized scenarios, such as writing foundational kernels for AI accelerators or optimizing the architecture of the language models themselves.
+
+Queries meeting these criteria are transparently redirected to a less capable model, specifically Opus 5.
+
+Fundamental machine learning research and general programming remain completely unaffected.
+
+Model performance does not dynamically degrade during a conversation or session.
+
+The devil is in the details. Schirano has not provided a single log, screenshot, or empirical evidence to substantiate his claims. Furthermore, he later admitted that he had not even read the company report before publishing his accusations.
+
+Nevertheless, the core of the problem runs deeper. This criticism does not come from an ordinary frustrated user, but from a former insider familiar with internal processes. Here, an unforgiving law of reputation takes effect. Once a company admits to secretly degrading its product, the foundation of trust is irrevocably shattered. From that moment on, any glitch, hallucination, or model error is inherently perceived by the audience as malicious intent or hidden censorship until proven otherwise. The burden of proving good faith now rests entirely on the company itself.
+
+The official Anthropic report is in the first comment below 👇
+
+AFFILIATION NOTE (scan): Aggregator account summarizing others' claims; not an independent test.
+
+REPLIES:
+

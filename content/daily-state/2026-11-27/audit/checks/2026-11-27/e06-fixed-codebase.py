@@ -1,0 +1,14 @@
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / 'lib'))
+from auditlib import *  # noqa
+
+CLAIM = {'id': 'e06-fixed-codebase', 'artifact': 'episode', 'type': 'qualifier', 'story': 'OpenAI loss curve', 'quote': 'measured on a fixed slice of its internal codebase'}
+
+
+def check(ctx):
+    return ctx.require('metr', r'measured on a fixed held-out dataset sourced from its own codebase')
+
+
+if __name__ == '__main__':
+    run_cli(CLAIM, check)

@@ -1,0 +1,110 @@
+Interpreting a recent acceleration in pretraining loss - METR
+Our Work
+Research
+Notes
+Updates
+Risk Assessment
+About
+Donate
+Careers
+Search
+Our Work
+Research
+Notes
+Updates
+Risk Assessment
+About
+Donate
+Careers
+Menu
+×
+Interpreting a recent acceleration in pretraining loss
+CONTRIBUTORS
+Ajeya Cotra,
+Jean-Stanislas Denain,
+and
+Tom Cunningham
+DATE
+November 24, 2026
+LISTEN
+Listen to this page
+SHARE
+Copy Link
+Citation
+BibTeX Citation
+×
+@misc{metr-2026-interpreting-a-recent-acceleration-in-pretraining-loss,
+title = {Interpreting a recent acceleration in pretraining loss},
+author = {METR},
+howpublished = {\url{https://metr.org/blog/2026-11-24-interpreting-a-recent-acceleration-in-pretraining-loss/}},
+year = {2026},
+month = {11},
+}
+Copy
+Subscribe
+OpenAI recently published the base-model log-perplexity of 13 models it has trained since GPT-3.5, measured on a fixed held-out dataset sourced from its own codebase. It shows a very striking acceleration in pretraining loss: since early 2026, it has been falling about seven times faster than it was from 2022 through 2025.
+If the current pace holds, OpenAI would cover the drop in log-perplexity from GPT-3.5 to GPT-4.1, which took three years, in about six and a half months. This acceleration is even more striking because progress in loss should get harder over time: text is never perfectly predictable, so the loss can’t fall below some floor, and gains typically become smaller as models approach it. Under standard scaling laws, each tenfold increase in compute buys a smaller drop in loss than the last, so naively we would expect progress in loss to slow down over time (see figure below).1
+Among METR staff there remains active discussion on how to interpret this dramatic acceleration in pretraining progress, and how to reconcile it with the lack of a comparable acceleration in benchmark scores of OpenAI’s models, e.g. as reflected in Epoch’s ECI.
+Concretely, it remains arguable how much this new information should change our forecasts of future AI capabilities. The following considerations are important:
+It is possible that the data released overstates true progress in pretraining, e.g. through various types of overfitting. More data would help substantially here.
+It is possible that benchmark scores are the best measure of real-world capabilities, and pretraining perplexity is only informative as an input. This implies the new data showing acceleration in pretraining progress would not substantially change our forecasts of future capabilities.2 However, to the extent that AI contributed to the acceleration in pretraining, this gives us a sign of AI’s likely future contribution to all parts of the model-training pipeline.3
+It is possible that pretraining perplexity reflects a fundamentally deeper measure of model capability than the typical benchmarks used to evaluate models. Many AI researchers treat pretraining perplexity in this way, and expect that OpenAI’s rapid acceleration in pretraining will be followed by an acceleration in capabilities measured by real-world impact.4
+There remain substantial disagreements on how much this information should modify our projections of the future path of capabilities, and METR does not have a consensus view on this. Some interpretations imply that OpenAI’s data on acceleration in pretraining should make us expect a broad-based acceleration in real-world AI capabilities over the next six months.
+To our knowledge, no frontier developer had previously published how the pretraining loss of its successive frontier models has changed over multiple years on a fixed held-out dataset. This information is typically considered highly commercially sensitive. However, we think publishing information about pretraining loss is very valuable for informing the public about the prospect of AI R&D acceleration. We encourage all AI developers to do the same, as Microsoft has since done for its own models using OpenAI’s dataset, and to share additional context that would let external researchers better understand the degree of acceleration, what’s driving it, and whether we should expect it to continue and/or compound.5
+The following would be especially informative:
+Log-perplexity on other held-out datasets. Loss measured on a single corpus may not capture progress on other kinds of text. OpenAI’s plot, for example, reports loss on a corpus sourced from its own internal codebase. Recent recipes or data could help on that kind of text (e.g. coding) more than on others, or small parts of the codebase could have leaked into training data. Log-perplexity on other very different held-out datasets (e.g. a corpus of books) would be informative about the robustness of this trend.6 Eventually, these held-out corpora could be maintained by a third party, making it possible to compare trends in pretraining loss across AI developers.
+The rough date that the pretraining run ended for each model. Plotting models at their public release dates may not capture when pretraining progress happened: log-perplexity is a property of the base model, and base models could be finished months before release. If the lag between the end of the pretraining run and model release shrank over time, the acceleration in loss would be smaller than the plot suggests (and vice versa). More importantly, knowing the lag helps us determine how much AI uplift contributed to the pretraining gains: regardless of when a model was released, we can’t attribute its pretraining gains to AI agents if its pretraining happened when researchers barely used AI agents.
+How pretraining compute, labor spending, and experiment compute changed over time. Lower pretraining loss could be attributable to a number of factors: for example, increased training compute, increased labor or experimental compute spending, or increased uplift from AI assistance. Some of these factors imply that we should expect the growth to be a one-time spike, while others imply that we should expect it to continue; if it is substantially attributable to AI uplift, the acceleration could compound. To understand this, it would be helpful to have a sense of how these resources were growing in the relevant time period.
+Footnotes
+One way to see this is to convert log-perplexity into “effective compute”: the compute that a single fixed recipe would need to reach a given loss value. If we assumed that all of OpenAI’s models are on the same scaling law with irreducible loss between 0.3 and 0.6, effective compute would have grown roughly 8 to 10 times faster since early 2026 than in 2022–2025, measured in orders of magnitude per year. However, that assumption is unrealistic, since newer recipes likely follow different scaling laws. ↩︎
+For example, architectural changes that spend more computation per token, such as looped transformers, might lower perplexity more than they improve downstream capabilities, since standard models could reach similar capabilities after post-training by reasoning in a chain of thought. ↩︎
+A footnote in OpenAI’s post is consistent with AI playing a small role at the start of the acceleration, but a larger role currently: “We attribute it mostly to the outcomes of long term research and compute investments, and only in a smaller part to automation. However, for the most recent models, we have already seen meaningful design contributions coming from AI.” Similarly, METR’s recent assessment of AI R&D acceleration at Anthropic found that the acceleration in late 2025 was likely influenced by non-AI factors, but estimated that “a majority (perhaps ≈80%) of the current (October 2026) acceleration is due to AI.” ↩︎
+A related argument why this data on pretraining acceleration should modify our forecasts of real-world capabilities is that our scales of capability, such as ECI, MCI, and time horizon, are sensitive to delicate statistical assumptions, or rely heavily on a few benchmarks that are close to saturation. ↩︎
+Many other kinds of information would also help, but we have focused on a few numbers that we expect companies already collect and should be relatively simple to share. ↩︎
+The other held-out datasets should date from before 2022, so that they don’t contain any AI-generated text. Ideally, they would cover a variety of text types, such as code, scientific writing, and prose, to show how much of the trend on the original held-out set reflects progress on code specifically. ↩︎
+Cite
+@misc{metr-2026-interpreting-a-recent-acceleration-in-pretraining-loss,
+title = {Interpreting a recent acceleration in pretraining loss},
+author = {METR},
+howpublished = {\url{https://metr.org/blog/2026-11-24-interpreting-a-recent-acceleration-in-pretraining-loss/}},
+year = {2026},
+month = {11},
+}
+METR studies the most advanced AI agents to understand whether their developers are on track to lose control of them. Subscribe to our newsletter for updates.
+Subscribe
+Want to contribute to this work? METR is hiring: View open roles
+Featured research
+METR's research measures what AI agents can do on a computer, and whether they might take actions no human intended.
+Measuring the Self-Reported Impact of Early-2026 AI on Technical Worker Productivity
+A survey of 349 technical workers finds a median 1.4–2x self-reported change in value of work due to AI tools, expected to grow over time, though there are reasons to be skeptical of the magnitude.
+Read more
+Early Work on Monitorability Evaluations
+We show preliminary results on a prototype evaluation that tests monitors' ability to catch AI agents doing side tasks, and AI agents' ability to bypass this monitoring.
+Read more
+How Does Time Horizon Vary Across Domains?
+We build on our time-horizon work and analyze 9 benchmarks for scientific reasoning, math, robotics, computer use, and self-driving in terms of time-horizon trends; we observe generally similar rates of improvement to the 7-month doubling time in our original time-horizon work.
+Read more
+METR (pronounced “meter”) is a nonprofit that studies the most advanced AI agents to understand whether their developers are on track to lose control of them.
+Subscribe
+Resources
+Research
+Notes
+Updates
+Frontier AI Safety Policies
+Follow METR
+Substack
+Substack
+twitter
+X (Twitter)
+Bluesky
+Bluesky
+LinkedIn
+GitHub
+Company
+About Us
+Careers
+Donate
+Privacy
+info@metr.org
+press@metr.org
+© 2026 METR. All rights reserved.

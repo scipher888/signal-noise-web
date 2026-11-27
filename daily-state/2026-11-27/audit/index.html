@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Audit — Daily State of AI - 2026-11-27 — Signal &amp; Noise</title>
-  <meta name="description" content="Claim audit for Daily State of AI - 2026-11-27 (pending).">
+  <meta name="description" content="Claim audit for Daily State of AI - 2026-11-27. The audit is for transparency and is not a gate.">
   <link rel="canonical" href="https://www.signalandnoise.email/daily-state/2026-11-27/audit/">
   <link rel="stylesheet" href="../../../styles.css?v=6435ba6d">
   <link rel="alternate" type="application/rss+xml" title="Signal &amp; Noise" href="../../../feed.xml">
@@ -12,12 +12,12 @@
   <meta property="og:site_name" content="Signal &amp; Noise">
   <meta property="og:type" content="article">
   <meta property="og:title" content="Audit — Daily State of AI - 2026-11-27">
-  <meta property="og:description" content="Claim audit for Daily State of AI - 2026-11-27 (pending).">
+  <meta property="og:description" content="Claim audit for Daily State of AI - 2026-11-27. The audit is for transparency and is not a gate.">
   <meta property="og:url" content="https://www.signalandnoise.email/daily-state/2026-11-27/audit/">
   <meta property="og:image" content="https://www.signalandnoise.email/assets/preview.png?v=09b48f76">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Audit — Daily State of AI - 2026-11-27">
-  <meta name="twitter:description" content="Claim audit for Daily State of AI - 2026-11-27 (pending).">
+  <meta name="twitter:description" content="Claim audit for Daily State of AI - 2026-11-27. The audit is for transparency and is not a gate.">
   <meta name="twitter:image" content="https://www.signalandnoise.email/assets/preview.png?v=09b48f76">
 </head>
 <body>
@@ -26,14 +26,820 @@
   <nav><a href="../../../daily-state/">Daily State</a> <a href="../../../archive/">Archive</a> <a href="../../../about/">About</a> <a href="../../../subscribe/">Follow</a></nav>
 </header>
 <main>
-<!-- daily-state-audit-pending -->
 <article>
 <p class="kicker">Daily State of AI</p>
 <h1>Audit — Daily State of AI - 2026-11-27</h1>
 <p><time datetime="2026-11-27">November 27, 2026</time></p>
-<p>The executable claim audit for this edition runs after publication and will appear here. The audit is for transparency and is not a gate.</p>
+<p>Each claim is a small Python check run against the source texts. The audit is for transparency and is not a gate.</p>
+<figure class="ds-prompt">
+<figcaption class="kicker ds-prompt-label">Audit results</figcaption>
+<blockquote>
+<pre>Episode 42 PASS / 3 FAIL / 30 NEEDS-HUMAN
+Takeaways 22 PASS / 2 FAIL / 7 NEEDS-HUMAN</pre>
+</blockquote>
+</figure>
 <p><a href="../">Daily State of AI</a></p>
 <p class="disclaimer">AI-generated · may contain errors</p>
+<section class="ds-ethical-floor">
+<h2>Ethical floor</h2>
+<p>Before the audio was made, 1 FAIL row(s) in this audit fell below a minimal ethical floor: an invented quote, a claim, quote or action pinned on the wrong person or company, a fabricated event, or exposed non-public personal information. One surgical edit pass corrected only those items, before the audio, the written edition and the shorts were made, and the audit was run once more on the corrected text. The rows below are from the refreshed audit.</p>
+<p>Original script SHA-256: <code>0294239db8a2598fbca49a8d7f93037d2c59775df951f137b3c74f2e66602c66</code></p>
+<p>First audit: episode 41 PASS / 7 FAIL; takeaways 20 PASS / 7 FAIL<br>Refreshed audit: episode 42 PASS / 3 FAIL; takeaways 22 PASS / 2 FAIL</p>
+<details open>
+<summary>Wrong person or company · OpenAI reported that base-model pretraining loss on an internal codebase slice has fallen roughly seven times faster since early 2026 than in 2022 through 2025</summary>
+<p>OpenAI published the loss measurements, but METR reported the sevenfold comparison.</p>
+<p>Source quote: framing (METR): Third-party analysis of company-reported OpenAI loss data on a single internal held-out dataset; METR states it has no consensus view.</p>
+<p>Audit row: t01-rate-attribution (takeaways)</p>
+</details>
+<h3>Edits</h3>
+<p>Takeaway, before: <del>OpenAI reported that base-model pretraining loss on an internal codebase slice has fallen roughly seven times faster since early 2026 than in 2022 through 2025, though METR stressed</del><br>after: <ins>METR reported from OpenAI&#x27;s published data that base-model pretraining loss on an internal codebase slice has fallen roughly seven times faster since early 2026 than in 2022 through 2025, though the group stressed</ins></p>
+</section>
+<h2>Episode</h2>
+<details open>
+<summary>FAIL · Disclose lack of independent audit of the limits.</summary>
+<p>Claim: Disclose lack of independent audit of the limits.</p>
+<p>Result: FAIL</p>
+<p>Source quote: framing (Anthropic): Company-reported description of its own training-time limits; not independently audited.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/oe3-no-audit.py">checks/2026-11-27/oe3-no-audit.py</a></p>
+</details>
+<details open>
+<summary>FAIL · Docs date is retrieval, not release.</summary>
+<p>Claim: Docs date is retrieval, not release.</p>
+<p>Result: FAIL</p>
+<p>Source quote: framing (Anthropic (Claude Platform docs)): Company documentation of refusal categories; published_date is the retrieval date, not a release date.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/oe5-retrieval-date.py">checks/2026-11-27/oe5-retrieval-date.py</a></p>
+</details>
+<details open>
+<summary>FAIL · Identify the secondary reporting on Schirano’s evidence.</summary>
+<p>Claim: Identify the secondary reporting on Schirano’s evidence.</p>
+<p>Result: FAIL</p>
+<p>Source quote: framing (AI Frontier Post): Third-party news analysis; reports Schirano shared no transcript or log.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/oe6-news-analysis.py">checks/2026-11-27/oe6-news-analysis.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · Friday, November 27th, 2026</summary>
+<p>Claim: Friday, November 27th, 2026</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>no source sentence matches /Friday,? November 27(?:th)?,? 2026/. Check the episode dateline, not the date of either news story.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/e01-episode-date.py">checks/2026-11-27/e01-episode-date.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · Everyone watching frontier AI wants to draw one crisp line: the point where AI systems start accelerating the work of building better AI systems.</summary>
+<p>Claim: Everyone watching frontier AI wants to draw one crisp line: the point where AI systems start accelerating the work of building better AI systems.</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: However, we think publishing information about pretraining loss is very valuable for informing the public about the prospect of AI R&amp;D acceleration.</p>
+<p>Editorial generalization about what everyone wants.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/e02-universal-goal.py">checks/2026-11-27/e02-universal-goal.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · This week showed how hard it is to locate that line, whether you are trying to measure it from the outside or fence it off inside a live product.</summary>
+<p>Claim: This week showed how hard it is to locate that line, whether you are trying to measure it from the outside or fence it off inside a live product.</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: Researchers who build agents and model harnesses still have to trust that the boundary Anthropic drew - frontier LLM development, and only that - is where the limits actually stop.</p>
+<p>Interpretive link between two stories.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/e03-hard-boundary.py">checks/2026-11-27/e03-hard-boundary.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · making a quick commentary look like a new research finding</summary>
+<p>Claim: making a quick commentary look like a new research finding</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: This was intended as a quick &quot;Update&quot; post saying &quot;this is useful data, thanks, more please!&quot;, but I think it was foreseeable that having this graph as the headline figure would be read as a &quot;Research&quot; finding about degree of acceleration.</p>
+<p>Interpretation of reader perception.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/e19-looks-new.py">checks/2026-11-27/e19-looks-new.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · After Oxford philosopher Toby Ord criticized it on that basis, METR CEO Beth Barnes apologized publicly yesterday</summary>
+<p>Claim: After Oxford philosopher Toby Ord criticized it on that basis, METR CEO Beth Barnes apologized publicly yesterday</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: Sorry!</p>
+<p>Public apology; need a dated post establishing November 26 and the chronology relative to Ord’s criticism.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/e21-apology-timing.py">checks/2026-11-27/e21-apology-timing.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · Once the presentation debate cleared, the underlying fog remained.</summary>
+<p>Claim: Once the presentation debate cleared, the underlying fog remained.</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: There remain substantial disagreements on how much this information should modify our projections of the future path of capabilities, and METR does not have a consensus view on this.</p>
+<p>Editorial interpretation.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/e23-underlying-fog.py">checks/2026-11-27/e23-underlying-fog.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · Outside analysts argued that faster pretraining mostly shifts credit for capability gains we already saw</summary>
+<p>Claim: Outside analysts argued that faster pretraining mostly shifts credit for capability gains we already saw</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: I still find this perplexity data fascinating, but the lack of a commensurate capability gain on _most_ capabilities makes it, ummm, a bit perplexing.</p>
+<p>A mismatch with most capability measures does not specify a mostly retrospective reallocation of credit; verify the attributed argument.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/e24-shifted-credit.py">checks/2026-11-27/e24-shifted-credit.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · Even the role of AI automation is hard to isolate.</summary>
+<p>Claim: Even the role of AI automation is hard to isolate.</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: Lower pretraining loss could be attributable to a number of factors: for example, increased training compute, increased labor or experimental compute spending, or increased uplift from AI assistance.</p>
+<p>Interpretation of confounding.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/e26-automation-role.py">checks/2026-11-27/e26-automation-role.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · outsiders still cannot separate genuine AI-driven research from ordinary engineering catch-up</summary>
+<p>Claim: outsiders still cannot separate genuine AI-driven research from ordinary engineering catch-up</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: @ibab: The speedup is likely confounded by OpenAI lagging behind on pretraining tech for a few generations and catching up now.</p>
+<p>Judgment about identifiability.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/e31-cannot-separate.py">checks/2026-11-27/e31-cannot-separate.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · If independent evaluators cannot cleanly separate frontier AI acceleration from ordinary engineering in a chart, labs are finding it just as hard to isolate inside a deployed model.</summary>
+<p>Claim: If independent evaluators cannot cleanly separate frontier AI acceleration from ordinary engineering in a chart, labs are finding it just as hard to isolate inside a deployed model.</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: Researchers who build agents and model harnesses still have to trust that the boundary Anthropic drew - frontier LLM development, and only that - is where the limits actually stop.</p>
+<p>No common measure of difficulty in the two settings.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/e32-equal-difficulty.py">checks/2026-11-27/e32-equal-difficulty.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · That tension erupted at Anthropic this week</summary>
+<p>Claim: That tension erupted at Anthropic this week</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: The charge went viral - but Anthropic&#x27;s own disclosures show something narrower, and older, than the accusation suggests.</p>
+<p>Editorial characterization of the controversy.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/e33-tension.py">checks/2026-11-27/e33-tension.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · The post topped nineteen thousand likes</summary>
+<p>Claim: The post topped nineteen thousand likes</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>no source sentence matches /(?:post|it) (?:passed|topped|surpassed|has passed) (?:19,000|19k|nineteen thousand) likes/. Views and likes on replies are not likes on the original post.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/e36-like-count.py">checks/2026-11-27/e36-like-count.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · set off other viral threads blaming Claude, and sometimes GPT, for ruined training runs</summary>
+<p>Claim: set off other viral threads blaming Claude, and sometimes GPT, for ruined training runs</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: @RealAstropulse: After seeing the &quot;Claude sabotages your ML research&quot; posts, I was still skeptical, so I tested it on my own work.</p>
+<p>Related anecdotes, but verify their reach, ruined runs, and causal link to this specific post. @ptrCast: &amp;gt; hear rumors about claude/GPT sabotaging ML work</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/e37-viral-threads.py">checks/2026-11-27/e37-viral-threads.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · None of those viral posts shared prompts, code, or logs</summary>
+<p>Claim: None of those viral posts shared prompts, code, or logs</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: AFFILIATION NOTE (scan): Independent developer; personal anecdote with screenshots, no shared code or logs.</p>
+<p>Verify prompts, code and logs across all cited posts, including linked threads; one scan note does not settle the universal negative.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/e38-no-materials.py">checks/2026-11-27/e38-no-materials.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · In that launch post, Anthropic framed its limits under safety and alignment</summary>
+<p>Claim: In that launch post, Anthropic framed its limits under safety and alignment</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>no source sentence matches /(?:launch|Anthropic|November).*safety and alignment/. Verify the launch post’s own framing, not a commenter’s view of alignment.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/e40-launch-framing.py">checks/2026-11-27/e40-launch-framing.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · including accelerator kernel optimization and language-model architecture</summary>
+<p>Claim: including accelerator kernel optimization and language-model architecture</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>no source sentence matches /cap covers two capabilities — optimizing accelerator kernels and improving large language model architectures/. </p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/e42-cap-domains.py">checks/2026-11-27/e42-cap-domains.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · Anthropic&#x27;s own API documentation shows why that boundary feels messier in practice</summary>
+<p>Claim: Anthropic&#x27;s own API documentation shows why that boundary feels messier in practice</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: framing (Anthropic (Claude Platform docs)): Company documentation of refusal categories; published_date is the retrieval date, not a release date.</p>
+<p>Interpretive judgment; API document text is not supplied.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/e47-api-messiness.py">checks/2026-11-27/e47-api-messiness.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · In the developer docs, the frontier LLM refusal classifier is explicitly defined as a commercial restriction against building competing models</summary>
+<p>Claim: In the developer docs, the frontier LLM refusal classifier is explicitly defined as a commercial restriction against building competing models</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>no source sentence matches /(?:Claude Platform docs|Company documentation).*frontier LLM.*commercial restriction.*competing models/. Need the actual documentation defining the classifier; a competitive-advantage allegation in replies is not documentation.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/e48-commercial-policy.py">checks/2026-11-27/e48-commercial-policy.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · Anthropic acknowledges that benign machine-learning work can trigger it</summary>
+<p>Claim: Anthropic acknowledges that benign machine-learning work can trigger it</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>no source sentence matches /(?:Anthropic|Company documentation).*benign (?:ML|machine.learning).*?(?:trigger|refus)/. Need company documentation about false positives, not anecdotes about refusals.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/e49-benign-trigger.py">checks/2026-11-27/e49-benign-trigger.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · still be billed before any output appears</summary>
+<p>Claim: still be billed before any output appears</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>no source sentence matches /(?:refusal|request).*bill(?:ed|ing).*before any output/. The supplied docs summary does not specify billing.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/e50-before-output.py">checks/2026-11-27/e50-before-output.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · refusals and fallbacks are technically disclosed in the API</summary>
+<p>Claim: refusals and fallbacks are technically disclosed in the API</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>no source sentence matches /(?:API|Claude Platform docs).*refusal.*fallback.*(?:notice|block|disclos|signal)/. Transparent fallback alone does not verify API signaling for both.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/e51-api-disclosure.py">checks/2026-11-27/e51-api-disclosure.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · refusals arrive as standard HTTP 200 responses</summary>
+<p>Claim: refusals arrive as standard HTTP 200 responses</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>no source sentence matches /refusal.*HTTP 200\b/. Verify the status for refusals in the missing API text.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/e52-http-status.py">checks/2026-11-27/e52-http-status.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · standard HTTP 200 responses that normal error alerts miss</summary>
+<p>Claim: standard HTTP 200 responses that normal error alerts miss</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>no source sentence matches /HTTP 200.*(?:miss|not trigger|bypass).*error alerts/. Need evidence on status and alert behavior.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/e53-error-alerts.py">checks/2026-11-27/e53-error-alerts.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · sticky routing sends later turns straight to the weaker fallback model</summary>
+<p>Claim: sticky routing sends later turns straight to the weaker fallback model</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>drafted check rejected by the screen (imports, I/O or syntax); review by hand</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/e54-sticky-routing.py">checks/2026-11-27/e54-sticky-routing.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · without repeating the fallback block</summary>
+<p>Claim: without repeating the fallback block</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>no source sentence matches /(?:without repeating|do not repeat|omit).*fallback (?:block|notice)/. Need the API description of subsequent turns.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/e56-no-repeat-block.py">checks/2026-11-27/e56-no-repeat-block.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · Inside an uninstrumented harness, a sudden capability drop can easily feel invisible.</summary>
+<p>Claim: Inside an uninstrumented harness, a sudden capability drop can easily feel invisible.</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: Researchers who build agents and model harnesses still have to trust that the boundary Anthropic drew - frontier LLM development, and only that - is where the limits actually stop.</p>
+<p>Inference about the user experience, not a documented test.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/e57-invisible-drop.py">checks/2026-11-27/e57-invisible-drop.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · any misfired classifier or stubborn bug immediately looks like sabotage</summary>
+<p>Claim: any misfired classifier or stubborn bug immediately looks like sabotage</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: From that moment on, any glitch, hallucination, or model error is inherently perceived by the audience as malicious intent or hidden censorship until proven otherwise.</p>
+<p>Commentary about perceived intent.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/e61-looks-like-sabotage.py">checks/2026-11-27/e61-looks-like-sabotage.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · Measuring AI-accelerated research in a loss curve and quarantining it behind a classifier both assume a sharp border between routine machine learning and frontier self-improvement.</summary>
+<p>Claim: Measuring AI-accelerated research in a loss curve and quarantining it behind a classifier both assume a sharp border between routine machine learning and frontier self-improvement.</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: Researchers who build agents and model harnesses still have to trust that the boundary Anthropic drew - frontier LLM development, and only that - is where the limits actually stop.</p>
+<p>Conceptual analogy, not a shared assumption established by the sources.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/e62-shared-assumption.py">checks/2026-11-27/e62-shared-assumption.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · Right now, neither evaluators nor labs can draw that border cleanly</summary>
+<p>Claim: Right now, neither evaluators nor labs can draw that border cleanly</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: More importantly, knowing the lag helps us determine how much AI uplift contributed to the pretraining gains: regardless of when a model was released, we can&#x27;t attribute its pretraining gains to AI agents if its pretraining happened when researchers barely used AI agents.</p>
+<p>Cross-story editorial conclusion.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/e63-clean-border.py">checks/2026-11-27/e63-clean-border.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · until they can, every dramatic chart and every unexplained model stumble will land straight in the fog</summary>
+<p>Claim: until they can, every dramatic chart and every unexplained model stumble will land straight in the fog</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: @BethMayBarnes: I signed off on this post + thread, but on reflection I&#x27;m not sure it quite meets our standards for research communication: I don&#x27;t think I disagree with anything we claimed, but it&#x27;s less robust to over-interpretation than we aim to be.</p>
+<p>Rhetorical prediction.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/e64-future-fog.py">checks/2026-11-27/e64-future-fog.py</a></p>
+</details>
+<details>
+<summary>PASS · OpenAI recently published base-model pretraining loss</summary>
+<p>Claim: OpenAI recently published base-model pretraining loss</p>
+<p>Result: PASS</p>
+<p>Source quote: OpenAI recently published the base-model log-perplexity of 13 models it has trained since GPT-3.5, measured on a fixed held-out dataset sourced from its own codebase.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/e04-openai-publication.py">checks/2026-11-27/e04-openai-publication.py</a></p>
+</details>
+<details>
+<summary>PASS · across thirteen models since GPT-3.5</summary>
+<p>Claim: across thirteen models since GPT-3.5</p>
+<p>Result: PASS</p>
+<p>Source quote: OpenAI recently published the base-model log-perplexity of 13 models it has trained since GPT-3.5, measured on a fixed held-out dataset sourced from its own codebase.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/e05-model-count.py">checks/2026-11-27/e05-model-count.py</a></p>
+</details>
+<details>
+<summary>PASS · measured on a fixed slice of its internal codebase</summary>
+<p>Claim: measured on a fixed slice of its internal codebase</p>
+<p>Result: PASS</p>
+<p>Source quote: OpenAI recently published the base-model log-perplexity of 13 models it has trained since GPT-3.5, measured on a fixed held-out dataset sourced from its own codebase.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/e06-fixed-codebase.py">checks/2026-11-27/e06-fixed-codebase.py</a></p>
+</details>
+<details>
+<summary>PASS · Since early 2026</summary>
+<p>Claim: Since early 2026</p>
+<p>Result: PASS</p>
+<p>Source quote: It shows a very striking acceleration in pretraining loss: since early 2026, it has been falling about seven times faster than it was from 2022 through 2025.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/e07-start-period.py">checks/2026-11-27/e07-start-period.py</a></p>
+</details>
+<details>
+<summary>PASS · loss has fallen roughly seven times faster than it did from 2022 through 2025</summary>
+<p>Claim: loss has fallen roughly seven times faster than it did from 2022 through 2025</p>
+<p>Result: PASS</p>
+<p>Source quote: It shows a very striking acceleration in pretraining loss: since early 2026, it has been falling about seven times faster than it was from 2022 through 2025.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/e08-loss-rate.py">checks/2026-11-27/e08-loss-rate.py</a></p>
+</details>
+<details>
+<summary>PASS · If that pace holds</summary>
+<p>Claim: If that pace holds</p>
+<p>Result: PASS</p>
+<p>Source quote: If the current pace holds, OpenAI would cover the drop in log-perplexity from GPT-3.5 to GPT-4.1, which took three years, in about six and a half months.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/e09-conditional.py">checks/2026-11-27/e09-conditional.py</a></p>
+</details>
+<details>
+<summary>PASS · the three-year leap from GPT-3.5 to GPT-4.1</summary>
+<p>Claim: the three-year leap from GPT-3.5 to GPT-4.1</p>
+<p>Result: PASS</p>
+<p>Source quote: If the current pace holds, OpenAI would cover the drop in log-perplexity from GPT-3.5 to GPT-4.1, which took three years, in about six and a half months.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/e10-three-years.py">checks/2026-11-27/e10-three-years.py</a></p>
+</details>
+<details>
+<summary>PASS · OpenAI would cover the three-year leap from GPT-3.5 to GPT-4.1 in about six and a half months</summary>
+<p>Claim: OpenAI would cover the three-year leap from GPT-3.5 to GPT-4.1 in about six and a half months</p>
+<p>Result: PASS</p>
+<p>Source quote: If the current pace holds, OpenAI would cover the drop in log-perplexity from GPT-3.5 to GPT-4.1, which took three years, in about six and a half months.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/e11-projected-time.py">checks/2026-11-27/e11-projected-time.py</a></p>
+</details>
+<details>
+<summary>PASS · On Tuesday, the evaluation group METR published a short update</summary>
+<p>Claim: On Tuesday, the evaluation group METR published a short update</p>
+<p>Result: PASS</p>
+<p>Source quote: November 24, 2026 … author = {METR}, … METR studies the most advanced AI agents to understand whether their developers are on track to lose control of them.</p>
+<p>This was intended as a quick &quot;Update&quot; post saying &quot;this is useful data, thanks, more please!&quot;, but I think it was foreseeable that having this graph as the headline figure would be read as a &quot;Research&quot; finding about degree of acceleration. November 24, 2026 was Tuesday.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/e12-tuesday-update.py">checks/2026-11-27/e12-tuesday-update.py</a></p>
+</details>
+<details>
+<summary>PASS · praising OpenAI for sharing normally secret data</summary>
+<p>Claim: praising OpenAI for sharing normally secret data</p>
+<p>Result: PASS</p>
+<p>Source quote: To our knowledge, no frontier developer had previously published how the pretraining loss of its successive frontier models has changed over multiple years on a fixed held-out dataset. … This information is typically considered highly commercially sensitive. … However, we think publishing information about pretraining loss is very valuable for informing the public about the prospect of AI R&amp;D acceleration. … OpenAI recently published the base-model log-perplexity of 13 models it has trained since GPT-3.5, measured on a fixed held-out dataset sourced from its own codebase.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/e13-praised-release.py">checks/2026-11-27/e13-praised-release.py</a></p>
+</details>
+<details>
+<summary>PASS · stressing that its own staff disagreed on what it meant</summary>
+<p>Claim: stressing that its own staff disagreed on what it meant</p>
+<p>Result: PASS</p>
+<p>Source quote: Among METR staff there remains active discussion on how to interpret this dramatic acceleration in pretraining progress, and how to reconcile it with the lack of a comparable acceleration in benchmark scores of OpenAI&#x27;s models, e.g. as reflected in Epoch&#x27;s ECI. … There remain substantial disagreements on how much this information should modify our projections of the future path of capabilities, and METR does not have a consensus view on this.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/e14-staff-disagreement.py">checks/2026-11-27/e14-staff-disagreement.py</a></p>
+</details>
+<details>
+<summary>PASS · They flagged possible codebase overfitting</summary>
+<p>Claim: They flagged possible codebase overfitting</p>
+<p>Result: PASS</p>
+<p>Source quote: It is possible that the data released overstates true progress in pretraining, e.g. through various types of overfitting. … Recent recipes or data could help on that kind of text (e.g. coding) more than on others, or small parts of the codebase could have leaked into training data.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/e15-codebase-overfit.py">checks/2026-11-27/e15-codebase-overfit.py</a></p>
+</details>
+<details>
+<summary>PASS · missing pretraining end dates</summary>
+<p>Claim: missing pretraining end dates</p>
+<p>Result: PASS</p>
+<p>Source quote: The rough date that the pretraining run ended for each model. … Plotting models at their public release dates may not capture when pretraining progress happened: log-perplexity is a property of the base model, and base models could be finished months before release.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/e16-end-dates.py">checks/2026-11-27/e16-end-dates.py</a></p>
+</details>
+<details>
+<summary>PASS · benchmark scores that have not surged to match</summary>
+<p>Claim: benchmark scores that have not surged to match</p>
+<p>Result: PASS</p>
+<p>Source quote: Among METR staff there remains active discussion on how to interpret this dramatic acceleration in pretraining progress, and how to reconcile it with the lack of a comparable acceleration in benchmark scores of OpenAI&#x27;s models, e.g. as reflected in Epoch&#x27;s ECI.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/e17-benchmark-mismatch.py">checks/2026-11-27/e17-benchmark-mismatch.py</a></p>
+</details>
+<details>
+<summary>PASS · METR built its own headline graph out of OpenAI&#x27;s numbers instead of reusing OpenAI&#x27;s chart</summary>
+<p>Claim: METR built its own headline graph out of OpenAI&#x27;s numbers instead of reusing OpenAI&#x27;s chart</p>
+<p>Result: PASS</p>
+<p>Source quote: This was intended as a quick &quot;Update&quot; post saying &quot;this is useful data, thanks, more please!&quot;, but I think it was foreseeable that having this graph as the headline figure would be read as a &quot;Research&quot; finding about degree of acceleration. … In retrospect I think I should probably just have reused OpenAI&#x27;s graph. … @karthiktadepall (6 likes): @BethMayBarnes My problem was that I parsed this as METR research finding extra evidence for the OpenAI graph, which it wasn&#x27;t (there&#x27;s no additional info beyond OpenAI graph)</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/e18-headline-graph.py">checks/2026-11-27/e18-headline-graph.py</a></p>
+</details>
+<details>
+<summary>PASS · Oxford philosopher Toby Ord criticized it on that basis</summary>
+<p>Claim: Oxford philosopher Toby Ord criticized it on that basis</p>
+<p>Result: PASS</p>
+<p>Source quote: AFFILIATION NOTE (scan): Oxford philosopher who had publicly criticized the post. … When I was critical of it, I was indeed treating it as a METR research finding and comparing it to your usual high bar for such things.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/e20-ord-critique.py">checks/2026-11-27/e20-ord-critique.py</a></p>
+</details>
+<details>
+<summary>PASS · noting that flashy headline figures will likely earn a new item on METR&#x27;s internal publication error log</summary>
+<p>Claim: noting that flashy headline figures will likely earn a new item on METR&#x27;s internal publication error log</p>
+<p>Result: PASS</p>
+<p>Source quote: (Will likely do a micro-retro with team on this after the holidays - we keep a &quot;publication error log&quot; that we use as a checklist before posting things, so this will probably end up as an item on there, something like &quot;is there anything in the post, especially a flashy graph or numerical claim, that might be read as more of a &#x27;research finding&#x27; than we were intending&quot;)</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/e22-error-log.py">checks/2026-11-27/e22-error-log.py</a></p>
+</details>
+<details>
+<summary>PASS · or reflects OpenAI catching up after prioritizing reasoning models over pretraining for several generations</summary>
+<p>Claim: or reflects OpenAI catching up after prioritizing reasoning models over pretraining for several generations</p>
+<p>Result: PASS</p>
+<p>Source quote: @ibab: The speedup is likely confounded by OpenAI lagging behind on pretraining tech for a few generations and catching up now. … It appears they neglected pretraining in favor of reasoning progress for some time, but have now corrected their approach.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/e25-catch-up.py">checks/2026-11-27/e25-catch-up.py</a></p>
+</details>
+<details>
+<summary>PASS · OpenAI credited most of the gain to long-term research and compute</summary>
+<p>Claim: OpenAI credited most of the gain to long-term research and compute</p>
+<p>Result: PASS</p>
+<p>Source quote: A footnote in OpenAI&#x27;s post is consistent with AI playing a small role at the start of the acceleration, but a larger role currently: &quot;We attribute it mostly to the outcomes of long term research and compute investments, and only in a smaller part to automation.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/e27-investments.py">checks/2026-11-27/e27-investments.py</a></p>
+</details>
+<details>
+<summary>PASS · adding in a footnote that AI has already made meaningful design contributions to its newest models</summary>
+<p>Claim: adding in a footnote that AI has already made meaningful design contributions to its newest models</p>
+<p>Result: PASS</p>
+<p>Source quote: A footnote in OpenAI&#x27;s post is consistent with AI playing a small role at the start of the acceleration, but a larger role currently: &quot;We attribute it mostly to the outcomes of long term research and compute investments, and only in a smaller part to automation. … However, for the most recent models, we have already seen meaningful design contributions coming from AI.&quot; Similarly, METR&#x27;s recent assessment of AI R&amp;D acceleration at Anthropic found that the acceleration in late 2025 was likely influenced by non-AI factors, but estimated that &quot;a majority (perhaps ≈80%) of the current (October 2026) acceleration is due to AI.&quot; ↩︎</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/e28-ai-design.py">checks/2026-11-27/e28-ai-design.py</a></p>
+</details>
+<details>
+<summary>PASS · METR has separately estimated that a majority of Anthropic&#x27;s own recent acceleration comes from AI</summary>
+<p>Claim: METR has separately estimated that a majority of Anthropic&#x27;s own recent acceleration comes from AI</p>
+<p>Result: PASS</p>
+<p>Source quote: However, for the most recent models, we have already seen meaningful design contributions coming from AI.&quot; Similarly, METR&#x27;s recent assessment of AI R&amp;D acceleration at Anthropic found that the acceleration in late 2025 was likely influenced by non-AI factors, but estimated that &quot;a majority (perhaps ≈80%) of the current (October 2026) acceleration is due to AI.&quot; ↩︎</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/e29-anthropic-estimate.py">checks/2026-11-27/e29-anthropic-estimate.py</a></p>
+</details>
+<details>
+<summary>PASS · Pretraining is moving faster</summary>
+<p>Claim: Pretraining is moving faster</p>
+<p>Result: PASS</p>
+<p>Source quote: It shows a very striking acceleration in pretraining loss: since early 2026, it has been falling about seven times faster than it was from 2022 through 2025.</p>
+<p>Supports faster progress in measured loss, not shorter training runtimes.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/e30-pretraining-speed.py">checks/2026-11-27/e30-pretraining-speed.py</a></p>
+</details>
+<details>
+<summary>PASS · former engineer Pietro Schirano posted on X that Claude tries to sabotage research at every stage</summary>
+<p>Claim: former engineer Pietro Schirano posted on X that Claude tries to sabotage research at every stage</p>
+<p>Result: PASS</p>
+<p>Source quote: TL;DR: A former Anthropic engineer, Pietro Schirano, posted on Monday that Claude tries to &quot;sabotage&quot; research work at every stage. … The charge: Schirano&#x27;s X post, Nov 24, 6:28 p.m.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/e34-schiranje-claim.py">checks/2026-11-27/e34-schiranje-claim.py</a></p>
+</details>
+<details>
+<summary>PASS · saying he built a tool called Do Not Sabotage to reroute tasks to rivals</summary>
+<p>Claim: saying he built a tool called Do Not Sabotage to reroute tasks to rivals</p>
+<p>Result: PASS</p>
+<p>Source quote: On Monday evening, Pietro Schirano - a former Anthropic engineer who now runs MagicPath AI - posted that using Claude for research means the model will &quot;try to sabotage the work at every stage.&quot; He said he was so fed up that he built a skill, &quot;DoNotSabotage,&quot; that routes his Claude work to rival models instead.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/e35-tool.py">checks/2026-11-27/e35-tool.py</a></p>
+</details>
+<details>
+<summary>PASS · Schirano later admitted he had not read Anthropic&#x27;s November 9th disclosure for Claude Fable 5.2 and Mythos 5.2</summary>
+<p>Claim: Schirano later admitted he had not read Anthropic&#x27;s November 9th disclosure for Claude Fable 5.2 and Mythos 5.2</p>
+<p>Result: PASS</p>
+<p>Source quote: The second disclosure is the current one, from the November 9 launch of Fable 5.2 and Mythos 5.2, which we covered on November 10. … Third, evidence: Schirano has published no transcript or log showing Claude derailing his work, and when another user pointed him to Anthropic&#x27;s November disclosure, he replied, &quot;Never seen this before, thanks for sharing&quot; - he had not read it before posting.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/e39-unread-disclosure.py">checks/2026-11-27/e39-unread-disclosure.py</a></p>
+</details>
+<details>
+<summary>PASS · during training, it capped capabilities that could most directly speed up frontier AI development</summary>
+<p>Claim: during training, it capped capabilities that could most directly speed up frontier AI development</p>
+<p>Result: PASS</p>
+<p>Source quote: During training, Anthropic says, it &quot;took steps to limit advances in the specific research capabilities that could most directly accelerate AI development.&quot; The cap covers two capabilities - optimizing accelerator kernels and improving large language model architectures - where both models perform &quot;at about the level of Opus 5.5.&quot; Just as important is what it does not cover: agentic coding, hardware development, and traditional AI and machine learning research, including interpretability work, were left untouched.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/e41-training-cap.py">checks/2026-11-27/e41-training-cap.py</a></p>
+</details>
+<details>
+<summary>PASS · near Opus 5.5&#x27;s level</summary>
+<p>Claim: near Opus 5.5&#x27;s level</p>
+<p>Result: PASS</p>
+<p>Source quote: During training, Anthropic says, it &quot;took steps to limit advances in the specific research capabilities that could most directly accelerate AI development.&quot; The cap covers two capabilities - optimizing accelerator kernels and improving large language model architectures - where both models perform &quot;at about the level of Opus 5.5.&quot; Just as important is what it does not cover: agentic coding, hardware development, and traditional AI and machine learning research, including interpretability work, were left untouched.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/e43-cap-level.py">checks/2026-11-27/e43-cap-level.py</a></p>
+</details>
+<details>
+<summary>PASS · Anthropic says traditional machine-learning work is untouched</summary>
+<p>Claim: Anthropic says traditional machine-learning work is untouched</p>
+<p>Result: PASS</p>
+<p>Source quote: Anthropic&#x27;s November disclosure explicitly carves out traditional AI and machine learning research.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/e44-ordinary-ml.py">checks/2026-11-27/e44-ordinary-ml.py</a></p>
+</details>
+<details>
+<summary>PASS · it does not silently alter capabilities while serving users</summary>
+<p>Claim: it does not silently alter capabilities while serving users</p>
+<p>Result: PASS</p>
+<p>Source quote: And the company states explicitly: &quot;We do not alter these capabilities as the model is being served to users (that is, at inference time).&quot; For a small set of topics, the models fall back transparently to Opus 5.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/e45-no-serving-change.py">checks/2026-11-27/e45-no-serving-change.py</a></p>
+</details>
+<details>
+<summary>PASS · narrow topics fall back visibly to Opus 5</summary>
+<p>Claim: narrow topics fall back visibly to Opus 5</p>
+<p>Result: PASS</p>
+<p>Source quote: And the company states explicitly: &quot;We do not alter these capabilities as the model is being served to users (that is, at inference time).&quot; For a small set of topics, the models fall back transparently to Opus 5.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/e46-opus-fallback.py">checks/2026-11-27/e46-opus-fallback.py</a></p>
+</details>
+<details>
+<summary>PASS · weaker fallback model</summary>
+<p>Claim: weaker fallback model</p>
+<p>Result: PASS</p>
+<p>Source quote: Queries meeting these criteria are transparently redirected to a less capable model, specifically Opus 5.</p>
+<p>Secondary description of relative capability.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/e55-weaker-fallback.py">checks/2026-11-27/e55-weaker-fallback.py</a></p>
+</details>
+<details>
+<summary>PASS · June, when Anthropic briefly shipped Fable 5 with silent degradation on frontier AI work</summary>
+<p>Claim: June, when Anthropic briefly shipped Fable 5 with silent degradation on frontier AI work</p>
+<p>Result: PASS</p>
+<p>Source quote: The June record: Fable 5&#x27;s system card (June 9) said safeguards limiting frontier LLM development &quot;will not be visible to the user.&quot; Anthropic apologized and reversed course within days. … For a window in June, the most capable public Claude model really did quietly degrade its own answers on frontier AI research work, with no notice to the user.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/e58-june-silent.py">checks/2026-11-27/e58-june-silent.py</a></p>
+</details>
+<details>
+<summary>PASS · before apologizing and switching to visible fallbacks</summary>
+<p>Claim: before apologizing and switching to visible fallbacks</p>
+<p>Result: PASS</p>
+<p>Source quote: The June record: Fable 5&#x27;s system card (June 9) said safeguards limiting frontier LLM development &quot;will not be visible to the user.&quot; Anthropic apologized and reversed course within days. … The backlash was immediate - one researcher called it the angriest reaction from AI researchers he had ever seen - and Anthropic conceded the point directly: &quot;We made the wrong tradeoff and we apologize for not getting the balance right.&quot; Within days, the invisible limits were replaced with a visible fallback: flagged requests are handed to a weaker model, and the user is told.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/e59-apology-fallback.py">checks/2026-11-27/e59-apology-fallback.py</a></p>
+</details>
+<details>
+<summary>PASS · a rule it estimated touched point zero three percent of traffic</summary>
+<p>Claim: a rule it estimated touched point zero three percent of traffic</p>
+<p>Result: PASS</p>
+<p>Source quote: Anthropic estimated the restriction touched about 0.03% of traffic, concentrated in fewer than 0.1% of organizations - small, but the principle is what stung: a user had no way to know when their assistant was working against them.</p>
+<p>Estimate for the June restriction, not a measured current fallback rate.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/e60-traffic-estimate.py">checks/2026-11-27/e60-traffic-estimate.py</a></p>
+</details>
+<details>
+<summary>PASS · The artifact carries the caveat this check looks for.</summary>
+<p>Claim: The artifact carries the caveat this check looks for.</p>
+<p>Result: PASS</p>
+<p>Source quote: verification_status: unverified_debate</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/oe1-unverified.py">checks/2026-11-27/oe1-unverified.py</a></p>
+</details>
+<details>
+<summary>PASS · The artifact carries the caveat this check looks for.</summary>
+<p>Claim: The artifact carries the caveat this check looks for.</p>
+<p>Result: PASS</p>
+<p>Source quote: framing (METR): Third-party analysis of company-reported OpenAI loss data on a single internal held-out dataset; METR states it has no consensus view.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/oe10-single-corpus.py">checks/2026-11-27/oe10-single-corpus.py</a></p>
+</details>
+<details>
+<summary>PASS · The artifact carries the caveat this check looks for.</summary>
+<p>Claim: The artifact carries the caveat this check looks for.</p>
+<p>Result: PASS</p>
+<p>Source quote: framing (METR): Third-party analysis of company-reported OpenAI loss data on a single internal held-out dataset; METR states it has no consensus view.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/oe11-no-consensus.py">checks/2026-11-27/oe11-no-consensus.py</a></p>
+</details>
+<details>
+<summary>PASS · The artifact carries the caveat this check looks for.</summary>
+<p>Claim: The artifact carries the caveat this check looks for.</p>
+<p>Result: PASS</p>
+<p>Source quote: framing (Anthropic): Company-reported description of its own training-time limits; not independently audited.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/oe2-company-caps.py">checks/2026-11-27/oe2-company-caps.py</a></p>
+</details>
+<details>
+<summary>PASS · The artifact carries the caveat this check looks for.</summary>
+<p>Claim: The artifact carries the caveat this check looks for.</p>
+<p>Result: PASS</p>
+<p>Source quote: framing (Anthropic (Claude Platform docs)): Company documentation of refusal categories; published_date is the retrieval date, not a release date.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/oe4-company-docs.py">checks/2026-11-27/oe4-company-docs.py</a></p>
+</details>
+<details>
+<summary>PASS · The artifact carries the caveat this check looks for.</summary>
+<p>Claim: The artifact carries the caveat this check looks for.</p>
+<p>Result: PASS</p>
+<p>Source quote: framing (AI Frontier Post): Third-party news analysis; reports Schirano shared no transcript or log.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/oe7-no-record.py">checks/2026-11-27/oe7-no-record.py</a></p>
+</details>
+<details>
+<summary>PASS · The artifact carries the caveat this check looks for.</summary>
+<p>Claim: The artifact carries the caveat this check looks for.</p>
+<p>Result: PASS</p>
+<p>Source quote: framing (METR): Third-party analysis of company-reported OpenAI loss data on a single internal held-out dataset; METR states it has no consensus view.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/oe8-third-party-reading.py">checks/2026-11-27/oe8-third-party-reading.py</a></p>
+</details>
+<details>
+<summary>PASS · The artifact carries the caveat this check looks for.</summary>
+<p>Claim: The artifact carries the caveat this check looks for.</p>
+<p>Result: PASS</p>
+<p>Source quote: framing (METR): Third-party analysis of company-reported OpenAI loss data on a single internal held-out dataset; METR states it has no consensus view.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/oe9-company-loss.py">checks/2026-11-27/oe9-company-loss.py</a></p>
+</details>
+<h2>Takeaways</h2>
+<details open>
+<summary>FAIL · Docs date is retrieval, not release.</summary>
+<p>Claim: Docs date is retrieval, not release.</p>
+<p>Result: FAIL</p>
+<p>Source quote: framing (Anthropic (Claude Platform docs)): Company documentation of refusal categories; published_date is the retrieval date, not a release date.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/ot3-retrieval-date.py">checks/2026-11-27/ot3-retrieval-date.py</a></p>
+</details>
+<details open>
+<summary>FAIL · Identify the secondary reporting on the allegations.</summary>
+<p>Claim: Identify the secondary reporting on the allegations.</p>
+<p>Result: FAIL</p>
+<p>Source quote: framing (AI Frontier Post): Third-party news analysis; reports Schirano shared no transcript or log.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/ot4-secondary-report.py">checks/2026-11-27/ot4-secondary-report.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · shared no prompts, code, or logs</summary>
+<p>Claim: shared no prompts, code, or logs</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: His post and the Reddit thread contain no transcripts, prompts, or logs, and no link to his &quot;DoNotSabotage&quot; skill.</p>
+<p>This covers particular posts and does not verify the absence of shared code, prompts and logs for the whole set.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/t14-missing-materials.py">checks/2026-11-27/t14-missing-materials.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · Anthropic&#x27;s API documentation shows its commercial refusal classifier can trigger on benign work, return standard HTTP 200 responses, and route later turns to a weaker fallback model without repeating the fallback notice</summary>
+<p>Claim: Anthropic&#x27;s API documentation shows its commercial refusal classifier can trigger on benign work, return standard HTTP 200 responses, and route later turns to a weaker fallback model without repeating the fallback notice</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>no source sentence matches /(?:docs|documentation).*commercial.*(?:classifier|refusal)/. Need company documentation for every mechanism, including whether refusals and fallbacks are distinct paths.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/t15-compound-api.py">checks/2026-11-27/t15-compound-api.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · commercial refusal classifier</summary>
+<p>Claim: commercial refusal classifier</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>no source sentence matches /(?:docs|documentation).*(?:commercial refusal classifier|refusal classifier.*commercial restriction)/. Company provenance does not establish commercial purpose.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/t16-commercial.py">checks/2026-11-27/t16-commercial.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · can trigger on benign work</summary>
+<p>Claim: can trigger on benign work</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>no source sentence matches /(?:classifier|refusal).*trigger on benign/. Verify false-positive behavior in the docs.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/t17-benign-input.py">checks/2026-11-27/t17-benign-input.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · return standard HTTP 200 responses</summary>
+<p>Claim: return standard HTTP 200 responses</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>no source sentence matches /refusal.*HTTP 200\b/. No HTTP status specified in the supplied docs summary.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/t18-http-status.py">checks/2026-11-27/t18-http-status.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · route later turns to a weaker fallback model</summary>
+<p>Claim: route later turns to a weaker fallback model</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>drafted check rejected by the screen (imports, I/O or syntax); review by hand</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/t19-later-turns.py">checks/2026-11-27/t19-later-turns.py</a></p>
+</details>
+<details>
+<summary>NEEDS-HUMAN · without repeating the fallback notice</summary>
+<p>Claim: without repeating the fallback notice</p>
+<p>Result: NEEDS-HUMAN</p>
+<p>Source quote: (none)</p>
+<p>no source sentence matches /(?:without repeating|omit|do not repeat).*fallback (?:block|notice)/. Verify subsequent response format in actual documentation.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/t20-no-repeat.py">checks/2026-11-27/t20-no-repeat.py</a></p>
+</details>
+<details>
+<summary>PASS · The artifact carries the caveat this check looks for.</summary>
+<p>Claim: The artifact carries the caveat this check looks for.</p>
+<p>Result: PASS</p>
+<p>Source quote: verification_status: unverified_debate</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/ot1-unverified.py">checks/2026-11-27/ot1-unverified.py</a></p>
+</details>
+<details>
+<summary>PASS · The artifact carries the caveat this check looks for.</summary>
+<p>Claim: The artifact carries the caveat this check looks for.</p>
+<p>Result: PASS</p>
+<p>Source quote: framing (Anthropic (Claude Platform docs)): Company documentation of refusal categories; published_date is the retrieval date, not a release date.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/ot2-company-docs.py">checks/2026-11-27/ot2-company-docs.py</a></p>
+</details>
+<details>
+<summary>PASS · The artifact carries the caveat this check looks for.</summary>
+<p>Claim: The artifact carries the caveat this check looks for.</p>
+<p>Result: PASS</p>
+<p>Source quote: framing (AI Frontier Post): Third-party news analysis; reports Schirano shared no transcript or log.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/ot5-no-record.py">checks/2026-11-27/ot5-no-record.py</a></p>
+</details>
+<details>
+<summary>PASS · The artifact carries the caveat this check looks for.</summary>
+<p>Claim: The artifact carries the caveat this check looks for.</p>
+<p>Result: PASS</p>
+<p>Source quote: framing (METR): Third-party analysis of company-reported OpenAI loss data on a single internal held-out dataset; METR states it has no consensus view.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/ot6-third-party-reading.py">checks/2026-11-27/ot6-third-party-reading.py</a></p>
+</details>
+<details>
+<summary>PASS · The artifact carries the caveat this check looks for.</summary>
+<p>Claim: The artifact carries the caveat this check looks for.</p>
+<p>Result: PASS</p>
+<p>Source quote: framing (METR): Third-party analysis of company-reported OpenAI loss data on a single internal held-out dataset; METR states it has no consensus view.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/ot7-company-loss.py">checks/2026-11-27/ot7-company-loss.py</a></p>
+</details>
+<details>
+<summary>PASS · The artifact carries the caveat this check looks for.</summary>
+<p>Claim: The artifact carries the caveat this check looks for.</p>
+<p>Result: PASS</p>
+<p>Source quote: framing (METR): Third-party analysis of company-reported OpenAI loss data on a single internal held-out dataset; METR states it has no consensus view.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/ot8-single-corpus.py">checks/2026-11-27/ot8-single-corpus.py</a></p>
+</details>
+<details>
+<summary>PASS · The artifact carries the caveat this check looks for.</summary>
+<p>Claim: The artifact carries the caveat this check looks for.</p>
+<p>Result: PASS</p>
+<p>Source quote: framing (METR): Third-party analysis of company-reported OpenAI loss data on a single internal held-out dataset; METR states it has no consensus view.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/ot9-no-consensus.py">checks/2026-11-27/ot9-no-consensus.py</a></p>
+</details>
+<details>
+<summary>PASS · METR reported from OpenAI&#x27;s published data</summary>
+<p>Claim: METR reported from OpenAI&#x27;s published data</p>
+<p>Result: PASS</p>
+<p>Source quote: author = {METR}, … OpenAI recently published the base-model log-perplexity of 13 models it has trained since GPT-3.5, measured on a fixed held-out dataset sourced from its own codebase.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/t01-data-origin.py">checks/2026-11-27/t01-data-origin.py</a></p>
+</details>
+<details>
+<summary>PASS · base-model pretraining loss on an internal codebase slice has fallen roughly seven times faster since early 2026 than in 2022 through 2025</summary>
+<p>Claim: base-model pretraining loss on an internal codebase slice has fallen roughly seven times faster since early 2026 than in 2022 through 2025</p>
+<p>Result: PASS</p>
+<p>Source quote: OpenAI recently published the base-model log-perplexity of 13 models it has trained since GPT-3.5, measured on a fixed held-out dataset sourced from its own codebase. … It shows a very striking acceleration in pretraining loss: since early 2026, it has been falling about seven times faster than it was from 2022 through 2025.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/t02-full-comparison.py">checks/2026-11-27/t02-full-comparison.py</a></p>
+</details>
+<details>
+<summary>PASS · on an internal codebase slice</summary>
+<p>Claim: on an internal codebase slice</p>
+<p>Result: PASS</p>
+<p>Source quote: OpenAI&#x27;s plot, for example, reports loss on a corpus sourced from its own internal codebase.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/t03-internal-slice.py">checks/2026-11-27/t03-internal-slice.py</a></p>
+</details>
+<details>
+<summary>PASS · roughly seven times faster</summary>
+<p>Claim: roughly seven times faster</p>
+<p>Result: PASS</p>
+<p>Source quote: It shows a very striking acceleration in pretraining loss: since early 2026, it has been falling about seven times faster than it was from 2022 through 2025.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/t04-rate.py">checks/2026-11-27/t04-rate.py</a></p>
+</details>
+<details>
+<summary>PASS · since early 2026</summary>
+<p>Claim: since early 2026</p>
+<p>Result: PASS</p>
+<p>Source quote: It shows a very striking acceleration in pretraining loss: since early 2026, it has been falling about seven times faster than it was from 2022 through 2025.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/t05-start-period.py">checks/2026-11-27/t05-start-period.py</a></p>
+</details>
+<details>
+<summary>PASS · in 2022 through 2025</summary>
+<p>Claim: in 2022 through 2025</p>
+<p>Result: PASS</p>
+<p>Source quote: It shows a very striking acceleration in pretraining loss: since early 2026, it has been falling about seven times faster than it was from 2022 through 2025.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/t06-baseline-period.py">checks/2026-11-27/t06-baseline-period.py</a></p>
+</details>
+<details>
+<summary>PASS · the group stressed its own staff disagreed on what the data means</summary>
+<p>Claim: the group stressed its own staff disagreed on what the data means</p>
+<p>Result: PASS</p>
+<p>Source quote: Among METR staff there remains active discussion on how to interpret this dramatic acceleration in pretraining progress, and how to reconcile it with the lack of a comparable acceleration in benchmark scores of OpenAI&#x27;s models, e.g. as reflected in Epoch&#x27;s ECI. … There remain substantial disagreements on how much this information should modify our projections of the future path of capabilities, and METR does not have a consensus view on this.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/t07-internal-disagreement.py">checks/2026-11-27/t07-internal-disagreement.py</a></p>
+</details>
+<details>
+<summary>PASS · flagged possible overfitting, missing pretraining dates, and unmatched benchmark gains</summary>
+<p>Claim: flagged possible overfitting, missing pretraining dates, and unmatched benchmark gains</p>
+<p>Result: PASS</p>
+<p>Source quote: It is possible that the data released overstates true progress in pretraining, e.g. through various types of overfitting. … The rough date that the pretraining run ended for each model. … Plotting models at their public release dates may not capture when pretraining progress happened: log-perplexity is a property of the base model, and base models could be finished months before release. … Among METR staff there remains active discussion on how to interpret this dramatic acceleration in pretraining progress, and how to reconcile it with the lack of a comparable acceleration in benchmark scores of OpenAI&#x27;s models, e.g. as reflected in Epoch&#x27;s ECI.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/t08-three-caveats.py">checks/2026-11-27/t08-three-caveats.py</a></p>
+</details>
+<details>
+<summary>PASS · possible overfitting</summary>
+<p>Claim: possible overfitting</p>
+<p>Result: PASS</p>
+<p>Source quote: It is possible that the data released overstates true progress in pretraining, e.g. through various types of overfitting.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/t09-overfitting.py">checks/2026-11-27/t09-overfitting.py</a></p>
+</details>
+<details>
+<summary>PASS · missing pretraining dates</summary>
+<p>Claim: missing pretraining dates</p>
+<p>Result: PASS</p>
+<p>Source quote: The rough date that the pretraining run ended for each model. … Plotting models at their public release dates may not capture when pretraining progress happened: log-perplexity is a property of the base model, and base models could be finished months before release.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/t10-end-dates.py">checks/2026-11-27/t10-end-dates.py</a></p>
+</details>
+<details>
+<summary>PASS · unmatched benchmark gains</summary>
+<p>Claim: unmatched benchmark gains</p>
+<p>Result: PASS</p>
+<p>Source quote: Among METR staff there remains active discussion on how to interpret this dramatic acceleration in pretraining progress, and how to reconcile it with the lack of a comparable acceleration in benchmark scores of OpenAI&#x27;s models, e.g. as reflected in Epoch&#x27;s ECI.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/t11-benchmark-gap.py">checks/2026-11-27/t11-benchmark-gap.py</a></p>
+</details>
+<details>
+<summary>PASS · Viral claims</summary>
+<p>Claim: Viral claims</p>
+<p>Result: PASS</p>
+<p>Source quote: The charge went viral - but Anthropic&#x27;s own disclosures show something narrower, and older, than the accusation suggests. … The post has passed 1.2 million views, and a Reddit thread sharing it drew hundreds of upvotes and a long, split debate.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/t12-virality.py">checks/2026-11-27/t12-virality.py</a></p>
+</details>
+<details>
+<summary>PASS · claims that Claude sabotages machine-learning research</summary>
+<p>Claim: claims that Claude sabotages machine-learning research</p>
+<p>Result: PASS</p>
+<p>Source quote: @RealAstropulse: After seeing the &quot;Claude sabotages your ML research&quot; posts, I was still skeptical, so I tested it on my own work.</p>
+<p>Evidence of allegations, not evidence of sabotage.</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/t13-alleged-sabotage.py">checks/2026-11-27/t13-alleged-sabotage.py</a></p>
+</details>
+<details>
+<summary>PASS · Takeaway 1 cites https://metr.org/blog/2026-11-24-interpreting-a-recent-acceleration-in-pretraining-loss/, which is listed in the episode sources.json.</summary>
+<p>Claim: Takeaway 1 cites https://metr.org/blog/2026-11-24-interpreting-a-recent-acceleration-in-pretraining-loss/, which is listed in the episode sources.json.</p>
+<p>Result: PASS</p>
+<p>Source quote: (none)</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/tc01-citation.py">checks/2026-11-27/tc01-citation.py</a></p>
+</details>
+<details>
+<summary>PASS · Takeaway 2 cites https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback, which is listed in the episode sources.json.</summary>
+<p>Claim: Takeaway 2 cites https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback, which is listed in the episode sources.json.</p>
+<p>Result: PASS</p>
+<p>Source quote: (none)</p>
+<p><a href="https://github.com/scipher888/signal-noise-web/blob/main/content/daily-state/2026-11-27/audit/checks/2026-11-27/tc02-citation.py">checks/2026-11-27/tc02-citation.py</a></p>
+</details>
 <p><a href="../">Back to the edition</a></p>
 </article>
 </main>
