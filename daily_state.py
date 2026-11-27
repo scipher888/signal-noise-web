@@ -211,8 +211,8 @@ ETHICAL_FLOOR_CATEGORIES = {
     "fabricated_event": "Fabricated event",
     "invented_quote": "Invented quote",
     "invented_number": "Invented or fused number",
-    "misattribution": "Serious misattribution",
-    "privacy_safety": "Privacy or safety",
+    "misattribution": "Wrong person or company",
+    "privacy_safety": "Non-public personal information",
 }
 ETHICAL_FLOOR_ARTIFACTS = ("episode", "takeaways")
 REPO_FILE_URL = "https://github.com/scipher888/signal-noise-web/blob/main/"
@@ -2536,8 +2536,8 @@ def render_ethical_floor(floor):
     if type(floor) is not dict:
         return ""
     e = lambda value: html.escape(str(value), quote=True)  # noqa: E731
-    criteria = ("a fabricated event, an invented quote, an invented or fused number, "
-                "a serious misattribution about a person or company, or a privacy or safety problem")
+    criteria = ("an invented quote, a claim, quote or action pinned on the wrong person or company, "
+                "a fabricated event, or exposed non-public personal information")
     out = ["<section class=\"ds-ethical-floor\">", "<h2>Ethical floor</h2>"]
     status = floor.get("status") or ""
     reviewed = floor.get("fail_rows_reviewed")

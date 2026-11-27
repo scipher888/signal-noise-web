@@ -81,7 +81,10 @@ class EthicalFloorAuditTest(unittest.TestCase):
         self.assertEqual(self.attach(floor("fixed"), run=run), 0)
         loaded = self.repo.load()
         page = loaded["audit_html"]
-        self.assertIn("Serious misattribution", page)
+        self.assertIn("Wrong person or company", page)
+        self.assertIn("pinned on the wrong person or company, a fabricated event, "
+                      "or exposed non-public personal information", page)
+        self.assertNotIn("invented or fused number", page)
         self.assertIn("One surgical edit pass corrected only those items", page)
         self.assertIn(sha(ORIGINAL.encode()), page)
         self.assertIn("<del>Viral posts were warning that labs had secretly cracked RSA.</del>", page)
