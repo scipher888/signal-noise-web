@@ -1,0 +1,6 @@
+@ibab: The speedup is likely confounded by OpenAI lagging behind on pretraining tech for a few generations and catching up now. It appears they neglected pretraining in favor of reasoning progress for some time, but have now corrected their approach. There is a clear pretraining research speedup happening across labs, but not 7x for now.
+
+AFFILIATION NOTE (scan): Reply in Barnes's thread; his own interpretation, no data shared.
+
+REPLIES:
+

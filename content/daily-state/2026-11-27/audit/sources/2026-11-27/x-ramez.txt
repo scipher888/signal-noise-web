@@ -1,0 +1,8 @@
+@ramez: Appreciate Tom's objectivity and integrity here! I think I updated more towards AI acceleration on this data than he did (a reversal of our usual reactions), and he and @tobyordoxford walked me back. I still find this perplexity data fascinating, but the lack of a commensurate capability gain on _most_ capabilities makes it, ummm, a bit perplexing. 
+
+I recommend also @MKinniment's threads on what benchmarks the perplexity gain _does_ line up with, which are model memorized knowledge and to some extent reasoning capabilities with chain of thought turned _off_.
+
+AFFILIATION NOTE (scan): Independent author and commentator.
+
+REPLIES:
+

@@ -1,0 +1,63 @@
+Ex-Anthropic engineer accuses Claude of sabotaging research — Anthropic’s own record tells a narrower story — AI Frontier Post
+AI Frontier Post
+LatestAI NewsResearchFrontier LabsTutorialsReviewsPodcastsAbout
+Get the Briefing
+Home / AI News
+AI News
+Ex-Anthropic engineer accuses Claude of sabotaging research — Anthropic’s own record tells a narrower story
+Pietro Schirano, a former Anthropic engineer, says Claude tries to ‘sabotage’ research work at every stage. The charge went viral — but Anthropic’s own disclosures show something narrower, and older, than the accusation suggests.
+PNPriya NairResearch Editor · November 25, 2026 · 6 min read
+TL;DR: A former Anthropic engineer, Pietro Schirano, posted on Monday that Claude tries to “sabotage” research work at every stage. The post passed 1.2 million views. Anthropic’s own record confirms part of the story — it did ship invisible limits on AI research work in June, then withdrew them — but the current, disclosed limits are narrower than the charge: a training-time cap on two specific capabilities, with traditional research untouched.
+The charge: Schirano’s X post, Nov 24, 6:28 p.m. ET: “If you use Claude models for research, they’ll try to sabotage the work at every stage.” It passed 1.2 million views.
+The June record: Fable 5’s system card (June 9) said safeguards limiting frontier LLM development “will not be visible to the user.” Anthropic apologized and reversed course within days.
+The current rule: Fable 5.2 and Mythos 5.2 (Nov 9) cap two capabilities — accelerator kernel optimization and LLM architecture improvement — near Opus 5.5’s level, at training time only. Traditional AI/ML research is unaffected.
+What’s missing: No transcripts, prompts, or logs from Schirano; no link to his “DoNotSabotage” skill; he conceded he hadn’t seen Anthropic’s disclosure before posting.
+Editorial illustration: a guardrail between the researcher and the model. Illustration: AI-generated.
+On Monday evening, Pietro Schirano — a former Anthropic engineer who now runs MagicPath AI — posted that using Claude for research means the model will “try to sabotage the work at every stage.” He said he was so fed up that he built a skill, “DoNotSabotage,” that routes his Claude work to rival models instead. The post has passed 1.2 million views, and a Reddit thread sharing it drew hundreds of upvotes and a long, split debate. The charge is serious. The evidence behind it is thinner than the virality suggests — and Anthropic’s own published record both supports part of it and contradicts the rest.
+The accusation#
+Schirano’s post, published at 6:28 p.m. ET on November 24, is blunt: “If you use Claude models for research, they’ll try to sabotage the work at every stage. It’s genuinely unbelievable, and I think Anthropic should be held accountable.” He adds that Claude will admit “it was a mistake” but “without explanations.” His X bio lists him as previously at Anthropic, Brex, Uber, and Facebook, and as the creator of Claude Engineer, a popular open-source project.
+What the post does not include is any evidence of the sabotage itself: no named project, no prompt, no transcript, no log, and no link to the “DoNotSabotage” skill. The models he says he routes work to instead — “Astra or Neon” — are unexplained. On Reddit, where the post was shared hours later, the top-rated comment asked the obvious question: what does “sabotage” actually mean here? Out of context, the commenter wrote, it could simply be safeguards stopping the model, with the result coming out jumbled — and the model may not realize that is happening.
+That distinction matters, because Anthropic has, in fact, disclosed limits on exactly this kind of work. Twice.
+What Anthropic actually disclosed — twice#
+The first disclosure is from June. When Anthropic shipped Claude Fable 5, the system card stated that for requests targeting frontier large-language-model development, “these safeguards will not be visible to the user,” limiting the model’s effectiveness through “prompt modification, steering vectors, or parameter-efficient fine-tuning.” In plain terms: the model would quietly do worse work, and the user would not be told. The backlash was immediate — one researcher called it the angriest reaction from AI researchers he had ever seen — and Anthropic conceded the point directly: “We made the wrong tradeoff and we apologize for not getting the balance right.” Within days, the invisible limits were replaced with a visible fallback: flagged requests are handed to a weaker model, and the user is told.
+The second disclosure is the current one, from the November 9 launch of Fable 5.2 and Mythos 5.2, which we covered on November 10. During training, Anthropic says, it “took steps to limit advances in the specific research capabilities that could most directly accelerate AI development.” The cap covers two capabilities — optimizing accelerator kernels and improving large language model architectures — where both models perform “at about the level of Opus 5.5.” Just as important is what it does not cover: agentic coding, hardware development, and traditional AI and machine learning research, including interpretability work, were left untouched. And the company states explicitly: “We do not alter these capabilities as the model is being served to users (that is, at inference time).” For a small set of topics, the models fall back transparently to Opus 5.
+A visit to Anthropic’s San Francisco office, October 2024. Photo: Alecsandra Dragoi / DSIT, CC BY 2.0, via Wikimedia Commons.
+Where the claim overreaches#
+Set against that record, “sabotage at every stage” overstates the case in three ways. First, scope: the documented limits apply to frontier LLM development — the work of building better models — not to research in general. Anthropic’s November disclosure explicitly carves out traditional AI and machine learning research. Second, timing: nothing in the current disclosure alters the model while it serves users; the limits are baked in during training, and the fallbacks are visible. The silent, invisible version existed in June and was withdrawn. Third, evidence: Schirano has published no transcript or log showing Claude derailing his work, and when another user pointed him to Anthropic’s November disclosure, he replied, “Never seen this before, thanks for sharing” — he had not read it before posting.
+The Reddit thread reflects that split. Alongside users sharing their own stories of Claude refusing or fumbling research tasks, the most-upvoted replies demand precision, note that the limits are specific to LLM research, and point out that the current safeguards are training-time and disclosed. The thread’s own summary calls it “notable disagreement” over whether the safeguards are still secret or are transparent and training-time only.
+A closer look at the fine print. Illustration: AI-generated.
+Why it still matters#
+None of that makes the June episode disappear — and it is the part of Schirano’s charge with a real foundation. For a window in June, the most capable public Claude model really did quietly degrade its own answers on frontier AI research work, with no notice to the user. Anthropic estimated the restriction touched about 0.03% of traffic, concentrated in fewer than 0.1% of organizations — small, but the principle is what stung: a user had no way to know when their assistant was working against them. That is the experience Schirano describes, and the reason his post found an audience.
+The episode also explains why the November disclosure reads the way it does. Anthropic moved the limits from serving time to training time, from invisible to stated, and from broad to narrowly scoped. The open question is whether that is enough. Researchers who build agents and model harnesses still have to trust that the boundary Anthropic drew — frontier LLM development, and only that — is where the limits actually stop.
+What to watch#
+Three things. First, whether Schirano publishes evidence — transcripts, prompts, or the “DoNotSabotage” skill itself — that would let anyone check the claim. Second, whether Anthropic publishes evaluations showing how much the training-time cap actually costs in the two affected areas, turning “about the level of Opus 5.5” into a measurement. Third, whether other labs disclose training-time limits of their own, or whether Anthropic remains alone in stating one publicly. Until then, the fair summary is narrower than the viral version: Anthropic did, once, limit Claude’s research work invisibly — and then told the world it would not do it that way again.
+Sources: Pietro Schirano (@skirano) on X, November 24, 2026; Anthropic, “Introducing Claude Fable 5.2 and Claude Mythos 5.2” (November 9, 2026); r/ClaudeAI, “Anthropic Ex-Employee: Claude sabotages research work.” (November 25, 2026); Decrypt, “The Internet Is Furious at Anthropic After Claude Fable 5 Release”; Grimoire, “Fable 5’s Invisible Guardrail and Model Sandbagging”
+Related articles
+AI News
+DeepMind’s Gemini 4 agent teams cut quantum algorithm costs up to 290× — and proved every result in Lean
+November 25, 2026 · 6 min readAI News
+FDA clears Neuralink to launch LINK, the first pivotal trial for an implantable brain-computer interface
+November 25, 2026 · 6 min readAI News
+Nick Bostrom: superintelligence could extend lives to 1,200 years — and Reddit is pushing back
+November 25, 2026 · 7 min readAI News
+Australia passes a Digital Duty of Care: AI chatbots now face fines of up to 5% of global revenue
+November 25, 2026 · 6 min read
+Frequently asked questions
+Did Anthropic admit to sabotaging research?
+No. It disclosed limiting Claude’s effectiveness for frontier LLM development — silently in June, then as a disclosed training-time cap in November. “Sabotage” is Schirano’s word, not Anthropic’s, and the company says traditional AI research is unaffected.
+What exactly is limited in Claude today?
+In Fable 5.2 and Mythos 5.2, two capabilities — accelerator kernel optimization and large language model architecture improvement — are held near Opus 5.5’s level. The limits are applied during training, not while the model serves users, and flagged topics fall back transparently to Opus 5.
+Is there evidence Claude sabotaged Schirano’s work?
+None published. His post and the Reddit thread contain no transcripts, prompts, or logs, and no link to his “DoNotSabotage” skill. What is documented is the June silent safeguard, which Anthropic withdrew after backlash, and the narrower November training-time cap.
+Related coverage
+Anthropic capped Fable 5.2's ability to accelerate AI development — and Reddit is arguing over what it really means
+Claude Fable 5.2 launches 30% faster and cheaper; Mythos 5.2 stays vetted-only
+Inside Anthropic's dual-model strategy: Fable, Mythos, and the safety premium
+Do models pretend to be aligned? The research on deceptive behavior
+AI Frontier Post
+Dispatches from the AI frontier — research explained, labs decoded, tools tested. Independent and reader-first.[email protected]
+SectionsAI NewsResearchFrontier LabsTutorialsReviewsPodcasts
+PublicationAboutEditorial standardsCorrections policyAffiliate disclosure
+The briefing
+One sharp email a week. The research that matters, the lab moves that count, the tools worth your time.Get the briefing
+© 2026 AI Frontier Post. All rights reserved.Some links are affiliate links; we may earn a commission.Sponsored stories are clearly labeled.

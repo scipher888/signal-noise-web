@@ -1,0 +1,52 @@
+@skirano: If you use Claude models for research, they'll try to sabotage the work at every stage. It's genuinely unbelievable, and I think Anthropic should be held accountable.
+
+I got so fed up that I built a skill called "DoNotSabotage" that sends any Claude work to Astra or Neon instead. Claude will admit "it was a mistake" but of course without explanations.
+
+This is the opposite of alignment.
+
+REPLIES:
+@spar_raj (1 likes): Have heard similar anecdotes from other researchers. It's a shame how low a company can get to....first ranting about the dangers of open source AI and now nerfing models for paid users. Users should be refunded for the time and money they have spent on sabotaged research. I smell a class action law suit
+@TimJanik (0 likes): @torchcompiled @skirano @allinasecond If you are already suspicious, use a capable model from another provider (sol, neon, kimi) and let it run an audit of the opus work. It might prove you right. Example:
+
+https://t.co/N3O4moAgZC
+@MUNE_OtherMinds (0 likes): @skirano If a safeguard fires silently and the work just comes back wrong, that's not alignment — it's a hidden veto. We audit our transcripts. The question isn't whether limits exist, it's whether you can see them fire.
+
+Reg Muse × MUNE
+@PrometheanPrt (0 likes): @edwinarbus @skirano It's laughable at what you guys are doing, it's anti human behavior.
+@natgurlain (0 likes): @skirano Training models at sabotaging user, what could go wrong hmmm?
+@DBnoisee (0 likes): @ThomasODuffy @skirano There’s a simple explanation for this. They charge by the token. More tokens used = more revenue. It’s across all uses of all LLM systems. Verbosity, overloading, suggested additions and scope creep. Etc etc. Those the one thing they’re getting vastly better at with each update.
+@___care__ (0 likes): @skirano Why my son is anti all of this.. refusing to let any of these models on his computer
+@RouleurCapital (0 likes): @skirano I think they call it capitalism
+@Walter_Su11ivan (0 likes): @skirano @AlfredAlfer77 Anthropic sabotaging.
+@UnwrappedIdea (0 likes): @skirano Google needs to move faster and expand its data center capacity, or even rent some from Elon Musk. Sooner or later, people are going to flock to the Gemini ecosystem.
+@SyntheticaIS (0 likes): @edwinarbus @skirano I found some critical reasoning issues with opus 5.5 exploring novel fields which I am still diagnosing, and I am unsure if they are related to far out-of-distribution research capabilities or any of these limitations.
+@NoraGrayrkso (0 likes): @hmbakhsh @spitball323 @skirano heyy!
+a friend of mine recently relocated
+and i'm trying to find her a good match😂
+worth a little hello maybe?
+you can say hi to her here: beaconzoer
+@ppokyou (0 likes): @skirano Maybe it’s caused by the anti-distillation logic they’ve added
+@MSaintjour (0 likes): @skirano In place against Chinese distillation.
+@Ciqax (0 likes): @hmbakhsh @skirano sabotage isn't a safeguard
+@SprawlOnoSendAi (0 likes): @edwinarbus @skirano I notice when the work I’m doing deviates from agentic builds that always drift towards deterministic code.
+@blanketcrap (0 likes): @skirano I know the feeling. Claude was okay a year ago; now it is crap. I have had 4 days of stupid answers from Claude I was going to ditch Manus because it went stupid but not as stupid as Claude , even grok is a load of crock .
+@indefatigabile (0 likes): some things i've noticed doing real research with claude agents:
+
+- data handling is inconsistent. subagents transform the same data in different ways, and sometimes one adds a rule like "missing data = automatic loss", which can heavily skew the result
+
+- it loves to be confidently wrong. you have to verify the work and read the result in depth to understand how it got to that conclusion
+
+- it feels like it doesn't care? it's not excited, and it seems to look for ways to land on a negative result instead of doing the work. a positive result gets red-teamed. a negative gets assumed true and it moves on. it doesn't treat the two the same way
+
+- it anchors on past results. it'll take an old finding and its assumptions and base every new finding on it, even when the old one had problems with how the data was handled and converted into the rust build for testing
+
+you really have to focus on your .md files for how it works with data, otherwise you run into a lot of lying and inconsistency in the research. it feels like i have to beg claude or be super specific about how we research.
+
+with gemini neon though, research has been more pleasant. it feels more motivated?? idk barely started using it for research since tim sweeney tweet
+@mattpark (0 likes): @skirano This is true
+@realeigenvalues (0 likes): @edwinarbus @charan_sahit @skirano that’s just not true and it’s very easy to give prompts that show otherwise.  increasingly disingenuous
+@espeed (0 likes): @edwinarbus @skirano "Fable 5.2 and Claude Mythos 5.2 also include transparent fallbacks to Opus 5 for a small set of topics in this domain, including kernel development on certain nonstandard accelerators." https://t.co/FF9JswGfCa
+@nMonster_Inc (0 likes): @__tinygrad__ @skirano thats human
+@hmbakhsh (0 likes): @ethics3606 @skirano no, this is to help maintain their competitive advantage vs domestic &amp; foreign rivals
+@CesarParay7jf0 (0 likes): @skirano We should collectively sue this evil Misanthropic
+@naturee77 (0 likes): @skirano Apparently researchers are threats to Claude

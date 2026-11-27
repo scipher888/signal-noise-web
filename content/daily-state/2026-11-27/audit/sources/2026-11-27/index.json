@@ -1,0 +1,83 @@
+{
+ "date": "2026-11-27",
+ "bundle_sha256": "c8b1cc77a661bbdfcada6f6cdb9052a4f60786b4008cc6eb86daad05cbb8d661",
+ "sources": {
+  "primary-claude-research-sabotage-allegations": {
+   "file": "primary-claude-research-sabotage-allegations.txt",
+   "url": "https://aifrontierpost.com/articles/schirano-claude-sabotage-claim/",
+   "title": "Ex-Anthropic engineer accuses Claude of sabotaging research \u2014 Anthropic\u2019s own record tells a narrower story",
+   "kind": "primary",
+   "sha256": "78509de1c4546b604800d8eb82c2b35f4daf1ae2135a40b303f302c5a96e5270"
+  },
+  "x-realastropulse": {
+   "file": "x-realastropulse.txt",
+   "url": "https://x.com/RealAstropulse/status/2126119408997466389",
+   "title": "X post by @RealAstropulse (Astropulse)",
+   "kind": "x_post",
+   "sha256": "02f0f3bbb80936f48d4f0468062976348c4cabc8dd96a7a1b828d71af9a94400"
+  },
+  "x-ptrcast": {
+   "file": "x-ptrcast.txt",
+   "url": "https://x.com/ptrCast/status/2126021553116881326",
+   "title": "X post by @ptrCast (injuly)",
+   "kind": "x_post",
+   "sha256": "3ccd3ef0ab43fd6c57f7371c5e1029c4476fdbbbb22bd47005731f5a31c45f98"
+  },
+  "x-capital_vmv": {
+   "file": "x-capital_vmv.txt",
+   "url": "https://x.com/capital_vmv/status/2126025365017801155",
+   "title": "X post by @capital_vmv (Mark Verner)",
+   "kind": "x_post",
+   "sha256": "62f06aeda49c14b1c295b87217670c26e236c28ad06fb828b5f25401a3609ab4"
+  },
+  "primary-metr-openai-pretraining-loss-caveat": {
+   "file": "primary-metr-openai-pretraining-loss-caveat.txt",
+   "url": "https://metr.org/blog/2026-11-24-interpreting-a-recent-acceleration-in-pretraining-loss/",
+   "title": "Interpreting a recent acceleration in pretraining loss",
+   "kind": "primary",
+   "sha256": "47f1ad6fc31f820cfdd734cbada0eed25cd725baa8a094880e32d4bdaac1d64a"
+  },
+  "x-ramez": {
+   "file": "x-ramez.txt",
+   "url": "https://x.com/ramez/status/2126112326172442974",
+   "title": "X post by @ramez (Ramez Naam)",
+   "kind": "x_post",
+   "sha256": "d62061e8f528c039ff5396da8b5fce499a93c81afd9df29a6eede7f07f68db43"
+  },
+  "x-ibab": {
+   "file": "x-ibab.txt",
+   "url": "https://x.com/ibab/status/2126077013857538266",
+   "title": "X post by @ibab (Igor Babuschkin)",
+   "kind": "x_post",
+   "sha256": "3ca6cb1ea5860b6a821635c076bf6f4c188f12cf84f58cee402bf441feefdff2"
+  },
+  "x-tobyordoxford": {
+   "file": "x-tobyordoxford.txt",
+   "url": "https://x.com/tobyordoxford/status/2126063832518852763",
+   "title": "X post by @tobyordoxford (Toby Ord)",
+   "kind": "x_post",
+   "sha256": "6a1e92ea2bf7080c70fb3974407aa89f348b994a5cd02d84819dc18b7ef23f27"
+  },
+  "x-skirano": {
+   "file": "x-skirano.txt",
+   "url": "https://x.com/skirano/status/2125371115979641188",
+   "title": "X post by @skirano",
+   "kind": "x_post",
+   "sha256": "c8d682b0b0928303325d32010bb592a77119a377792b00b5a724c14d5d678153"
+  },
+  "x-bethmaybarnes": {
+   "file": "x-bethmaybarnes.txt",
+   "url": "https://x.com/BethMayBarnes/status/2126047518572310984",
+   "title": "X post by @BethMayBarnes",
+   "kind": "x_post",
+   "sha256": "5a1d2af6adb0a0cf2c0c311da92002c04becb5c80d0a491622ff3cfc74555a66"
+  },
+  "scan-framing": {
+   "file": "scan-framing.txt",
+   "url": "https://www.signalandnoise.email/content/daily-state/2026-11-27/audit/sources/2026-11-27/scan-framing.txt",
+   "title": "Morning X-first scan: verification framing per story",
+   "kind": "scan",
+   "sha256": "0da689d3301d6f42d1b2f1a5ace3ba98ff0fe25d0c0bf89bf34cdd02087ad525"
+  }
+ }
+}

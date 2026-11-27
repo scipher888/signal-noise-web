@@ -1,0 +1,22 @@
+@BethMayBarnes: I signed off on this post + thread, but on reflection I'm not sure it quite meets our standards for research communication: I don't think I disagree with anything we claimed, but it's less robust to over-interpretation than we aim to be. Sorry! This was intended as a quick "Update" post saying "this is useful data, thanks, more please!", but I think it was foreseeable that having this graph as the headline figure would be read as a "Research" finding about degree of acceleration. 
+(Will likely do a micro-retro with team on this after the holidays - we keep a "publication error log" that we use as a checklist before posting things, so this will probably end up as an item on there, something like "is there anything in the post, especially a flashy graph or numerical claim, that might be read as more of a 'research finding' than we were intending")
+
+REPLIES:
+@BethMayBarnes (335 likes): I signed off on this post + thread, but on reflection I'm not sure it quite meets our standards for research communication: I don't think I disagree with anything we claimed, but it's less robust to over-interpretation than we aim to be. Sorry! This was intended as a quick "Update" post saying "this is useful data, thanks, more please!", but I think it was foreseeable that having this graph as the headline figure would be read as a "Research" finding about degree of acceleration. 
+(Will likely do a micro-retro with team on this after the holidays - we keep a "publication error log" that we use as a checklist before posting things, so this will probably end up as an item on there, something like "is there anything in the post, especially a flashy graph or numerical claim, that might be read as more of a 'research finding' than we were intending")
+@tobyordoxford (27 likes): @BethMayBarnes Thanks Beth. When I was critical of it, I was indeed treating it as a METR research finding and comparing it to your usual high bar for such things. It makes more sense to hear that it wasn't meant that way.
+@ibab (23 likes): The speedup is likely confounded by OpenAI lagging behind on pretraining tech for a few generations and catching up now. It appears they neglected pretraining in favor of reasoning progress for some time, but have now corrected their approach. There is a clear pretraining research speedup happening across labs, but not 7x for now.
+@ramez (12 likes): @BethMayBarnes Appreciate the integrity and the public update here. Happy Thanksgiving.
+@eliebakouch (9 likes): > This was intended as a quick "Update" post saying "this is useful data, thanks, more please!"
+
+fwiw this is how i interpreted it, it's obvious that perplexity has a ton of confounders but "We think sharing pretraining loss is very valuable for improving public understanding of AI R&D acceleration." is still true! it's also qutie different from the usual benchmark we look at so good additional signal
+@datagenproc (6 likes): @karthiktadepall @BethMayBarnes Yeah, sorry about that. In retrospect I think I should probably just have reused OpenAI’s graph.
+@karthiktadepall (6 likes): @BethMayBarnes My problem was that I parsed this as METR research finding extra evidence for the OpenAI graph, which it wasn't (there's no additional info beyond OpenAI graph)
+@RatOrthodox (4 likes): @BethMayBarnes It was quite clear to me that this was not a finding fwiw.
+@MadvikHUN (4 likes): @BethMayBarnes So I shouldn't use this as my facebook cover page for this winter? :( https://t.co/3gZNMv7LDQ
+@kantbelieve_ (0 likes): @BethMayBarnes Holding research communication to a standard that resists over-interpretation is rare and valuable. Careful, honest evaluation is the work we do at Alpheva. @BethMayBarnes https://t.co/BI6Lr5Y4C7
+@xiaoyu990321 (0 likes): @BethMayBarnes Appreciate the quick clarification on this.
+@VulcanBench (0 likes): @BethMayBarnes Appreciate your transparency here 🖖
+@natanielruizg (0 likes): @BethMayBarnes awesome!
+@xbwnb8 (0 likes): @BethMayBarnes Fair enough — owning it publicly is the right call.
+@dr_hb_ai (0 likes): @BethMayBarnes would the kink survive with pretraining end dates on x axis instead of release dates?
