@@ -1,0 +1,53 @@
+{
+  "date": "2026-11-27",
+  "urls": [
+    "https://www.anthropic.com/claude-fable-and-mythos-5-2",
+    "https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback",
+    "https://aifrontierpost.com/articles/schirano-claude-sabotage-claim/",
+    "https://x.com/RealAstropulse/status/2126119408997466389",
+    "https://x.com/ptrCast/status/2126021553116881326",
+    "https://x.com/capital_vmv/status/2126025365017801155",
+    "https://metr.org/blog/2026-11-24-interpreting-a-recent-acceleration-in-pretraining-loss/",
+    "https://x.com/ramez/status/2126112999978995910",
+    "https://x.com/ramez/status/2126112326172442974",
+    "https://x.com/ibab/status/2126077013857538266",
+    "https://x.com/tobyordoxford/status/2126063832518852763"
+  ],
+  "stories": [
+    {
+      "index": 1,
+      "title": "Developers allege Claude quietly degrades ML research work; Anthropic's disclosures describe training-time caps and visible fallbacks",
+      "outlets": [
+        "Anthropic",
+        "Anthropic (Claude Platform docs)",
+        "AI Frontier Post",
+        "X"
+      ],
+      "urls": [
+        "https://www.anthropic.com/claude-fable-and-mythos-5-2",
+        "https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback",
+        "https://aifrontierpost.com/articles/schirano-claude-sabotage-claim/",
+        "https://x.com/RealAstropulse/status/2126119408997466389",
+        "https://x.com/ptrCast/status/2126021553116881326",
+        "https://x.com/capital_vmv/status/2126025365017801155"
+      ],
+      "verification_status": "unverified_debate"
+    },
+    {
+      "index": 2,
+      "title": "METR's reading of OpenAI's pretraining-loss acceleration, and its CEO's public caveat about over-interpretation",
+      "outlets": [
+        "METR",
+        "X"
+      ],
+      "urls": [
+        "https://metr.org/blog/2026-11-24-interpreting-a-recent-acceleration-in-pretraining-loss/",
+        "https://x.com/ramez/status/2126112999978995910",
+        "https://x.com/ramez/status/2126112326172442974",
+        "https://x.com/ibab/status/2126077013857538266",
+        "https://x.com/tobyordoxford/status/2126063832518852763"
+      ],
+      "verification_status": "company_reported"
+    }
+  ]
+}

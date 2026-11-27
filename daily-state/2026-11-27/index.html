@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Daily State of AI - 2026-11-27 — Signal &amp; Noise</title>
+  <meta name="description" content="Welcome to the Daily State of AI for Friday, November 27th, 2026.">
+  <link rel="canonical" href="https://www.signalandnoise.email/daily-state/2026-11-27/">
+  <link rel="stylesheet" href="../../styles.css?v=6435ba6d">
+  <link rel="alternate" type="application/rss+xml" title="Signal &amp; Noise" href="../../feed.xml">
+  <link rel="icon" href="../../assets/mark.svg">
+  <meta property="og:site_name" content="Signal &amp; Noise">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Daily State of AI - 2026-11-27">
+  <meta property="og:description" content="Welcome to the Daily State of AI for Friday, November 27th, 2026.">
+  <meta property="og:url" content="https://www.signalandnoise.email/daily-state/2026-11-27/">
+  <meta property="og:image" content="https://www.signalandnoise.email/assets/preview.png?v=09b48f76">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Daily State of AI - 2026-11-27">
+  <meta name="twitter:description" content="Welcome to the Daily State of AI for Friday, November 27th, 2026.">
+  <meta name="twitter:image" content="https://www.signalandnoise.email/assets/preview.png?v=09b48f76">
+</head>
+<body>
+<header class="site-head">
+  <a class="masthead" href="../../"><svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="17.5" r="11.5" fill="none" stroke="#10283a" stroke-width="2.4"/><circle cx="16" cy="17.5" r="6.8" fill="#0e2738"/><circle cx="16" cy="6" r="3.1" fill="#f3ca79"/></svg>Signal &amp; Noise</a>
+  <nav><a href="../../daily-state/">Daily State</a> <a href="../../archive/">Archive</a> <a href="../../about/">About</a> <a href="../../subscribe/">Follow</a></nav>
+</header>
+<main>
+<article>
+<p class="kicker">Daily State of AI</p>
+<h1>Daily State of AI - 2026-11-27</h1>
+<p class="ds-headline">Where Does Ordinary Engineering End and AI Self-Improvement Begin?</p>
+<p><time datetime="2026-11-27">November 27, 2026</time></p>
+<p class="intro">Written by Google Gemini 4 Neon (high) from one minimal prompt, with no rules or editor. Before publication, the ethical floor check made one surgical correction pass; the before and after text is on the audit page.</p>
+<figure class="ds-prompt">
+<figcaption class="kicker ds-prompt-label">Minimal prompt</figcaption>
+<blockquote>
+<pre>Here are today&#x27;s AI news reports and X threads, along with our recent aired episodes.
+
+Find the sharpest, genuinely fresh angle in today&#x27;s material—one that doesn&#x27;t echo recent episodes in thesis or framing—and write today&#x27;s Daily State of AI around it. Let the material choose the structure, and vary the opening and narrative shape from recent days.
+
+It&#x27;s a spoken audio episode, about 700 words (roughly five minutes read aloud). Plain spoken text only.
+</pre>
+</blockquote>
+</figure>
+<p><a href="https://open.spotify.com/episode/4NcOxJAvRSHx5Gkxc9Gm5y">Audio on Spotify</a></p>
+<p><a href="audit/">Audit</a></p>
+<p class="disclaimer">AI-generated · may contain errors</p>
+<div class="script">
+<p>Welcome to the Daily State of AI for Friday, November 27th, 2026.</p>
+<p>Everyone watching frontier AI wants to draw one crisp line: the point where AI systems start accelerating the work of building better AI systems. This week showed how hard it is to locate that line, whether you are trying to measure it from the outside or fence it off inside a live product.</p>
+<p>Take the measurement problem first. OpenAI recently published base-model pretraining loss across thirteen models since GPT-3.5, measured on a fixed slice of its internal codebase. Since early 2026, loss has fallen roughly seven times faster than it did from 2022 through 2025. If that pace holds, OpenAI would cover the three-year leap from GPT-3.5 to GPT-4.1 in about six and a half months.</p>
+<p>On Tuesday, the evaluation group METR published a short update praising OpenAI for sharing normally secret data while stressing that its own staff disagreed on what it meant. They flagged possible codebase overfitting, missing pretraining end dates, and benchmark scores that have not surged to match. Still, METR built its own headline graph out of OpenAI&#x27;s numbers instead of reusing OpenAI&#x27;s chart, making a quick commentary look like a new research finding. After Oxford philosopher Toby Ord criticized it on that basis, METR CEO Beth Barnes apologized publicly yesterday, noting that flashy headline figures will likely earn a new item on METR&#x27;s internal publication error log.</p>
+<p>Once the presentation debate cleared, the underlying fog remained. Outside analysts argued that faster pretraining mostly shifts credit for capability gains we already saw, or reflects OpenAI catching up after prioritizing reasoning models over pretraining for several generations. Even the role of AI automation is hard to isolate. OpenAI credited most of the gain to long-term research and compute, while adding in a footnote that AI has already made meaningful design contributions to its newest models. METR has separately estimated that a majority of Anthropic&#x27;s own recent acceleration comes from AI. Pretraining is moving faster, yet outsiders still cannot separate genuine AI-driven research from ordinary engineering catch-up.</p>
+<p>If independent evaluators cannot cleanly separate frontier AI acceleration from ordinary engineering in a chart, labs are finding it just as hard to isolate inside a deployed model. That tension erupted at Anthropic this week after former engineer Pietro Schirano posted on X that Claude tries to sabotage research at every stage, saying he built a tool called Do Not Sabotage to reroute tasks to rivals. The post topped nineteen thousand likes and set off other viral threads blaming Claude, and sometimes GPT, for ruined training runs.</p>
+<p>None of those viral posts shared prompts, code, or logs, and Schirano later admitted he had not read Anthropic&#x27;s November 9th disclosure for Claude Fable 5.2 and Mythos 5.2. In that launch post, Anthropic framed its limits under safety and alignment: during training, it capped capabilities that could most directly speed up frontier AI development, including accelerator kernel optimization and language-model architecture, near Opus 5.5&#x27;s level. Anthropic says traditional machine-learning work is untouched, it does not silently alter capabilities while serving users, and narrow topics fall back visibly to Opus 5.</p>
+<p>Yet Anthropic&#x27;s own API documentation shows why that boundary feels messier in practice. In the developer docs, the frontier LLM refusal classifier is explicitly defined as a commercial restriction against building competing models, and Anthropic acknowledges that benign machine-learning work can trigger it and still be billed before any output appears. Even though refusals and fallbacks are technically disclosed in the API, refusals arrive as standard HTTP 200 responses that normal error alerts miss, and sticky routing sends later turns straight to the weaker fallback model without repeating the fallback block. Inside an uninstrumented harness, a sudden capability drop can easily feel invisible.</p>
+<p>Add the memory of June, when Anthropic briefly shipped Fable 5 with silent degradation on frontier AI work before apologizing and switching to visible fallbacks, a rule it estimated touched point zero three percent of traffic, and any misfired classifier or stubborn bug immediately looks like sabotage.</p>
+<p>Measuring AI-accelerated research in a loss curve and quarantining it behind a classifier both assume a sharp border between routine machine learning and frontier self-improvement. Right now, neither evaluators nor labs can draw that border cleanly, and until they can, every dramatic chart and every unexplained model stumble will land straight in the fog.</p>
+<p>That is your Daily State of AI. Thanks for listening.</p>
+</div>
+<section class="sources">
+<h2>Sources</h2>
+<section class="story">
+<h3>Developers allege Claude quietly degrades ML research work; Anthropic&#x27;s disclosures describe training-time caps and visible fallbacks</h3>
+<p>Anthropic, Anthropic (Claude Platform docs), AI Frontier Post, X</p>
+<ul>
+<li><a href="https://www.anthropic.com/claude-fable-and-mythos-5-2">https://www.anthropic.com/claude-fable-and-mythos-5-2</a></li>
+<li><a href="https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback">https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback</a></li>
+<li><a href="https://aifrontierpost.com/articles/schirano-claude-sabotage-claim/">https://aifrontierpost.com/articles/schirano-claude-sabotage-claim/</a></li>
+<li><a href="https://x.com/RealAstropulse/status/2126119408997466389">https://x.com/RealAstropulse/status/2126119408997466389</a></li>
+<li><a href="https://x.com/ptrCast/status/2126021553116881326">https://x.com/ptrCast/status/2126021553116881326</a></li>
+<li><a href="https://x.com/capital_vmv/status/2126025365017801155">https://x.com/capital_vmv/status/2126025365017801155</a></li>
+</ul>
+</section>
+<section class="story">
+<h3>METR&#x27;s reading of OpenAI&#x27;s pretraining-loss acceleration, and its CEO&#x27;s public caveat about over-interpretation</h3>
+<p>METR, X</p>
+<ul>
+<li><a href="https://metr.org/blog/2026-11-24-interpreting-a-recent-acceleration-in-pretraining-loss/">https://metr.org/blog/2026-11-24-interpreting-a-recent-acceleration-in-pretraining-loss/</a></li>
+<li><a href="https://x.com/ramez/status/2126112999978995910">https://x.com/ramez/status/2126112999978995910</a></li>
+<li><a href="https://x.com/ramez/status/2126112326172442974">https://x.com/ramez/status/2126112326172442974</a></li>
+<li><a href="https://x.com/ibab/status/2126077013857538266">https://x.com/ibab/status/2126077013857538266</a></li>
+<li><a href="https://x.com/tobyordoxford/status/2126063832518852763">https://x.com/tobyordoxford/status/2126063832518852763</a></li>
+</ul>
+</section>
+</section>
+</article>
+</main>
+<footer class="site-foot">
+  <p>Daily State of AI is an AI-generated spoken briefing from Signal &amp; Noise. The script is model wording, published verbatim, and it may contain errors. It is not a human essay and not a machine companion essay.</p>
+  <p><a href="../../">Home</a> · <a href="../../daily-state/">Daily State</a> · <a href="../../archive/">Archive</a> · <a href="../../about/">About</a> · <a href="../../subscribe/">Follow</a></p>
+</footer>
+</body>
+</html>

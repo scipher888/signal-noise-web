@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-27",
+  "mode": "audit",
+  "variant": null,
+  "title": "Daily State of AI - 2026-11-27",
+  "canonical_url": "https://www.signalandnoise.email/daily-state/2026-11-27/",
+  "model": "google/gemini-4-neon",
+  "reasoning_effort": "high",
+  "audio_url": null,
+  "episode_id": "4NcOxJAvRSHx5Gkxc9Gm5y",
+  "episode_url": "https://open.spotify.com/episode/4NcOxJAvRSHx5Gkxc9Gm5y",
+  "verified_at": "2026-11-27T15:38Z",
+  "verification": {
+    "method": "public_episode_and_show",
+    "checked_at": "2026-11-27T15:38Z",
+    "episode": {
+      "title": "Daily State of AI - 2026-11-27",
+      "canonical_url": "https://open.spotify.com/episode/4NcOxJAvRSHx5Gkxc9Gm5y",
+      "id": "4NcOxJAvRSHx5Gkxc9Gm5y"
+    },
+    "show": {
+      "id": "1AC7qV1tyVIICLtJVwBapp",
+      "episodes": [
+        {
+          "id": "4NcOxJAvRSHx5Gkxc9Gm5y",
+          "title": "Where Does Ordinary Engineering End and AI Self-Improvement Begin? | Daily State of AI - 2026-11-27",
+          "uri": "spotify:episode:4NcOxJAvRSHx5Gkxc9Gm5y"
+        }
+      ]
+    }
+  },
+  "video_url": null,
+  "sources_url": "/daily-state/2026-11-27/sources/",
+  "audit": {
+    "gate": false,
+    "attach": "after_publish"
+  },
+  "hashes": {
+    "script_sha256": "0294239db8a2598fbca49a8d7f93037d2c59775df951f137b3c74f2e66602c66",
+    "sources_sha256": "3209e8dad4d7f4b23f6915293c96ca59e217808fc6e6e0f6000c27ffce537d4b",
+    "neon_run_sha256": "ab65d6f51c608067976f196b9f1011ed61feb48eb776a1547c0d7774503d04fa",
+    "episode_sha256": null,
+    "short_sha256": null
+  },
+  "headline": "Where Does Ordinary Engineering End and AI Self-Improvement Begin?"
+}

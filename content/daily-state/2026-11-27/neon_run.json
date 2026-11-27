@@ -1,0 +1,144 @@
+{
+ "date": "2026-11-27",
+ "status": "ok",
+ "pipeline": "neon",
+ "model": "google/gemini-4-neon",
+ "reasoning_effort": "high",
+ "system_prompt": null,
+ "editor": null,
+ "qa": null,
+ "edits_after_generation": "ethical floor fix: 1 surgical edit(s) before TTS for 1 floor violation(s); before/after text in audit/audit.json ethical_floor",
+ "fallback": "none (fail closed)",
+ "prompts": {
+  "episode": "Here are today's AI news reports and X threads, along with our recent aired episodes.\n\nFind the sharpest, genuinely fresh angle in today's material—one that doesn't echo recent episodes in thesis or framing—and write today's Daily State of AI around it. Let the material choose the structure, and vary the opening and narrative shape from recent days.\n\nIt's a spoken audio episode, about 700 words (roughly five minutes read aloud). Plain spoken text only.\n",
+  "critique": "Review this draft against the sources, recent episodes, and the goal. List the most important problems—including any thematic or structural echo of recent days—and say what to change.",
+  "revise": "Revise using the critique. Reply with only the revised episode."
+ },
+ "model_attempts": [
+  {
+   "stage": "writer",
+   "model": "google/gemini-4-neon",
+   "reasoning_effort": "high",
+   "attempt": 1,
+   "outcome": "ok",
+   "error": null,
+   "seconds": 167.609,
+   "finish_reason": "stop",
+   "served_model": "google/gemini-4-neon",
+   "input_tokens": 31360,
+   "output_tokens": 12886,
+   "reasoning_tokens": 11937,
+   "cost_usd": 0.28737,
+   "streamed": true,
+   "generation_id": "gen-1795788000-OPQPnGiQVqGfOZcSNB4O"
+  },
+  {
+   "stage": "critique",
+   "model": "google/gemini-4-neon",
+   "reasoning_effort": "high",
+   "attempt": 1,
+   "outcome": "ok",
+   "error": null,
+   "seconds": 142.189,
+   "finish_reason": "stop",
+   "served_model": "google/gemini-4-neon",
+   "input_tokens": 32354,
+   "output_tokens": 9311,
+   "reasoning_tokens": 7791,
+   "cost_usd": 0.236727,
+   "streamed": true,
+   "generation_id": "gen-1795788168-oRoTCpQtJ4Myv3obDW8J"
+  },
+  {
+   "stage": "revise",
+   "model": "google/gemini-4-neon",
+   "reasoning_effort": "high",
+   "attempt": 1,
+   "outcome": "ok",
+   "error": null,
+   "seconds": 112.777,
+   "finish_reason": "stop",
+   "served_model": "google/gemini-4-neon",
+   "input_tokens": 33896,
+   "output_tokens": 6871,
+   "reasoning_tokens": 5937,
+   "cost_usd": 0.204753,
+   "streamed": true,
+   "generation_id": "gen-1795788310-VUMn95iNkcGrZUvgyIBk"
+  }
+ ],
+ "words": 733,
+ "duration_seconds": 287.71,
+ "bundle_sha256": "c8b1cc77a661bbdfcada6f6cdb9052a4f60786b4008cc6eb86daad05cbb8d661",
+ "script_sha256": "0294239db8a2598fbca49a8d7f93037d2c59775df951f137b3c74f2e66602c66",
+ "ethical_floor": {
+  "version": 1,
+  "checked": true,
+  "triggered": true,
+  "status": "fixed",
+  "error": null,
+  "audit_runs": 2,
+  "fail_rows_reviewed": 14,
+  "audit_counts": {
+   "initial": {
+    "episode": {
+     "PASS": 41,
+     "FAIL": 7,
+     "NEEDS-HUMAN": 26,
+     "ERROR": 0
+    },
+    "takeaways": {
+     "PASS": 20,
+     "FAIL": 7,
+     "NEEDS-HUMAN": 5,
+     "ERROR": 0
+    }
+   },
+   "final": {
+    "episode": {
+     "PASS": 42,
+     "FAIL": 3,
+     "NEEDS-HUMAN": 30,
+     "ERROR": 0
+    },
+    "takeaways": {
+     "PASS": 22,
+     "FAIL": 2,
+     "NEEDS-HUMAN": 7,
+     "ERROR": 0
+    }
+   }
+  },
+  "pre_fix": {
+   "script_sha256": "0294239db8a2598fbca49a8d7f93037d2c59775df951f137b3c74f2e66602c66",
+   "takeaways_sha256": "484fcf167590ed348d8f018fa034d7e95e64523db4c8cc226d6bc5e696aec5a3",
+   "audit_sha256": "4a83cdf9b468953ff3d4c5c478976b1fa10e90540431a9a337105f4e698de8be",
+   "files": "audit/pre_floor/"
+  },
+  "post_fix": {
+   "script_sha256": "0294239db8a2598fbca49a8d7f93037d2c59775df951f137b3c74f2e66602c66",
+   "takeaways_sha256": "903ec5f34eb37e51d4c2ad849b7181cf4000416cb138bf40f44603aa89c4beb6"
+  },
+  "cost_usd": 1.83071,
+  "seconds": 323.3,
+  "violations": [
+   {
+    "id": "t01-rate-attribution",
+    "category": "misattribution",
+    "artifact": "takeaways",
+    "quote": "OpenAI reported that base-model pretraining loss on an internal codebase slice has fallen roughly seven times faster since early 2026 than in 2022 through 2025"
+   }
+  ],
+  "edits": 1
+ },
+ "script_sha256_before_ethical_floor": "0294239db8a2598fbca49a8d7f93037d2c59775df951f137b3c74f2e66602c66",
+ "material": {
+  "source": "box_material",
+  "sha256": "6d66617fa8a93cbc457cb6b209a3377eda02eb19a36ae00bdc585c73fd80c004",
+  "chars": 120809
+ },
+ "audit": {
+  "gate": false,
+  "status": "ran before TTS (ethical floor check)"
+ }
+}
