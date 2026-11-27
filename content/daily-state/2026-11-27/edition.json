@@ -30,7 +30,7 @@
       ]
     }
   },
-  "video_url": null,
+  "video_url": "https://x.com/signalnoisepub/status/2126385102074900953",
   "sources_url": "/daily-state/2026-11-27/sources/",
   "audit": {
     "gate": false,
@@ -42,7 +42,8 @@
     "neon_run_sha256": "ab65d6f51c608067976f196b9f1011ed61feb48eb776a1547c0d7774503d04fa",
     "episode_sha256": null,
     "short_sha256": null,
-    "audit_short_sha256": "c791650061564db251698fe38949c39c70a26baa7e542f56d8f196a3d7206434"
+    "audit_short_sha256": "c791650061564db251698fe38949c39c70a26baa7e542f56d8f196a3d7206434",
+    "daily_short_sha256": "210fdbd7ecbb1ec54c0eb7543077b7749e378bce25891a13bc09fc4d9387f794"
   },
   "headline": "Where Does Ordinary Engineering End and AI Self-Improvement Begin?"
 }
