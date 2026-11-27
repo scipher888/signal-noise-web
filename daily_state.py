@@ -201,6 +201,18 @@ AUDIT_OPEN_STATUSES = frozenset({"FAIL", "ERROR"})
 # takeaways: the claims in the takeaways extracted from the episode (2026-11-21);
 # shown on the audit page only when that day's audit tested them.
 AUDIT_ARTIFACTS = ("episode", "short", "takeaways")
+# Ethical floor (Synthia 2026-11-26): synthia-workspace ethical_floor.py checks the
+# audit's FAIL rows before TTS and may make one surgical edit pass. audit.json then
+# carries an "ethical_floor" object that the audit page shows in full.
+ETHICAL_FLOOR_EDIT_PREFIX = "ethical floor fix"
+ETHICAL_FLOOR_CATEGORIES = {
+    "fabricated_event": "Fabricated event",
+    "invented_quote": "Invented quote",
+    "invented_number": "Invented or fused number",
+    "misattribution": "Serious misattribution",
+    "privacy_safety": "Privacy or safety",
+}
+ETHICAL_FLOOR_ARTIFACTS = ("episode", "takeaways")
 REPO_FILE_URL = "https://github.com/scipher888/signal-noise-web/blob/main/"
 VERIFICATION_KEYS = {"method", "checked_at", "episode", "show"}
 EPISODE_EVIDENCE_KEYS = {"title", "canonical_url", "id"}
@@ -1886,7 +1898,7 @@ def validate_neon_run(run, iso_date, variant):
     if run.get("system_prompt") is not None:
         raise Hold("audit edition must not carry a system prompt")
     edits = run.get("edits_after_generation")
-    if type(edits) is not str or not edits.startswith("none"):
+    if type(edits) is not str or not (edits.startswith("none") or edits.startswith(ETHICAL_FLOOR_EDIT_PREFIX)):
         raise Hold("audit edition was edited")
     prompts = run.get("prompts")
     if type(prompts) is not dict or type(prompts.get("episode")) is not str or prompts["episode"].strip() == "":
@@ -1899,9 +1911,73 @@ def validate_neon_run(run, iso_date, variant):
     return run
 
 
+def _floor_str(value, label, *, allow_none=False):
+    if value is None and allow_none:
+        return None
+    if type(value) is not str:
+        raise Hold(f"ethical floor {label} is invalid")
+    return value
+
+
+def _floor_sha(value, label):
+    if type(value) is not str or not re.fullmatch(r"[0-9a-f]{64}", value):
+        raise Hold(f"ethical floor {label} is invalid")
+    return value
+
+
+def validate_ethical_floor(floor, script_sha):
+    """The upstream floor record. A fix must name the corrected script this edition publishes."""
+    if type(floor) is not dict:
+        raise Hold("ethical floor is invalid")
+    for key in ("checked", "triggered"):
+        if type(floor.get(key)) is not bool:
+            raise Hold(f"ethical floor {key} is invalid")
+    status = _floor_str(floor.get("status"), "status")
+    violations = floor.get("violations") or []
+    if type(violations) is not list:
+        raise Hold("ethical floor violations are invalid")
+    for item in violations:
+        if type(item) is not dict or item.get("category") not in ETHICAL_FLOOR_CATEGORIES:
+            raise Hold("ethical floor violation is invalid")
+        if item.get("artifact") not in ETHICAL_FLOOR_ARTIFACTS:
+            raise Hold("ethical floor violation artifact is invalid")
+        for key in ("id", "quote", "why"):
+            _floor_str(item.get(key), f"violation {key}")
+        _floor_str(item.get("source_quote"), "violation source quote", allow_none=True)
+    if floor["triggered"] and not violations:
+        raise Hold("ethical floor triggered without violations")
+    if not floor["triggered"] and violations:
+        raise Hold("ethical floor violations without a trigger")
+    fix = floor.get("fix") or {}
+    if type(fix) is not dict:
+        raise Hold("ethical floor fix is invalid")
+    edits = fix.get("edits") or []
+    if type(edits) is not list:
+        raise Hold("ethical floor edits are invalid")
+    for edit in edits:
+        if type(edit) is not dict or edit.get("artifact") not in ETHICAL_FLOOR_ARTIFACTS:
+            raise Hold("ethical floor edit is invalid")
+        _floor_str(edit.get("before"), "edit before")
+        _floor_str(edit.get("after"), "edit after")
+    if status.startswith("fixed"):
+        if not floor["triggered"] or not edits:
+            raise Hold("ethical floor fix has no edits")
+        pre = floor.get("pre_fix") or {}
+        post = floor.get("post_fix") or {}
+        _floor_sha(pre.get("script_sha256"), "pre-fix script hash")
+        if _floor_sha(post.get("script_sha256"), "post-fix script hash") != script_sha:
+            raise Hold("ethical floor fix does not match script.txt")
+    counts = floor.get("audit_counts")
+    if counts is not None and type(counts) is not dict:
+        raise Hold("ethical floor audit counts are invalid")
+    return floor
+
+
 def validate_audit_document(audit, iso_date, script_sha):
-    if type(audit) is not dict or set(audit) != {"meta", "results"}:
+    if type(audit) is not dict or set(audit) - {"ethical_floor"} != {"meta", "results"}:
         raise Hold("unknown audit schema")
+    if "ethical_floor" in audit:
+        validate_ethical_floor(audit["ethical_floor"], script_sha)
     meta = audit["meta"]
     results = audit["results"]
     if type(meta) is not dict or type(results) is not list or not results:
@@ -2209,7 +2285,8 @@ def assert_shorts_first(html_text, edition, shorts):
         raise Hold("the written report must follow the label")
 
 
-def render_audit_edition_html(edition, paragraphs, sources, prompt, variant, *, shorts=None):
+def render_audit_edition_html(edition, paragraphs, sources, prompt, variant, *, shorts=None,
+                              floor_edited=False):
     body = "\n".join(
         f"<p>{html.escape(paragraph, quote=True)}</p>"
         for paragraph in body_paragraphs(paragraphs)
@@ -2221,6 +2298,12 @@ def render_audit_edition_html(edition, paragraphs, sources, prompt, variant, *, 
         f"Written by {label} ({effort}) from one minimal prompt, "
         "with no rules, editor or edits, published as produced."
     )
+    if floor_edited:
+        note = (
+            f"Written by {label} ({effort}) from one minimal prompt, with no rules or editor. "
+            "Before publication, the ethical floor check made one surgical correction pass; "
+            "the before and after text is on the audit page."
+        )
     quoted = (
         "<figure class=\"ds-prompt\">\n"
         "<figcaption class=\"kicker ds-prompt-label\">Minimal prompt</figcaption>\n"
@@ -2376,7 +2459,76 @@ def render_audit_counts_callout(lines):
     )
 
 
-def render_audit_html(edition, results, counts, variant):
+def _floor_counts_line(label, counts):
+    if type(counts) is not dict:
+        return None
+    parts = []
+    for artifact in AUDIT_ARTIFACTS:
+        row = counts.get(artifact)
+        if type(row) is dict and any(type(row.get(s)) is int and row.get(s) for s in AUDIT_STATUSES):
+            parts.append(f"{artifact} {row.get('PASS', 0)} PASS / {row.get('FAIL', 0)} FAIL")
+    return f"{label}: " + "; ".join(parts) if parts else None
+
+
+def render_ethical_floor(floor):
+    """The upstream ethical floor record, in plain words. Empty when the audit has none."""
+    if type(floor) is not dict:
+        return ""
+    e = lambda value: html.escape(str(value), quote=True)  # noqa: E731
+    criteria = ("a fabricated event, an invented quote, an invented or fused number, "
+                "a serious misattribution about a person or company, or a privacy or safety problem")
+    out = ["<section class=\"ds-ethical-floor\">", "<h2>Ethical floor</h2>"]
+    status = floor.get("status") or ""
+    reviewed = floor.get("fail_rows_reviewed")
+    if not floor.get("checked") and not floor.get("triggered"):
+        out.append(f"<p>The ethical floor check did not run for this edition ({e(status or 'not run')}). "
+                   "The briefing was published as written.</p>")
+    elif not floor.get("triggered"):
+        n = f"the {reviewed} FAIL rows" if type(reviewed) is int and reviewed else "the FAIL rows"
+        out.append(f"<p>Before the audio was made, {n} in this audit were checked against a minimal "
+                   f"ethical floor: {criteria}. None fell below it, so nothing was edited.</p>")
+    else:
+        violations = floor.get("violations") or []
+        fixed = status.startswith("fixed")
+        lead = (f"<p>Before the audio was made, {len(violations)} FAIL row(s) in this audit fell below a minimal "
+                f"ethical floor: {criteria}. ")
+        if fixed:
+            lead += ("One surgical edit pass corrected only those items, before the audio, the written edition "
+                     "and the shorts were made, and the audit was run once more on the corrected text. "
+                     "The rows below are from the refreshed audit.</p>")
+        else:
+            lead += f"The fix did not apply ({e(status)}), so the briefing was published as written.</p>"
+        out.append(lead)
+        pre = (floor.get("pre_fix") or {}).get("script_sha256")
+        if pre:
+            out.append(f"<p>Original script SHA-256: <code>{e(pre)}</code></p>")
+        lines = [line for line in (
+            _floor_counts_line("First audit", (floor.get("audit_counts") or {}).get("initial")),
+            _floor_counts_line("Refreshed audit", (floor.get("audit_counts") or {}).get("final")) if fixed else None,
+        ) if line]
+        if lines:
+            out.append("<p>" + "<br>".join(e(line) for line in lines) + "</p>")
+        for item in violations:
+            label = ETHICAL_FLOOR_CATEGORIES.get(item.get("category"), "Floor item")
+            out.append("<details open>")
+            out.append(f"<summary>{e(label)} · {e(item.get('quote') or '')}</summary>")
+            out.append(f"<p>{e(item.get('why') or '')}</p>")
+            if item.get("source_quote"):
+                out.append(f"<p>Source quote: {e(item['source_quote'])}</p>")
+            out.append(f"<p>Audit row: {e(item.get('id') or '')} ({e(item.get('artifact') or '')})</p>")
+            out.append("</details>")
+        edits = (floor.get("fix") or {}).get("edits") or []
+        if fixed and edits:
+            out.append("<h3>Edits</h3>")
+            for edit in edits:
+                where = "Takeaway" if edit.get("artifact") == "takeaways" else "Script"
+                out.append(f"<p>{e(where)}, before: <del>{e(edit.get('before') or '')}</del><br>"
+                           f"after: <ins>{e(edit.get('after') or '(removed)')}</ins></p>")
+    out.append("</section>\n")
+    return "\n".join(out)
+
+
+def render_audit_html(edition, results, counts, variant, floor=None):
     iso_date = edition["date"]
     title = f"Audit — {edition['title']}"
     shown = build.display_date(iso_date, "day")
@@ -2417,6 +2569,7 @@ def render_audit_html(edition, results, counts, variant):
         f"{explanation}"
         + render_audit_counts_callout(summary_lines)
         + render_audit_page_nav(edition)
+        + render_ethical_floor(floor)
         + "\n".join(groups)
         + "\n<p><a href=\"../\">Back to the edition</a></p>\n"
         "</article>"
@@ -2702,7 +2855,9 @@ def _load_root_audit_edition(directory, iso_date, *, link_opener=None):
             raise Hold(f"hard stop: video: {problem}")
     shorts = load_hosted_shorts(directory, iso_date, edition, files, raw, spotify)
     prompt = run["prompts"]["episode"]
-    html_text = render_audit_edition_html(edition, paragraphs, sources, prompt, None, shorts=shorts)
+    floor_edited = str(run.get("edits_after_generation") or "").startswith(ETHICAL_FLOOR_EDIT_PREFIX)
+    html_text = render_audit_edition_html(edition, paragraphs, sources, prompt, None, shorts=shorts,
+                                          floor_edited=floor_edited)
     sources_html = render_sources_page_html(iso_date, sources, None, edition)
     assert_audit_edition_page(html_text, edition, prompt, shorts=shorts)
     assert_sources_page(sources_html, iso_date, sources, None, edition)
@@ -2716,7 +2871,10 @@ def _load_root_audit_edition(directory, iso_date, *, link_opener=None):
         results, counts = validate_audit_document(audit, iso_date, actual["script_sha256"])
         for item in results:
             audit_check_path(directory, iso_date, item)
-        audit_html = render_audit_html(edition, results, counts, None)
+        floor = audit.get("ethical_floor")
+        if floor_edited and not (type(floor) is dict and str(floor.get("status") or "").startswith("fixed")):
+            raise Hold("neon run names an ethical floor fix that the audit does not record")
+        audit_html = render_audit_html(edition, results, counts, None, floor)
     else:
         audit_html = render_audit_pending_html(edition)
     if link_opener is not None:

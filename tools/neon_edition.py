@@ -3,7 +3,7 @@
 
     python3 tools/neon_edition.py build --date D --episode-dir DIR [--short MP4 --short-report JSON]
         [--episode-url URL] [--verification JSON]
-    python3 tools/neon_edition.py attach-audit --date D --audit-out DIR --kit DIR
+    python3 tools/neon_edition.py attach-audit --date D --audit-out DIR [--kit DIR]
     python3 tools/neon_edition.py set-short-url --date D --url URL [--mp4 PATH]
     python3 tools/neon_edition.py set-audit-short-url --date D --url URL [--mp4 PATH]
     python3 tools/neon_edition.py set-headline --date D --headline TEXT [--variant neon]
@@ -28,6 +28,13 @@ attach-audit copies the audit (audit.json, audit.md, the per-claim checks,
 the helper library, the runner, and the source snapshots) into
 content/daily-state/D/audit/. audit.json must be for D and for this script.
 The audit is for transparency and never blocks or edits the edition.
+From 2026-11-27 the audit normally runs upstream on the Mini before TTS
+(synthia-workspace ethical_floor.py) and is mirrored as DAY/audit/ with its kit
+at DAY/audit/kit/, so `attach-audit --audit-out MIRROR/audit` reuses it with no
+second Astra run. Its audit.json may carry an "ethical_floor" record (one
+surgical fix pass at most, with before/after text and the pre-fix script hash),
+which the audit page renders. When the Mini has no audit/audit.json, the box
+audit (prepare_daily.sh + run_audit.py) runs after publish as before.
 
 set-short-url writes a public X short URL into edition.json video_url and
 regenerates that date's edition page. The URL must be
@@ -81,6 +88,7 @@ RUN_KEYS = (
     "date", "status", "pipeline", "model", "reasoning_effort", "system_prompt",
     "editor", "qa", "edits_after_generation", "fallback", "prompts",
     "model_attempts", "words", "duration_seconds", "bundle_sha256", "script_sha256",
+    "ethical_floor", "script_sha256_before_ethical_floor",
 )
 
 
@@ -217,7 +225,14 @@ def build(args):
     neon_run = {key: run.get(key) for key in RUN_KEYS}
     material = run.get("material") or {}
     neon_run["material"] = {key: material.get(key) for key in ("source", "sha256", "chars")}
-    neon_run["audit"] = {"gate": False, "status": "runs after publish"}
+    if isinstance(run.get("ethical_floor"), dict) and (run.get("audit") or {}).get("file"):
+        # Upstream audit (synthia-workspace ethical_floor.py): ran before TTS on the Mini.
+        neon_run["audit"] = {"gate": False, "status": "ran before TTS (ethical floor check)"}
+    else:
+        neon_run["audit"] = {"gate": False, "status": "runs after publish"}
+    for key in ("ethical_floor", "script_sha256_before_ethical_floor"):
+        if neon_run.get(key) is None:
+            neon_run.pop(key, None)
     if has_short:
         short = {"file": "short.mp4", "sha256": sha256_file(args.short)}
         if args.short_report:
@@ -303,7 +318,7 @@ def attach_audit(args):
         return fail("audit.json is missing or unreadable")
     if (audit.get("meta") or {}).get("date") != date:
         return fail("audit.json is for another date")
-    kit = args.kit
+    kit = args.kit or os.path.join(args.audit_out, "kit")
     checks = os.path.join(kit, "checks", date)
     if not os.path.isdir(checks):
         return fail("checks for this date are missing")
@@ -700,7 +715,8 @@ def main(argv=None):
     a = sub.add_parser("attach-audit")
     a.add_argument("--date", required=True)
     a.add_argument("--audit-out", required=True)
-    a.add_argument("--kit", required=True)
+    a.add_argument("--kit", default=None,
+                   help="audit kit dir (default AUDIT_OUT/kit, the upstream Mini audit layout)")
     s = sub.add_parser("set-short-url")
     s.add_argument("--date", required=True)
     s.add_argument("--url", required=True)
