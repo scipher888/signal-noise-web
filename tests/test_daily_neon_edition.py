@@ -684,6 +684,13 @@ class DailyNeonEditionTest(unittest.TestCase):
         with self.assertRaises(daily_state.Hold):
             daily_state.commit_output(repo, edited, write=True, allow_correction=False)
 
+    def test_build_accepts_antigravity_neon_model(self):
+        (self.repo.mirror / "headline.txt").write_text("Headline From Mirror Today\n", encoding="utf-8")
+        self.assertEqual(self.repo.build(run=mini_run(model="antigravity/gemini-4-neon")), 0)
+        loaded = self.repo.load()
+        self.assertIn("Google Gemini 4 Neon", loaded["html"])
+        self.assertTrue((self.repo.edition_dir() / "headline.txt").is_file())
+
 
 if __name__ == "__main__":
     unittest.main()

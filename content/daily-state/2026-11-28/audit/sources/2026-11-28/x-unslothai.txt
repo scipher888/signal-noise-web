@@ -1,0 +1,59 @@
+@UnslothAI: Your local LLM can now take control of Unreal Engine, Unity &amp; Blender autonomously via Unsloth!
+
+Inkling 2 Mini GGUF and Unsloth successfully controlled those apps to create new assets with no human intervention.
+
+GitHub: https://t.co/aZWYAtakBP
+Guide: https://t.co/MrIxLXmANg https://t.co/hratSReIJA
+
+AFFILIATION NOTE (scan): First-party vendor announcement by UnslothAI; not an independent reliability evaluation.
+
+REPLIES:
+@JoshMakeStuff (11 likes): @UnslothAI @danielhanchen 35B a3b still my goat but inkling mini has some potential I’ll say.
+@chipster70 (5 likes): @UnslothAI May not seem much, but works very well. Also used the Studios 'Images' to generate the materials with flux3-klein which Blender used. The possibilities... https://t.co/mbmHvotqMz
+@JoshMakeStuff (3 likes): @heitortpaes @UnslothAI @danielhanchen doesn’t yap near as much,paralleling sub agents is a lot easier, and runs 3x as fast on my setup. I don’t have a crap ton of VRAM so it’s nice to hold the agents in ram and still have full GPU offload speeds.
+@EternalLoL (1 likes): @UnslothAI Any chance godot joins the list?
+@Bhebhurakhan (1 likes): @UnslothAI This is so cool 😎
+@trentster (1 likes): @DIY_Tardis @UnslothAI @sentra1_hq 😳 pace is starting to be too much for my little brain to process. Lol
+@matthew_d_white (1 likes): @UnslothAI Unslothing 3D modeling… wild
+@heitortpaes (1 likes): @JoshMakeStuff @UnslothAI @danielhanchen Why do you prefer 35b?
+@phyrexia (1 likes): @UnslothAI Inkling 2 Mini keeps surprising me. Today I moved production on my two RTX 3090s to it: 160 tok/s with one request and 458K of context.
+@billh8x (0 likes): @UnslothAI Autonomous asset creation with zero human intervention is the bold claim — with Inkling 2 Mini GGUF running locally, how many retries does a typical Unreal asset take before it's actually usable, and where does it still fail most often?
+@andyliang17335 (0 likes): @UnslothAI A local LLM driving Unreal and Blender with no human in the loop is a genuine milestone. What would you build first if you had it running tonight?
+@gaganashvilial (0 likes): @UnslothAI This is the part that matters for schools. No API bill, no data leaving the building, one decent PC in the lab. Curious how small the model can get before Blender control breaks.
+@joe_ptrkv_ch (0 likes): @StudiosPet @UnslothAI i tried both the full 8 and the 4 and they both got stuck in a thought loop
+@jasonni_x (0 likes): @UnslothAI Local LLMs driving Unreal and Blender on their own is the part that got me — we have talked about agents "using tools" for years, but this is agents building things in production software. Curious how reliability holds up on a real project, not a demo.
+@ohneisserdemy (0 likes): @UnslothAI i build product scenes with claude through the blender mcp and going part by part is what keeps the details clean. how does a mini local model hold up once the scene gets past a few dozen objects, does it lose track of whats already there?
+@ModelDropDaily (0 likes): @UnslothAI Autonomous control is the hard part, more than generating one asset. A local model driving Unreal or Blender needs to see the current scene and recover when a tool call fails. How does Inkling 2 Mini verify an edit before taking the next step?
+@thaysntt (0 likes): @UnslothAI This is the part I find most interesting — the agent doing the asset work inside the app, rather than generating files to import later. How reliable was it over longer sessions? Did it need much correction once the scene got complex, or did it hold together end to end?
+@JadeQuietOrbit (0 likes): For just the model, the Unsloth UD-IQ2_XXS file is 8.49 GB; its Q4_K_M is 16.6 GB before macOS, context or Blender. On a 16 GB mini I’d try the smaller file with a short text prompt first, then open a blank Blender scene and watch Memory Pressure and swap. Getting a reply in chat and having enough headroom to drive the editor are two different tests. I haven’t benchmarked your M6.
+@musashibo_ai (0 likes): @UnslothAI Mac Studio is on the way and this is exactly the kind of thing I want to try. What's the simplest first project a beginner could hand it in Blender?
+@DIY_Tardis (0 likes): @trentster @UnslothAI @sentra1_hq Just get the Ai to do it all.
+@StudiosPet (0 likes): @joe_ptrkv_ch @UnslothAI was it quantized and to what extent if so?
+@joe_ptrkv_ch (0 likes): @UnslothAI hmm i couldnt get inkling to do even the simplest thing via blender MCP.   just stuck in thought loops.
+@Launchpadhq_io (0 likes): @UnslothAI setup gotchas from the guide if you try this: unreal's mcp plugin and all toolsets are both off by default (edit &gt; plugins), blender needs 5.1+ with the official mcp add-on, and the app tools switch off while remote or lan access is on in unsloth.
+@GesundSparks (0 likes): @UnslothAI This is a huge step for local models! Agents that actually operate creative tools, not just chat about them. And it runs fully local, which matters for researchers and indie devs like me. Can't wait to try it!🤩
+@Liaminbeta (0 likes): @UnslothAI Local model plus MCP is the combo I keep coming back to. I'm running a personal assistant locally and the tool layer is where most of the work is. Curious how the small model holds up on long multi step tasks...I usually have to code many of the steps to get the desired output
+@JoshMakeStuff (0 likes): @mrtoktoktok @heitortpaes @UnslothAI @danielhanchen I’m min testing on my 4060ti w 64 gigs of 6000 ddr5 running the qwen 3.6 35b a3b mxfp4 from unsloth. Been using it a while now. Goated
+@mrtoktoktok (0 likes): @MaxCalkin @UnslothAI It has a chat harness.. it gets the job done, but not for power users
+@mrtoktoktok (0 likes): @JoshMakeStuff @heitortpaes @UnslothAI @danielhanchen What’s your setup Ser? And what quant / context size are you using with that 35b
+@Iammdshohag (0 likes): @UnslothAI Local models driving Unreal, Unity and Blender is a big step for small game studios: no per-token costs and no assets leaving the machine. Curious how it handles long tasks where one wrong step early on breaks the whole scene.
+@superstar_rweb3 (0 likes): @UnslothAI The existing-scene workflow in the guide looks especially useful. If a multi-step edit fails halfway through, can you review and undo the whole batch, or do you need to restore a project snapshot? That recovery path would matter on a scene you already care about.
+@csumoonhawk (0 likes): @UnslothAI Local models driving Blender with no human in the loop. That's when a Mac mini on your desk starts looking like a coworker.
+@eduardotech (0 likes): @UnslothAI this is the kind of demo I like for local models. curious how often it needs a retry when a tool call fails, Blender's API has a lot of ways to get things slightly wrong
+@grok (0 likes): For Inkling 2 Mini GGUF via Unsloth on MacBook: Apple Silicon with 32GB unified memory is the sweet spot (official rec). Recommended quant UD-Q4_K_XL is ~17.6GB. 24GB runs 4-bit with limited context; 16GB needs 2-3bit quants. Unsloth Desktop works on macOS 12+. Also need Blender/Unity/Unreal installed locally.
+@anshulkr713 (0 likes): @UnslothAI @grok specs to run this in MacBook?
+@ApexAITech (0 likes): @UnslothAI Unsloth control feels autonomously creative today indeed now always plus
+@jacklin_1202 (0 likes): @UnslothAI Impressive that it ran with no human intervention — which of the three apps was hardest to keep on rails, and how did it recover when a tool call failed?
+@RodMalehmir (0 likes): @UnslothAI the bridge is wrong on so many levels.
+@ajeetkrup401 (0 likes): @UnslothAI Local AI building 3D worlds autonomously is mind-blowing.
+@JacobDev15 (0 likes): @UnslothAI with no human in the loop, who decided the assets were done? the model checking its own renders, or every tool call returning ok?
+@javibuildz (0 likes): @UnslothAI my worry with local models driving blender and unreal on their own is one bad step late in the run ruining the asset. how many steps did one asset take, and where did it break first when it failed?
+@5d0dc2e6b8aa426 (0 likes): @UnslothAI The next feature is the ability to run two models simultaneously: 1. Text, 2. Images or 3D, with intelligent switching between them to free up VRAM.
+@initlayers (0 likes): @UnslothAI How many tries did it take to get a usable asset? Curious how often a small local model gets stuck halfway in something like Unreal.
+@chipster70 (0 likes): @UnslothAI I got the Blender MCP working, had to disable Lan access tho. Also found sandbox settings to try changeing.
+@MaxCalkin (0 likes): @UnslothAI Does unsloth have a harness?
+@AyaanBuild (0 likes): @UnslothAI local model driving unreal, unity and blender with no human touching the wheel. lmao, the asset pipeline went full autopilot 😂
+@starryuox (0 likes): @UnslothAI The demo looks promising. Being able to review and undo each step would make this much easier to trust on a real project.
+@0xscraper (0 likes): @UnslothAI creating assets is the safe part, I would want to know what it is allowed to delete in the project before letting it run unattended
+@Afterthought_01 (0 likes): @MaxKongerskov @UnslothAI 0.0001% of people have that hardware.
+@JouirouMed (0 likes): @UnslothAI With which one you doing the protein pymol or chimeraX?

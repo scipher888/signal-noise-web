@@ -1,0 +1,284 @@
+Blender, Unreal Engine, Unity, Godot, Roblox with Local Models | Unsloth Documentation
+For the complete documentation index, see llms.txt. Markdown versions of documentation pages are available by appending .md to page URLs.Skip to content
+Introducing Unsloth Desktop: the first local app to run & train models
+✨Read more
+⌘Ctrlk
+GitBook AssistantAskRedditDiscordGitHubNewsletter
+More🇺🇸 English
+GitBook Assistant
+GitBook Assistant
+GitBook Assistant
+I'm here to help you with the docs.
+What is the difference between Unsloth Studio and Desktop?How to configure Unsloth API for local access?How do I use Browser Use in Unsloth?What is Dynamic V3 GGUF?How to connect Unsloth to Claude Code?
+⌘Ctrli
+AI Based on your contextSend
+🇺🇸 English
+🦥Homepage
+✨Introducing Unsloth Desktop
+Get Started
+📥Installation
+🔮Models
+🌱Beginner?
+📒Unsloth Notebooks
+🧬Fine-tuning Guide
+💡Reinforcement Learning
+New
+Unsloth Updates
+🦥Unsloth Studio
+Models
+Inkling 2 Mini
+DeepSeek-V4.1-Flash
+Qwen3.8-27B
+Qwen3.8-Flash-Next
+GLM-5.3-Flash
+Complete LLM Directory
+🧩NVIDIA Nemotron 3.5 Bolt
+Recursive Flint
+Qwen-Image-2.1
+✨Gemma 4
+MiniMax-H3
+LTX-2.5
+MiniMax-H3-Image
+FLUX 3 Image
+MOSS-Image
+DeepSeek-V4-Flash
+NVIDIA Cosmos 3
+💜Qwen3.6
+🌘Kimi K3
+🪽Run MTP Models
+Decision Models (Jev + Laya)
+💜Qwen3.5
+Meta Muse Glimmer
+Basics
+🦥Dynamic 3.0 GGUFs
+Unsloth Start
+Unsloth API
+Serve Models with HTTPS
+Serve Models over LAN
+Browser Use
+Computer Use
+🖥️Inference & Deployment
+Generate Images Diffusion
+Fine-tuning Diffusion Models
+Fine-tuning Video Models
+Claude Code
+OpenAI Codex
+Train your own Decision Model
+🦥Unsloth Dynamic NVFP4
+AMD NPU
+AMD
+MCP Server
+Blender, Unreal Engine, Unity with Local Models
+Multi-GPU Training
+🔎Embedding Fine-tuning
+💎Faster MoE Training
+🔊Text-to-Speech Fine-tuning
+Tool Calling Guide
+👁️Vision Fine-tuning
+⚠️Troubleshooting & FAQs
+💬Chat Templates
+♻️Continued Pretraining
+Integrations
+Unsloth Start
+Connect a Provider
+Run models in VS Code
+Blender, Unreal Engine, Unity, Godot, Figma, Roblox
+OpenCode
+Hermes Agent
+OpenClaw
+Python SDK
+Curl & HTTP
+Train on VS Code
+OpenAI Codex
+Claude Code
+Blog
+⚡New 3x Faster Training
+500K Context Training
+Quantization-Aware Training
+DGX Station
+Unsloth Docker Guide
+DGX Spark and Unsloth
+Blackwell, RTX 50 and UnslothPowered by GitBook
+On this page
+GitBook AssistantAskOn this page
+Basics
+How to Use MCP Servers with Local LLMs
+Blender, Unreal Engine, Unity, Godot, Roblox with Local Models
+Drive Blender, Unity, Unreal Engine, Godot, Figma and more from Unsloth with local models
+You can now drive Blender, Unity, Unreal Engine, Godot, Figma and Roblox Studio from Unsloth with local models. In this guide, Unreal Engine, Godot and Blender are all driven by Qwen3.8-27B or Qwen3.8-Flash-Next Unsloth quants:
+App
+What you install
+Port
+Blender 5.1+
+Official Blender MCP add-on
+9876
+Unity 2021.3+
+MCP for Unity package
+8080
+Unreal Engine 5.8+
+Epic's built-in Unreal MCP plugin
+8000
+Godot 4
+Godot MCP Native plugin
+9080
+Figma (Windows, macOS)
+Nothing: the desktop app has an MCP server
+3845
+Roblox Studio (Windows, macOS)
+Nothing: Studio has an MCP server
+none
+Keep the app open on the same computer as Unsloth. In the chat's MCP menu pick it, tick the permission box, then Test connection and Enable.
+Godot, Figma and Roblox Studio are under More. Not installed means Unsloth did not find the app: see its install step below.
+Use a model that is good at tool calling, such as Qwen3.8-27B (UD-Q4_K_XL).
+These tools run code in your app, so only the owner account can use them, and they turn off while Remote access or LAN access is on. Other port? Change it under Advanced settings. Other apps: use Add custom MCP or Import config.
+Blender
+1
+Install Blender 5.1+
+Get it from blender.org. On Linux, extract the .tar.xz with tar and run ./blender. If blender is not on your PATH, set Blender executable under Advanced settings in Unsloth.
+2
+Install the add-on
+Turn on Online Access in Edit → Preferences → System. Drag the install button from the Blender MCP add-on page into Blender twice: once for the Blender Lab repository, once for the add-on.
+3
+Start its bridge
+The bridge starts with Blender on port 9876 (Auto Start). If it is off, open Edit → Preferences → Add-ons → MCP and click Start MCP Bridge Server.
+Look for Server is running.
+4
+Connect Unsloth
+Pick Blender in the MCP menu, tick the permission box, then Test connection and Enable. The first time, Unsloth downloads Blender's MCP server.
+No display? Run xvfb-run -a ./blender. The bridge does not start with blender -b.
+Blender example
+Try: "Use the Blender tools to build a small low-poly island with a sea, a grassy hill, a few trees, a wooden cabin and a warm sun."
+7 tool calls, then a render of the result.
+Unity
+1
+Install Unity 2021.3+
+Install Unity Hub (Linux steps), then add an editor under Installs → Install Editor. Also install uv: MCP for Unity runs its server with it.
+2
+Install MCP for Unity
+In Window → Package Manager, click + → Add package from git URL and paste https://github.com/CoplayDev/unity-mcp.git?path=/MCPForUnity#main.
+3
+Start its server
+Open Window → MCP for Unity, keep the transport on HTTP (port 8080) and start the server.
+4
+Connect Unsloth
+Pick Unity in the MCP menu, tick the permission box, then Test connection and Enable.
+Amber MCP only: the server is up but no Unity Editor has joined yet. Green Connected: ready.
+Unity example
+Try: "Use Unity MCP to create a professional-quality low-poly palm prefab with a slender curved trunk and an uneven crown of arching fronds, lime above deep green. Frame the whole tree on warm sand against blue sky with soft side lighting. Check its silhouette at thumbnail size, refine if needed, save the prefab, and show the Game view in chat."
+Now that we have our asset, we can also ask Qwen3.8-27B to add it to an existing scene.
+Keep building in the same chat
+Once you have a first version, ask for one visible change at a time. For example: “Group the palms toward one side of the island and leave an open stretch of beach. Show me the Game view.” Then use the screenshot to decide what to change next.
+For longer builds, open Run settings → Tools → Max Tool Calls Per Message and raise the limit, or drag it to Max. If a response stops partway through, try: “Check what’s already in the scene and continue from there.”Edit an existing scene
+Open a scene you already have and describe what you want to change.
+Prompt: “Turn this dinosaur beach into a hazy sunset and add three pale turquoise eggs on the sand between the dinosaurs. Keep the camera in place so I can compare the two shots.”
+Unreal Engine
+1
+Get Unreal Engine 5.8+
+Windows and macOS: the Epic Games Launcher. Linux: the Installed Build, or build from source after linking GitHub in your Epic account (Connections → Accounts) and accepting the @EpicGames invite:
+2
+Turn on the plugin
+In Edit → Plugins, turn on Unreal MCP and All Toolsets (both off by default), then restart the editor.
+3
+Start Unreal MCP server
+The server is off by default. In Edit → Editor Preferences → General → Model Context Protocol, turn on Auto Start Server and restart the editor. It listens on port 8000.
+4
+Connect Unsloth
+Pick Unreal Engine in the MCP menu, tick the permission box, then Test connection and Enable.
+Using the community EngineWire plugin? Set port 3000 and your project folder under Advanced settings.
+No display? Run Engine/Binaries/Linux/UnrealEditor MyProject.uproject -RenderOffscreen -ModelContextProtocolStartServer. Through a public --secure link, start Unsloth with UNSLOTH_STUDIO_ALLOW_STDIO_MCP=1 (details).
+Unreal Engine example
+Try: "Build a small, colorful village square with the Unreal tools: a grass slab, a stone well, four beige houses with red roofs and six trees." Naming the toolsets (SceneTools, PrimitiveTools, MaterialInstanceTools) helps the model find them faster.
+Qwen3.8-27B builds the scene through Unreal's own tools.
+Rendered by Unreal Engine 5.8.
+Godot
+1
+Install Godot 4
+Get Godot 4.5+ from godotengine.org, extract the zip and run it. No installer needed.
+2
+Install the plugin
+Open the AssetLib tab (Asset Store in Godot 4.7), search Godot MCP Native, then download and install it.
+3
+Enable it
+In Project → Project Settings → Plugins, tick Godot MCP Native.
+4
+Start its server
+Open the MCP tab at the top of the editor, keep the transport on http (port 9080) and click Start Server. Tick Auto Start to start it with the editor next time.
+Look for Status: Running.
+5
+Connect Unsloth
+Pick More → Godot in the MCP menu, tick the permission box, then Test connection and Enable.
+No display? Run godot --headless --editor --path /path/to/project -- --mcp-server.
+Godot example
+Try: "Use the Godot tools to make a self-playing Pong game."
+25 tool calls, then the game it made.
+Figma
+1
+Open a file
+Open a design file in the Figma desktop app (Windows or macOS, Dev or Full seat).
+2
+Start its server
+With nothing selected, switch to Dev Mode and click Enable desktop MCP server in the right sidebar (port 3845).
+3
+Connect Unsloth
+Pick More → Figma in the MCP menu, tick the permission box, then Test connection and Enable. Figma's server is read-only: the model can read frames, styles and assets but not change them.
+Roblox Studio
+1
+Turn on Studio's server
+In Roblox Studio (Windows or macOS), open Assistant → … → Manage MCP Servers and turn on Enable Studio as MCP server.
+2
+Connect Unsloth
+Pick More → Roblox Studio in the MCP menu, tick the permission box, then Test connection and Enable. Unsloth starts Roblox's own MCP launcher, so there is no port to set.
+PreviousMCP Server
+NextMulti-GPU Training
+Last updated 8 days ago
+Was this helpful?
+Community
+Reddit r/unsloth
+Twitter (X)
+LinkedIn
+Resources
+Tutorials
+Download
+Hugging Face
+Company
+Unsloth Desktop
+Contact
+© Unsloth, 2026
+Blender
+Install Blender 5.1+
+Install the add-on
+Start its bridge
+Connect Unsloth
+Blender example
+Unity
+Install Unity 2021.3+
+Install MCP for Unity
+Start its server
+Connect Unsloth
+Unity example
+Keep building in the same chat
+Edit an existing scene
+Unreal Engine
+Get Unreal Engine 5.8+
+Turn on the plugin
+Start Unreal MCP server
+Connect Unsloth
+Unreal Engine example
+Godot
+Install Godot 4
+Install the plugin
+Enable it
+Start its server
+Connect Unsloth
+Godot example
+Figma
+Open a file
+Start its server
+Connect Unsloth
+Roblox Studio
+Turn on Studio's server
+Connect Unsloth
+Was this helpful?
+GitBook AssistantAskCopygit clone --depth 1 --branch 5.8.4-release https://github.com/EpicGames/UnrealEngine
+cd UnrealEngine && ./Setup.sh && ./GenerateProjectFiles.sh
+make ShaderCompileWorker UnrealEditor

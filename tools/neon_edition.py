@@ -202,7 +202,7 @@ def build(args):
         return fail("run.json is missing or unreadable")
     if run.get("date") != date or run.get("status") != "ok":
         return fail("neon run is not an ok run for this date")
-    if run.get("pipeline") != daily_state.ROOT_NEON_PIPELINE or run.get("model") != daily_state.NEON_MODEL:
+    if run.get("pipeline") != daily_state.ROOT_NEON_PIPELINE or run.get("model") not in daily_state.NEON_MODELS:
         return fail("run is not the daily neon pipeline")
     for name in ("script.txt", "sources.json"):
         if not os.path.isfile(os.path.join(src, name)):

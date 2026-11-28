@@ -1,0 +1,9 @@
+{
+ "gguf": "primary-gguf-supply-chain-malware",
+ "itsmeajaykv": "x-itsmeajaykv",
+ "gpt": "primary-gpt-6-2-astra-sol-wisdom",
+ "thezvi": "x-thezvi",
+ "unsloth": "primary-unsloth-local-3d-engine-mcp",
+ "unslothai": "x-unslothai",
+ "framing": "scan-framing"
+}

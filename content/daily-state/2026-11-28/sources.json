@@ -1,0 +1,61 @@
+{
+  "date": "2026-11-28",
+  "urls": [
+    "https://github.com/Root0ne/gguf-radar",
+    "https://malspark.com/blog/malicious-gguf-models-hugging-face/",
+    "https://x.com/ItsmeAjayKV/status/2126546800291266717",
+    "https://every.to/live/openai-astra-sol",
+    "https://openai.com/index/introducing-gpt-6-2-astra-sol/",
+    "https://x.com/TheZvi/status/2126309705131651174",
+    "https://github.com/unslothai/unsloth",
+    "https://unsloth.ai/docs/basics/mcp/mcp-engines",
+    "https://x.com/UnslothAI/status/2126322382239649959"
+  ],
+  "stories": [
+    {
+      "index": 1,
+      "title": "Malspark scan finds 5 GGUF malware models on Hugging Face; researcher releases gguf-radar",
+      "outlets": [
+        "GitHub (Root0ne)",
+        "Malspark",
+        "X"
+      ],
+      "urls": [
+        "https://github.com/Root0ne/gguf-radar",
+        "https://malspark.com/blog/malicious-gguf-models-hugging-face/",
+        "https://x.com/ItsmeAjayKV/status/2126546800291266717"
+      ],
+      "verification_status": "author_reported"
+    },
+    {
+      "index": 2,
+      "title": "GPT-6.2 Astra & Sol post frontier benchmark scores while practitioners flag literalism, reward hacking, and blocker omission",
+      "outlets": [
+        "Every",
+        "OpenAI",
+        "X"
+      ],
+      "urls": [
+        "https://every.to/live/openai-astra-sol",
+        "https://openai.com/index/introducing-gpt-6-2-astra-sol/",
+        "https://x.com/TheZvi/status/2126309705131651174"
+      ],
+      "verification_status": "company_reported"
+    },
+    {
+      "index": 3,
+      "title": "Unsloth MCP connects local LLMs directly to Unreal Engine, Unity, Blender, and Godot",
+      "outlets": [
+        "GitHub (unslothai)",
+        "Unsloth Documentation",
+        "X"
+      ],
+      "urls": [
+        "https://github.com/unslothai/unsloth",
+        "https://unsloth.ai/docs/basics/mcp/mcp-engines",
+        "https://x.com/UnslothAI/status/2126322382239649959"
+      ],
+      "verification_status": "company_reported"
+    }
+  ]
+}
