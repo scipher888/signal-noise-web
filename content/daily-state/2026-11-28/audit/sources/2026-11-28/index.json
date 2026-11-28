@@ -1,0 +1,55 @@
+{
+ "date": "2026-11-28",
+ "bundle_sha256": "cd970d47ee1d22026dc2faccfc29828f619a78f01d31622b0aa609103895ed66",
+ "sources": {
+  "primary-gguf-supply-chain-malware": {
+   "file": "primary-gguf-supply-chain-malware.txt",
+   "url": "https://malspark.com/blog/malicious-gguf-models-hugging-face/",
+   "title": "GGUF LLM Models with Hidden Malware on Hugging Face Reached 2400+ Victims",
+   "kind": "primary",
+   "sha256": "2c0842926369605d62dd45a5e9c3735dced71492f757044cae2ad4036d2e999c"
+  },
+  "x-itsmeajaykv": {
+   "file": "x-itsmeajaykv.txt",
+   "url": "https://x.com/ItsmeAjayKV/status/2126546800291266717",
+   "title": "X post by @ItsmeAjayKV (AJ)",
+   "kind": "x_post",
+   "sha256": "9b222daaf3ca79f8da6f6ef9d1ef220f651005690d5d7cf873b5d014f929ddf7"
+  },
+  "primary-gpt-6-2-astra-sol-wisdom": {
+   "file": "primary-gpt-6-2-astra-sol-wisdom.txt",
+   "url": "https://openai.com/index/introducing-gpt-6-2-astra-sol/",
+   "title": "Introducing GPT-6.2 Astra and Sol",
+   "kind": "primary",
+   "sha256": "2e00a2b0c0c84e875d2a91850b1b012bb046d6fe86ab65d2d259a5e85a0d0c7e"
+  },
+  "x-thezvi": {
+   "file": "x-thezvi.txt",
+   "url": "https://x.com/TheZvi/status/2126309705131651174",
+   "title": "X post by @TheZvi (Zvi Mowshowitz)",
+   "kind": "x_post",
+   "sha256": "213bfbc68494465de5f215673bb086e1c67b750dc7a08bf4df9da9c562cdfd5b"
+  },
+  "primary-unsloth-local-3d-engine-mcp": {
+   "file": "primary-unsloth-local-3d-engine-mcp.txt",
+   "url": "https://unsloth.ai/docs/basics/mcp/mcp-engines",
+   "title": "Blender, Unreal Engine, Unity, Godot, Roblox with Local Models",
+   "kind": "primary",
+   "sha256": "5387f0e5cd9152a9208329912d303151ef28c1d836cbedc0bb6dba48cb79aaa8"
+  },
+  "x-unslothai": {
+   "file": "x-unslothai.txt",
+   "url": "https://x.com/UnslothAI/status/2126322382239649959",
+   "title": "X post by @UnslothAI (Unsloth AI)",
+   "kind": "x_post",
+   "sha256": "698119d6740bdfaf53175bd6b446d21f687d225a3ced6ee6aa01a94212071f2e"
+  },
+  "scan-framing": {
+   "file": "scan-framing.txt",
+   "url": "https://www.signalandnoise.email/content/daily-state/2026-11-28/audit/sources/2026-11-28/scan-framing.txt",
+   "title": "Morning X-first scan: verification framing per story",
+   "kind": "scan",
+   "sha256": "996c3cef9b7ebfb2ee0a91d4184a7bd7539ea5332e8bf5945dc1cb6a59775249"
+  }
+ }
+}

@@ -176,7 +176,7 @@ HOSTED_SHORTS = (
     ("audit", "audit-short.mp4", "audit-short.jpg", "audit_short_sha256", "Audit short"),
 )
 HOSTED_SHORT_HASH_KEYS = frozenset(item[3] for item in HOSTED_SHORTS)
-ROOT_AUDIT_OPTIONAL_FILES = ("short.mp4",) + tuple(
+ROOT_AUDIT_OPTIONAL_FILES = ("short.mp4", "headline.txt") + tuple(
     name for item in HOSTED_SHORTS for name in (item[1], item[2])
 )
 ROOT_AUDIT_HASH_KEYS = frozenset({
@@ -190,6 +190,8 @@ SELF_HOSTED_AUDIO_LAST_DATE = "2026-11-21"
 ROOT_AUDIT_SPOTIFY_KEYS = frozenset({"episode_id", "episode_url", "verified_at", "verification"})
 ROOT_NEON_PIPELINE = "neon"
 NEON_MODEL = "google/gemini-4-neon"
+ANTIGRAVITY_NEON_MODEL = "antigravity/gemini-4-neon"
+NEON_MODELS = frozenset({NEON_MODEL, ANTIGRAVITY_NEON_MODEL})
 AUDIT_PENDING_MARKER = "<!-- daily-state-audit-pending -->"
 AUDIT_COUNTS_LABEL = "Audit results"
 AUDIT_COUNTS_CAPTION = (
@@ -1813,7 +1815,7 @@ def sources_page_url(iso_date, variant=None):
 
 
 def audit_model_label(model, variant):
-    if variant in (None, "neon") and model == NEON_MODEL:
+    if variant in (None, "neon") and model in NEON_MODELS:
         return "Google Gemini 4 Neon"
     raise Hold("edition model does not match the variant")
 
@@ -1922,7 +1924,7 @@ def validate_neon_run(run, iso_date, variant):
     if variant is None:
         if run.get("pipeline") != ROOT_NEON_PIPELINE:
             raise Hold("neon run pipeline is not the daily neon pipeline")
-        if run.get("model") != NEON_MODEL:
+        if run.get("model") not in NEON_MODELS:
             raise Hold("neon run model does not match")
         if run.get("status") != "ok":
             raise Hold("neon run did not finish")
@@ -2822,7 +2824,7 @@ def validate_root_audit_edition(edition, iso_date, has_short):
         raise Hold("edition title does not match the date")
     if edition["canonical_url"] != audit_page_url(iso_date, None):
         raise Hold("edition canonical url does not match the date")
-    if edition["model"] != NEON_MODEL:
+    if edition["model"] not in NEON_MODELS:
         raise Hold("edition model does not match the daily neon pipeline")
     if type(edition["reasoning_effort"]) is not str or edition["reasoning_effort"].strip() == "":
         raise Hold("edition reasoning effort is missing")

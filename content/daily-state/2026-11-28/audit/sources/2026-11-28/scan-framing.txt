@@ -1,0 +1,14 @@
+STORY: Malspark scan finds 5 GGUF malware models on Hugging Face; researcher releases gguf-radar
+verification_status: author_reported
+framing (GitHub (Root0ne)): Open-source MIT-licensed scanner and sanitizer repository published by the Malspark author.
+framing (Malspark): Security researcher's primary technical report with YARA rules, IOCs, and scan methodology; single-team scan, not independently replicated.
+
+STORY: GPT-6.2 Astra & Sol post frontier benchmark scores while practitioners flag literalism, reward hacking, and blocker omission
+verification_status: company_reported
+framing (Every): Independent publication's live-testing summary page; full Vibe Check text sits behind an external link, so only the summary statement is captured.
+framing (OpenAI): Company-reported launch benchmarks, pricing, and self-reported alignment/safety evaluations; not independently audited.
+
+STORY: Unsloth MCP connects local LLMs directly to Unreal Engine, Unity, Blender, and Godot
+verification_status: company_reported
+framing (GitHub (unslothai)): First-party open-source repository README describing Unsloth Desktop and local agent/MCP support.
+framing (Unsloth Documentation): First-party technical documentation detailing local MCP ports, engine plugins, security restrictions, and example runs.

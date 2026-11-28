@@ -1,0 +1,34 @@
+@ItsmeAjayKV: How can i know if a gguf is poisoned?  
+
+Well the same security researcher @Root0ne has created this tool to check it, and it's open on github !  
+
+gguf-radar https://t.co/jMMZUohtBh
+
+Claims gguf-radar can be used to find poisoned chat templates and hidden payloads in LLM models, without running them, and rebuilds clean GGUF files with the weights unchanged. 
+
+ "GGUF Radar checks local .gguf files, Hugging Face model links and the chat template files of Safetensors and PyTorch models."
+
+AFFILIATION NOTE (scan): Third-party security observer summarizing @Root0ne / Malspark's report; not an independent scan.
+
+REPLIES:
+@ItsmeAjayKV (380 likes): How can i know if a gguf is poisoned?  
+
+Well the same security researcher @Root0ne has created this tool to check it, and it's open on github !  
+
+gguf-radar https://t.co/jMMZUohtBh
+
+Claims gguf-radar can be used to find poisoned chat templates and hidden payloads in LLM models, without running them, and rebuilds clean GGUF files with the weights unchanged. 
+
+ "GGUF Radar checks local .gguf files, Hugging Face model links and the chat template files of Safetensors and PyTorch models."
+@DaveLsk8m (1 likes): @ItsmeAjayKV @Root0ne Think huggingface should incorporate this by default on uploads.
+@ItsmeAjayKV (1 likes): @alexokita @Root0ne Nice, am adding that as well.
+@alexokita (1 likes): @ItsmeAjayKV @Root0ne My agent now knows to scan GGUFs from new uploaders.
+@ModelTestLab (1 likes): @ItsmeAjayKV @Root0ne For Hugging Face links it only range-fetches the GGUF header and the trailing bytes, so no multi-GB download to scan a repo.
+@TsenJonathan (0 likes): @ItsmeAjayKV @Root0ne sneaking unpack commands into the chat template is wild, especially if an agent has bash access
+@eddyvustg (0 likes): @ModelTestLab @ItsmeAjayKV @Root0ne huge win using range requests for that, saves you from pulling 20gb just to check metadata.
+@MysticmasterFIN (0 likes): @ItsmeAjayKV @Root0ne Good tool!
+@solitudis_x (0 likes): @ItsmeAjayKV @Root0ne clean weights hash still tells you nothing about the template
+@Ipsi_Cust (0 likes): @ItsmeAjayKV @Root0ne Thanks for sharing man, good to know!
+@illulachy_ (0 likes): @ItsmeAjayKV @Root0ne how does it tell a poisoned chat template from a merely unusual one? fixed rules for known patterns, or a diff against the model's official template?
+@ItsmeAjayKV (0 likes): @ModelTestLab @Root0ne We need a better solution.
+@kiteze2x (0 likes): @ItsmeAjayKV @Root0ne Five trojans in 3.2M repos is rare, and one is all a laptop needs.

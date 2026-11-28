@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-28",
+  "mode": "audit",
+  "variant": null,
+  "title": "Daily State of AI - 2026-11-28",
+  "canonical_url": "https://www.signalandnoise.email/daily-state/2026-11-28/",
+  "model": "antigravity/gemini-4-neon",
+  "reasoning_effort": "high",
+  "audio_url": null,
+  "episode_id": "4kkSaP2vjWIIEhAXA45u7a",
+  "episode_url": "https://open.spotify.com/episode/4kkSaP2vjWIIEhAXA45u7a",
+  "verified_at": "2026-11-28T15:23Z",
+  "verification": {
+    "method": "public_episode_and_show",
+    "checked_at": "2026-11-28T15:23Z",
+    "episode": {
+      "title": "Daily State of AI - 2026-11-28",
+      "canonical_url": "https://open.spotify.com/episode/4kkSaP2vjWIIEhAXA45u7a",
+      "id": "4kkSaP2vjWIIEhAXA45u7a"
+    },
+    "show": {
+      "id": "1AC7qV1tyVIICLtJVwBapp",
+      "episodes": [
+        {
+          "id": "4kkSaP2vjWIIEhAXA45u7a",
+          "title": "When AI Runs Your Tools, Check What Steers It | Daily State of AI - 2026-11-28",
+          "uri": "spotify:episode:4kkSaP2vjWIIEhAXA45u7a"
+        }
+      ]
+    }
+  },
+  "video_url": null,
+  "sources_url": "/daily-state/2026-11-28/sources/",
+  "audit": {
+    "gate": false,
+    "attach": "after_publish"
+  },
+  "hashes": {
+    "script_sha256": "b7b51a36c844fe5fb6b9a66fc2b2a6ad5e43e722f9a29f2fa4109b886cfdb4b6",
+    "sources_sha256": "3bbcb2def5f81712faf153496423f34b24f619c75706b7f39f19f018c529ba2d",
+    "neon_run_sha256": "2829df9a9d32d56c67017d560b9eb0fb44af525fc775f4c93ed2616206a019ea",
+    "episode_sha256": null,
+    "short_sha256": null
+  },
+  "headline": "When AI Runs Your Tools, Check What Steers It"
+}

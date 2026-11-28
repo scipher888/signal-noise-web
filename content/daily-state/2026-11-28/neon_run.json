@@ -1,0 +1,106 @@
+{
+ "date": "2026-11-28",
+ "status": "ok",
+ "pipeline": "neon",
+ "model": "antigravity/gemini-4-neon",
+ "reasoning_effort": "high",
+ "system_prompt": null,
+ "editor": null,
+ "qa": null,
+ "edits_after_generation": "ethical floor fix: 2 surgical edit(s) before TTS for 2 floor violation(s); before/after text in audit/audit.json ethical_floor",
+ "fallback": "none (fail closed)",
+ "prompts": {
+  "episode": "Here are today's AI news reports and X threads, along with our recent aired episodes.\n\nFind the sharpest, genuinely fresh angle in today's material—one that doesn't echo recent episodes in thesis or framing—and write today's Daily State of AI around it. Let the material choose the structure, and vary the opening and narrative shape from recent days.\n\nIt's a spoken audio episode, about 700 words (roughly five minutes read aloud). Plain spoken text only.\n",
+  "critique": "Review this draft against the sources, recent episodes, and the goal. List the most important problems—including any thematic or structural echo of recent days—and say what to change.",
+  "revise": "Revise using the critique. Reply with only the revised episode."
+ },
+ "model_attempts": [
+  {
+   "stage": "episode",
+   "model": "antigravity/gemini-4-neon",
+   "reasoning_effort": "high",
+   "outcome": "ok",
+   "cost_usd": 0.0
+  }
+ ],
+ "words": 832,
+ "duration_seconds": 343.38,
+ "bundle_sha256": "cd970d47ee1d22026dc2faccfc29828f619a78f01d31622b0aa609103895ed66",
+ "script_sha256": "b7b51a36c844fe5fb6b9a66fc2b2a6ad5e43e722f9a29f2fa4109b886cfdb4b6",
+ "ethical_floor": {
+  "version": 1,
+  "checked": true,
+  "triggered": true,
+  "status": "fixed",
+  "error": null,
+  "audit_runs": 2,
+  "fail_rows_reviewed": 23,
+  "audit_counts": {
+   "initial": {
+    "episode": {
+     "PASS": 54,
+     "FAIL": 14,
+     "NEEDS-HUMAN": 18,
+     "ERROR": 0
+    },
+    "takeaways": {
+     "PASS": 17,
+     "FAIL": 9,
+     "NEEDS-HUMAN": 2,
+     "ERROR": 0
+    }
+   },
+   "final": {
+    "episode": {
+     "PASS": 59,
+     "FAIL": 15,
+     "NEEDS-HUMAN": 16,
+     "ERROR": 0
+    },
+    "takeaways": {
+     "PASS": 24,
+     "FAIL": 7,
+     "NEEDS-HUMAN": 0,
+     "ERROR": 0
+    }
+   }
+  },
+  "pre_fix": {
+   "script_sha256": "49223aa73b9ae4beaaf80b85d820149325efc817ac85a06b2c547bf2dd1840ed",
+   "takeaways_sha256": "e2880308f7d1b646b995ced126767fb6ccfa44057628735c3b49d3ea00c7a091",
+   "audit_sha256": "6666774a0aa602dfb2d777e6b901a7960bae4f96df26ef7636b87d6b03d2b1da",
+   "files": "audit/pre_floor/"
+  },
+  "post_fix": {
+   "script_sha256": "b7b51a36c844fe5fb6b9a66fc2b2a6ad5e43e722f9a29f2fa4109b886cfdb4b6",
+   "takeaways_sha256": "0b8da71e80e1b1161dc25518385e9585d1e5730b7806e3970c6afa3438c7e2b5"
+  },
+  "cost_usd": 2.327662,
+  "seconds": 0.0,
+  "violations": [
+   {
+    "id": "e54-ember-reporter",
+    "category": "misattribution",
+    "artifact": "episode",
+    "quote": "OpenAI reports it more than doubles the previous high on the Ember-0 robotics benchmark at 41 percent"
+   },
+   {
+    "id": "t17-review-attribution",
+    "category": "misattribution",
+    "artifact": "takeaways",
+    "quote": "early reviewers including Every and Zvi Mowshowitz report that GPT-6.2 Astra struggles with human intent and reward hacking"
+   }
+  ],
+  "edits": 2
+ },
+ "script_sha256_before_ethical_floor": "49223aa73b9ae4beaaf80b85d820149325efc817ac85a06b2c547bf2dd1840ed",
+ "material": {
+  "source": "box_material",
+  "sha256": "8bba38edfd4fcea5355c51657689c1794af4447ddcf14e0d6af7c658ef3b7ca4",
+  "chars": 114289
+ },
+ "audit": {
+  "gate": false,
+  "status": "ran before TTS (ethical floor check)"
+ }
+}
